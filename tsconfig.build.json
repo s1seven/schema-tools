@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "target": "esnext",
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "src/scripts"
+  ]
+}
