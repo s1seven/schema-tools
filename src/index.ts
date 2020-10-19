@@ -1,2 +1,3 @@
-export * from './generate-interfaces';
-export * from './validate-schemas';
+export { generate, GenerateOptions } from './generate-interfaces';
+export { validate, ValidationError, ValidateOptions } from './validate-schemas';
+export { loadExternalSchema } from './utils';

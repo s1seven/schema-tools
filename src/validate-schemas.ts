@@ -2,7 +2,6 @@ import Ajv, { ErrorObject } from 'ajv';
 import axios from 'axios';
 import flatten from 'lodash.flatten';
 import groupBy from 'lodash.groupBy';
-import path from 'path';
 import { loadExternalSchema, readDir, readFile } from './utils';
 
 export type ValidateOptions = {
@@ -94,9 +93,12 @@ async function loadSchema(filePath: string): Promise<object> {
 export async function validate(
   externalSchemaPath: string,
   localSchemasDir: string,
-  options: ValidateOptions = {}
+  options?: ValidateOptions
 ): Promise<{ [key: string]: ValidationError[] }> {
-  validateOptions = { ...validateOptions, ...options };
+  validateOptions = options
+    ? { ...validateOptions, ...options }
+    : validateOptions;
+
   const errors: ValidationError[][] = [];
   const schema = await loadExternalSchema(externalSchemaPath);
   const ajv = new Ajv({ loadSchema });
