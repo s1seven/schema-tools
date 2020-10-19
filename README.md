@@ -2,9 +2,15 @@
 
 This repository contains tools to validate and generate TS interfaces using your json-schema implementation.
 
+## Install
+
+```bash
+npm install @s1seven/schema-tools
+```
+
 ## Validate
 
-The validate module is using [AJV] to validate your schemas residing in a specified folder against a specified JSON schema reference.
+The `validate` module is using [AJV] to validate your schemas residing in a specified folder against a specified JSON schema reference.
 
 ### Examples
 
@@ -18,7 +24,7 @@ node ./examples/validate.js https://raw.githubusercontent.com/s1seven/schemas/ma
 
 ## Generate
 
-The generate module is using [json-schema-to-typescript] to generate TS interfaces / types using a JSON / OpenAPI schema reference.
+The `generate` module is using [json-schema-to-typescript] to generate TS interfaces / types using a JSON / OpenAPI schema reference.
 
 ### Examples
 
@@ -30,5 +36,5 @@ First argument is the schema path to generate from, the second argument is the f
 node ./examples/generate.js https://raw.githubusercontent.com/s1seven/schemas/main/EN10168-v1.0.schema.json ./fixtures/en10168
 ```
 
-[AJV](https://www.npmjs.com/package/ajv)
-[json-schema-to-typescript](https://www.npmjs.com/package/json-schema-to-typescript)
+[ajv]: https://www.npmjs.com/package/ajv
+[json-schema-to-typescript]: (https://www.npmjs.com/package/json-schema-to-typescript)
