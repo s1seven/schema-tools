@@ -1,0 +1,18 @@
+const { generate } = require('../dist/generate-interfaces');
+const { loadExternalSchema } = require('../dist/utils');
+
+const defaultExternalSchemaPath =
+  'https://raw.githubusercontent.com/s1seven/schemas/main/EN10168-v1.0.schema.json';
+const defaultInterfacesPath = `${__dirname}/certificate.ts`;
+
+(async function (argv) {
+  try {
+    const schemaPath = argv[2] || defaultExternalSchemaPath;
+    const interfacesPath = argv[3] || defaultInterfacesPath;
+    const schema = await loadExternalSchema(schemaPath);
+    await generate(schema, interfacesPath);
+    console.log('Typescript interfaces generated');
+  } catch (error) {
+    console.error(error.message);
+  }
+})(process.argv);
