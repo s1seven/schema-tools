@@ -37,4 +37,4 @@ node ./examples/generate.js https://raw.githubusercontent.com/s1seven/schemas/ma
 ```
 
 [ajv]: https://www.npmjs.com/package/ajv
-[json-schema-to-typescript]: (https://www.npmjs.com/package/json-schema-to-typescript)
+[json-schema-to-typescript]: https://www.npmjs.com/package/json-schema-to-typescript
