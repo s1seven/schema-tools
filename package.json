@@ -1,7 +1,6 @@
 {
   "name": "@s1seven/schema-tools",
   "version": "0.0.1",
-  "private": true,
   "main": "dist/index.js",
   "engines": {
     "node": ">=11",
@@ -12,6 +11,11 @@
     "lint": "eslint ./src/**/*.ts ./test/**/*.ts",
     "test": "TS_NODE_TRANSPILE_ONLY=true mocha"
   },
+  "files": [
+    "dist/*",
+    "package.json",
+    "README.md"
+  ],
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.0.3",
