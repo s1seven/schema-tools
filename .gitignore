@@ -83,7 +83,8 @@ typings/
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+# temporary leave dist until npm package ready
+# dist
 
 # Gatsby files
 .cache/
