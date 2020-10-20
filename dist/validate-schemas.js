@@ -8,6 +8,7 @@ const ajv_1 = __importDefault(require("ajv"));
 const axios_1 = __importDefault(require("axios"));
 const lodash_flatten_1 = __importDefault(require("lodash.flatten"));
 const lodash_groupBy_1 = __importDefault(require("lodash.groupBy"));
+const path_1 = __importDefault(require("path"));
 const utils_1 = require("./utils");
 let validateOptions = {
     ignoredPaths: [
@@ -22,12 +23,14 @@ let validateOptions = {
 };
 async function getLocalSchemaPaths(localSchemasDir) {
     const { ignoredPaths = [], ignoredExts = [] } = validateOptions;
-    const directories = (await utils_1.readDir(localSchemasDir)).filter((name) => !ignoredPaths.includes(name) &&
-        ignoredExts.every((ext) => !name.endsWith(ext)));
+    const directories = (await utils_1.readDir(localSchemasDir))
+        .filter((name) => !ignoredPaths.includes(name) &&
+        ignoredExts.every((ext) => !name.endsWith(ext)))
+        .map((dir) => path_1.default.resolve(localSchemasDir, dir));
     const subDirectories = await Promise.all(directories.map(async (dir) => {
         return (await utils_1.readDir(dir))
             .filter((name) => name.endsWith('json'))
-            .map((name) => `${localSchemasDir}/${dir}/${name}`);
+            .map((name) => path_1.default.resolve(localSchemasDir, dir, name));
     }));
     return lodash_flatten_1.default(subDirectories)
         .filter((name) => !!name)
@@ -49,9 +52,9 @@ async function* loadLocalSchemas(paths) {
     }
 }
 function formatErrors(validationFilePath, errors = []) {
-    const [root, filePath] = validationFilePath
-        .replace(`${__dirname}/`, '')
-        .split('/');
+    const filePathParts = validationFilePath.split('/');
+    const filePath = filePathParts[filePathParts.length - 1];
+    const root = filePathParts[filePathParts.length - 2];
     return errors.map((error) => ({
         root,
         path: `${filePath}${error.dataPath}`,
@@ -67,7 +70,7 @@ async function loadSchema(filePath) {
     }
     return data;
 }
-async function validate(externalSchemaPath, localSchemasDir, options = {}) {
+async function validate(externalSchemaPath, localSchemasDir, options) {
     validateOptions = options
         ? { ...validateOptions, ...options }
         : validateOptions;

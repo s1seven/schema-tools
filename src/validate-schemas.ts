@@ -2,6 +2,7 @@ import Ajv, { ErrorObject } from 'ajv';
 import axios from 'axios';
 import flatten from 'lodash.flatten';
 import groupBy from 'lodash.groupBy';
+import path from 'path';
 import { loadExternalSchema, readDir, readFile } from './utils';
 
 export type ValidateOptions = {
@@ -31,18 +32,22 @@ let validateOptions: ValidateOptions = {
 
 async function getLocalSchemaPaths(localSchemasDir: string): Promise<string[]> {
   const { ignoredPaths = [], ignoredExts = [] } = validateOptions;
-  const directories = (await readDir(localSchemasDir)).filter(
-    (name) =>
-      !ignoredPaths.includes(name) &&
-      ignoredExts.every((ext) => !name.endsWith(ext))
-  );
+  const directories = (await readDir(localSchemasDir))
+    .filter(
+      (name) =>
+        !ignoredPaths.includes(name) &&
+        ignoredExts.every((ext) => !name.endsWith(ext))
+    )
+    .map((dir) => path.resolve(localSchemasDir, dir));
+
   const subDirectories = await Promise.all(
     directories.map(async (dir) => {
       return (await readDir(dir))
         .filter((name) => name.endsWith('json'))
-        .map((name) => `${localSchemasDir}/${dir}/${name}`);
+        .map((name) => path.resolve(localSchemasDir, dir, name));
     })
   );
+
   return flatten(subDirectories)
     .filter((name) => !!name)
     .sort();
@@ -70,9 +75,10 @@ function formatErrors(
   validationFilePath: string,
   errors: ErrorObject[] = []
 ): ValidationError[] {
-  const [root, filePath] = validationFilePath
-    .replace(`${__dirname}/`, '')
-    .split('/');
+  const filePathParts = validationFilePath.split('/');
+
+  const filePath = filePathParts[filePathParts.length - 1];
+  const root = filePathParts[filePathParts.length - 2];
   return errors.map((error) => ({
     root,
     path: `${filePath}${error.dataPath}`,

@@ -20,10 +20,10 @@ describe('ValidateSchema', () => {
         `${__dirname}/../fixtures/EN10168/invalid_en10168_test.json`
       )
     ).to.deep.equal({
-      '': [
+      EN10168: [
         {
-          path: 'Users.Certificate.ProductDescription.B02',
-          root: '',
+          path: 'invalid_en10168_test.json.Certificate.ProductDescription.B02',
+          root: 'EN10168',
           keyword: 'type',
           schemaPath: '#/properties/B02/type',
           expected: 'should be object',
