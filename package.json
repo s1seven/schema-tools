@@ -18,6 +18,7 @@
     "README.md"
   ],
   "devDependencies": {
+    "@types/ajv": "^1.0.0",
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.0.3",
     "@types/node": "14.0.27",
