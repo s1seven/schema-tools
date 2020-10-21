@@ -97,7 +97,7 @@ async function loadSchema(filePath: string): Promise<object> {
 }
 
 export async function validate(
-  externalSchemaPath: string,
+  externalSchema: string | object,
   localSchemasDir: string,
   options?: ValidateOptions
 ): Promise<{ [key: string]: ValidationError[] }> {
@@ -106,7 +106,11 @@ export async function validate(
     : validateOptions;
 
   const errors: ValidationError[][] = [];
-  const schema = await loadExternalSchema(externalSchemaPath);
+
+  const schema =
+    typeof externalSchema === 'string'
+      ? await loadExternalSchema(externalSchema as string)
+      : externalSchema;
   const ajv = new Ajv({ loadSchema });
   const validateSchema = await ajv.compileAsync(schema);
   const schemaPaths = localSchemasDir.endsWith('.json')
