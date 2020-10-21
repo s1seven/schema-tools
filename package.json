@@ -2,6 +2,7 @@
   "name": "@s1seven/schema-tools",
   "version": "0.0.1",
   "main": "dist/index.js",
+  "private": false,
   "engines": {
     "node": ">=11",
     "yarn": ">=1.7"
@@ -34,6 +35,7 @@
     "@types/lodash.groupby": "^4.6.6",
     "ajv": "^6.12.6",
     "axios": "^0.20.0",
+    "handlebars": "^4.7.6",
     "json-schema-to-typescript": "^9.1.1",
     "lodash.flatten": "^4.4.0",
     "lodash.groupby": "^4.6.0"
