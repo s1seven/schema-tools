@@ -11,6 +11,10 @@ export function readFile(path: string, encoding = 'utf-8') {
   return promisify(fs.readFile)(path, encoding);
 }
 
+export function statFile(path: string) {
+  return promisify(fs.stat)(path);
+}
+
 export function removeFile(path: string) {
   return new Promise((resolve, reject) =>
     fs.unlink(path, (err) =>
