@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as fs from 'fs';
-import { JSONSchema } from 'json-schema-to-typescript';
+import { Readable } from 'stream';
 import { promisify } from 'util';
 
 export function readDir(path: string) {
@@ -27,13 +27,27 @@ export function writeFile(path: string, content: string) {
   return promisify(fs.writeFile)(path, content);
 }
 
-export async function loadExternalSchema(path: string): Promise<JSONSchema> {
+// TODO: add options as 3rd arg, with encoding and other stream options
+export async function loadExternalFile(
+  path: string,
+  type: 'json' | 'text' | 'stream' = 'json'
+): Promise<object | string | Readable> {
   if (path.startsWith('http')) {
-    const { data, status } = await axios.get(path, { responseType: 'json' });
+    const { data, status } = await axios.get(path, { responseType: type });
     if (status !== 200) {
       throw new Error(`Loading error: ${status}`);
     }
     return data;
+  } else {
+    const stats = await statFile(path);
+    if (!stats.isFile()) {
+      throw new Error(`Loading error: ${path} is not a file`);
+    }
+    if (type === 'json') {
+      return JSON.parse(await readFile(path));
+    } else if (type === 'stream') {
+      return fs.createReadStream(path);
+    }
+    return readFile(path);
   }
-  return JSON.parse(await readFile(path));
 }

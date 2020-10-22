@@ -1,9 +1,9 @@
 import Ajv, { ErrorObject } from 'ajv';
-import axios from 'axios';
+import { JSONSchema } from 'json-schema-to-typescript';
 import flatten from 'lodash.flatten';
 import groupBy from 'lodash.groupBy';
 import path from 'path';
-import { loadExternalSchema, readDir, readFile } from './utils';
+import { loadExternalFile, readDir, readFile } from './utils';
 
 export type ValidateOptions = {
   ignoredPaths?: string[];
@@ -88,18 +88,10 @@ function formatErrors(
   }));
 }
 
-async function loadSchema(filePath: string): Promise<object> {
-  const { data, status } = await axios.get(filePath, { responseType: 'json' });
-  if (status !== 200) {
-    throw new Error(`Loading error for ${filePath} : ${status}`);
-  }
-  return data;
-}
-
 export async function validate(
-  externalSchema: string | object,
+  externalSchema: string | JSONSchema,
   localSchemasDir: string,
-  options?: ValidateOptions
+  options?: Partial<ValidateOptions>
 ): Promise<{ [key: string]: ValidationError[] }> {
   validateOptions = options
     ? { ...validateOptions, ...options }
@@ -107,11 +99,13 @@ export async function validate(
 
   const errors: ValidationError[][] = [];
 
-  const schema =
+  const schema: JSONSchema =
     typeof externalSchema === 'string'
-      ? await loadExternalSchema(externalSchema as string)
+      ? ((await loadExternalFile(externalSchema as string, 'json')) as object)
       : externalSchema;
-  const ajv = new Ajv({ loadSchema });
+  const ajv = new Ajv({
+    loadSchema: async (uri) => (await loadExternalFile(uri)) as object,
+  });
   const validateSchema = await ajv.compileAsync(schema);
   const schemaPaths = localSchemasDir.endsWith('.json')
     ? [localSchemasDir]

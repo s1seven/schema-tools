@@ -1,5 +1,5 @@
 import { compile, JSONSchema, Options } from 'json-schema-to-typescript';
-import { removeFile, writeFile } from './utils';
+import { loadExternalFile, removeFile, writeFile } from './utils';
 
 export type GenerateOptions = Options;
 
@@ -24,12 +24,23 @@ let baseOptions: GenerateOptions = {
 };
 
 export async function generate(
-  schema: JSONSchema,
-  interfacesPath: string,
-  options?: GenerateOptions
-): Promise<void> {
+  externalSchema: string | JSONSchema,
+  interfacesPath?: string | null,
+  options?: Partial<GenerateOptions>
+): Promise<string> {
   baseOptions = options ? { ...baseOptions, ...options } : baseOptions;
-  await removeFile(interfacesPath);
+
+  const schema: JSONSchema =
+    typeof externalSchema === 'string'
+      ? ((await loadExternalFile(externalSchema as string, 'json')) as object)
+      : externalSchema;
+
+  if (typeof interfacesPath === 'string') {
+    await removeFile(interfacesPath);
+  }
   const interfaces = await compile(schema, 'Certificate', baseOptions);
-  await writeFile(interfacesPath, interfaces);
+  if (typeof interfacesPath === 'string') {
+    await writeFile(interfacesPath, interfaces);
+  }
+  return interfaces;
 }
