@@ -19,7 +19,6 @@ export interface Certificate {
     Inspection: Inspection;
     OtherTests: OtherTests;
     Validation: Validation;
-    [k: string]: any;
   };
 }
 export interface Metadata {
@@ -107,7 +106,7 @@ export interface Company {
   [k: string]: any;
 }
 export interface CommercialTransactionSupplementaryInformation {
-  [k: string]: any;
+  [k: string]: KeyValueObject;
 }
 /**
  * This interface was referenced by `CommercialTransactionSupplementaryInformation`'s JSON-Schema definition
@@ -577,7 +576,7 @@ export interface ChemicalElement {
   Maximum?: number;
 }
 export interface ChemicalCompositionSupplementaryInformation {
-  [k: string]: any;
+  [k: string]: KeyValueObject;
 }
 export interface OtherTests {
   /**

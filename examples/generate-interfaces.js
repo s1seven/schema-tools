@@ -1,7 +1,7 @@
 const { generate } = require('../dist/index');
 
 const defaultExternalSchemaPath =
-  'https://raw.githubusercontent.com/s1seven/schemas/main/EN10168-v1.0.schema.json';
+  'https://raw.githubusercontent.com/s1seven/schemas/main/EN10168.schema.json';
 const defaultInterfacesPath = `${__dirname}/certificate.ts`;
 
 (async function (argv) {

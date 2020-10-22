@@ -1,7 +1,7 @@
 const { validate } = require('../dist/index');
 
 const defaultSchemaPath =
-  'https://raw.githubusercontent.com/s1seven/schemas/main/EN10168-v1.0.schema.json';
+  'https://raw.githubusercontent.com/s1seven/schemas/main/EN10168.schema.json';
 
 (async function (argv) {
   const externalSchemaPath = argv[2] || defaultSchemaPath;

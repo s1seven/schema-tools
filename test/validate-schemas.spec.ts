@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { validate } from '../src/validate-schemas';
 
-const schemaPath = `https://raw.githubusercontent.com/s1seven/schemas/main/EN10168-v1.0.schema.json`;
+const schemaPath = `https://raw.githubusercontent.com/s1seven/schemas/main/EN10168.schema.json`;
 
 describe('ValidateSchema', () => {
   it('should validate valid example certificate using external schema path (string)', async () => {
