@@ -61,7 +61,7 @@ async function* loadLocalSchemas(
     const filePath = paths[index];
     let data = {};
     try {
-      data = JSON.parse(await readFile(filePath));
+      data = JSON.parse((await readFile(filePath, 'utf8')) as string);
     } catch (error) {
       console.error(`loadLocalSchemas error for : ${filePath} `, error.message);
     }
@@ -99,14 +99,16 @@ export async function validate(
 
   const errors: ValidationError[][] = [];
 
+  // TODO: remove externalSchema argument and load it from schemas to validate instead
   const schema: JSONSchema =
     typeof externalSchema === 'string'
       ? ((await loadExternalFile(externalSchema as string, 'json')) as object)
       : externalSchema;
   const ajv = new Ajv({
-    loadSchema: async (uri) => (await loadExternalFile(uri)) as object,
+    loadSchema: async (uri) => (await loadExternalFile(uri, 'json')) as object,
   });
   const validateSchema = await ajv.compileAsync(schema);
+  // TODO: allow localSchemasDir to be a JSONSchema (certificate object) or an array of JSONSchema
   const schemaPaths = localSchemasDir.endsWith('.json')
     ? [localSchemasDir]
     : await getLocalSchemaPaths(localSchemasDir);

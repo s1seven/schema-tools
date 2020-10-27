@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "main": "dist/index.js",
   "private": false,
   "engines": {
@@ -28,6 +28,7 @@
     "chai-as-promised": "^7.1.1",
     "eslint": "^6.8.0",
     "mocha": "^7.0.1",
+    "pre-commit": "^1.2.2",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
   },
@@ -39,6 +40,10 @@
     "handlebars": "^4.7.6",
     "json-schema-to-typescript": "^9.1.1",
     "lodash.flatten": "^4.4.0",
-    "lodash.groupby": "^4.6.0"
-  }
+    "lodash.groupby": "^4.6.0",
+    "node-cache": "^5.1.2"
+  },
+  "pre-commit": [
+    "test"
+  ]
 }

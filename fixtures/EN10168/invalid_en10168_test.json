@@ -1,5 +1,7 @@
 {
+  "RefSchemaUrl": "https://raw.githubusercontent.com/s1seven/EN10168-schemas/main/schema.json",
   "Certificate": {
+    "CertificateLanguages": ["EN"],
     "CommercialTransaction": {
       "A01": {
         "CompanyName": "ALESSIO TUBI S.p.A.",
