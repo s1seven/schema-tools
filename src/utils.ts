@@ -34,42 +34,46 @@ export function writeFile(path: string, content: string) {
   return promisify(fs.writeFile)(path, content);
 }
 
+export type ExternalFile = ReturnType<typeof loadExternalFile>;
+
 // TODO: add options as 3rd arg, with encoding and other stream options
 export async function loadExternalFile(
-  path: string,
+  filePath: string,
   type: 'json' | 'text' | 'arraybuffer' | 'stream' = 'json'
 ): Promise<object | string | Readable | undefined> {
   let result: object | string | Readable | undefined;
-  result = cache.get(path);
+  result = cache.get(filePath);
   if (result) {
     return result;
   }
-  if (path.startsWith('http')) {
-    const { data, status } = await axios.get(path, { responseType: type });
+  if (filePath.startsWith('http')) {
+    const { data, status } = await axios.get(filePath, { responseType: type });
     if (status !== 200) {
       throw new Error(`Loading error: ${status}`);
     }
     result = data;
   } else {
-    const stats = await statFile(path);
+      // filePath = path.resolve(filePath);
+    const stats = await statFile(filePath);
     if (!stats.isFile()) {
-      throw new Error(`Loading error: ${path} is not a file`);
+      throw new Error(`Loading error: ${filePath} is not a file`);
     }
     switch (type) {
       case 'json':
-        result = JSON.parse((await readFile(path, 'utf8')) as string) as object;
+        result = JSON.parse((await readFile(filePath, 'utf8')) as string) as object;
         break;
       case 'text':
-        result = await readFile(path, 'utf-8');
+        result = await readFile(filePath, 'utf-8');
         break;
       case 'arraybuffer':
-        result = await readFile(path, null);
+        result = await readFile(filePath, null);
         break;
       default:
-        result = fs.createReadStream(path);
+        result = fs.createReadStream(filePath);
     }
   }
-  // if (type !== 'stream') { }
-  cache.set(path, result);
+  if (type !== 'stream') {
+    cache.set(filePath, result);
+  }
   return result;
 }

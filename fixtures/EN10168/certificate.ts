@@ -1,4 +1,6 @@
-export type Language = 'EN' | 'DE' | 'FR' | 'PL';
+export type CertificateLanguages =
+  | ['EN' | 'DE' | 'FR' | 'PL']
+  | ['EN' | 'DE' | 'FR' | 'PL', 'EN' | 'DE' | 'FR' | 'PL'];
 export type ProductShape =
   | Tube
   | RectangularTube
@@ -12,8 +14,10 @@ export type ProductShape =
   | Other;
 
 export interface Certificate {
-  metadata?: Metadata;
+  RefSchemaUrl: string;
+  DocumentMetadata?: MetaData;
   Certificate: {
+    CertificateLanguages: CertificateLanguages;
     CommercialTransaction: CommercialTransaction;
     ProductDescription: ProductDescription;
     Inspection: Inspection;
@@ -21,7 +25,7 @@ export interface Certificate {
     Validation: Validation;
   };
 }
-export interface Metadata {
+export interface MetaData {
   id: string;
   version?: number;
   state?: 'draft' | 'valid' | 'cancelled';
@@ -98,7 +102,6 @@ export interface Company {
   Country: string;
   VAT_Id?: string;
   Email: string;
-  CertificateLanguage?: [Language] | [Language, Language];
   /**
    * Each entry to the array is rendered as a new line in HTML and PDF
    */
