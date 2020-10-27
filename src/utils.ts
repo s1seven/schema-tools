@@ -1,13 +1,20 @@
 import axios from 'axios';
 import * as fs from 'fs';
+import NodeCache from 'node-cache';
 import { Readable } from 'stream';
 import { promisify } from 'util';
+
+const cache = new NodeCache({
+  stdTTL: 60 * 60,
+  checkperiod: 600,
+  maxKeys: 200,
+});
 
 export function readDir(path: string) {
   return promisify(fs.readdir)(path);
 }
 
-export function readFile(path: string, encoding = 'utf-8') {
+export function readFile(path: string, encoding: string | null) {
   return promisify(fs.readFile)(path, encoding);
 }
 
@@ -30,24 +37,39 @@ export function writeFile(path: string, content: string) {
 // TODO: add options as 3rd arg, with encoding and other stream options
 export async function loadExternalFile(
   path: string,
-  type: 'json' | 'text' | 'stream' = 'json'
-): Promise<object | string | Readable> {
+  type: 'json' | 'text' | 'arraybuffer' | 'stream' = 'json'
+): Promise<object | string | Readable | undefined> {
+  let result: object | string | Readable | undefined;
+  result = cache.get(path);
+  if (result) {
+    return result;
+  }
   if (path.startsWith('http')) {
     const { data, status } = await axios.get(path, { responseType: type });
     if (status !== 200) {
       throw new Error(`Loading error: ${status}`);
     }
-    return data;
+    result = data;
   } else {
     const stats = await statFile(path);
     if (!stats.isFile()) {
       throw new Error(`Loading error: ${path} is not a file`);
     }
-    if (type === 'json') {
-      return JSON.parse(await readFile(path));
-    } else if (type === 'stream') {
-      return fs.createReadStream(path);
+    switch (type) {
+      case 'json':
+        result = JSON.parse((await readFile(path, 'utf8')) as string) as object;
+        break;
+      case 'text':
+        result = await readFile(path, 'utf-8');
+        break;
+      case 'arraybuffer':
+        result = await readFile(path, null);
+        break;
+      default:
+        result = fs.createReadStream(path);
     }
-    return readFile(path);
   }
+  // if (type !== 'stream') { }
+  cache.set(path, result);
+  return result;
 }
