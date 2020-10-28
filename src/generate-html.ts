@@ -28,24 +28,17 @@ export type GenerateHtmlOptions = {
   schemaPath?: SchemaPath;
 };
 
-export enum Languages {
-  EN = 'EN',
-  DE = 'DE',
-  PL = 'PL',
-  FR = 'FR',
-}
-
 export type Translations = {
-  [key in Languages]?: any;
+  [key: string]: any;
 };
 
 const getTranslations = async (
-  certificateLanguages: (string | Languages)[],
+  certificateLanguages: string[],
   schemaPath: SchemaPath
 ): Promise<any> => {
   const { baseUrl, schemaType, version } = schemaPath;
   const translationsArray = await Promise.all(
-    (certificateLanguages as Languages[]).map(async (lang) => {
+    certificateLanguages.map(async (lang) => {
       const filePath = `${baseUrl}/${schemaType}/${version}/${lang}.json`;
       return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
     })
@@ -113,7 +106,7 @@ const handlebarsBaseOptions = (data: {
         return typeof input === type ? options.fn(this) : options.inverse(this);
       },
       hasKey: function (object: object, key: string, options: any) {
-        return object.hasOwnProperty(key)
+        return Object.prototype.hasOwnProperty.call(object, key)
           ? options.fn(this)
           : options.inverse(this);
       },
@@ -151,7 +144,7 @@ function getCertificateLanguages(certificate: EN10168Schema | ECoCSchema) {
 const asEN10168Certificate = (value: any, path: string) => {
   const baseProperties = ['Certificate', 'RefSchemaUrl'];
   const isSchemaValid = baseProperties.every((prop) =>
-    value.hasOwnProperty(prop)
+    Object.prototype.hasOwnProperty.call(value, prop)
   );
   if (!isSchemaValid) {
     return Result.error([
@@ -167,7 +160,7 @@ const asEN10168Certificate = (value: any, path: string) => {
 const asECoCCertificate = (value: any, path: string) => {
   const baseProperties = ['EcocData', 'RefSchemaUrl'];
   const isSchemaValid = baseProperties.every((prop) =>
-    value.hasOwnProperty(prop)
+    Object.prototype.hasOwnProperty.call(value, prop)
   );
   if (!isSchemaValid) {
     return Result.error([
@@ -182,7 +175,7 @@ const asECoCCertificate = (value: any, path: string) => {
 
 function castWithoutError<T>(
   certificate: object,
-  fn: (value: any, path: string) => any
+  fn: (value: any, path: string) => any // eslint-disable-line no-unused-vars
 ) {
   try {
     return cast<T>(certificate, fn);
@@ -267,7 +260,7 @@ export async function generateHtml(
   if (!options.schemaPath) {
     const refSchemaUrl = new URL(certificate.RefSchemaUrl);
     const baseUrl = refSchemaUrl.origin;
-    const [_, schemaType, version] = refSchemaUrl.pathname.split('/');
+    const [, schemaType, version] = refSchemaUrl.pathname.split('/');
     options.schemaPath = { baseUrl, schemaType, version };
   }
 
