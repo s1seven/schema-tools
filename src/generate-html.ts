@@ -13,10 +13,22 @@ interface MJMLParsingOpts {
   filePath?: string;
 }
 
+export type SchemaPath = {
+  baseUrl: string;
+  schemaType: string;
+  version: string;
+};
+
+export enum TemplateTypes {
+  HBS = 'hbs',
+  MJML = 'mjml',
+}
+
 export type GenerateHtmlOptions = {
   handlebars?: RuntimeOptions;
   mjml?: MJMLParsingOpts;
-  useMjml?: boolean;
+  templateType?: TemplateTypes;
+  schemaPath?: SchemaPath;
 };
 
 export enum Languages {
@@ -32,13 +44,13 @@ export type Translations = {
 
 const getTranslations = async (
   certificateLanguages: (string | Languages)[],
-  schemaType: string,
-  version: string
+  schemaPath: SchemaPath
 ): Promise<Translations> => {
+  const { baseUrl, schemaType, version } = schemaPath;
   return Object.entries(
     await Promise.all(
       certificateLanguages.map(async (lang: string) => {
-        const filePath = `baseUrl/${schemaType}/${version}/${lang}.json`;
+        const filePath = `${baseUrl}/${schemaType}/${version}/${lang}.json`;
         return { [lang]: await loadExternalFile(filePath, 'json') };
       })
     )
@@ -71,6 +83,7 @@ const handlebarsBaseOptions = (data: {
             ? languages.split(',').map((val) => val.trim())
             : languages;
         const result = ln.reduce((acc, curr) => {
+          // TODO: use lodash get
           if (!acc) {
             return (acc += `${translations[curr][field][key]}`);
           }
@@ -181,6 +194,42 @@ function castCertificate(certificate: object): EN10168Schema | ECoCSchema {
   throw new Error('Could not cast the certificate to the right type');
 }
 
+async function parseMjmlTemplate(
+  certificate: any,
+  options: GenerateHtmlOptions
+): Promise<string> {
+  const { baseUrl, schemaType, version } = options.schemaPath as SchemaPath;
+  const templateFilePath = `${baseUrl}/${schemaType}/${version}/template.mjml`;
+  const templateFile = (await loadExternalFile(
+    templateFilePath,
+    'text'
+  )) as string;
+
+  options.mjml = {
+    ...(options.mjml || {}),
+    ...mjmlBaseOptions(certificate, options.handlebars),
+  };
+  const result = mjml2html(templateFile, options.mjml);
+  if (result.errors) {
+    console.log('MJML errors :', result.errors);
+  }
+  return result.html;
+}
+
+async function parseHbsTemplate(
+  certificate: any,
+  options: GenerateHtmlOptions
+): Promise<string> {
+  const { baseUrl, schemaType, version } = options.schemaPath as SchemaPath;
+  const templateFilePath = `${baseUrl}/${schemaType}/${version}/template.hbs`;
+  const templateFile = (await loadExternalFile(
+    templateFilePath,
+    'text'
+  )) as string;
+  const template = compile<object>(templateFile);
+  return template(certificate, options?.handlebars);
+}
+
 export async function generateHtml(
   certificateInput: string | object,
   options: GenerateHtmlOptions = {}
@@ -201,12 +250,14 @@ export async function generateHtml(
   const certificate = castCertificate(rawCert);
 
   const certificateLanguages = getCertificateLanguages(certificate);
-  const [baseUrl, schemaType, version] = certificate.RefSchemaUrl.split('/');
+  if (!options.schemaPath) {
+    const [baseUrl, schemaType, version] = certificate.RefSchemaUrl.split('/');
+    options.schemaPath = { baseUrl, schemaType, version };
+  }
 
   const translations = await getTranslations(
     certificateLanguages,
-    schemaType,
-    version
+    options.schemaPath
   );
 
   options.handlebars = {
@@ -214,29 +265,8 @@ export async function generateHtml(
     ...handlebarsBaseOptions({ translations }),
   };
 
-  if (options.useMjml) {
-    const templateFilePath = `${baseUrl}/${schemaType}/${version}/template.mjml`;
-    const templateFile = (await loadExternalFile(
-      templateFilePath,
-      'text'
-    )) as string;
-
-    options.mjml = {
-      ...(options.mjml || {}),
-      ...mjmlBaseOptions(certificate, options.handlebars),
-    };
-    const result = mjml2html(templateFile, options.mjml);
-    if (result.errors) {
-      console.log('MJML errors :', result.errors);
-    }
-    return result.html;
-  } else {
-    const templateFilePath = `${baseUrl}/${schemaType}/${version}/template.hbs`;
-    const templateFile = (await loadExternalFile(
-      templateFilePath,
-      'text'
-    )) as string;
-    const template = compile<object>(templateFile);
-    return template(certificate, options?.handlebars);
+  if (options.templateType === TemplateTypes.MJML) {
+    return parseMjmlTemplate(certificate, options);
   }
+  return parseHbsTemplate(certificate, options);
 }
