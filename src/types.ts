@@ -1,5 +1,6 @@
 export interface BaseCertificateSchema {
   RefSchemaUrl: string;
+  [key: string]: any;
 }
 
 export interface EN10168Schema extends BaseCertificateSchema {

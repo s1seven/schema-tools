@@ -22,7 +22,8 @@ describe('GenerateInterfaces', () => {
       useTabs: false,
     },
   };
-  it('should generate TS interfaces and types certificate using external schema path (string)', async () => {
+  
+  it('should generate TS interfaces and types certificate using external schema path (url)', async () => {
     const interfaces = await generate(schemaPath, null, generateOptions);
     expect(interfaces).to.be.equal(certificate);
   });

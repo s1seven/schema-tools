@@ -3,7 +3,8 @@ import { JSONSchema } from 'json-schema-to-typescript';
 import flatten from 'lodash.flatten';
 import groupBy from 'lodash.groupBy';
 import path from 'path';
-import { loadExternalFile, readDir, readFile } from './utils';
+import { BaseCertificateSchema } from './types';
+import { cache, loadExternalFile, readDir, readFile } from './utils';
 
 export type ValidateOptions = {
   ignoredPaths?: string[];
@@ -55,11 +56,11 @@ async function getLocalSchemaPaths(localSchemasDir: string): Promise<string[]> {
 
 async function* loadLocalSchemas(
   paths: string[]
-): AsyncIterable<{ data: object; filePath: string }> {
+): AsyncIterable<{ data: BaseCertificateSchema; filePath: string }> {
   let index = 0;
   while (index < paths.length) {
     const filePath = paths[index];
-    let data = {};
+    let data = {} as BaseCertificateSchema;
     try {
       data = JSON.parse((await readFile(filePath, 'utf8')) as string);
     } catch (error) {
@@ -71,55 +72,120 @@ async function* loadLocalSchemas(
   }
 }
 
-function formatErrors(
-  validationFilePath: string,
-  errors: ErrorObject[] = []
-): ValidationError[] {
-  const filePathParts = validationFilePath.split('/');
+function getErrorPaths(filePath?: string) {
+  if (typeof filePath == 'string') {
+    const filePathParts = filePath.split('/');
+    return {
+      path: filePathParts[filePathParts.length - 1],
+      root: filePathParts[filePathParts.length - 2],
+    };
+  }
+  return {
+    path: '',
+    root: '',
+  };
+}
 
-  const filePath = filePathParts[filePathParts.length - 1];
-  const root = filePathParts[filePathParts.length - 2];
+function formatErrors(
+  errors: ErrorObject[] = [],
+  validationFilePath?: string
+): ValidationError[] {
+  const paths = getErrorPaths(validationFilePath);
   return errors.map((error) => ({
-    root,
-    path: `${filePath}${error.dataPath}`,
+    root: paths.root,
+    path: `${paths.path}${error.dataPath}`,
     keyword: error.keyword || '',
     schemaPath: error.schemaPath || '',
     expected: error.message || '',
   }));
 }
 
+async function setValidator(
+  refSchemaUrl: string
+): Promise<Ajv.ValidateFunction> {
+  const schema: JSONSchema = (await loadExternalFile(
+    refSchemaUrl,
+    'json'
+  )) as object;
+  const ajv = new Ajv({
+    loadSchema: async (uri) => (await loadExternalFile(uri, 'json')) as object,
+  });
+  const validator = await ajv.compileAsync(schema);
+  const cacheKey = `validator-${refSchemaUrl}`;
+  cache.set(cacheKey, validator);
+  return validator;
+}
+
+function getValidator(refSchemaUrl: string): Ajv.ValidateFunction | undefined {
+  const cacheKey = `validator-${refSchemaUrl}`;
+  return cache.get<Ajv.ValidateFunction>(cacheKey);
+}
+
+async function validateCertificate(
+  certificate: any,
+  filePath?: string
+): Promise<ValidationError[]> {
+  let errors: ValidationError[] = [];
+  if (!certificate?.RefSchemaUrl) {
+    const paths = getErrorPaths(filePath);
+    errors = [
+      {
+        root: paths.root,
+        path: paths.path,
+        keyword: '',
+        schemaPath: '',
+        expected: 'Missing RefSchemaUrl in loaded schema',
+      },
+    ];
+  } else {
+    const validateSchema =
+      getValidator(certificate.RefSchemaUrl) ||
+      (await setValidator(certificate.RefSchemaUrl));
+    const isSchemaValid = validateSchema(certificate);
+    if (!isSchemaValid) {
+      errors = formatErrors(validateSchema.errors || [], filePath);
+    }
+  }
+
+  return errors;
+}
+
 export async function validate(
-  externalSchema: string | JSONSchema,
-  localSchemasDir: string,
+  certificates: string | JSONSchema | JSONSchema[],
   options?: Partial<ValidateOptions>
 ): Promise<{ [key: string]: ValidationError[] }> {
   validateOptions = options
     ? { ...validateOptions, ...options }
     : validateOptions;
 
-  const errors: ValidationError[][] = [];
+  if (typeof certificates === 'string') {
+    const errors: ValidationError[][] = [];
 
-  // TODO: remove externalSchema argument and load it from schemas to validate instead
-  const schema: JSONSchema =
-    typeof externalSchema === 'string'
-      ? ((await loadExternalFile(externalSchema as string, 'json')) as object)
-      : externalSchema;
-  const ajv = new Ajv({
-    loadSchema: async (uri) => (await loadExternalFile(uri, 'json')) as object,
-  });
-  const validateSchema = await ajv.compileAsync(schema);
-  // TODO: allow localSchemasDir to be a JSONSchema (certificate object) or an array of JSONSchema
-  const schemaPaths = localSchemasDir.endsWith('.json')
-    ? [localSchemasDir]
-    : await getLocalSchemaPaths(localSchemasDir);
+    const schemaPaths = certificates.endsWith('.json')
+      ? [certificates]
+      : await getLocalSchemaPaths(certificates);
 
-  for await (const { data, filePath } of loadLocalSchemas(schemaPaths)) {
-    const isSchemaValid = validateSchema(data);
-    if (!isSchemaValid) {
-      const error = formatErrors(filePath, validateSchema.errors || []);
+    for await (const { data, filePath } of loadLocalSchemas(schemaPaths)) {
+      const error = await validateCertificate(data, filePath);
       errors.push(error);
     }
+    return groupBy(flatten(errors), (error) => error.root);
+  } else if (
+    certificates instanceof Array &&
+    typeof certificates === 'object'
+  ) {
+    const tmpErrors = await Promise.all(
+      certificates.map(async (certificate) =>
+        validateCertificate(certificate, certificate.RefSchemaUrl)
+      )
+    );
+    return groupBy(flatten(tmpErrors), (error) => error.root);
+  } else if (typeof certificates === 'object') {
+    const error = await validateCertificate(
+      certificates,
+      certificates.RefSchemaUrl
+    );
+    return groupBy(error, (err) => err.root);
   }
-
-  return groupBy(flatten(errors), (error) => error.root);
+  throw new Error('Invalid schemas input');
 }

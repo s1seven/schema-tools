@@ -4,7 +4,7 @@ import NodeCache from 'node-cache';
 import { Readable } from 'stream';
 import { promisify } from 'util';
 
-const cache = new NodeCache({
+export const cache = new NodeCache({
   stdTTL: 60 * 60,
   checkperiod: 600,
   maxKeys: 200,
