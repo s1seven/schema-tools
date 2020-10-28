@@ -1,6 +1,8 @@
 import { cast, Result } from '@restless/sanitizers';
-import { compile, RuntimeOptions } from 'handlebars';
+import { compile, RuntimeOptions, SafeString } from 'handlebars';
+import get from 'lodash.get';
 import mjml2html from 'mjml';
+import { URL } from 'url';
 import { ECoCSchema, EN10168Schema } from './types';
 import { loadExternalFile } from './utils';
 
@@ -13,37 +15,38 @@ interface MJMLParsingOpts {
   filePath?: string;
 }
 
+export type SchemaPath = {
+  baseUrl: string;
+  schemaType: string;
+  version: string;
+};
+
 export type GenerateHtmlOptions = {
   handlebars?: RuntimeOptions;
   mjml?: MJMLParsingOpts;
-  useMjml?: boolean;
+  templateType?: 'hbs' | 'mjml';
+  schemaPath?: SchemaPath;
 };
 
-export enum Languages {
-  EN = 'EN',
-  DE = 'DE',
-  PL = 'PL',
-  FR = 'FR',
-}
-
 export type Translations = {
-  [key in Languages]?: any;
+  [key: string]: any;
 };
 
 const getTranslations = async (
-  certificateLanguages: (string | Languages)[],
-  schemaType: string,
-  version: string
-): Promise<Translations> => {
-  return Object.entries(
-    await Promise.all(
-      certificateLanguages.map(async (lang: string) => {
-        const filePath = `baseUrl/${schemaType}/${version}/${lang}.json`;
-        return { [lang]: await loadExternalFile(filePath, 'json') };
-      })
-    )
-  ).reduce((acc, [key, value]) => {
-    acc[key] = value;
+  certificateLanguages: string[],
+  schemaPath: SchemaPath
+): Promise<any> => {
+  const { baseUrl, schemaType, version } = schemaPath;
+  const translationsArray = await Promise.all(
+    certificateLanguages.map(async (lang) => {
+      const filePath = `${baseUrl}/${schemaType}/${version}/${lang}.json`;
+      return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
+    })
+  );
+
+  return translationsArray.reduce((acc, translation) => {
+    const [key] = Object.keys(translation);
+    acc[key] = translation[key];
     return acc;
   }, {} as Translations);
 };
@@ -56,7 +59,7 @@ const handlebarsBaseOptions = (data: {
     helpers: {
       t: function (key: string, field: string, ln: string) {
         const result = translations[ln.toUpperCase()][field][key];
-        return new Handlebars.SafeString(result);
+        return new SafeString(result);
       },
       ifEqual: function (lvalue: any, rvalue: any, options: any) {
         return lvalue === rvalue ? options.fn(this) : options.inverse(this);
@@ -71,12 +74,13 @@ const handlebarsBaseOptions = (data: {
             ? languages.split(',').map((val) => val.trim())
             : languages;
         const result = ln.reduce((acc, curr) => {
+          const translation = get(translations, [curr, field, key]);
           if (!acc) {
-            return (acc += `${translations[curr][field][key]}`);
+            return (acc += `${translation}`);
           }
-          return (acc += ` / ${translations[curr][field][key]}`);
+          return (acc += ` / ${translation}`);
         }, '');
-        return new Handlebars.SafeString(result);
+        return new SafeString(result);
       },
       in: function (key: string, values: string | string[], options: any) {
         values =
@@ -102,7 +106,7 @@ const handlebarsBaseOptions = (data: {
         return typeof input === type ? options.fn(this) : options.inverse(this);
       },
       hasKey: function (object: object, key: string, options: any) {
-        return object.hasOwnProperty(key)
+        return Object.prototype.hasOwnProperty.call(object, key)
           ? options.fn(this)
           : options.inverse(this);
       },
@@ -123,7 +127,7 @@ const mjmlBaseOptions = (
     keepComments: true,
     preprocessors: [
       (data: string): string => {
-        const template = Handlebars.compile(data);
+        const template = compile(data);
         return template(certificate, handlebarsOpts);
       },
     ],
@@ -138,9 +142,9 @@ function getCertificateLanguages(certificate: EN10168Schema | ECoCSchema) {
 }
 
 const asEN10168Certificate = (value: any, path: string) => {
-  const baseProperties = ['DocumentMetadata', 'Certificate', 'RefSchemaUrl'];
+  const baseProperties = ['Certificate', 'RefSchemaUrl'];
   const isSchemaValid = baseProperties.every((prop) =>
-    value.hasOwnProperty(prop)
+    Object.prototype.hasOwnProperty.call(value, prop)
   );
   if (!isSchemaValid) {
     return Result.error([
@@ -154,14 +158,14 @@ const asEN10168Certificate = (value: any, path: string) => {
 };
 
 const asECoCCertificate = (value: any, path: string) => {
-  const baseProperties = ['Id', 'Uuid', 'Uuid', 'EcocData', 'RefSchemaUrl'];
+  const baseProperties = ['EcocData', 'RefSchemaUrl'];
   const isSchemaValid = baseProperties.every((prop) =>
-    value.hasOwnProperty(prop)
+    Object.prototype.hasOwnProperty.call(value, prop)
   );
   if (!isSchemaValid) {
     return Result.error([
       {
-        path: `Invalid  ${path} asECoCCertificate`,
+        path: `Invalid ${path} asECoCCertificate`,
         expected: baseProperties.join(','),
       },
     ]);
@@ -169,16 +173,71 @@ const asECoCCertificate = (value: any, path: string) => {
   return Result.ok(value as ECoCSchema);
 };
 
+function castWithoutError<T>(
+  certificate: object,
+  fn: (value: any, path: string) => any // eslint-disable-line no-unused-vars
+) {
+  try {
+    return cast<T>(certificate, fn);
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 function castCertificate(certificate: object): EN10168Schema | ECoCSchema {
-  const en10168ertificate = cast(certificate, asEN10168Certificate);
+  const en10168ertificate = castWithoutError<EN10168Schema>(
+    certificate,
+    asEN10168Certificate
+  );
   if (en10168ertificate) {
     return en10168ertificate;
   }
-  const eCoCcertificate = cast(certificate, asECoCCertificate);
+
+  const eCoCcertificate = castWithoutError<ECoCSchema>(
+    certificate,
+    asECoCCertificate
+  );
   if (eCoCcertificate) {
     return eCoCcertificate;
   }
   throw new Error('Could not cast the certificate to the right type');
+}
+
+async function parseMjmlTemplate(
+  certificate: any,
+  options: GenerateHtmlOptions
+): Promise<string> {
+  const { baseUrl, schemaType, version } = options.schemaPath as SchemaPath;
+  const templateFilePath = `${baseUrl}/${schemaType}/${version}/template.mjml`;
+  const templateFile = (await loadExternalFile(
+    templateFilePath,
+    'text'
+  )) as string;
+
+  options.mjml = {
+    ...(options.mjml || {}),
+    ...mjmlBaseOptions(certificate, options.handlebars),
+  };
+  const result = mjml2html(templateFile, options.mjml);
+  if (result.errors) {
+    console.log('MJML errors :', result.errors);
+  }
+  return result.html;
+}
+
+async function parseHbsTemplate(
+  certificate: any,
+  options: GenerateHtmlOptions
+): Promise<string> {
+  const { baseUrl, schemaType, version } = options.schemaPath as SchemaPath;
+  const templateFilePath = `${baseUrl}/${schemaType}/${version}/template.hbs`;
+  const templateFile = (await loadExternalFile(
+    templateFilePath,
+    'text'
+  )) as string;
+  const template = compile<object>(templateFile);
+  return template(certificate, options?.handlebars);
 }
 
 export async function generateHtml(
@@ -189,9 +248,6 @@ export async function generateHtml(
   let rawCert: any;
   if (typeof certificateInput === 'string') {
     rawCert = (await loadExternalFile(certificateInput, 'json')) as any;
-    if (!rawCert.RefSchemaUrl) {
-      throw new Error('Missing RefSchemaUrl in loaded schema');
-    }
   } else if (typeof certificateInput === 'object') {
     rawCert = certificateInput;
   } else {
@@ -199,14 +255,18 @@ export async function generateHtml(
   }
 
   const certificate = castCertificate(rawCert);
-
   const certificateLanguages = getCertificateLanguages(certificate);
-  const [baseUrl, schemaType, version] = certificate.RefSchemaUrl.split('/');
+
+  if (!options.schemaPath) {
+    const refSchemaUrl = new URL(certificate.RefSchemaUrl);
+    const baseUrl = refSchemaUrl.origin;
+    const [, schemaType, version] = refSchemaUrl.pathname.split('/');
+    options.schemaPath = { baseUrl, schemaType, version };
+  }
 
   const translations = await getTranslations(
     certificateLanguages,
-    schemaType,
-    version
+    options.schemaPath
   );
 
   options.handlebars = {
@@ -214,29 +274,8 @@ export async function generateHtml(
     ...handlebarsBaseOptions({ translations }),
   };
 
-  if (options.useMjml) {
-    const templateFilePath = `${baseUrl}/${schemaType}/${version}/template.mjml`;
-    const templateFile = (await loadExternalFile(
-      templateFilePath,
-      'text'
-    )) as string;
-
-    options.mjml = {
-      ...(options.mjml || {}),
-      ...mjmlBaseOptions(certificate, options.handlebars),
-    };
-    const result = mjml2html(templateFile, options.mjml);
-    if (result.errors) {
-      console.log('MJML errors :', result.errors);
-    }
-    return result.html;
-  } else {
-    const templateFilePath = `${baseUrl}/${schemaType}/${version}/template.hbs`;
-    const templateFile = (await loadExternalFile(
-      templateFilePath,
-      'text'
-    )) as string;
-    const template = compile<object>(templateFile);
-    return template(certificate, options?.handlebars);
+  if (options.templateType === 'mjml') {
+    return parseMjmlTemplate(certificate, options);
   }
+  return parseHbsTemplate(certificate, options);
 }
