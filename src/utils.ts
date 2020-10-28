@@ -39,13 +39,17 @@ export type ExternalFile = ReturnType<typeof loadExternalFile>;
 // TODO: add options as 3rd arg, with encoding and other stream options
 export async function loadExternalFile(
   filePath: string,
-  type: 'json' | 'text' | 'arraybuffer' | 'stream' = 'json'
+  type: 'json' | 'text' | 'arraybuffer' | 'stream' = 'json',
+  useCache: boolean = true
 ): Promise<object | string | Readable | undefined> {
-  let result: object | string | Readable | undefined;
-  result = cache.get(filePath);
+  let result: object | string | Readable | undefined = useCache
+    ? undefined
+    : cache.get(filePath);
+    
   if (result) {
     return result;
   }
+
   if (filePath.startsWith('http')) {
     const { data, status } = await axios.get(filePath, { responseType: type });
     if (status !== 200) {
@@ -53,14 +57,16 @@ export async function loadExternalFile(
     }
     result = data;
   } else {
-      // filePath = path.resolve(filePath);
+    // filePath = path.resolve(filePath);
     const stats = await statFile(filePath);
     if (!stats.isFile()) {
       throw new Error(`Loading error: ${filePath} is not a file`);
     }
     switch (type) {
       case 'json':
-        result = JSON.parse((await readFile(filePath, 'utf8')) as string) as object;
+        result = JSON.parse(
+          (await readFile(filePath, 'utf8')) as string
+        ) as object;
         break;
       case 'text':
         result = await readFile(filePath, 'utf-8');
@@ -72,7 +78,7 @@ export async function loadExternalFile(
         result = fs.createReadStream(filePath);
     }
   }
-  if (type !== 'stream') {
+  if (useCache && type !== 'stream') {
     cache.set(filePath, result);
   }
   return result;

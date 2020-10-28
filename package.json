@@ -20,6 +20,7 @@
   "devDependencies": {
     "@types/ajv": "^1.0.0",
     "@types/chai": "^4.2.14",
+    "@types/lodash.get": "^4.4.6",
     "@types/mjml": "^4.0.4",
     "@types/mocha": "^8.0.3",
     "@types/node": "14.0.27",
@@ -42,6 +43,7 @@
     "handlebars": "^4.7.6",
     "json-schema-to-typescript": "^9.1.1",
     "lodash.flatten": "^4.4.0",
+    "lodash.get": "^4.4.2",
     "lodash.groupby": "^4.6.0",
     "mjml": "^4.7.1",
     "node-cache": "^5.1.2"
