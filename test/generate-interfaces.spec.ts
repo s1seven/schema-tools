@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { readFileSync } from 'fs';
 import { generate } from '../src/generate-interfaces';
 
-const schemaPath = `https://raw.githubusercontent.com/s1seven/EN10168-schemas/main/schema.json`;
+const schemaPath = `https://schemas.en10204.io/en10168-schemas/v0.0.2-2/schema.json`;
 
 describe('GenerateInterfaces', () => {
   const certificate = readFileSync(

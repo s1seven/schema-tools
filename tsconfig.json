@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
+    "declaration": true,
+    "declarationDir": "./types",
     "allowJs": true,
     "target": "es2018",
     "lib": ["es2018", "esnext.asynciterable"],

@@ -18,6 +18,7 @@
     "package.json",
     "README.md"
   ],
+  "types": "./types/index.d.ts",
   "devDependencies": {
     "@types/ajv": "^1.0.0",
     "@types/chai": "^4.2.14",
