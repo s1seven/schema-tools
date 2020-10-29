@@ -1,10 +1,9 @@
-import { cast, Result } from '@restless/sanitizers';
 import { compile, RuntimeOptions, SafeString } from 'handlebars';
 import get from 'lodash.get';
 import mjml2html from 'mjml';
 import { URL } from 'url';
 import { ECoCSchema, EN10168Schema } from './types';
-import { loadExternalFile } from './utils';
+import { loadExternalFile, castCertificate } from './utils';
 
 interface MJMLParsingOpts {
   fonts?: { [key: string]: string };
@@ -21,11 +20,13 @@ export type SchemaPath = {
   version: string;
 };
 
+// TODO: add options to override templatesPath
 export type GenerateHtmlOptions = {
   handlebars?: RuntimeOptions;
   mjml?: MJMLParsingOpts;
   templateType?: 'hbs' | 'mjml';
   schemaPath?: SchemaPath;
+  templatePath?: string;
 };
 
 export type Translations = {
@@ -141,69 +142,6 @@ function getCertificateLanguages(certificate: EN10168Schema | ECoCSchema) {
   return ['EN'];
 }
 
-const asEN10168Certificate = (value: any, path: string) => {
-  const baseProperties = ['Certificate', 'RefSchemaUrl'];
-  const isSchemaValid = baseProperties.every((prop) =>
-    Object.prototype.hasOwnProperty.call(value, prop)
-  );
-  if (!isSchemaValid) {
-    return Result.error([
-      {
-        path: `Invalid ${path} asEN10168Certificate`,
-        expected: baseProperties.join(','),
-      },
-    ]);
-  }
-  return Result.ok(value as EN10168Schema);
-};
-
-const asECoCCertificate = (value: any, path: string) => {
-  const baseProperties = ['EcocData', 'RefSchemaUrl'];
-  const isSchemaValid = baseProperties.every((prop) =>
-    Object.prototype.hasOwnProperty.call(value, prop)
-  );
-  if (!isSchemaValid) {
-    return Result.error([
-      {
-        path: `Invalid ${path} asECoCCertificate`,
-        expected: baseProperties.join(','),
-      },
-    ]);
-  }
-  return Result.ok(value as ECoCSchema);
-};
-
-function castWithoutError<T>(
-  certificate: object,
-  fn: (value: any, path: string) => any // eslint-disable-line no-unused-vars
-) {
-  try {
-    return cast<T>(certificate, fn);
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
-
-function castCertificate(certificate: object): EN10168Schema | ECoCSchema {
-  const en10168ertificate = castWithoutError<EN10168Schema>(
-    certificate,
-    asEN10168Certificate
-  );
-  if (en10168ertificate) {
-    return en10168ertificate;
-  }
-
-  const eCoCcertificate = castWithoutError<ECoCSchema>(
-    certificate,
-    asECoCCertificate
-  );
-  if (eCoCcertificate) {
-    return eCoCcertificate;
-  }
-  throw new Error('Could not cast the certificate to the right type');
-}
-
 async function parseMjmlTemplate(
   certificate: any,
   options: GenerateHtmlOptions
@@ -244,7 +182,6 @@ export async function generateHtml(
   certificateInput: string | object,
   options: GenerateHtmlOptions = {}
 ): Promise<string> {
-  // TODO: handle object
   let rawCert: any;
   if (typeof certificateInput === 'string') {
     rawCert = (await loadExternalFile(certificateInput, 'json')) as any;
