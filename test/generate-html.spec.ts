@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { readFileSync } from 'fs';
 import { generateHtml } from '../src/generate-html';
 
-const schemaPath = `${__dirname}/../fixtures/EN10168/valid_en10168_test.json`;
+const certificatePath = `${__dirname}/../fixtures/EN10168/valid_cert.json`;
 
 describe('GenerateHTML', () => {
   const expectedHtmlFromHbs = readFileSync(
@@ -15,12 +15,12 @@ describe('GenerateHTML', () => {
   );
 
   it('should render HTML certificate using certificate local path and HBS template', async () => {
-    const html = await generateHtml(schemaPath);
+    const html = await generateHtml(certificatePath);
     expect(html).to.be.equal(expectedHtmlFromHbs);
   });
 
   it.skip('should render HTML certificate using certificate local path and MJML template', async () => {
-    const html = await generateHtml(schemaPath, { templateType: 'mjml' });
+    const html = await generateHtml(certificatePath, { templateType: 'mjml' });
     expect(html).to.be.equal(expectedHtmlFromMjml);
   });
 });

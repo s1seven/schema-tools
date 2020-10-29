@@ -1,8 +1,10 @@
+import { cast, Result } from '@restless/sanitizers';
 import axios from 'axios';
 import * as fs from 'fs';
 import NodeCache from 'node-cache';
 import { Readable } from 'stream';
 import { promisify } from 'util';
+import { ECoCSchema, EN10168Schema } from './types';
 
 export const cache = new NodeCache({
   stdTTL: 60 * 60,
@@ -45,7 +47,7 @@ export async function loadExternalFile(
   let result: object | string | Readable | undefined = useCache
     ? undefined
     : cache.get(filePath);
-    
+
   if (result) {
     return result;
   }
@@ -82,4 +84,68 @@ export async function loadExternalFile(
     cache.set(filePath, result);
   }
   return result;
+}
+
+export function asEN10168Certificate(value: any, path: string) {
+  const baseProperties = ['Certificate', 'RefSchemaUrl'];
+  const isSchemaValid = baseProperties.every((prop) =>
+    Object.prototype.hasOwnProperty.call(value, prop)
+  );
+  if (!isSchemaValid) {
+    return Result.error([
+      {
+        path: `Invalid ${path} asEN10168Certificate`,
+        expected: baseProperties.join(','),
+      },
+    ]);
+  }
+  return Result.ok(value as EN10168Schema);
+}
+
+export function asECoCCertificate(value: any, path: string) {
+  const baseProperties = ['EcocData', 'RefSchemaUrl'];
+  const isSchemaValid = baseProperties.every((prop) =>
+    Object.prototype.hasOwnProperty.call(value, prop)
+  );
+  if (!isSchemaValid) {
+    return Result.error([
+      {
+        path: `Invalid ${path} asECoCCertificate`,
+        expected: baseProperties.join(','),
+      },
+    ]);
+  }
+  return Result.ok(value as ECoCSchema);
+}
+
+export function castWithoutError<T>(
+  certificate: object,
+  fn: (value: any, path: string) => any // eslint-disable-line no-unused-vars
+) {
+  try {
+    return cast<T>(certificate, fn);
+  } catch (error) {
+    return null;
+  }
+}
+
+export function castCertificate(
+  certificate: object
+): EN10168Schema | ECoCSchema {
+  const en10168ertificate = castWithoutError<EN10168Schema>(
+    certificate,
+    asEN10168Certificate
+  );
+  if (en10168ertificate) {
+    return en10168ertificate;
+  }
+
+  const eCoCcertificate = castWithoutError<ECoCSchema>(
+    certificate,
+    asECoCCertificate
+  );
+  if (eCoCcertificate) {
+    return eCoCcertificate;
+  }
+  throw new Error('Could not cast the certificate to the right type');
 }

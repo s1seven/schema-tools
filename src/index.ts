@@ -1,3 +1,4 @@
+export { extractEmails } from './extract-emails';
 export { generateHtml, GenerateHtmlOptions } from './generate-html';
 export { generate, GenerateOptions } from './generate-interfaces';
 export { validate, ValidationError, ValidateOptions } from './validate-schemas';
