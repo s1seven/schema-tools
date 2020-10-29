@@ -125,7 +125,6 @@ export function castWithoutError<T>(
   try {
     return cast<T>(certificate, fn);
   } catch (error) {
-    console.error(error);
     return null;
   }
 }
