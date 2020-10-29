@@ -14,8 +14,19 @@ export interface PartyEmail {
   purchaseOrderPosition?: string;
 }
 
-function extractEmailsFromEN10168(certificate: EN10168Schema): any[] {
-  // TODO: add validation steps
+const en10168CompanyRole = {
+  ['A01']: 'Seller',
+  ['A06']: 'Buyer',
+  ['A06.1']: 'Buyer',
+  ['A06.2']: 'Consignee',
+  ['A06.3']: 'Consignee of certificate',
+};
+
+function extractEmailsFromEN10168(certificate: EN10168Schema): PartyEmail[] {
+  if (!certificate?.Certificate?.CommercialTransaction) {
+    return [];
+  }
+  const validKeys = Object.keys(en10168CompanyRole);
   const purchaseOrderNumber =
     certificate.Certificate.CommercialTransaction['A07'];
   const purchaseOrderPosition =
@@ -23,71 +34,38 @@ function extractEmailsFromEN10168(certificate: EN10168Schema): any[] {
 
   return Object.entries(certificate.Certificate.CommercialTransaction)
     .map(([key, value]) => {
-      const company = value as any;
-      switch (key) {
-        case 'A01':
-          return {
-            emails: [company.Email],
-            name: company.CompanyName,
-            role: 'Seller',
-            purchaseOrderNumber,
-            purchaseOrderPosition,
-          };
-        case 'A06':
-          return {
-            emails: [company.Email],
-            name: company.CompanyName,
-            role: 'Buyer',
-            purchaseOrderNumber,
-            purchaseOrderPosition,
-          };
-        case 'A06.1':
-          return {
-            emails: [company.Email],
-            name: company.CompanyName,
-            role: 'Buyer',
-            purchaseOrderNumber,
-            purchaseOrderPosition,
-          };
-        case 'A06.2':
-          return {
-            emails: [company.Email],
-            name: company.CompanyName,
-            role: 'Consignee',
-            purchaseOrderNumber,
-            purchaseOrderPosition,
-          };
-        case 'A06.3':
-          return {
-            emails: [company.Email],
-            name: company.CompanyName,
-            role: 'Consignee of certificate',
-            purchaseOrderNumber,
-            purchaseOrderPosition,
-          };
-        default:
-          return null;
+      if (validKeys.includes(key)) {
+        const company = value as any;
+        return {
+          emails: [company.Email],
+          name: company.CompanyName,
+          role: en10168CompanyRole[key],
+          purchaseOrderNumber,
+          purchaseOrderPosition,
+        };
       }
+      return null;
     })
-    .filter((partyEmail) => partyEmail !== null);
+    .filter((partyEmail) => partyEmail !== null) as PartyEmail[];
 }
 
-function extractEmailsFromECoC(certificate: ECoCSchema): any[] {
-  // TODO: add validation steps
-  return (
-    certificate.EcocData?.Data?.Parties.map((party) => {
-      const emailProp = party?.AdditionalPartyProperties?.find(
-        (property) => property?.Name.toLowerCase() === 'email'
-      );
-      return emailProp?.Value
-        ? {
-            name: party.PartyName,
-            role: party.PartyRole,
-            emails: emailProp.Value,
-          }
-        : null;
-    }).filter((partyEmail) => partyEmail !== null) || []
-  );
+function extractEmailsFromECoC(certificate: ECoCSchema): PartyEmail[] {
+  if (!certificate.EcocData?.Data?.Parties) {
+    return [];
+  }
+
+  return certificate.EcocData.Data.Parties.map((party) => {
+    const emailProp = party?.AdditionalPartyProperties?.find(
+      (property) => property?.Name.toLowerCase() === 'email'
+    );
+    return emailProp?.Value
+      ? {
+          name: party.PartyName,
+          role: party.PartyRole,
+          emails: emailProp.Value,
+        }
+      : null;
+  }).filter((partyEmail) => partyEmail !== null);
 }
 
 export async function extractEmails(
