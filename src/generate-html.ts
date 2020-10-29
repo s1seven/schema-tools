@@ -20,23 +20,23 @@ export type SchemaPath = {
   version: string;
 };
 
-// TODO: add options to override templatesPath
+export type Translations = {
+  [key: string]: any;
+};
+
 export type GenerateHtmlOptions = {
   handlebars?: RuntimeOptions;
   mjml?: MJMLParsingOpts;
   templateType?: 'hbs' | 'mjml';
   schemaPath?: SchemaPath;
   templatePath?: string;
-};
-
-export type Translations = {
-  [key: string]: any;
+  translations?: Translations;
 };
 
 const getTranslations = async (
   certificateLanguages: string[],
   schemaPath: SchemaPath
-): Promise<any> => {
+): Promise<Translations> => {
   const { baseUrl, schemaType, version } = schemaPath;
   const translationsArray = await Promise.all(
     certificateLanguages.map(async (lang) => {
@@ -49,7 +49,7 @@ const getTranslations = async (
     const [key] = Object.keys(translation);
     acc[key] = translation[key];
     return acc;
-  }, {} as Translations);
+  }, {});
 };
 
 const handlebarsBaseOptions = (data: {
@@ -59,11 +59,8 @@ const handlebarsBaseOptions = (data: {
   return {
     helpers: {
       t: function (key: string, field: string, ln: string) {
-        const result = translations[ln.toUpperCase()][field][key];
+        const result = get(translations, [ln.toUpperCase(), field, key]);
         return new SafeString(result);
-      },
-      ifEqual: function (lvalue: any, rvalue: any, options: any) {
-        return lvalue === rvalue ? options.fn(this) : options.inverse(this);
       },
       i18n: function (
         key: string,
@@ -82,6 +79,9 @@ const handlebarsBaseOptions = (data: {
           return (acc += ` / ${translation}`);
         }, '');
         return new SafeString(result);
+      },
+      ifEqual: function (lvalue: any, rvalue: any, options: any) {
+        return lvalue === rvalue ? options.fn(this) : options.inverse(this);
       },
       in: function (key: string, values: string | string[], options: any) {
         values =
@@ -147,7 +147,8 @@ async function parseMjmlTemplate(
   options: GenerateHtmlOptions
 ): Promise<string> {
   const { baseUrl, schemaType, version } = options.schemaPath as SchemaPath;
-  const templateFilePath = `${baseUrl}/${schemaType}/${version}/template.mjml`;
+  const templateFilePath =
+    options.templatePath || `${baseUrl}/${schemaType}/${version}/template.mjml`;
   const templateFile = (await loadExternalFile(
     templateFilePath,
     'text'
@@ -169,7 +170,8 @@ async function parseHbsTemplate(
   options: GenerateHtmlOptions
 ): Promise<string> {
   const { baseUrl, schemaType, version } = options.schemaPath as SchemaPath;
-  const templateFilePath = `${baseUrl}/${schemaType}/${version}/template.hbs`;
+  const templateFilePath =
+    options.templatePath || `${baseUrl}/${schemaType}/${version}/template.hbs`;
   const templateFile = (await loadExternalFile(
     templateFilePath,
     'text'
@@ -201,10 +203,9 @@ export async function generateHtml(
     options.schemaPath = { baseUrl, schemaType, version };
   }
 
-  const translations = await getTranslations(
-    certificateLanguages,
-    options.schemaPath
-  );
+  const translations =
+    options.translations ||
+    (await getTranslations(certificateLanguages, options.schemaPath));
 
   options.handlebars = {
     ...(options.handlebars || {}),
