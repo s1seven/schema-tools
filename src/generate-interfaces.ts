@@ -1,4 +1,5 @@
 import { compile, JSONSchema, Options } from 'json-schema-to-typescript';
+import merge from 'lodash.merge';
 import { loadExternalFile, removeFile, writeFile } from './utils';
 
 export type GenerateOptions = Options;
@@ -28,7 +29,7 @@ export async function generate(
   interfacesPath?: string | null,
   options?: Partial<GenerateOptions>
 ): Promise<string> {
-  baseOptions = options ? { ...baseOptions, ...options } : baseOptions;
+  baseOptions = options ? merge(baseOptions, options) : baseOptions;
 
   const schema: JSONSchema =
     typeof externalSchema === 'string'

@@ -1,5 +1,6 @@
 import { compile, RuntimeOptions, SafeString } from 'handlebars';
 import get from 'lodash.get';
+import merge from 'lodash.merge';
 import mjml2html from 'mjml';
 import { URL } from 'url';
 import { ECoCSchema, EN10168Schema } from './types';
@@ -51,6 +52,10 @@ const getTranslations = async (
     return acc;
   }, {});
 };
+
+// TODOS: add helper to parse KeyValueObject by its type property
+// Add helper for date localisation .toLocaleDateString(CertificateLanguages[0])
+// number localisation with .toLocaleString(CertificateLanguages[0])
 
 const handlebarsBaseOptions = (data: {
   translations: Translations;
@@ -154,10 +159,11 @@ async function parseMjmlTemplate(
     'text'
   )) as string;
 
-  options.mjml = {
-    ...(options.mjml || {}),
-    ...mjmlBaseOptions(certificate, options.handlebars),
-  };
+  options.mjml = merge(
+    options.mjml || {},
+    mjmlBaseOptions(certificate, options.handlebars)
+  );
+
   const result = mjml2html(templateFile, options.mjml);
   if (result.errors) {
     console.log('MJML errors :', result.errors);
@@ -207,10 +213,10 @@ export async function generateHtml(
     options.translations ||
     (await getTranslations(certificateLanguages, options.schemaPath));
 
-  options.handlebars = {
-    ...(options.handlebars || {}),
-    ...handlebarsBaseOptions({ translations }),
-  };
+  options.handlebars = merge(
+    options.handlebars || {},
+    handlebarsBaseOptions({ translations })
+  );
 
   if (options.templateType === 'mjml') {
     return parseMjmlTemplate(certificate, options);
