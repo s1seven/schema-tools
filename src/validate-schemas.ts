@@ -1,22 +1,21 @@
-import Ajv, { ErrorObject } from 'ajv';
+import Ajv from 'ajv';
 import { JSONSchema } from 'json-schema-to-typescript';
 import flatten from 'lodash.flatten';
 import groupBy from 'lodash.groupBy';
 import path from 'path';
-import { BaseCertificateSchema } from './types';
-import { cache, loadExternalFile, readDir, readFile } from './utils';
+import { BaseCertificateSchema, ValidationError } from './types';
+import {
+  cache,
+  formatValidationErrors,
+  getErrorPaths,
+  loadExternalFile,
+  readDir,
+  readFile,
+} from './utils';
 
 export type ValidateOptions = {
   ignoredPaths?: string[];
   ignoredExts?: string[];
-};
-
-export type ValidationError = {
-  root: string;
-  path: string;
-  keyword: string;
-  schemaPath: string;
-  expected: string;
 };
 
 let validateOptions: ValidateOptions = {
@@ -72,34 +71,6 @@ async function* loadLocalSchemas(
   }
 }
 
-function getErrorPaths(filePath?: string) {
-  if (typeof filePath == 'string') {
-    const filePathParts = filePath.split('/');
-    return {
-      path: filePathParts[filePathParts.length - 1],
-      root: filePathParts[filePathParts.length - 2],
-    };
-  }
-  return {
-    path: '',
-    root: '',
-  };
-}
-
-function formatErrors(
-  errors: ErrorObject[] = [],
-  validationFilePath?: string
-): ValidationError[] {
-  const paths = getErrorPaths(validationFilePath);
-  return errors.map((error) => ({
-    root: paths.root,
-    path: `${paths.path}${error.dataPath}`,
-    keyword: error.keyword || '',
-    schemaPath: error.schemaPath || '',
-    expected: error.message || '',
-  }));
-}
-
 async function setValidator(
   refSchemaUrl: string
 ): Promise<Ajv.ValidateFunction> {
@@ -143,7 +114,7 @@ async function validateCertificate(
       (await setValidator(certificate.RefSchemaUrl));
     const isSchemaValid = validateSchema(certificate);
     if (!isSchemaValid) {
-      errors = formatErrors(validateSchema.errors || [], filePath);
+      errors = formatValidationErrors(validateSchema.errors || [], filePath);
     }
   }
 

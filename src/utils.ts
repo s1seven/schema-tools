@@ -1,10 +1,12 @@
+import { ErrorObject } from 'ajv';
 import { cast, Result } from '@restless/sanitizers';
 import axios from 'axios';
 import * as fs from 'fs';
 import NodeCache from 'node-cache';
+import semverRegex from 'semver-regex';
 import { Readable } from 'stream';
 import { promisify } from 'util';
-import { ECoCSchema, EN10168Schema } from './types';
+import { ECoCSchema, EN10168Schema, ValidationError } from './types';
 
 export const cache = new NodeCache({
   stdTTL: 60 * 60,
@@ -36,6 +38,34 @@ export function writeFile(path: string, content: string) {
   return promisify(fs.writeFile)(path, content);
 }
 
+export function getErrorPaths(filePath?: string) {
+  if (typeof filePath == 'string') {
+    const filePathParts = filePath.split('/');
+    return {
+      path: filePathParts[filePathParts.length - 1],
+      root: filePathParts[filePathParts.length - 2],
+    };
+  }
+  return {
+    path: '',
+    root: '',
+  };
+}
+
+export function formatValidationErrors(
+  errors: ErrorObject[] = [],
+  validationFilePath?: string
+): ValidationError[] {
+  const paths = getErrorPaths(validationFilePath);
+  return errors.map((error) => ({
+    root: paths.root,
+    path: `${paths.path}${error.dataPath}`,
+    keyword: error.keyword || '',
+    schemaPath: error.schemaPath || '',
+    expected: error.message || '',
+  }));
+}
+
 export type ExternalFile = ReturnType<typeof loadExternalFile>;
 
 // TODO: add options as 3rd arg, with encoding and other stream options
@@ -45,8 +75,8 @@ export async function loadExternalFile(
   useCache: boolean = true
 ): Promise<object | string | Readable | undefined> {
   let result: object | string | Readable | undefined = useCache
-    ? undefined
-    : cache.get(filePath);
+    ? cache.get(filePath)
+    : undefined;
 
   if (result) {
     return result;
@@ -148,4 +178,9 @@ export function castCertificate(
     return eCoCcertificate;
   }
   throw new Error('Could not cast the certificate to the right type');
+}
+
+export function getSemanticVersion(rawVersion: string) {
+  const versions = semverRegex().exec(rawVersion) as string[];
+  return versions ? versions[0] : versions;
 }

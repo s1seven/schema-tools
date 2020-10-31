@@ -1,5 +1,6 @@
-export { extractEmails } from './extract-emails';
+export { extractEmails, PartyEmail } from './extract-emails';
 export { generateHtml, GenerateHtmlOptions } from './generate-html';
 export { generate, GenerateOptions } from './generate-interfaces';
-export { validate, ValidationError, ValidateOptions } from './validate-schemas';
+export { validate, ValidateOptions } from './validate-schemas';
+export * from './types';
 export { loadExternalFile } from './utils';
