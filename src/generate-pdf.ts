@@ -1,9 +1,11 @@
 import merge from 'lodash.merge';
 import htmlToPdfmake from 'html-to-pdfmake';
 import jsdom from 'jsdom';
+// import template from 'lodash.template';
 import PdfPrinter from 'pdfmake';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import vm from 'vm';
 import { loadExternalFile } from './utils';
 import { TDocumentDefinitions, TFontDictionary } from 'pdfmake/interfaces';
 
@@ -43,8 +45,28 @@ export async function generatePdf(
   if (options.inputType === 'html') {
     pdfMakeContent = htmlToPdfmake(rawCert, { window: dom.window });
   } else if (options.inputType === 'json') {
-    // TODO: convert JSON certificate to pdfMake structure
-    pdfMakeContent = {} as TDocumentDefinitions['content'];
+    const refSchemaUrl = new URL(rawCert.RefSchemaUrl);
+    const [, schemaType, version] = refSchemaUrl.pathname.split('/');
+    refSchemaUrl.pathname = `/${schemaType}/${version}/pdf_make_content.js`;
+    const schemaRepoCode = (await loadExternalFile(
+      refSchemaUrl.href,
+      'text'
+    )) as string;
+
+    // TODO: EXAMPLE TO ADAPT
+    const code = `${schemaRepoCode}
+    content = convert(certificate);`;
+
+    const script = new vm.Script(code);
+    const context = {
+      certificate: rawCert,
+      content: {} as TDocumentDefinitions['content'],
+    };
+    vm.createContext(context);
+    script.runInContext(context);
+
+    console.log(context.content);
+    pdfMakeContent = context.content;
   } else {
     throw new Error('Invalid inputType');
   }
