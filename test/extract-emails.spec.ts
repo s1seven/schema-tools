@@ -4,7 +4,9 @@ import { extractEmails } from '../src/extract-emails';
 const en10168CertificatePath = `${__dirname}/../fixtures/EN10168/valid_cert.json`;
 const eCoCCertificatePath = `${__dirname}/../fixtures/E-CoC/valid_cert.json`;
 
-describe('ExtractEmails', () => {
+describe('ExtractEmails', function () {
+  this.timeout(4000);
+
   it('should extract emails from EN10168 certificate', async () => {
     const emailsList = await extractEmails(en10168CertificatePath);
     const expectedResult = [

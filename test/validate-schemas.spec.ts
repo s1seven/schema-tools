@@ -2,7 +2,9 @@ import { expect } from 'chai';
 import { readFile } from '../src/utils';
 import { validate } from '../src/validate-schemas';
 
-describe('ValidateSchema', () => {
+describe('ValidateSchema', function () {
+  this.timeout(4000);
+
   describe('EN10168 types', () => {
     const validCertificatePath = `${__dirname}/../fixtures/EN10168/valid_cert.json`;
     const invalidCertificatePath = `${__dirname}/../fixtures/EN10168/invalid_cert.json`;

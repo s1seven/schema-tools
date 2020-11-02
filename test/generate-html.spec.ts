@@ -4,7 +4,9 @@ import { generateHtml } from '../src/generate-html';
 
 const certificatePath = `${__dirname}/../fixtures/EN10168/valid_cert.json`;
 
-describe('GenerateHTML', () => {
+describe('GenerateHTML', function () {
+  this.timeout(4000);
+
   const expectedHtmlFromHbs = readFileSync(
     `${__dirname}/../fixtures/EN10168/template_hbs.html`,
     'utf-8'
