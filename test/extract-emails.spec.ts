@@ -33,6 +33,8 @@ describe('ExtractEmails', () => {
         name: 'VOESTALPINE BOHLER AEROSPACE GMBH & CO KG',
         role: 'Customer',
         emails: ['contact@s1seven.com'],
+        purchaseOrderNumber: undefined,
+        purchaseOrderPosition: undefined,
       },
     ];
     expect(emailsList).to.deep.equal(expectedResult);
