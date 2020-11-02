@@ -53,6 +53,13 @@ function extractEmailsFromECoC(certificate: ECoCSchema): PartyEmail[] {
   if (!certificate.EcocData?.Data?.Parties) {
     return [];
   }
+  
+  const purchaseOrderNumber = certificate.EcocData?.BusinessReference?.StandardReferences.find(
+    (ref) => ref?.name === 'OrderNo'
+  )?.Value;
+  const purchaseOrderPosition = certificate.EcocData?.BusinessReference?.StandardReferences.find(
+    (ref) => ref?.name === 'OrderPos'
+  )?.Value;
 
   return certificate.EcocData.Data.Parties.map((party) => {
     const emailProp = party?.AdditionalPartyProperties?.find(
@@ -63,6 +70,8 @@ function extractEmailsFromECoC(certificate: ECoCSchema): PartyEmail[] {
           name: party.PartyName,
           role: party.PartyRole,
           emails: emailProp.Value,
+          purchaseOrderNumber,
+          purchaseOrderPosition,
         }
       : null;
   }).filter((partyEmail) => partyEmail !== null);

@@ -38,15 +38,15 @@ export function writeFile(path: string, content: string) {
 
 export type ExternalFile = ReturnType<typeof loadExternalFile>;
 
-// TODO: add options as 3rd arg, with encoding and other stream options
+// TODO: add options as fourth arg, with encoding and other stream options ?
 export async function loadExternalFile(
   filePath: string,
   type: 'json' | 'text' | 'arraybuffer' | 'stream' = 'json',
   useCache: boolean = true
 ): Promise<object | string | Readable | undefined> {
   let result: object | string | Readable | undefined = useCache
-    ? undefined
-    : cache.get(filePath);
+    ? cache.get(filePath)
+    : undefined;
 
   if (result) {
     return result;
