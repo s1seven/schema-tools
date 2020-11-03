@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-extract-emails",
   "description": "Tool to extract certificates emails",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/extract-emails#readme",
   "repository": {
