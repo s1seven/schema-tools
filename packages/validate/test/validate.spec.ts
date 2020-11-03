@@ -1,21 +1,19 @@
 import { readFileSync } from 'fs';
 import { validate } from '../src/index';
-// import en10168ValidCertificatePath from '../../../fixtures/EN10168/valid_cert.json'
-// import en10168InvalidCertificatePath from '../../../fixtures/EN10168/valid_cert.json'
 
-describe('ValidateSchema', () => {
+describe('ValidateSchema', function () {
   describe('EN10168 types', () => {
     const validCertificatePath = `${__dirname}/../../../fixtures/EN10168/valid_cert.json`;
     const invalidCertificatePath = `${__dirname}/../../../fixtures/EN10168/invalid_cert.json`;
 
     it('should validate valid example certificate using certificate path (string)', async () => {
       expect(await validate(validCertificatePath)).toEqual({});
-    });
+    }, 3000);
 
     it('should validate valid example certificate using certificate (object) ', async () => {
       const schema = JSON.parse(readFileSync(validCertificatePath, 'utf8') as string);
       expect(await validate(schema)).toEqual({});
-    });
+    }, 3000);
 
     it('should validate invalid example certificate using certificate path (string)', async () => {
       expect(await validate(invalidCertificatePath)).toEqual({
@@ -29,7 +27,7 @@ describe('ValidateSchema', () => {
           },
         ],
       });
-    });
+    }, 3000);
 
     it('should validate invalid example certificate using certificate (object)', async () => {
       const schema = JSON.parse(readFileSync(invalidCertificatePath, 'utf8') as string);
@@ -44,7 +42,7 @@ describe('ValidateSchema', () => {
           },
         ],
       });
-    });
+    }, 3000);
   });
 
   describe('E-CoC types', () => {
@@ -60,7 +58,7 @@ describe('ValidateSchema', () => {
       //   });
       //   expect(loggerWithErr).toBeUndefined();
       // }).toThrowError('projectName is required');
-    });
+    }, 3000);
 
     it('should validate invalid example certificate using certificate path (string)', async () => {
       expect(await validate(invalidCertificatePath)).toEqual({
@@ -74,6 +72,6 @@ describe('ValidateSchema', () => {
           },
         ],
       });
-    });
+    }, 3000);
   });
 });

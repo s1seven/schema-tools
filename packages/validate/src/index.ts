@@ -1,7 +1,6 @@
 import { BaseCertificateSchema } from '@s1seven/schema-tools-types';
 import { cache, loadExternalFile, readDir, readFile } from '@s1seven/schema-tools-utils';
 import Ajv, { ErrorObject } from 'ajv';
-import { JSONSchema } from 'json-schema-to-typescript';
 import flatten from 'lodash.flatten';
 import groupBy from 'lodash.groupby';
 import path from 'path';
@@ -85,7 +84,7 @@ function formatErrors(errors: ErrorObject[] = [], validationFilePath?: string): 
 }
 
 async function setValidator(refSchemaUrl: string): Promise<Ajv.ValidateFunction> {
-  const schema: JSONSchema = (await loadExternalFile(refSchemaUrl, 'json')) as Record<string, unknown>;
+  const schema: Record<string, unknown> = (await loadExternalFile(refSchemaUrl, 'json')) as Record<string, unknown>;
   const ajv = new Ajv({
     loadSchema: async (uri) => (await loadExternalFile(uri, 'json')) as Record<string, unknown>,
   });
@@ -126,7 +125,7 @@ async function validateCertificate(certificate: Record<string, any>, filePath?: 
 }
 
 export async function validate(
-  certificates: string | JSONSchema | JSONSchema[],
+  certificates: string | Record<string, any> | Record<string, any>[], // eslint-disable-line @typescript-eslint/no-explicit-any
   options?: Partial<ValidateOptions>,
 ): Promise<{ [key: string]: ValidationError[] }> {
   validateOptions = options ? { ...validateOptions, ...options } : validateOptions;

@@ -1,9 +1,9 @@
 {
-  "name": "@s1seven/schema-tools-types",
-  "description": "Types used in @s1seven/schema-tools packages",
+  "name": "@s1seven/schema-tools-extract-emails",
+  "description": "Tool to extract certificates emails",
   "version": "0.0.1",
   "author": "getlarge <ed@getlarge.eu>",
-  "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/types#readme",
+  "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/extract-emails#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/s1seven/schema-tools/.git"
@@ -18,9 +18,11 @@
     "access": "public"
   },
   "main": "dist/index",
+  "browser": "dist.browser/index",
   "types": "dist/index",
   "files": [
-    "dist"
+    "dist",
+    "dist.browser"
   ],
   "engines": {
     "node": ">=12",
@@ -29,13 +31,23 @@
   "scripts": {
     "build": "npm run clean && npm run compile",
     "clean": "rimraf -rf ./dist",
-    "cleanup": "rimraf -rf dist",
-    "compile": "tsc -p tsconfig.build.json",
+    "cleanup": "rimraf -rf dist coverage",
+    "compile:node": "tsc -p tsconfig.build.json",
+    "compile:browser": "tsc -p tsconfig.browser.json",
+    "compile": "npm run compile:node && npm run compile:browser",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
+    "test": "jest --ci --config ../../jest.config.json ",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
+    "@types/node": "14.0.27",
+    "eslint": "^6.8.0",
     "rimraf": "~3.0.2",
+    "ts-node": "^8.6.2",
     "typescript": "4.0.2"
+  },
+  "dependencies": {
+    "@s1seven/schema-tools-types": "file:../types",
+    "@s1seven/schema-tools-utils": "file:../utils"
   }
 }

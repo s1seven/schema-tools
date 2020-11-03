@@ -1,9 +1,15 @@
 {
-  "name": "@s1seven/schema-tools-validate",
-  "description": "Tool to validate certificates",
+  "name": "@s1seven/schema-tools-generate-interfaces",
+  "description": "Tool to generate TS interfaces from schema",
   "version": "0.0.1",
   "author": "getlarge <ed@getlarge.eu>",
-  "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/validate#readme",
+  "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/generate-interfaces#readme",
+  "license": "MIT",
+  "keywords": [
+    "nestjs",
+    "toolbox",
+    "open-api"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/s1seven/schema-tools/.git"
@@ -18,11 +24,9 @@
     "access": "public"
   },
   "main": "dist/index",
-  "browser": "dist.browser/index",
   "types": "dist/index",
   "files": [
-    "dist",
-    "dist.browser"
+    "dist"
   ],
   "engines": {
     "node": ">=12",
@@ -32,19 +36,19 @@
     "build": "npm run clean && npm run compile",
     "clean": "rimraf -rf ./dist",
     "cleanup": "rimraf -rf dist coverage",
-    "compile:node": "tsc -p tsconfig.build.json",
-    "compile:browser": "tsc -p tsconfig.browser.json",
-    "compile": "npm run compile:node && npm run compile:browser",
+    "compile": "tsc -p tsconfig.build.json",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
     "test": "jest --ci --config ../../jest.config.json ",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@types/ajv": "^1.0.0",
-    "@types/lodash.flatten": "^4.4.6",
-    "@types/lodash.groupby": "^4.6.6",
+    "@types/lodash.merge": "^4.6.6",
     "@types/node": "14.0.27",
+    "axios": "^0.20.0",
     "eslint": "^6.8.0",
+    "pre-commit": "^1.2.2",
+    "release-it": "*",
     "rimraf": "~3.0.2",
     "ts-node": "^8.6.2",
     "typescript": "4.0.2"
@@ -52,8 +56,7 @@
   "dependencies": {
     "@s1seven/schema-tools-types": "file:../types",
     "@s1seven/schema-tools-utils": "file:../utils",
-    "ajv": "^6.12.6",
-    "lodash.flatten": "^4.4.0",
-    "lodash.groupby": "^4.6.0"
+    "json-schema-to-typescript": "^9.1.1",
+    "lodash.merge": "^4.6.2"
   }
 }
