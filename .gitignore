@@ -109,6 +109,5 @@ typings/
 
 junit.xml
 
-package-lock.json
 dist
 dist.browser
