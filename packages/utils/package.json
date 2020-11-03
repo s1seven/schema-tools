@@ -45,6 +45,7 @@
   "dependencies": {
     "@restless/sanitizers": "^0.2.5",
     "@s1seven/schema-tools-types": "^0.0.4",
+    "ajv": "^6.12.6",
     "axios": "^0.20.0",
     "node-cache": "^5.1.2"
   },
