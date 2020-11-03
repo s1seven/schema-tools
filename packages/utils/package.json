@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-utils",
   "description": "Utils used in @s1seven/schema-tools packages",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.2",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/utils#readme",
   "repository": {
@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@restless/sanitizers": "^0.2.5",
-    "@s1seven/schema-tools-types": "^0.0.2-alpha.0",
+    "@s1seven/schema-tools-types": "^0.0.2",
     "axios": "^0.20.0",
     "node-cache": "^5.1.2"
   },
