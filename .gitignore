@@ -109,3 +109,4 @@ typings/
 
 package-lock.json
 dist
+dist.browser

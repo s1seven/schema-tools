@@ -2,19 +2,23 @@
   "name": "@s1seven/schema-tools",
   "version": "0.3.2",
   "main": "dist/index.js",
+  "browser": "dist.browser/index.js",
   "private": false,
   "engines": {
     "node": ">=11",
     "yarn": ">=1.7"
   },
   "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "build:node": "tsc -p tsconfig.build.json",
+    "build:browser": "tsc -p tsconfig.browser.json",
+    "build": "rm -rf dist && npm run build:node && npm run build:browser",
     "lint": "eslint ./src/**/*.ts ./test/**/*.ts",
     "test": "TS_NODE_TRANSPILE_ONLY=true mocha",
     "release": "read -p 'GITHUB_TOKEN: ' GITHUB_TOKEN && export GITHUB_TOKEN=$GITHUB_TOKEN && release-it"
   },
   "files": [
     "dist/*",
+    "dist.browser/*",
     "package.json",
     "README.md"
   ],
