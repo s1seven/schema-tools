@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools",
-  "version": "0.3.3",
+  "version": "0.0.0",
   "private": false,
   "publicConfig": {
     "access": "public"
@@ -29,8 +29,10 @@
     "cleanup": "lerna run cleanup --stream --parallel",
     "lint": "lerna run lint",
     "lint:staged": "lint-staged",
+    "prepare": "npm run format && npm run lint",
     "prepublishOnly": "npm run build",
-    "release": "read -p 'GITHUB_TOKEN: ' GITHUB_TOKEN && export GITHUB_TOKEN=$GITHUB_TOKEN && release-it"
+    "postpublish": "echo Successfully released ${name} v${version} to ${repo.repository}.",
+    "release": "read -p 'GITHUB_TOKEN: ' GITHUB_TOKEN && export GITHUB_TOKEN=$GITHUB_TOKEN && lerna publish"
   },
   "devDependencies": {
     "@lerna/publish": "3.22.1",
@@ -49,7 +51,6 @@
     "npm-run-all": "^4.1.5",
     "pre-commit": "^1.2.2",
     "prettier": "2.1.1",
-    "release-it": "*",
     "rimraf": "^3.0.0",
     "standard-version": "9.0.0",
     "ts-jest": "26.3.0",
@@ -65,21 +66,5 @@
   "pre-commit": [
     "lint:staged",
     "test"
-  ],
-  "release-it": {
-    "github": {
-      "release": true
-    },
-    "npm": {
-      "publish": true
-    },
-    "hooks": {
-      "before:init": [
-        "npm run format",
-        "npm run lint",
-        "npm run build"
-      ],
-      "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
-    }
-  }
+  ]
 }
