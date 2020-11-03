@@ -2,7 +2,7 @@
   "Id": "30673206",
   "Uuid": "c42cf70d-042e-44e6-a918-02e57aa69982",
   "URL": "",
-  "RefSchemaUrl": "https://schemas.en10204.io/e-coc-schemas/v0.0.2-0/schema.json",
+  "RefSchemaUrl": "https://schemas.en10204.io/e-coc-schemas/v0.0.2-2/schema.json",
   "EcocData": {
     "DataLevel": "D"
   },

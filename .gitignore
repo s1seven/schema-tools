@@ -107,6 +107,8 @@ typings/
 # TernJS port file
 .tern-port
 
+junit.xml
+
 package-lock.json
 dist
 dist.browser

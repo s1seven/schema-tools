@@ -1,25 +1,24 @@
-import { expect } from 'chai';
-import { readFile } from '../src/utils';
-import { validate } from '../src/validate-schemas';
+import { readFileSync } from 'fs';
+import { validate } from '../src/index';
+// import en10168ValidCertificatePath from '../../../fixtures/EN10168/valid_cert.json'
+// import en10168InvalidCertificatePath from '../../../fixtures/EN10168/valid_cert.json'
 
 describe('ValidateSchema', () => {
   describe('EN10168 types', () => {
-    const validCertificatePath = `${__dirname}/../fixtures/EN10168/valid_cert.json`;
-    const invalidCertificatePath = `${__dirname}/../fixtures/EN10168/invalid_cert.json`;
+    const validCertificatePath = `${__dirname}/../../../fixtures/EN10168/valid_cert.json`;
+    const invalidCertificatePath = `${__dirname}/../../../fixtures/EN10168/invalid_cert.json`;
 
     it('should validate valid example certificate using certificate path (string)', async () => {
-      expect(await validate(validCertificatePath)).to.deep.equal({});
+      expect(await validate(validCertificatePath)).toEqual({});
     });
 
     it('should validate valid example certificate using certificate (object) ', async () => {
-      const schema = JSON.parse(
-        (await readFile(validCertificatePath, 'utf8')) as string
-      );
-      expect(await validate(schema)).to.deep.equal({});
+      const schema = JSON.parse(readFileSync(validCertificatePath, 'utf8') as string);
+      expect(await validate(schema)).toEqual({});
     });
 
     it('should validate invalid example certificate using certificate path (string)', async () => {
-      expect(await validate(invalidCertificatePath)).to.deep.equal({
+      expect(await validate(invalidCertificatePath)).toEqual({
         EN10168: [
           {
             path: 'invalid_cert.json.Certificate.ProductDescription.B02',
@@ -33,10 +32,8 @@ describe('ValidateSchema', () => {
     });
 
     it('should validate invalid example certificate using certificate (object)', async () => {
-      const schema = JSON.parse(
-        (await readFile(invalidCertificatePath, 'utf8')) as string
-      );
-      expect(await validate(schema)).to.deep.equal({
+      const schema = JSON.parse(readFileSync(invalidCertificatePath, 'utf8') as string);
+      expect(await validate(schema)).toEqual({
         ['v0.0.2-1']: [
           {
             path: 'schema.json.Certificate.ProductDescription.B02',
@@ -51,15 +48,22 @@ describe('ValidateSchema', () => {
   });
 
   describe('E-CoC types', () => {
-    const validCertificatePath = `${__dirname}/../fixtures/E-CoC/valid_cert.json`;
-    const invalidCertificatePath = `${__dirname}/../fixtures/E-CoC/invalid_cert.json`;
+    const validCertificatePath = `${__dirname}/../../../fixtures/E-CoC/valid_cert.json`;
+    const invalidCertificatePath = `${__dirname}/../../../fixtures/E-CoC/invalid_cert.json`;
 
     it('should validate valid example certificate using certificate path (string)', async () => {
-      expect(await validate(validCertificatePath)).to.deep.equal({});
+      expect(await validate(validCertificatePath)).toEqual({});
+      // await expect(generate(invalidTestFile, interfaceFilePath)).rejects.toThrow(`ENOENT: no such file or directory, open '${invalidTestFile}'`);
+      // expect(() => {
+      //   const loggerWithErr = new WinstonLoggerService({
+      //     projectName: '',
+      //   });
+      //   expect(loggerWithErr).toBeUndefined();
+      // }).toThrowError('projectName is required');
     });
 
     it('should validate invalid example certificate using certificate path (string)', async () => {
-      expect(await validate(invalidCertificatePath)).to.deep.equal({
+      expect(await validate(invalidCertificatePath)).toEqual({
         ['E-CoC']: [
           {
             expected: 'should be equal to one of the allowed values',

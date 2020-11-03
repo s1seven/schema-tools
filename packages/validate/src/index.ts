@@ -1,10 +1,10 @@
+import { BaseCertificateSchema } from '@s1seven/schema-tools-types';
+import { cache, loadExternalFile, readDir, readFile } from '@s1seven/schema-tools-utils';
 import Ajv, { ErrorObject } from 'ajv';
 import { JSONSchema } from 'json-schema-to-typescript';
 import flatten from 'lodash.flatten';
 import groupBy from 'lodash.groupby';
 import path from 'path';
-import { BaseCertificateSchema } from './types';
-import { cache, loadExternalFile, readDir, readFile } from './utils';
 
 export type ValidateOptions = {
   ignoredPaths?: string[];
@@ -20,33 +20,22 @@ export type ValidationError = {
 };
 
 let validateOptions: ValidateOptions = {
-  ignoredPaths: [
-    '.DS_Store',
-    '.git',
-    '.gitignore',
-    'node_modules',
-    'package.json',
-    'package-lock.json',
-  ],
+  ignoredPaths: ['.DS_Store', '.git', '.gitignore', 'node_modules', 'package.json', 'package-lock.json'],
   ignoredExts: ['ts', 'js', 'md'],
 };
 
 async function getLocalSchemaPaths(localSchemasDir: string): Promise<string[]> {
   const { ignoredPaths = [], ignoredExts = [] } = validateOptions;
   const directories = (await readDir(localSchemasDir))
-    .filter(
-      (name) =>
-        !ignoredPaths.includes(name) &&
-        ignoredExts.every((ext) => !name.endsWith(ext))
-    )
-    .map((dir) => path.resolve(localSchemasDir, dir));
+    .filter((name: string) => !ignoredPaths.includes(name) && ignoredExts.every((ext) => !name.endsWith(ext)))
+    .map((dir: string) => path.resolve(localSchemasDir, dir)) as string[];
 
   const subDirectories = await Promise.all(
     directories.map(async (dir) => {
       return (await readDir(dir))
-        .filter((name) => name.endsWith('json'))
-        .map((name) => path.resolve(localSchemasDir, dir, name));
-    })
+        .filter((name: string) => name.endsWith('json'))
+        .map((name: string) => path.resolve(localSchemasDir, dir, name));
+    }),
   );
 
   return flatten(subDirectories)
@@ -54,9 +43,7 @@ async function getLocalSchemaPaths(localSchemasDir: string): Promise<string[]> {
     .sort();
 }
 
-async function* loadLocalSchemas(
-  paths: string[]
-): AsyncIterable<{ data: BaseCertificateSchema; filePath: string }> {
+async function* loadLocalSchemas(paths: string[]): AsyncIterable<{ data: BaseCertificateSchema; filePath: string }> {
   let index = 0;
   while (index < paths.length) {
     const filePath = paths[index];
@@ -86,10 +73,7 @@ function getErrorPaths(filePath?: string) {
   };
 }
 
-function formatErrors(
-  errors: ErrorObject[] = [],
-  validationFilePath?: string
-): ValidationError[] {
+function formatErrors(errors: ErrorObject[] = [], validationFilePath?: string): ValidationError[] {
   const paths = getErrorPaths(validationFilePath);
   return errors.map((error) => ({
     root: paths.root,
@@ -100,15 +84,10 @@ function formatErrors(
   }));
 }
 
-async function setValidator(
-  refSchemaUrl: string
-): Promise<Ajv.ValidateFunction> {
-  const schema: JSONSchema = (await loadExternalFile(
-    refSchemaUrl,
-    'json'
-  )) as object;
+async function setValidator(refSchemaUrl: string): Promise<Ajv.ValidateFunction> {
+  const schema: JSONSchema = (await loadExternalFile(refSchemaUrl, 'json')) as Record<string, unknown>;
   const ajv = new Ajv({
-    loadSchema: async (uri) => (await loadExternalFile(uri, 'json')) as object,
+    loadSchema: async (uri) => (await loadExternalFile(uri, 'json')) as Record<string, unknown>,
   });
   const validator = await ajv.compileAsync(schema);
   const cacheKey = `validator-${refSchemaUrl}`;
@@ -121,10 +100,8 @@ function getValidator(refSchemaUrl: string): Ajv.ValidateFunction | undefined {
   return cache.get<Ajv.ValidateFunction>(cacheKey);
 }
 
-async function validateCertificate(
-  certificate: any,
-  filePath?: string
-): Promise<ValidationError[]> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function validateCertificate(certificate: Record<string, any>, filePath?: string): Promise<ValidationError[]> {
   let errors: ValidationError[] = [];
   if (!certificate?.RefSchemaUrl) {
     const paths = getErrorPaths(filePath);
@@ -138,9 +115,7 @@ async function validateCertificate(
       },
     ];
   } else {
-    const validateSchema =
-      getValidator(certificate.RefSchemaUrl) ||
-      (await setValidator(certificate.RefSchemaUrl));
+    const validateSchema = getValidator(certificate.RefSchemaUrl) || (await setValidator(certificate.RefSchemaUrl));
     const isSchemaValid = validateSchema(certificate);
     if (!isSchemaValid) {
       errors = formatErrors(validateSchema.errors || [], filePath);
@@ -152,39 +127,27 @@ async function validateCertificate(
 
 export async function validate(
   certificates: string | JSONSchema | JSONSchema[],
-  options?: Partial<ValidateOptions>
+  options?: Partial<ValidateOptions>,
 ): Promise<{ [key: string]: ValidationError[] }> {
-  validateOptions = options
-    ? { ...validateOptions, ...options }
-    : validateOptions;
+  validateOptions = options ? { ...validateOptions, ...options } : validateOptions;
 
   if (typeof certificates === 'string') {
     const errors: ValidationError[][] = [];
 
-    const schemaPaths = certificates.endsWith('.json')
-      ? [certificates]
-      : await getLocalSchemaPaths(certificates);
+    const schemaPaths = certificates.endsWith('.json') ? [certificates] : await getLocalSchemaPaths(certificates);
 
     for await (const { data, filePath } of loadLocalSchemas(schemaPaths)) {
       const error = await validateCertificate(data, filePath);
       errors.push(error);
     }
     return groupBy(flatten(errors), (error) => error.root);
-  } else if (
-    certificates instanceof Array &&
-    typeof certificates === 'object'
-  ) {
+  } else if (certificates instanceof Array && typeof certificates === 'object') {
     const tmpErrors = await Promise.all(
-      certificates.map(async (certificate) =>
-        validateCertificate(certificate, certificate.RefSchemaUrl)
-      )
+      certificates.map(async (certificate) => validateCertificate(certificate, certificate.RefSchemaUrl)),
     );
     return groupBy(flatten(tmpErrors), (error) => error.root);
   } else if (typeof certificates === 'object') {
-    const error = await validateCertificate(
-      certificates,
-      certificates.RefSchemaUrl
-    );
+    const error = await validateCertificate(certificates, certificates.RefSchemaUrl);
     return groupBy(error, (err) => err.root);
   }
   throw new Error('Invalid schemas input');

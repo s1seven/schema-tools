@@ -1,10 +1,10 @@
-import { cast, Result } from '@restless/sanitizers';
+import { cast, Result, Sanitizer, SanitizerFailure } from '@restless/sanitizers';
+import { ECoCSchema, EN10168Schema } from '@s1seven/schema-tools-types';
 import axios from 'axios';
 import * as fs from 'fs';
 import NodeCache from 'node-cache';
 import { Readable } from 'stream';
 import { promisify } from 'util';
-import { ECoCSchema, EN10168Schema } from './types';
 
 export const cache = new NodeCache({
   stdTTL: 60 * 60,
@@ -12,27 +12,25 @@ export const cache = new NodeCache({
   maxKeys: 200,
 });
 
-export function readDir(path: string) {
+export function readDir(path: string): Promise<string[]> {
   return promisify(fs.readdir)(path);
 }
 
-export function readFile(path: string, encoding: string | null) {
+export function readFile(path: string, encoding: string | null): Promise<string | Buffer> {
   return promisify(fs.readFile)(path, encoding);
 }
 
-export function statFile(path: string) {
+export function statFile(path: string): Promise<fs.Stats | fs.BigIntStats> {
   return promisify(fs.stat)(path);
 }
 
-export function removeFile(path: string) {
+export function removeFile(path: string): Promise<void> {
   return new Promise((resolve, reject) =>
-    fs.unlink(path, (err) =>
-      err && err.message === 'EENOENT' ? reject(err) : resolve()
-    )
+    fs.unlink(path, (err) => (err && err.message === 'EENOENT' ? reject(err) : resolve())),
   );
 }
 
-export function writeFile(path: string, content: string) {
+export function writeFile(path: string, content: string): Promise<void> {
   return promisify(fs.writeFile)(path, content);
 }
 
@@ -42,9 +40,9 @@ export type ExternalFile = ReturnType<typeof loadExternalFile>;
 export async function loadExternalFile(
   filePath: string,
   type: 'json' | 'text' | 'arraybuffer' | 'stream' = 'json',
-  useCache: boolean = true
-): Promise<object | string | Readable | undefined> {
-  let result: object | string | Readable | undefined = useCache
+  useCache = true,
+): Promise<Record<string, unknown> | string | Buffer | Readable | undefined> {
+  let result: Record<string, unknown> | string | Buffer | Readable | undefined = useCache
     ? cache.get(filePath)
     : undefined;
 
@@ -66,12 +64,10 @@ export async function loadExternalFile(
     }
     switch (type) {
       case 'json':
-        result = JSON.parse(
-          (await readFile(filePath, 'utf8')) as string
-        ) as object;
+        result = JSON.parse((await readFile(filePath, 'utf8')) as string) as Record<string, unknown>;
         break;
       case 'text':
-        result = await readFile(filePath, 'utf-8');
+        result = (await readFile(filePath, 'utf-8')) as string;
         break;
       case 'arraybuffer':
         result = await readFile(filePath, null);
@@ -86,11 +82,12 @@ export async function loadExternalFile(
   return result;
 }
 
-export function asEN10168Certificate(value: any, path: string) {
+export function asEN10168Certificate<EN10168Schema>(
+  value: unknown,
+  path: string,
+): Result<SanitizerFailure[], EN10168Schema> {
   const baseProperties = ['Certificate', 'RefSchemaUrl'];
-  const isSchemaValid = baseProperties.every((prop) =>
-    Object.prototype.hasOwnProperty.call(value, prop)
-  );
+  const isSchemaValid = baseProperties.every((prop) => Object.prototype.hasOwnProperty.call(value, prop));
   if (!isSchemaValid) {
     return Result.error([
       {
@@ -102,11 +99,10 @@ export function asEN10168Certificate(value: any, path: string) {
   return Result.ok(value as EN10168Schema);
 }
 
-export function asECoCCertificate(value: any, path: string) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function asECoCCertificate<ECoCSchema>(value: unknown, path: string): Result<SanitizerFailure[], ECoCSchema> {
   const baseProperties = ['EcocData', 'RefSchemaUrl'];
-  const isSchemaValid = baseProperties.every((prop) =>
-    Object.prototype.hasOwnProperty.call(value, prop)
-  );
+  const isSchemaValid = baseProperties.every((prop) => Object.prototype.hasOwnProperty.call(value, prop));
   if (!isSchemaValid) {
     return Result.error([
       {
@@ -118,10 +114,7 @@ export function asECoCCertificate(value: any, path: string) {
   return Result.ok(value as ECoCSchema);
 }
 
-export function castWithoutError<T>(
-  certificate: object,
-  fn: (value: any, path: string) => any // eslint-disable-line no-unused-vars
-) {
+export function castWithoutError<T>(certificate: Record<string, unknown>, fn: Sanitizer<T>): T {
   try {
     return cast<T>(certificate, fn);
   } catch (error) {
@@ -129,21 +122,13 @@ export function castWithoutError<T>(
   }
 }
 
-export function castCertificate(
-  certificate: object
-): EN10168Schema | ECoCSchema {
-  const en10168ertificate = castWithoutError<EN10168Schema>(
-    certificate,
-    asEN10168Certificate
-  );
+export function castCertificate(certificate: Record<string, unknown>): EN10168Schema | ECoCSchema {
+  const en10168ertificate = castWithoutError<EN10168Schema>(certificate, asEN10168Certificate);
   if (en10168ertificate) {
     return en10168ertificate;
   }
 
-  const eCoCcertificate = castWithoutError<ECoCSchema>(
-    certificate,
-    asECoCCertificate
-  );
+  const eCoCcertificate = castWithoutError<ECoCSchema>(certificate, asECoCCertificate);
   if (eCoCcertificate) {
     return eCoCcertificate;
   }

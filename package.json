@@ -1,64 +1,69 @@
 {
   "name": "@s1seven/schema-tools",
   "version": "0.3.3",
-  "main": "dist/index.js",
-  "browser": "dist.browser/index.js",
   "private": false,
+  "publicConfig": {
+    "access": "public"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "homepage": "https://github.com/s1seven/schema-tools#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s1seven/schema-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/s1seven/schema-tools/issues"
+  },
   "engines": {
     "node": ">=11",
     "yarn": ">=1.7"
   },
   "scripts": {
-    "build:node": "tsc -p tsconfig.build.json",
-    "build:browser": "tsc -p tsconfig.browser.json",
-    "build": "rm -rf dist && npm run build:node && npm run build:browser",
-    "lint": "eslint ./src/**/*.ts ./test/**/*.ts",
-    "test": "TS_NODE_TRANSPILE_ONLY=true mocha",
+    "bootstrap": "npm install lerna && lerna bootstrap && npm install",
+    "format": "prettier --write \"packages/**/*.{ts,json}\"",
+    "reset": "npm run cleanup && rimraf -rf node_modules && npm run bootstrap",
+    "test": "lerna run test",
+    "build": "npm run cleanup && lerna run compile",
+    "cleanup": "lerna run cleanup --stream --parallel",
+    "lint": "lerna run lint",
+    "lint:staged": "lint-staged",
+    "prepublishOnly": "npm run build",
     "release": "read -p 'GITHUB_TOKEN: ' GITHUB_TOKEN && export GITHUB_TOKEN=$GITHUB_TOKEN && release-it"
   },
-  "files": [
-    "dist/*",
-    "dist.browser/*",
-    "package.json",
-    "README.md"
-  ],
-  "types": "./types/index.d.ts",
   "devDependencies": {
-    "@types/ajv": "^1.0.0",
-    "@types/chai": "^4.2.14",
-    "@types/lodash.get": "^4.4.6",
-    "@types/lodash.merge": "^4.6.6",
-    "@types/mjml": "^4.0.4",
-    "@types/mocha": "^8.0.3",
+    "@lerna/publish": "3.22.1",
+    "@lerna/run": "3.21.0",
+    "@types/jest": "26.0.12",
     "@types/node": "14.0.27",
-    "@typescript-eslint/eslint-plugin": "^4.4.1",
-    "@typescript-eslint/parser": "^4.4.1",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
     "eslint": "^6.8.0",
-    "mocha": "^7.0.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "26.4.2",
+    "jest-junit": "11.1.0",
+    "lerna": "^3.22.1",
+    "lint-staged": "^10.5.1",
+    "npm-run-all": "^4.1.5",
     "pre-commit": "^1.2.2",
+    "prettier": "2.1.1",
     "release-it": "*",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.7.5"
+    "rimraf": "^3.0.0",
+    "standard-version": "9.0.0",
+    "ts-jest": "26.3.0",
+    "ts-node": "9.0.0",
+    "tsconfig-paths": "3.9.0",
+    "typescript": "4.0.2"
   },
-  "dependencies": {
-    "@restless/sanitizers": "^0.2.5",
-    "@types/lodash.flatten": "^4.4.6",
-    "@types/lodash.groupby": "^4.6.6",
-    "ajv": "^6.12.6",
-    "axios": "^0.20.0",
-    "handlebars": "^4.7.6",
-    "json-schema-to-typescript": "^9.1.1",
-    "lodash.flatten": "^4.4.0",
-    "lodash.get": "^4.4.2",
-    "lodash.groupby": "^4.6.0",
-    "lodash.merge": "^4.6.2",
-    "mjml": "^4.7.1",
-    "node-cache": "^5.1.2"
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix"
+    ]
   },
   "pre-commit": [
-    "lint",
+    "lint:staged",
     "test"
   ],
   "release-it": {
@@ -70,6 +75,7 @@
     },
     "hooks": {
       "before:init": [
+        "npm run format",
         "npm run lint",
         "npm run build"
       ],

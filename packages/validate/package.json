@@ -1,0 +1,68 @@
+{
+  "name": "@s1seven/schema-tools-validate",
+  "description": "Tool to validate certificates",
+  "version": "0.0.1",
+  "author": "getlarge <ed@getlarge.eu>",
+  "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/validate#readme",
+  "license": "MIT",
+  "keywords": [
+    "nestjs",
+    "toolbox",
+    "open-api"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s1seven/schema-tools/.git"
+  },
+  "bugs": {
+    "url": "https://github.com/s1seven/schema-tools/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "publicConfig": {
+    "access": "public"
+  },
+  "main": "dist/index",
+  "browser": "dist.browser/index",
+  "types": "dist/index",
+  "files": [
+    "dist",
+    "dist.browser"
+  ],
+  "engines": {
+    "node": ">=12",
+    "npm": "6"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rimraf -rf ./dist",
+    "cleanup": "rimraf -rf dist coverage",
+    "compile:node": "tsc -p tsconfig.build.json",
+    "compile:browser": "tsc -p tsconfig.browser.json",
+    "compile": "npm run compile:node && npm run compile:browser",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
+    "test": "jest --ci --config ../../jest.config.json ",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/ajv": "^1.0.0",
+    "@types/lodash.flatten": "^4.4.6",
+    "@types/lodash.groupby": "^4.6.6",
+    "@types/node": "14.0.27",
+    "eslint": "^6.8.0",
+    "pre-commit": "^1.2.2",
+    "release-it": "*",
+    "rimraf": "~3.0.2",
+    "ts-node": "^8.6.2",
+    "typescript": "4.0.2"
+  },
+  "dependencies": {
+    "@s1seven/schema-tools-types": "file:../types",
+    "@s1seven/schema-tools-utils": "file:../utils",
+    "ajv": "^6.12.6",
+    "json-schema-to-typescript": "^9.1.1",
+    "lodash.flatten": "^4.4.0",
+    "lodash.groupby": "^4.6.0"
+  }
+}
