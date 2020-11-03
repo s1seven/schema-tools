@@ -1,7 +1,7 @@
 import Ajv, { ErrorObject } from 'ajv';
 import { JSONSchema } from 'json-schema-to-typescript';
 import flatten from 'lodash.flatten';
-import groupBy from 'lodash.groupBy';
+import groupBy from 'lodash.groupby';
 import path from 'path';
 import { BaseCertificateSchema } from './types';
 import { cache, loadExternalFile, readDir, readFile } from './utils';
