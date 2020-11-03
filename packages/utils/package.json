@@ -17,6 +17,7 @@
   "publicConfig": {
     "access": "public"
   },
+  "private": false,
   "main": "dist/index",
   "types": "dist/index",
   "files": [
@@ -43,8 +44,9 @@
   },
   "dependencies": {
     "@restless/sanitizers": "^0.2.5",
-    "@s1seven/schema-tools-types": "file:../types",
+    "@s1seven/schema-tools-types": "^0.0.1",
     "axios": "^0.20.0",
     "node-cache": "^5.1.2"
-  }
+  },
+  "gitHead": "34e926ae53e7509239d24412d149aa7bde047b05"
 }

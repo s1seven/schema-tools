@@ -17,6 +17,7 @@
   "publicConfig": {
     "access": "public"
   },
+  "private": false,
   "main": "dist/index",
   "browser": "dist.browser/index",
   "types": "dist/index",
@@ -47,7 +48,8 @@
     "typescript": "4.0.2"
   },
   "dependencies": {
-    "@s1seven/schema-tools-types": "file:../types",
-    "@s1seven/schema-tools-utils": "file:../utils"
-  }
+    "@s1seven/schema-tools-types": "^0.0.1",
+    "@s1seven/schema-tools-utils": "^0.0.1"
+  },
+  "gitHead": "34e926ae53e7509239d24412d149aa7bde047b05"
 }
