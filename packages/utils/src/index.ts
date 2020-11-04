@@ -1,5 +1,6 @@
 import { cast, Result, Sanitizer, SanitizerFailure } from '@restless/sanitizers';
-import { ECoCSchema, EN10168Schema } from '@s1seven/schema-tools-types';
+import { ECoCSchema, EN10168Schema, ValidationError } from '@s1seven/schema-tools-types';
+import { ErrorObject } from 'ajv';
 import axios from 'axios';
 import * as fs from 'fs';
 import NodeCache from 'node-cache';
@@ -32,6 +33,31 @@ export function removeFile(path: string): Promise<void> {
 
 export function writeFile(path: string, content: string): Promise<void> {
   return promisify(fs.writeFile)(path, content);
+}
+
+export function getErrorPaths(filePath?: string) {
+  if (typeof filePath == 'string') {
+    const filePathParts = filePath.split('/');
+    return {
+      path: filePathParts[filePathParts.length - 1],
+      root: filePathParts[filePathParts.length - 2],
+    };
+  }
+  return {
+    path: '',
+    root: '',
+  };
+}
+
+export function formatValidationErrors(errors: ErrorObject[] = [], validationFilePath?: string): ValidationError[] {
+  const paths = getErrorPaths(validationFilePath);
+  return errors.map((error) => ({
+    root: paths.root,
+    path: `${paths.path}${error.dataPath}`,
+    keyword: error.keyword || '',
+    schemaPath: error.schemaPath || '',
+    expected: error.message || '',
+  }));
 }
 
 export type ExternalFile = ReturnType<typeof loadExternalFile>;

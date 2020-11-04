@@ -22,3 +22,11 @@ export interface ECoCSchema extends BaseCertificateSchema {
   URL: string;
   EcocData: any;
 }
+
+export interface ValidationError {
+  root: string;
+  path: string;
+  keyword: string;
+  schemaPath: string;
+  expected: string;
+}
