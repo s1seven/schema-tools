@@ -50,10 +50,7 @@ const getTranslations = async (certificateLanguages: string[], schemaPath: Schem
   }, {});
 };
 
-// TODOS: add helper to parse KeyValueObject by its type property
-// Add helper for date localisation .toLocaleDateString(CertificateLanguages[0])
-// number localisation with .toLocaleString(CertificateLanguages[0])
-
+// TODO: add helper to parse KeyValueObject by its type property
 const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOptions => {
   const { translations } = data;
   return {
@@ -66,10 +63,7 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
         const ln = typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
         const result = ln.reduce((acc, curr) => {
           const translation = get(translations, [curr, field, key]);
-          if (!acc) {
-            return (acc += `${translation}`);
-          }
-          return (acc += ` / ${translation}`);
+          return !acc ? (acc += `${translation}`) : (acc += ` / ${translation}`);
         }, '');
         return new SafeString(result);
       },
@@ -78,17 +72,11 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
       },
       in: function (key: string, values: string | string[], options: any) {
         values = typeof values === 'string' ? values.split(',').map((val) => val.trim()) : values;
-        if (values.includes(key)) {
-          return options.fn(this);
-        }
-        return options.inverse(this);
+        return values.includes(key) ? options.fn(this) : options.inverse(this);
       },
       notIn: function (key: string, values: string | string[], options: any) {
         values = typeof values === 'string' ? values.split(',').map((val) => val.trim()) : values;
-        if (!values.includes(key)) {
-          return options.fn(this);
-        }
-        return options.inverse(this);
+        return !values.includes(key) ? options.fn(this) : options.inverse(this);
       },
       typeOf: function (input: unknown, type: string, options: any) {
         return typeof input === type ? options.fn(this) : options.inverse(this);
@@ -103,7 +91,7 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
         const result = property ? lvalue.map((val) => val[property]).join(separator) : lvalue.join(separator);
         return new SafeString(result);
       },
-      localiseDate: function (lvalue: string | number | Date, locales: string | string[] = 'EN') {
+      localizeDate: function (lvalue: string | number | Date, locales: string | string[] = 'EN') {
         const event = new Date(lvalue);
         const options = {
           weekday: 'long',
@@ -114,7 +102,7 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
         const result = new Intl.DateTimeFormat(locales, options).format(event);
         return new SafeString(result);
       },
-      localiseNumber: function (lvalue: number, locales: string | string[] = 'EN') {
+      localizeNumber: function (lvalue: number, locales: string | string[] = 'EN') {
         const result = new Intl.NumberFormat(locales).format(lvalue);
         return new SafeString(result);
       },
