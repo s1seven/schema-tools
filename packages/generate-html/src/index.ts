@@ -99,6 +99,30 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
       notEmpty: function (object: Record<string, unknown>, options: any) {
         return typeof object === 'object' && Object.keys(object).length ? options.fn(this) : options.inverse(this);
       },
+      join: function (lvalue: any[], separator = ', ', property?: string) {
+        const result = property ? lvalue.map((val) => val[property]).join(separator) : lvalue.join(separator);
+        return new SafeString(result);
+      },
+      localiseDate: function (lvalue: string | number | Date, locales: string | string[] = 'EN') {
+        const event = new Date(lvalue);
+        const options = {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+        };
+        const result = new Intl.DateTimeFormat(locales, options).format(event);
+        return new SafeString(result);
+      },
+      localiseNumber: function (lvalue: number, locales: string | string[] = 'EN') {
+        const result = new Intl.NumberFormat(locales).format(lvalue);
+        return new SafeString(result);
+      },
+      get: function (object: Record<string, unknown>, path: string | string[]) {
+        path = typeof path === 'string' ? path.split(',').map((val) => val.trim()) : path;
+        const result = get(object, path);
+        return new SafeString(result);
+      },
     },
   };
 };
