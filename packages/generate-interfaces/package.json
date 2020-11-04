@@ -43,9 +43,6 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@types/ajv": "^1.0.0",
-    "@types/lodash.merge": "^4.6.6",
-    "@types/node": "14.0.27",
     "axios": "^0.20.0",
     "eslint": "^6.8.0",
     "pre-commit": "^1.2.2",
@@ -57,6 +54,9 @@
   "dependencies": {
     "@s1seven/schema-tools-types": "^0.0.6",
     "@s1seven/schema-tools-utils": "^0.0.6",
+    "@types/ajv": "^1.0.0",
+    "@types/lodash.merge": "^4.6.6",
+    "@types/node": "14.0.27",
     "json-schema-to-typescript": "^9.1.1",
     "lodash.merge": "^4.6.2"
   },
