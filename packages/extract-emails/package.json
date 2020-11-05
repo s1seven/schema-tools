@@ -27,12 +27,12 @@
   ],
   "engines": {
     "node": ">=12",
-    "npm": "6"
+    "npm": ">=6"
   },
   "scripts": {
     "build": "npm run clean && npm run compile",
     "clean": "rimraf -rf ./dist",
-    "cleanup": "rimraf -rf dist coverage",
+    "cleanup": "rimraf -rf dist dist.browser coverage",
     "compile:node": "tsc -p tsconfig.build.json",
     "compile:browser": "tsc -p tsconfig.browser.json",
     "compile": "npm run compile:node && npm run compile:browser",
