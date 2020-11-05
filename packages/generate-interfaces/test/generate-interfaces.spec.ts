@@ -2,10 +2,10 @@ import axios from 'axios';
 import { readFileSync } from 'fs';
 import { generate } from '../src/index';
 
-const schemaPath = 'https://schemas.en10204.io/en10168-schemas/v0.0.2-2/schema.json';
+const schemaPath = 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
 
 describe('GenerateInterfaces', function () {
-  const certificate = readFileSync(`${__dirname}/../../../fixtures/EN10168/certificate.ts`, 'utf-8');
+  const certificate = readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.0.2/certificate.ts`, 'utf-8');
 
   const generateOptions = {
     bannerComment: '',

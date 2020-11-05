@@ -1,11 +1,14 @@
 import { readFileSync } from 'fs';
 import { generateHtml } from '../src/index';
 
-const certificatePath = `${__dirname}/../../../fixtures/EN10168/valid_cert.json`;
+const certificatePath = `${__dirname}/../../../fixtures/EN10168/v0.0.2/valid_cert.json`;
 
 describe('GenerateHTML', function () {
-  const expectedHtmlFromHbs = readFileSync(`${__dirname}/../../../fixtures/EN10168/template_hbs.html`, 'utf-8');
-  const expectedHtmlFromMjml = readFileSync(`${__dirname}/../../../fixtures/EN10168/template_mjml.html`, 'utf-8');
+  const expectedHtmlFromHbs = readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.0.2/template_hbs.html`, 'utf-8');
+  const expectedHtmlFromMjml = readFileSync(
+    `${__dirname}/../../../fixtures/EN10168/v0.0.2/template_mjml.html`,
+    'utf-8',
+  );
 
   it('should render HTML certificate using certificate local path and HBS template', async () => {
     const html = await generateHtml(certificatePath);

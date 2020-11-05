@@ -1,7 +1,7 @@
 import { extractEmails } from '../src/index';
 
-const en10168CertificatePath = `${__dirname}/../../../fixtures/EN10168/valid_cert.json`;
-const eCoCCertificatePath = `${__dirname}/../../../fixtures/E-CoC/valid_cert.json`;
+const en10168CertificatePath = `${__dirname}/../../../fixtures/EN10168/v0.0.2/valid_cert.json`;
+const eCoCCertificatePath = `${__dirname}/../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json`;
 
 describe('ExtractEmails', function () {
   it('should extract emails from EN10168 certificate', async () => {

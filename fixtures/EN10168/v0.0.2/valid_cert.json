@@ -1,5 +1,5 @@
 {
-  "RefSchemaUrl": "https://schemas.en10204.io/en10168-schemas/v0.0.2-1/schema.json",
+  "RefSchemaUrl": "https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json",
   "Certificate": {
     "CertificateLanguages": ["EN"],
     "CommercialTransaction": {
@@ -53,8 +53,14 @@
         "SideLength": 220,
         "WallThickness": 8
       },
-      "B10": 12000,
-      "B12": 1181,
+      "B10": {
+        "Unit": "mm",
+        "Value": 1200
+      },
+      "B12": {
+        "Unit": "kg",
+        "Value": 1181
+      },
       "SupplementaryInformation": {
         "B14": {
           "Key": "mt",
