@@ -1,14 +1,19 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const { generateHtml } = require('../dist/index');
+const { writeFileSync } = require('fs');
+const { generateHtml } = require('./dist/index');
 
-const defaultExternalCertificatePath = `${__dirname}/../../fixtures/EN10168/valid_en10168_test.json`;
+const defaultExternalCertificatePath = `${__dirname}/../../fixtures/EN10168/v0.0.2/valid_cert.json`;
+const defaultOutputPath = `${__dirname}/template.html`;
 
 (async function (argv) {
   try {
     const certificatePath = argv[2] || defaultExternalCertificatePath;
+    const outputPath = argv[3] || defaultOutputPath;
+
     const html = await generateHtml(certificatePath);
-    console.log('HTML generated', html);
+    writeFileSync(outputPath, html);
+    console.log('HTML generated');
   } catch (error) {
     console.error(error.message);
   }

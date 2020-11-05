@@ -9,7 +9,7 @@ The example wrap the `generateHtml` module in a function using `process.argv`.
 First argument is the certificate path to generate from.
 
 ```bash
-node ./examples/generate-html.js ../../fixtures/EN10168/valid_en10168_test.json
+node ./examples/generate-html.js ../../fixtures/EN10168/v0.0.2/valid_en10168_test.json
 ```
 
 [handlebars]: https://www.npmjs.com/package/handlebars

@@ -4,7 +4,7 @@
 const { validate } = require('./dist/index');
 
 (async function (argv) {
-  const localSchemasDir = argv[2] || __dirname;
+  const localSchemasDir = argv[2] || `../../fixtures/`;
   try {
     const errors = await validate(localSchemasDir, {
       ignoredPaths: [
