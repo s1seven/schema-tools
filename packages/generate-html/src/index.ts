@@ -91,6 +91,43 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
         const result = property ? lvalue.map((val) => val[property]).join(separator) : lvalue.join(separator);
         return new SafeString(result);
       },
+      joinAndLocalizeNumber: function (lvalue: any[], separator = ', ', locales = ['EN'], property = '') {
+        const localizeNumber = (val: any) => {
+          return new Intl.NumberFormat(locales).format(val);
+        };
+        const result = property
+          ? lvalue.map((val) => localizeNumber(val[property])).join(separator)
+          : lvalue.map((val) => localizeNumber(val[property])).join(separator);
+
+        return new SafeString(result);
+      },
+      localizeValue: function (value: string, type: string, locales = ['EN']) {
+        let result: any;
+
+        const localizeDate = () => {
+          return new Intl.DateTimeFormat(locales, {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+          }).format(new Date(value));
+        };
+
+        switch (type) {
+          case 'number':
+            result = new Intl.NumberFormat(locales).format(Number(value));
+            break;
+          case 'date':
+            result = localizeDate();
+            break;
+          case 'date-time':
+            result = localizeDate();
+            break;
+          default:
+            result = value;
+        }
+        return new SafeString(result);
+      },
       localizeDate: function (lvalue: string | number | Date, locales: string | string[] = 'EN') {
         const event = new Date(lvalue);
         const options = {
