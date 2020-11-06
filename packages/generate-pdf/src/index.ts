@@ -35,11 +35,10 @@ export async function generatePdf(
     throw new Error(`Invalid input type : ${typeof certificateInput}`);
   }
 
-  const { JSDOM } = jsdom;
-  const dom = new JSDOM('');
-
   let pdfMakeContent: TDocumentDefinitions['content'];
   if (options.inputType === 'html') {
+    const { JSDOM } = jsdom;
+    const dom = new JSDOM('');
     pdfMakeContent = htmlToPdfmake(rawCert, { window: dom.window });
   } else if (options.inputType === 'json') {
     const refSchemaUrl = new URL(rawCert.RefSchemaUrl);
@@ -47,9 +46,9 @@ export async function generatePdf(
     refSchemaUrl.pathname = `/${schemaType}/${version}/pdf_make_content.js`;
     const schemaRepoCode = (await loadExternalFile(refSchemaUrl.href, 'text')) as string;
 
-    // TODO: EXAMPLE TO ADAPT
+    // TODO: Will need adaption and getTransalations
     const code = `${schemaRepoCode}
-    content = convert(certificate);`;
+    content = Generate(certificate);`;
 
     const script = new vm.Script(code);
     const context = {
