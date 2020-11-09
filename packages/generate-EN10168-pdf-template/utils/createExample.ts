@@ -1,12 +1,18 @@
 import PdfPrinter from 'pdfmake';
 import * as fs from 'fs';
+import http from 'http';
 
 import { Translate } from './translate'
 
 import { styles } from './styles';
 
 import {generateContent} from '../dist/generateContent';
-
+// const file = fs.createWriteStream('fonts2/Lato-Regular.ttf');
+// const request = http.get('http://github.com/google/fonts/blob/master/ofl/lato/Lato-Regular.ttf', function(response) {
+//   response.pipe(file);
+// });
+// console.log('file:',file);
+// console.log('request:',request)
 const fonts = {
   Lato: {
     normal: 'utils/fonts/Lato-Regular.ttf',
