@@ -4,6 +4,7 @@ This repository contains a suite of components and modules to handle certificate
 
 ### List of packages
 
+- [Certificate-Model](https://github.com/s1seven/schema-tools/tree/master/packages/certificate-model#readme)
 - [Extract-Emails](https://github.com/s1seven/schema-tools/tree/master/packages/extract-emails#readme)
 - [GenerateHTML](https://github.com/s1seven/schema-tools/tree/master/packages/generate-html#readme)
 - [Generate-Interfaces](https://github.com/s1seven/schema-tools/tree/master/packages/generate-interfaces#readme)

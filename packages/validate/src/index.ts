@@ -17,6 +17,8 @@ export type ValidateOptions = {
   ignoredExts?: string[];
 };
 
+export type ValidateFunction = Ajv.ValidateFunction;
+
 const validateOptions: ValidateOptions = {
   ignoredPaths: ['.DS_Store', '.git', '.gitignore', 'node_modules', 'package.json', 'package-lock.json'],
   ignoredExts: ['ts', 'js', 'md'],
@@ -56,7 +58,7 @@ async function* loadLocalSchemas(paths: string[]): AsyncIterable<{ data: BaseCer
   }
 }
 
-async function setValidator(refSchemaUrl: string): Promise<Ajv.ValidateFunction> {
+export async function setValidator(refSchemaUrl: string): Promise<Ajv.ValidateFunction> {
   const schema: Record<string, unknown> = (await loadExternalFile(refSchemaUrl, 'json')) as Record<string, unknown>;
   const ajv = new Ajv({
     loadSchema: async (uri) => (await loadExternalFile(uri, 'json')) as Record<string, unknown>,
@@ -67,7 +69,7 @@ async function setValidator(refSchemaUrl: string): Promise<Ajv.ValidateFunction>
   return validator;
 }
 
-function getValidator(refSchemaUrl: string): Ajv.ValidateFunction | undefined {
+export function getValidator(refSchemaUrl: string): Ajv.ValidateFunction | undefined {
   const cacheKey = `validator-${refSchemaUrl}`;
   return cache.get<Ajv.ValidateFunction>(cacheKey);
 }
