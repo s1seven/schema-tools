@@ -1,4 +1,4 @@
-import { Translate } from '../../utils/translate';
+import { Translate } from '../types';
 
 interface ProductNorms {
   ProductNorm?: string[];

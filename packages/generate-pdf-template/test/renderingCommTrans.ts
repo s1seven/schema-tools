@@ -11,7 +11,7 @@ describe('Rendering commercial transaction', () => {
     const commercialTransaction = createCommercialTransaction(certificate.Certificate.CommercialTransaction, i18n);
     const tableBody = commercialTransaction.content[0].table.body;
 
-    expect(tableBody.length).to.be.equal(17);
+    expect(tableBody.length).to.be.equal(16);
     expect(tableBody[0]).to.be.eql([
       [{ text: "A04 Manufacturer's mark / Zeichen des Herstellers", style: 'h3' }],
       [{ text: "A01 Manufacturer's plant / Herstellerwerk", style: 'h3' }],
@@ -21,10 +21,10 @@ describe('Rendering commercial transaction', () => {
       [{ text: "Commercial transaction / Angaben zum Geschäftsvorgang", style: 'h2', colSpan: 3 }, {}, {}],
     );
     expect(tableBody[8]).to.be.eql(
-      [{ text: "A07 Purchaser order number / Kundenbestellnummer", style: 'p', colSpan: 2 }, {}, "Purchase order number"],
+      [{ text: "A07 Purchaser order number / Kundenbestellnummer", style: 'p', colSpan: 2 }, {}, "0334/2019/ZZS"],
     );
-    expect(tableBody[16]).to.be.eql(
-      [{ text: "Last Supplementary Information Commercial Transaction", style: 'p', colSpan: 1 }, {text: "A96 ", colSpan: 2}],
+    expect(tableBody[15]).to.be.eql(
+      [{ text: "Buyer Reference Number", style: 'p', colSpan: 1 }, {text: "BRN-1583836 ", colSpan: 2}],
     );
   });
 })
@@ -40,15 +40,15 @@ describe('Rendering transaction parties', () => {
       [{text: "A06.1 Purchaser / Besteller", style: "h3"}]
     ]);
     expect(tableBody[2]).to.be.eql([
-      [{text: "A06.2 Receiver of the product / Empfänger der Ware", style: "h3"}], "", ""
+      [{text: "A06.3 Recipient of the test certificate / Empfänger der Prüfbescheinigung", style: "h3"}], "", ""
     ]);
     expect(tableBody[3]).to.be.eql([
       [
-        {text: "Steel Trading", style: "p"},
+        {text: "Steel User AG", style: "p"},
         {text: "Handelsgasse 1", style: "p"},
-        {text: "Warsaw,10115,PL", style: "p"},
-        {text: "123456789", style: "p"},
-        {text: "steelbutsmart@protonmail.com", style: "p"},
+        {text: "Berlin,10115,DE", style: "p"},
+        {text: "DE12234567890", style: "p"},
+        {text: "sbs.steeltrader@gmail.com", style: "p"},
       ], "", ""
     ]);
   });

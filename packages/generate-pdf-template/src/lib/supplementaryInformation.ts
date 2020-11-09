@@ -1,5 +1,4 @@
-import { CommercialTransactionSupplementaryInformation } from '../types'
-import { Translate } from '../../utils/translate';
+import { CommercialTransactionSupplementaryInformation, Translate } from '../types'
 
 const createBrackets = (amount: number) => [...Array(amount).fill({})];
 

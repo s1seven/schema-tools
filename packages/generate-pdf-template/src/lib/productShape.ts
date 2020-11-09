@@ -1,6 +1,4 @@
-import { Translate } from '../../utils/translate';
-
-import {ProductShape} from '../types';
+import {ProductShape, Translate} from '../types';
 
 export function productShape(productShape: ProductShape, i18n: Translate) {
     if (productShape === undefined) return [];
