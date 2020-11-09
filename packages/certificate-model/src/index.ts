@@ -1,23 +1,20 @@
 import { extractEmails, PartyEmail } from '@s1seven/schema-tools-extract-emails';
 import { generateHtml, GenerateHtmlOptions } from '@s1seven/schema-tools-generate-html';
-import { SchemaTypes, JSONSchema7 } from '@s1seven/schema-tools-types';
+import { JSONSchema7, SchemaConfig } from '@s1seven/schema-tools-types';
 import {
+  castCertificate,
+  getRefSchemaUrl,
+  getSchemaConfig,
   getSemanticVersion,
   loadExternalFile,
   formatValidationErrors,
-  castCertificate,
 } from '@s1seven/schema-tools-utils';
+import { setValidator, ValidateFunction } from '@s1seven/schema-tools-validate';
 import Ajv from 'ajv';
 import { EventEmitter } from 'events';
 import cloneDeepWith from 'lodash.clonedeepwith';
 import merge from 'lodash.merge';
 import { URL } from 'url';
-
-export type SchemaConfig = {
-  schemaType: SchemaTypes;
-  version: string;
-  baseUrl: string;
-};
 
 export type BuildCertificateModelOptions = {
   schema?: JSONSchema7;
@@ -42,50 +39,27 @@ const defaultKVSchemaOptions: KVCertificateModelOptions = {
   internal: false,
 };
 
-function getRefSchemaUrl(opts: SchemaConfig): URL {
-  const { baseUrl, schemaType, version } = opts;
-  const refSchemaUrl = new URL(baseUrl);
-  refSchemaUrl.pathname = `${schemaType.toLowerCase()}/v${version}/schema.json`;
-  return refSchemaUrl;
-}
-
-async function loadSchema(options: SchemaConfig): Promise<JSONSchema7> {
-  const opts = {
-    ...defaultBuildCertificateOptions,
-    ...(options || {}),
-  } as SchemaConfig;
-  const url = getRefSchemaUrl(opts).href;
-  return (await loadExternalFile(url, 'json')) as JSONSchema7;
-}
-
 async function getSchema(
   options: Partial<BuildCertificateModelOptions>,
 ): Promise<{ schema: JSONSchema7; schemaConfig: SchemaConfig }> {
   let schema: JSONSchema7;
   let schemaConfig: SchemaConfig;
-
+  let refSchemaUrl: URL;
   if (options.schemaConfig) {
     schemaConfig = {
       ...defaultBuildCertificateOptions,
       ...(options.schemaConfig || {}),
     } as SchemaConfig;
     schemaConfig.version = getSemanticVersion(schemaConfig.version);
-    schema = await loadSchema(schemaConfig);
+    refSchemaUrl = getRefSchemaUrl(schemaConfig);
+    schema = (await loadExternalFile(refSchemaUrl.href, 'json')) as JSONSchema7;
   } else if (options.schema) {
-    schema = options.schema;
-    const refSchemaUrl = new URL(schema.$id);
-    const baseUrl = refSchemaUrl.origin;
-    const [, schemaType, version] = refSchemaUrl.pathname.split('/').map((val, index) => {
-      if (index === 2) {
-        return getSemanticVersion(val);
-      }
-      return val;
-    }) as [any, SchemaTypes, string];
-    schemaConfig = { baseUrl, schemaType, version };
+    schema = options.schema as JSONSchema7;
+    refSchemaUrl = new URL(schema.$id);
+    schemaConfig = getSchemaConfig(refSchemaUrl);
   } else {
     throw new Error('Invalid options');
   }
-
   return { schema, schemaConfig };
 }
 
@@ -105,7 +79,7 @@ function get(scope: CertificateModel, key: string, internal?: boolean) {
   return scope[key];
 }
 
-function set<T = any>(scope: CertificateModel, data: object | T, internal?: boolean) {
+function set<T = any>(scope: CertificateModel, data: Record<string, unknown> | T, internal?: boolean) {
   Object.keys(data).forEach((key) => {
     const ok = key;
     if (internal) {
@@ -147,29 +121,35 @@ function getProperties(schema: any, validator?: Ajv.Ajv) {
 export class CertificateModel<T = any> extends EventEmitter {
   static symbols: any;
 
-  static merge(obj1: object, obj2: object) {
+  static merge(obj1: Record<string, unknown>, obj2: Record<string, unknown>) {
     return merge(obj1, obj2);
   }
 
   static clone(
-    obj1: object,
-    customizer?: (value: any, key?: string | number) => object, // eslint-disable-line no-unused-vars
+    obj1: Record<string, unknown>,
+    customizer?: (value: any, key?: string | number) => Record<string, unknown>, // eslint-disable-line no-unused-vars
   ) {
     return typeof customizer === 'function' ? cloneDeepWith(obj1, customizer) : cloneDeepWith(obj1);
   }
 
-  static cast(data: object): CertificateInstance {
+  static cast(data: Record<string, unknown>): CertificateInstance {
     return castCertificate(data);
   }
 
   static async build(options: Partial<BuildCertificateModelOptions>): Promise<typeof CertificateModel> {
     const { schema, schemaConfig } = await getSchema(options);
+    const refSchemaUrl = getRefSchemaUrl(schemaConfig).href;
+    const validator = await setValidator(refSchemaUrl);
+
     return class CertificateModel1<R = any> extends CertificateModel<R> {
       get schema() {
         return schema;
       }
       get schemaConfig() {
         return schemaConfig;
+      }
+      get validator() {
+        return validator;
       }
     };
   }
@@ -183,7 +163,7 @@ export class CertificateModel<T = any> extends EventEmitter {
     return new NewClass<CertificateInstance>(certificate);
   }
 
-  constructor(data?: any, options?: object) {
+  constructor(data?: any, options?: Record<string, unknown>) {
     super();
     this.setListeners();
     if (data) {
@@ -200,8 +180,12 @@ export class CertificateModel<T = any> extends EventEmitter {
     throw new Error('Missing schema config');
   }
 
+  get validator(): ValidateFunction {
+    throw new Error('Missing validator');
+  }
+
   get schemaProperties() {
-    return getProperties(this.schema);
+    return getProperties(this.schema, this.validator);
   }
 
   setListeners() {
@@ -217,7 +201,11 @@ export class CertificateModel<T = any> extends EventEmitter {
     return get(this, name, opts.internal);
   }
 
-  set(data: string | object | T, value?: any | KVCertificateModelOptions, options?: KVCertificateModelOptions) {
+  set(
+    data: string | Record<string, unknown> | T,
+    value?: any | KVCertificateModelOptions,
+    options?: KVCertificateModelOptions,
+  ) {
     if (typeof data === 'string') {
       return this.set(
         {
@@ -248,6 +236,7 @@ export class CertificateModel<T = any> extends EventEmitter {
   validate(data?: T): { valid: boolean; errors: Ajv.ErrorObject[] | null | undefined } {
     data = data || this.toJSON(true);
     const schema = this.schema;
+    // getValidator
     const ajv = new Ajv();
     const valid = ajv.validate(schema, data) as boolean;
     return { valid, errors: ajv.errors };
@@ -272,7 +261,7 @@ export class CertificateModel<T = any> extends EventEmitter {
   }
 
   async generateHtml(options?: GenerateHtmlOptions): Promise<string> {
-    const result = await generateHtml(this, options);
+    const result = await generateHtml(this as Record<string, unknown>, options);
     this.emit('generate-html:end', result);
     return result;
   }
@@ -284,6 +273,6 @@ export class CertificateModel<T = any> extends EventEmitter {
   }
 
   async getEmails(): Promise<PartyEmail[] | null> {
-    return extractEmails(this);
+    return extractEmails(this as Record<string, unknown>);
   }
 }
