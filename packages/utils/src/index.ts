@@ -1,11 +1,12 @@
 import { cast, Result, Sanitizer, SanitizerFailure } from '@restless/sanitizers';
-import { ECoCSchema, EN10168Schema, ValidationError } from '@s1seven/schema-tools-types';
+import { ECoCSchema, EN10168Schema, SchemaConfig, SchemaTypes, ValidationError } from '@s1seven/schema-tools-types';
 import { ErrorObject } from 'ajv';
 import axios from 'axios';
 import * as fs from 'fs';
 import NodeCache from 'node-cache';
 import semverRegex from 'semver-regex';
 import { Readable } from 'stream';
+import { URL } from 'url';
 import { promisify } from 'util';
 
 export const cache = new NodeCache({
@@ -64,6 +65,24 @@ export function formatValidationErrors(errors: ErrorObject[] = [], validationFil
 export function getSemanticVersion(rawVersion: string): string | null {
   const versions = semverRegex().exec(rawVersion);
   return versions ? (versions[0] as string) : (versions as null);
+}
+
+export function getRefSchemaUrl(opts: SchemaConfig, filename = 'schema.json'): URL {
+  const { baseUrl, schemaType, version } = opts;
+  const refSchemaUrl = new URL(baseUrl);
+  refSchemaUrl.pathname = `${schemaType.toLowerCase()}/v${version}/${filename}`;
+  return refSchemaUrl;
+}
+
+export function getSchemaConfig(refSchemaUrl: URL): SchemaConfig {
+  const baseUrl = refSchemaUrl.origin;
+  const [, schemaType, version] = refSchemaUrl.pathname.split('/').map((val, index) => {
+    if (index === 2) {
+      return getSemanticVersion(val);
+    }
+    return val;
+  }) as [any, SchemaTypes, string];
+  return { baseUrl, schemaType, version };
 }
 
 export type ExternalFile = ReturnType<typeof loadExternalFile>;

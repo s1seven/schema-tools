@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 export { JSONSchema7 } from 'json-schema';
 
 export type SchemaTypes = 'en10168-schemas' | 'e-coc-schemas';
@@ -34,4 +33,10 @@ export interface ValidationError {
   keyword: string;
   schemaPath: string;
   expected: string;
+}
+
+export interface SchemaConfig {
+  baseUrl: string;
+  schemaType: SchemaTypes;
+  version: string;
 }

@@ -1,5 +1,5 @@
-import { ECoCSchema, EN10168Schema } from '@s1seven/schema-tools-types';
-import { loadExternalFile, castCertificate } from '@s1seven/schema-tools-utils';
+import { ECoCSchema, EN10168Schema, SchemaConfig } from '@s1seven/schema-tools-types';
+import { loadExternalFile, castCertificate, getRefSchemaUrl, getSchemaConfig } from '@s1seven/schema-tools-utils';
 import { compile, RuntimeOptions, SafeString } from 'handlebars';
 import get from 'lodash.get';
 import merge from 'lodash.merge';
@@ -15,12 +15,6 @@ interface MJMLParsingOpts {
   filePath?: string;
 }
 
-export type SchemaPath = {
-  baseUrl: string;
-  schemaType: string;
-  version: string;
-};
-
 export type Translations = {
   [key: string]: any;
 };
@@ -29,16 +23,15 @@ export type GenerateHtmlOptions = {
   handlebars?: RuntimeOptions;
   mjml?: MJMLParsingOpts;
   templateType?: 'hbs' | 'mjml';
-  schemaPath?: SchemaPath;
+  schemaConfig?: SchemaConfig;
   templatePath?: string;
   translations?: Translations;
 };
 
-const getTranslations = async (certificateLanguages: string[], schemaPath: SchemaPath): Promise<Translations> => {
-  const { baseUrl, schemaType, version } = schemaPath;
+const getTranslations = async (certificateLanguages: string[], schemaConfig: SchemaConfig): Promise<Translations> => {
   const translationsArray = await Promise.all(
     certificateLanguages.map(async (lang) => {
-      const filePath = `${baseUrl}/${schemaType}/${version}/${lang}.json`;
+      const filePath = getRefSchemaUrl(schemaConfig, `${lang}.json`).href;
       return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
     }),
   );
@@ -50,7 +43,6 @@ const getTranslations = async (certificateLanguages: string[], schemaPath: Schem
   }, {});
 };
 
-// TODO: add helper to parse KeyValueObject by its type property
 const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOptions => {
   const { translations } = data;
   return {
@@ -172,12 +164,9 @@ function getCertificateLanguages(certificate: EN10168Schema | ECoCSchema) {
 }
 
 async function parseMjmlTemplate(certificate: any, options: GenerateHtmlOptions): Promise<string> {
-  const { baseUrl, schemaType, version } = options.schemaPath as SchemaPath;
-  const templateFilePath = options.templatePath || `${baseUrl}/${schemaType}/${version}/template.mjml`;
+  const templateFilePath = options.templatePath || getRefSchemaUrl(options.schemaConfig, 'template.mjml').href;
   const templateFile = (await loadExternalFile(templateFilePath, 'text')) as string;
-
   options.mjml = merge(options.mjml || {}, mjmlBaseOptions(certificate, options.handlebars));
-
   const result = mjml2html(templateFile, options.mjml);
   if (result.errors) {
     console.log('MJML errors :', result.errors);
@@ -186,8 +175,7 @@ async function parseMjmlTemplate(certificate: any, options: GenerateHtmlOptions)
 }
 
 async function parseHbsTemplate(certificate: any, options: GenerateHtmlOptions): Promise<string> {
-  const { baseUrl, schemaType, version } = options.schemaPath as SchemaPath;
-  const templateFilePath = options.templatePath || `${baseUrl}/${schemaType}/${version}/template.hbs`;
+  const templateFilePath = options.templatePath || getRefSchemaUrl(options.schemaConfig, 'template.hbs').href;
   const templateFile = (await loadExternalFile(templateFilePath, 'text')) as string;
   const template = compile<Record<string, unknown>>(templateFile);
   return template(certificate, options?.handlebars);
@@ -209,14 +197,15 @@ export async function generateHtml(
   const certificate = castCertificate(rawCert);
   const certificateLanguages = getCertificateLanguages(certificate);
 
-  if (!options.schemaPath) {
+  if (!options.schemaConfig) {
     const refSchemaUrl = new URL(certificate.RefSchemaUrl);
-    const baseUrl = refSchemaUrl.origin;
-    const [, schemaType, version] = refSchemaUrl.pathname.split('/');
-    options.schemaPath = { baseUrl, schemaType, version };
+    options.schemaConfig = getSchemaConfig(refSchemaUrl);
+    // const baseUrl = refSchemaUrl.origin;
+    // const [, schemaType, version] = refSchemaUrl.pathname.split('/');
+    // options.schemaPath = { baseUrl, schemaType, version };
   }
 
-  const translations = options.translations || (await getTranslations(certificateLanguages, options.schemaPath));
+  const translations = options.translations || (await getTranslations(certificateLanguages, options.schemaConfig));
 
   options.handlebars = merge(options.handlebars || {}, handlebarsBaseOptions({ translations }));
 
