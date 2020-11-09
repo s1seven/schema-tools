@@ -4,12 +4,7 @@
   "version": "0.0.6",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/generate-interfaces#readme",
-  "license": "MIT",
-  "keywords": [
-    "nestjs",
-    "toolbox",
-    "open-api"
-  ],
+  "license": "",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/s1seven/schema-tools/.git"
