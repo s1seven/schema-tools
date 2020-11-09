@@ -1,5 +1,4 @@
-import {CommercialTransaction} from '../types'
-import {Translate} from '../../utils/translate';
+import {CommercialTransaction, Translate} from '../types'
 
 function separateCommercialParties(commercialTransaction: CommercialTransaction, i18n: Translate) {
   const initKeys = commercialTransaction['A04'] !== undefined ? [[{ text: i18n.translate('A04', 'certificateFields'), style: 'h3' }]] : [];

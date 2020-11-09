@@ -1,7 +1,5 @@
-import { Translate } from '../../utils/translate';
-
 import { supplementaryInformation } from './supplementaryInformation';
-import { ProductDescription } from '../types';
+import { ProductDescription, Translate } from '../types';
 import { productNorms } from './productNorms';
 import { productShape} from './productShape';
 import {measurement} from './measurement';

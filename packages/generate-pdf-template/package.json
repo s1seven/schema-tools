@@ -6,8 +6,18 @@
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.0.3",
+    "@types/node": "^14.14.6",
     "chai": "^4.2.0",
     "mocha": "^8.2.1",
+    "parcel-bundler": "^1.12.4",
+    "pdfmake": "^0.1.68",
+    "ts-node": "^9.0.0",
     "typescript": "^4.0.5"
-  }
+  },
+  "scripts": {
+    "test": "mocha -r ts-node/register test/**/*.ts",
+    "build": "parcel build src/generateContent.ts --no-cache --no-source-maps",
+    "create-example": "ts-node utils/createExample.ts"
+  },
+  "dependencies": {}
 }

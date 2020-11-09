@@ -6,8 +6,8 @@ import * as PL from './PL.json';
 import {CertificateLanguages} from "../src/types/schemaTypes"
 
 export class Translate {
-  languages: CertificateLanguages;
-  translation: any
+  private languages: CertificateLanguages;
+  private translation;
 
   constructor (_languages: CertificateLanguages){
   this.languages = _languages;

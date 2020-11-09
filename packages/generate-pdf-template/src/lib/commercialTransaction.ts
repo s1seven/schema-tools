@@ -1,8 +1,7 @@
 import { supplementaryInformation } from './supplementaryInformation';
 import { createTransactionParties } from './createTransactionParties';
-import {Translate} from '../../utils/translate';
 
-import {CommercialTransaction} from '../types'
+import {CommercialTransaction, Translate} from '../types'
 
 export function createCommercialTransaction(commercialTransaction: CommercialTransaction, i18n: Translate) {
 

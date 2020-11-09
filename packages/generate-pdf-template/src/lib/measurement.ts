@@ -1,5 +1,4 @@
-import { Translate } from '../../utils/translate';
-import { Measurement } from '../types';
+import { Measurement, Translate } from '../types';
 
 
 export function measurement(measurement, name: string) {
