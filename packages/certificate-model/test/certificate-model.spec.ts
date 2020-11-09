@@ -6,7 +6,7 @@ import invalidEN10168Certificate from '../../../fixtures/EN10168/v0.0.2/invalid_
 import invalidECoCCertificate from '../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json';
 
 describe('CertificateModel', function () {
-  it('should build and validate instance using schemaConfig EN10168 v0.0.2-2', async () => {
+  it('should build and validate instance using schemaConfig EN10168 v0.0.2', async () => {
     const CertModel = await CertificateModel.build({
       schemaConfig: {
         version: 'v0.0.2-2',
@@ -15,40 +15,73 @@ describe('CertificateModel', function () {
     });
 
     const cert = new CertModel<EN10168Schema>(validEn10168Certificate);
-
-    const validation = cert.validate();
-    const toJSON = cert.toJSON();
-    expect(JSON.stringify(toJSON, null, 2)).toEqual(JSON.stringify(validEn10168Certificate, null, 2));
-    expect(validation.valid).toEqual(true);
+    cert.on('ready', () => {
+      const validation = cert.validate();
+      const toJSON = cert.toJSON();
+      expect(JSON.stringify(toJSON, null, 2)).toEqual(JSON.stringify(validEn10168Certificate, null, 2));
+      expect(validation.valid).toEqual(true);
+    });
   }, 5000);
 
-  it('should build and validate instance using schema EN10168 v0.0.2-2', async () => {
+  it('should build and validate instance using schema EN10168 v0.0.2', async () => {
     const schema = (await loadExternalFile(
-      'https://schemas.en10204.io/en10168-schemas/v0.0.2-2/schema.json',
+      'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json',
       'json',
     )) as JSONSchema7;
 
     const cert = await CertificateModel.buildInstance({ schema }, validEn10168Certificate);
-
-    const validation = cert.validate();
-    const toJSON = cert.toJSON();
-    expect(JSON.stringify(toJSON, null, 2)).toEqual(JSON.stringify(validEn10168Certificate, null, 2));
-    expect(validation.valid).toEqual(true);
+    cert.on('ready', () => {
+      const validation = cert.validate();
+      const toJSON = cert.toJSON();
+      expect(JSON.stringify(toJSON, null, 2)).toEqual(JSON.stringify(validEn10168Certificate, null, 2));
+      expect(validation.valid).toEqual(true);
+    });
   }, 5000);
 
-  it('should not build invalid instance using schemaConfig EN10168 v0.0.2-2', async () => {
+  it('should not build invalid instance using schemaConfig EN10168 v0.0.2', async () => {
     const CertModel = await CertificateModel.build({
       schemaConfig: {
-        version: 'v0.0.2-2',
+        version: 'v0.0.2',
         schemaType: 'en10168-schemas',
       },
     });
 
-    // await expect(generate(invalidTestFile, interfaceFilePath)).rejects.toThrow(`ENOENT: no such file or directory, open '${invalidTestFile}'`);
+    const cert = new CertModel<EN10168Schema>(invalidEN10168Certificate);
+    cert.on('error', (error) => {
+      expect(error).toEqual(
+        new Error(
+          JSON.stringify(
+            [
+              {
+                root: '',
+                path: '.Certificate.ProductDescription.B02',
+                keyword: 'type',
+                schemaPath: '#/properties/B02/type',
+                expected: 'should be object',
+              },
+            ],
+            null,
+            2,
+          ),
+        ),
+      );
+    });
+  }, 4000);
 
-    expect(() => {
-      new CertModel<EN10168Schema>(invalidEN10168Certificate);
-    }).toThrowError(
+  it('should not set invalid instance using schemaConfig EN10168 v0.0.2', async () => {
+    const CertModel = await CertificateModel.build({
+      schemaConfig: {
+        version: 'v0.0.2',
+        schemaType: 'en10168-schemas',
+      },
+    });
+
+    const cert = new CertModel<EN10168Schema>(validEn10168Certificate);
+    await new Promise((resolve) => {
+      cert.on('ready', () => resolve());
+    });
+
+    await expect(cert.set(invalidEN10168Certificate)).rejects.toThrow(
       JSON.stringify(
         [
           {

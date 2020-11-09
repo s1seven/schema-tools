@@ -14,17 +14,35 @@ const validCertificate = require('../../fixtures/EN10168/v0.0.2/valid_cert.json'
     });
 
     const cert = new CertModel(validCertificate);
-    cert.set({
-      RefSchemaUrl:
-        'https://schemas.en10204.io/en10168-schemas/v0.0.2-3/schema.json',
+
+    cert.on('error', (err) => {
+      console.error(err.message);
     });
 
-    const RefSchemaUrl = cert.get('RefSchemaUrl');
-    console.log({ RefSchemaUrl });
-    const validation = cert.validate();
-    console.log({ isValid: validation.valid });
-    const toJSON = cert.toJSON();
-    console.log('Certificate instance', toJSON);
+    cert.on('ready', async () => {
+      let RefSchemaUrl = cert.get('RefSchemaUrl');
+      console.log({ RefSchemaUrl });
+      await cert.set({
+        RefSchemaUrl: 'https://schemas.en10204.io/en10168-schemas/v0.0.2-3/schema.json',
+      });
+      RefSchemaUrl = cert.get('RefSchemaUrl');
+      console.log({ RefSchemaUrl });
+
+      console.log('Certificate schemaProperties', cert.schemaProperties);
+
+      const toJSON = cert.toJSON();
+      console.log('Certificate instance', toJSON);
+
+      const validation = cert.validate();
+      console.log({ isValid: validation.valid });
+
+      // this assignement should fire error event due to conflict with new schema loaded
+      await cert
+        .set({
+          RefSchemaUrl: 'https://schemas.en10204.io/en10168-schemas/v0.0.2-2/schema.json',
+        })
+        .catch((e) => e);
+    });
   } catch (error) {
     console.error(error.message);
   }

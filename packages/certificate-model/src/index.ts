@@ -54,7 +54,7 @@ async function getSchema(
     refSchemaUrl = getRefSchemaUrl(schemaConfig);
     schema = (await loadExternalFile(refSchemaUrl.href, 'json')) as JSONSchema7;
   } else if (options.schema) {
-    schema = options.schema as JSONSchema7;
+    schema = options.schema;
     refSchemaUrl = new URL(schema.$id);
     schemaConfig = getSchemaConfig(refSchemaUrl);
   } else {
@@ -91,6 +91,7 @@ function set<T = any>(scope: CertificateModel, data: Record<string, unknown> | T
   });
 }
 
+// JSONSchema || JSONSchema7Definition
 function getProperties(schema: any, validator?: Ajv.Ajv) {
   const root = !validator;
   if (root || !validator) {
@@ -103,23 +104,28 @@ function getProperties(schema: any, validator?: Ajv.Ajv) {
     }
   }
   if (schema.$ref) {
-    schema = validator.getSchema(schema.$ref);
+    const validator2 = validator.getSchema(schema.$ref);
+    if (typeof validator2.schema === 'object') {
+      schema = validator2.schema;
+    }
   }
   if (schema.properties) {
     return cloneDeepWith(schema.properties);
   }
-  let res = {};
-  const defs = schema['anyOf'] || schema['allOf'] || (root && schema['oneOf']);
-  if (defs) {
-    defs.forEach((def) => {
-      res = merge(res, getProperties(def, validator));
-    });
-  }
-  return res;
+  // JSONSchema7Definition[]
+  const defs: any[] = schema['anyOf'] || schema['allOf'] || (root && schema['oneOf']);
+  return defs
+    ? defs.reduce((acc, def) => {
+        acc = merge(acc, getProperties(def, validator));
+        return acc;
+      }, {} as Record<string, unknown>)
+    : {};
 }
 
 export class CertificateModel<T = any> extends EventEmitter {
   static symbols: any;
+
+  _validator: ValidateFunction;
 
   static merge(obj1: Record<string, unknown>, obj2: Record<string, unknown>) {
     return merge(obj1, obj2);
@@ -142,14 +148,13 @@ export class CertificateModel<T = any> extends EventEmitter {
     const validator = await setValidator(refSchemaUrl);
 
     return class CertificateModel1<R = any> extends CertificateModel<R> {
+      _validator = validator;
+
       get schema() {
         return schema;
       }
       get schemaConfig() {
         return schemaConfig;
-      }
-      get validator() {
-        return validator;
       }
     };
   }
@@ -167,9 +172,16 @@ export class CertificateModel<T = any> extends EventEmitter {
     super();
     this.setListeners();
     if (data) {
-      this.set(data, options || {});
+      this.set(data, options || {})
+        .then(() => {
+          this.emit('ready');
+        })
+        .catch((error: Error) => {
+          this.emit('error', error);
+        });
+    } else {
+      this.emit('ready');
     }
-    this.emit('ready');
   }
 
   get schema(): JSONSchema7 {
@@ -181,19 +193,28 @@ export class CertificateModel<T = any> extends EventEmitter {
   }
 
   get validator(): ValidateFunction {
-    throw new Error('Missing validator');
+    return this._validator;
+  }
+
+  set validator(value: ValidateFunction) {
+    this._validator = value;
   }
 
   get schemaProperties() {
-    return getProperties(this.schema, this.validator);
+    return getProperties(this.schema);
   }
 
   setListeners() {
-    this.on('generate-html:start', (options) => this.generateHtml(options));
-    this.on('generate-pdf:start', (options) => this.generatePdf(options));
-    this.on('error', (error) => {
-      console.error('CertificateModel', error.message || 'Unknown error');
-    });
+    this.on('do:generate-html', (options?: GenerateHtmlOptions) => this.generateHtml(options));
+    this.on('do:generate-pdf', (options) => this.generatePdf(options));
+    this.on(
+      'do:set',
+      (
+        data: string | Record<string, unknown> | T,
+        value?: any | KVCertificateModelOptions,
+        options?: KVCertificateModelOptions,
+      ) => this.set(data, value, options),
+    );
   }
 
   get(name: string, options?: KVCertificateModelOptions) {
@@ -201,7 +222,7 @@ export class CertificateModel<T = any> extends EventEmitter {
     return get(this, name, opts.internal);
   }
 
-  set(
+  async set(
     data: string | Record<string, unknown> | T,
     value?: any | KVCertificateModelOptions,
     options?: KVCertificateModelOptions,
@@ -217,29 +238,29 @@ export class CertificateModel<T = any> extends EventEmitter {
     data = data || {};
     const opts = merge(defaultKVSchemaOptions, value || {}) as KVCertificateModelOptions;
 
+    if (Object.keys(data).includes('RefSchemaUrl')) {
+      this.validator = await setValidator((data as any).RefSchemaUrl);
+    }
     if (!opts.internal && opts.validate) {
       const dataToValidate = merge(this.toJSON(true), data);
       const res = this.validate(dataToValidate);
       if (!res.valid) {
-        if (res.errors) {
-          const errors = formatValidationErrors(res.errors);
-          this.emit('error', new Error(JSON.stringify(errors, null, 2)));
-          throw new Error(JSON.stringify(errors, null, 2));
-        }
-        this.emit('error', new Error('Validation failed'));
-        throw new Error('Validation failed');
+        const validationError = res.errors
+          ? formatValidationErrors(res.errors)
+          : { validationError: 'Unknown validation error' };
+        const error = new Error(JSON.stringify(validationError, null, 2));
+        this.emit('error', error);
+        throw error;
       }
     }
-    set<T>(this, data, opts.internal);
+    set<T>(this, data as Record<string, unknown> | T, opts.internal);
+    this.emit('done:set', this);
   }
 
   validate(data?: T): { valid: boolean; errors: Ajv.ErrorObject[] | null | undefined } {
     data = data || this.toJSON(true);
-    const schema = this.schema;
-    // getValidator
-    const ajv = new Ajv();
-    const valid = ajv.validate(schema, data) as boolean;
-    return { valid, errors: ajv.errors };
+    const valid = this.validator(data) as boolean;
+    return { valid, errors: this.validator.errors };
   }
 
   toJSON(stripUndefined?: boolean): T {
@@ -262,13 +283,13 @@ export class CertificateModel<T = any> extends EventEmitter {
 
   async generateHtml(options?: GenerateHtmlOptions): Promise<string> {
     const result = await generateHtml(this as Record<string, unknown>, options);
-    this.emit('generate-html:end', result);
+    this.emit('done:generate-html', result);
     return result;
   }
 
   async generatePdf(options: any): Promise<any> {
-    const result = Promise.resolve(options);
-    this.emit('generate-pdf:end', result);
+    const result = await Promise.resolve(options);
+    this.emit('done:generate-pdf', result);
     return result;
   }
 
