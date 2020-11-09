@@ -47,3 +47,4 @@ const validCertificate = require('../../fixtures/EN10168/v0.0.2/valid_cert.json'
     console.error(error.message);
   }
 })(process.argv);
+
