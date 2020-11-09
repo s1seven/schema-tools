@@ -200,9 +200,6 @@ export async function generateHtml(
   if (!options.schemaConfig) {
     const refSchemaUrl = new URL(certificate.RefSchemaUrl);
     options.schemaConfig = getSchemaConfig(refSchemaUrl);
-    // const baseUrl = refSchemaUrl.origin;
-    // const [, schemaType, version] = refSchemaUrl.pathname.split('/');
-    // options.schemaPath = { baseUrl, schemaType, version };
   }
 
   const translations = options.translations || (await getTranslations(certificateLanguages, options.schemaConfig));
