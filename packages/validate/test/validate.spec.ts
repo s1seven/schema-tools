@@ -51,13 +51,6 @@ describe('ValidateSchema', function () {
 
     it('should validate valid example certificate using certificate path (string)', async () => {
       expect(await validate(validCertificatePath)).toEqual({});
-      // await expect(generate(invalidTestFile, interfaceFilePath)).rejects.toThrow(`ENOENT: no such file or directory, open '${invalidTestFile}'`);
-      // expect(() => {
-      //   const loggerWithErr = new WinstonLoggerService({
-      //     projectName: '',
-      //   });
-      //   expect(loggerWithErr).toBeUndefined();
-      // }).toThrowError('projectName is required');
     }, 3000);
 
     it('should validate invalid example certificate using certificate path (string)', async () => {
