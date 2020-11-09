@@ -9,7 +9,7 @@ describe('CertificateModel', function () {
   it('should build and validate instance using schemaConfig EN10168 v0.0.2', async () => {
     const CertModel = await CertificateModel.build({
       schemaConfig: {
-        version: 'v0.0.2-2',
+        version: 'v0.0.2',
         schemaType: 'en10168-schemas',
       },
     });
@@ -21,7 +21,7 @@ describe('CertificateModel', function () {
       expect(JSON.stringify(toJSON, null, 2)).toEqual(JSON.stringify(validEn10168Certificate, null, 2));
       expect(validation.valid).toEqual(true);
     });
-  }, 5000);
+  }, 6000);
 
   it('should build and validate instance using schema EN10168 v0.0.2', async () => {
     const schema = (await loadExternalFile(
@@ -66,7 +66,7 @@ describe('CertificateModel', function () {
         ),
       );
     });
-  }, 4000);
+  }, 5000);
 
   it('should not set invalid instance using schemaConfig EN10168 v0.0.2', async () => {
     const CertModel = await CertificateModel.build({
@@ -96,7 +96,7 @@ describe('CertificateModel', function () {
         2,
       ),
     );
-  }, 4000);
+  }, 5000);
 
   // TODO: fix $ref resolution for https://e-coc.org/schema/v1.0.0/MaterialCertification.json#/definitions/MaterialTest
   it.skip('should build model using schema config E-CoC v0.0.2', async () => {
