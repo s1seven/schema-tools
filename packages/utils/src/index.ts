@@ -4,6 +4,7 @@ import { ErrorObject } from 'ajv';
 import axios from 'axios';
 import * as fs from 'fs';
 import NodeCache from 'node-cache';
+import semverRegex from 'semver-regex';
 import { Readable } from 'stream';
 import { promisify } from 'util';
 
@@ -58,6 +59,11 @@ export function formatValidationErrors(errors: ErrorObject[] = [], validationFil
     schemaPath: error.schemaPath || '',
     expected: error.message || '',
   }));
+}
+
+export function getSemanticVersion(rawVersion: string): string | null {
+  const versions = semverRegex().exec(rawVersion);
+  return versions ? (versions[0] as string) : (versions as null);
 }
 
 export type ExternalFile = ReturnType<typeof loadExternalFile>;
