@@ -50,6 +50,7 @@
     "@s1seven/schema-tools-generate-html": "^0.0.6",
     "@s1seven/schema-tools-types": "^0.0.6",
     "@s1seven/schema-tools-utils": "^0.0.6",
+    "@s1seven/schema-tools-validate": "^0.0.6",
     "@types/lodash.clonedeepwith": "^4.5.6",
     "@types/lodash.merge": "^4.6.6",
     "@types/node": "14.0.27",
