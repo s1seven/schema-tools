@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-generate-html",
   "description": "Tool to generate html from certificates",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/generate-html#readme",
   "repository": {
@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@s1seven/schema-tools-types": "^0.0.7",
-    "@s1seven/schema-tools-utils": "^0.0.7",
+    "@s1seven/schema-tools-utils": "^0.0.8",
     "@types/ajv": "^1.0.0",
     "@types/lodash.get": "^4.4.6",
     "@types/lodash.merge": "^4.6.6",
