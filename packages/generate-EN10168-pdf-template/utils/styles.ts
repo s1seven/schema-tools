@@ -11,6 +11,7 @@ export const styles = {
   },
   h1: {
     font: 'Lato',
+    bold: true,
     fontSize: 24,
     margin: [0, 16, 0, 8],
     decoration: 'underline',
@@ -18,6 +19,7 @@ export const styles = {
   },
   h2: {
     font: 'Lato',
+    bold: true,
     fontSize: 16,
     margin: [0, 8, 0, 4],
   },

@@ -15,9 +15,8 @@ import {generateContent} from '../dist/generateContent';
 // console.log('request:',request)
 const fonts = {
   Lato: {
-    normal: 'utils/fonts/Lato-Regular.ttf',
-    bold: 'utils/fonts/Lato-Bold.ttf',
-    light: 'utils/fonts/Lato-Light.ttf',
+    normal: 'utils/fonts/Lato-Light.ttf',
+    bold: 'utils/fonts/Lato-Regular.ttf',
   }
 }
 export function generateExample(certificate, i18n) {
