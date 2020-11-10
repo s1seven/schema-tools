@@ -2,6 +2,12 @@
 
 The `generate-html` module is using [handlebars] and/or [mjml] to generate HTML string using a JSON schema.
 
+## Install
+
+```bash
+npm install @s1seven/schema-tools-generate-html
+```
+
 ### Examples
 
 The example wrap the `generateHtml` module in a function using `process.argv`.

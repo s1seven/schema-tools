@@ -2,6 +2,12 @@
 
 The `generate-interfaces` module is using [json-schema-to-typescript] to generate TS interfaces and types using a JSON / OpenAPI schema.
 
+## Install
+
+```bash
+npm install @s1seven/schema-tools-generate-interfaces
+```
+
 ### Examples
 
 The example wrap the `generate` module in a function using `process.argv`.

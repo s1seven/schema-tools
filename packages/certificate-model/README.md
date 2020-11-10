@@ -2,6 +2,12 @@
 
 The `certificate-model` module provides a class using template pattern to generate a class / instances based a given JSON schema.
 
+## Install
+
+```bash
+npm install @s1seven/schema-tools-certificate-model
+```
+
 ## Examples
 
 The example uses the `CertificateModel` class in a function using `process.argv`.
