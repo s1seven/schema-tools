@@ -1,21 +1,28 @@
-import { CommercialTransactionSupplementaryInformation, Translate } from '../types'
+import { CommercialTransactionSupplementaryInformation } from '../types';
+import { Translate } from './translate';
 
 const createBrackets = (amount: number) => [...Array(amount).fill({})];
 
-export const supplementaryInformation = (data: CommercialTransactionSupplementaryInformation, i18n: Translate, colSpan: number = 3) => {
+export const supplementaryInformation = (
+  data: CommercialTransactionSupplementaryInformation,
+  i18n: Translate,
+  colSpan = 3,
+) => {
+  const dataMapped = Object.keys(data).map(
+    (element) => [
+      { text: data[element].Key, style: 'tableHeader', colSpan: colSpan - 2 },
+      ...createBrackets(colSpan - 3),
+      { text: `${data[element].Value} ${data[element].Unit ? data[element].Unit : ''}`, style: 'p', colSpan: 2 },
+    ],
+    {},
+  );
 
-  const dataMapped = Object.keys(data).map(element =>
-    [{ text: data[element].Key, style: 'p', colSpan: (colSpan - 2) },
-    ...createBrackets(colSpan - 3),
-    {text: `${data[element].Value} ${data[element].Unit ? data[element].Unit : ''}`, colSpan: 2}],
-    {}
-    )
-
-  if (dataMapped.length === 0) return []
+  if (dataMapped.length === 0) return [];
   return [
     [
-      { text: i18n.translate('SupplementaryInformation', 'otherFields'), style: 'h2', colSpan }, ...createBrackets(colSpan - 1),
+      { text: i18n.translate('SupplementaryInformation', 'otherFields'), style: 'h2', colSpan },
+      ...createBrackets(colSpan - 1),
     ],
-    ...dataMapped
-  ]
-}
+    ...dataMapped,
+  ];
+};

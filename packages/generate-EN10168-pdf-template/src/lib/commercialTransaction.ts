@@ -1,16 +1,16 @@
 import { supplementaryInformation } from './supplementaryInformation';
-import { createTransactionParties } from './createTransactionParties';
-
-import {CommercialTransaction, Translate} from '../types'
+import { CommercialTransaction } from '../types';
+import { Translate } from './translate';
 
 export function createCommercialTransaction(commercialTransaction: CommercialTransaction, i18n: Translate) {
-
-  const commercialParties = createTransactionParties(commercialTransaction, i18n);
-
   const contentToOmit = ['A01', 'A04', 'A06', 'A06.1', 'A06.2', 'A06.3', 'SupplementaryInformation'];
-  const content = Object.keys(commercialTransaction).filter(element => !contentToOmit.includes(element)).map(element =>
-    [{ text: i18n.translate(element, 'certificateFields'), style: 'p', colSpan: 2 }, {}, commercialTransaction[element]]
-  );
+  const content = Object.keys(commercialTransaction)
+    .filter((element) => !contentToOmit.includes(element))
+    .map((element) => [
+      { text: i18n.translate(element, 'certificateFields'), style: 'tableHeader', colSpan: 2 },
+      {},
+      { text: commercialTransaction[element], style: 'p' },
+    ]);
 
   const suppInformation = supplementaryInformation(commercialTransaction.SupplementaryInformation, i18n);
 
@@ -19,20 +19,19 @@ export function createCommercialTransaction(commercialTransaction: CommercialTra
       {
         style: 'table',
         table: {
-          widths: ['*', '*', '*'],
+          widths: [150, 100, 200],
           body: [
-            ...commercialParties,
-            [{text: i18n.translate('CommercialTransaction', 'certificateGroups'), style: 'h2', colSpan: 3}, {}, {}],
+            [{ text: i18n.translate('CommercialTransaction', 'certificateGroups'), style: 'h2', colSpan: 3 }, {}, {}],
             ...content,
-            ...suppInformation
-          ]
+            ...suppInformation,
+          ],
         },
         layout: {
           hLineWidth: function () {
-            return 0.25;
+            return 0;
           },
-          vLineWidth: function (i, node) {
-            return (i === 0 || i === node.table.widths.length) ? 0.25 : 0;
+          vLineWidth: function () {
+            return 0;
           },
           hLineColor: function () {
             return 'gray';
@@ -40,8 +39,8 @@ export function createCommercialTransaction(commercialTransaction: CommercialTra
           vLineColor: function () {
             return 'gray';
           },
-        }
+        },
       },
-    ]
-  }
+    ],
+  };
 }
