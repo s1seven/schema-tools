@@ -1,10 +1,19 @@
-import { Measurement, Translate } from '../types';
+import { Measurement } from '../types';
 
-
-export function measurement(measurement, name: string) {
-  if (measurement === undefined) return []
+export function measurement(measurement: Measurement, name: string) {
+  if (measurement === undefined) return [];
   const { Property, Value, Minimum, Maximum, Unit } = measurement;
-  const keys = [{text: `${name} ${Property}`, style:'p'}, {text: 'Minimum', style:'p'}, {text: 'Value', style:'p'}, {text: 'Maximum', style:'p'}];
-  const values = [{text: Unit, style:'p'}, {text: Minimum, style:'p'}, {text: Value, style:'p'},{text: Maximum, style:'p'}];
+  const keys = [
+    { text: `${name} ${Property}`, style: 'tableHeader' },
+    { text: 'Minimum', style: 'tableHeader' },
+    { text: 'Value', style: 'tableHeader' },
+    { text: 'Maximum', style: 'tableHeader' },
+  ];
+  const values = [
+    { text: Unit, style: 'p' },
+    { text: Minimum, style: 'p' },
+    { text: Value, style: 'p' },
+    { text: Maximum, style: 'p' },
+  ];
   return [keys, values];
 }
