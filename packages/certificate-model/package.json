@@ -53,5 +53,6 @@
     "ajv": "^6.12.6",
     "lodash.clonedeepwith": "^4.5.0",
     "lodash.merge": "^4.6.2"
-  }
+  },
+  "gitHead": "a4f88739c574e60fd79bcf81ded0f4dcd9318660"
 }
