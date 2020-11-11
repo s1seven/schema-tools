@@ -32,7 +32,7 @@
     "prepare": "npm run format && npm run lint",
     "prepublishOnly": "npm run build",
     "version": "lerna version",
-    "release": "read -p 'GITHUB_TOKEN: ' GITHUB_TOKEN && export GITHUB_TOKEN=$GITHUB_TOKEN && npm run version && lerna publish from-package",
+    "release": "npm run version && lerna publish from-package",
     "publish": "lerna publish"
   },
   "devDependencies": {
@@ -61,7 +61,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint --fix"
+      "eslint"
     ]
   },
   "pre-commit": [
