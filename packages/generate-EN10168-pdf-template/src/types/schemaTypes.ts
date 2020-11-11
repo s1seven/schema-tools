@@ -1,4 +1,31 @@
 export type CertificateLanguages = ['EN' | 'DE' | 'FR' | 'PL'] | ['EN' | 'DE' | 'FR' | 'PL', 'EN' | 'DE' | 'FR' | 'PL'];
+/**
+ * List parties and details involved in the transaction
+ */
+export type CommercialTransaction = CommercialTransactionBase & CommercialTransactionReceivers;
+export type CommercialTransactionReceivers =
+    | {
+          /**
+           * The purchaser of the product and receiver of the certificate
+           */
+          A06: Company;
+          [k: string]: any;
+      }
+    | {
+          /**
+           * The purchaser of the product
+           */
+          'A06.1': Company;
+          /**
+           * The consignee of the product
+           */
+          'A06.2'?: Company;
+          /**
+           * The receiver/consignee of the certificate
+           */
+          'A06.3'?: Company;
+          [k: string]: any;
+      };
 export type ProductShape =
     | Tube
     | RectangularTube
@@ -29,47 +56,31 @@ export interface MetaData {
     state?: 'draft' | 'valid' | 'cancelled';
     [k: string]: any;
 }
-export interface CommercialTransaction {
+export interface CommercialTransactionBase {
     /**
      * The manufacturer's works which delivers the certificate along the product
      */
-    A01?: Company;
+    A01: Company;
     /**
      * The type of inspection document, e.g. 'EN 10204 3.1 Certificate'
      */
-    A02?: string;
+    A02: string;
     /**
      * The document number of the certifcate
      */
-    A03?: string;
+    A03: string;
     /**
      * The mark of the manufacturer as base64 png file. The maximum size is <TBD>
      */
-    A04?: string;
+    A04: string;
     /**
      * The originator of the document, not necessarily equal to A01
      */
-    A05?: string;
-    /**
-     * The purchaser of the product and receiver of the certificate
-     */
-    A06?: Company;
-    /**
-     * The purchaser of the product
-     */
-    'A06.1'?: Company;
-    /**
-     * The consignee of the product
-     */
-    'A06.2'?: Company;
-    /**
-     * The receiver/consignee of the certificate
-     */
-    'A06.3'?: Company;
+    A05: string;
     /**
      * Purchase number
      */
-    A07?: string;
+    A07: string;
     /**
      * Manufacturer's work number
      */
@@ -91,6 +102,7 @@ export interface CommercialTransaction {
      * A custom field for the aviso document number
      */
     A99?: string;
+    [k: string]: any;
 }
 export interface Company {
     CompanyName: string;
@@ -135,10 +147,10 @@ export interface CommercialTransactionSupplementaryInformation {
  * via the `patternProperty` "".
  *
  * This interface was referenced by `NonDestructiveTests`'s JSON-Schema definition
- * via the `patternProperty` "^D[0][2-9]|^D[1-4]D[0-9]".
+ * via the `patternProperty` "^D[0][2-9]|^D[1-4]D[0-9]|^D50".
  *
- * This interface was referenced by `OtherTestsSupplementaryInformation`'s JSON-Schema definition
- * via the `patternProperty` "^D[5-9][0-9]".
+ * This interface was referenced by `OtherProductTests`'s JSON-Schema definition
+ * via the `patternProperty` "^D[5][1-9]|^D[6-9][0-9]".
  *
  * This interface was referenced by `ValidationSupplementaryInformation`'s JSON-Schema definition
  * via the `patternProperty` "^Z0[5-9]|^Z[1-9][0-9]".
@@ -148,6 +160,7 @@ export interface KeyValueObject {
     Value?: string;
     Unit?: string;
     Interpretation?: string;
+    Type?: 'string' | 'number' | 'date' | 'date-time' | 'boolean';
 }
 export interface ProductDescription {
     /**
@@ -203,71 +216,136 @@ export interface ProductDescription {
     /**
      * Product dimensions - length of the product
      */
-    B10?: number;
+    B10?: Measurement;
     /**
      * Product dimensions
      */
-    B11?: number;
+    B11?: Measurement;
     /**
      * Theoretical mass
      */
-    B12?: number;
+    B12?: Measurement;
     /**
      * Actual mass
      */
-    B13?: number;
+    B13?: Measurement;
     SupplementaryInformation?: ProductDescriptionSupplementaryInformation;
 }
 export interface Tube {
     Form: string;
     OuterDiameter: number;
     WallThickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface RectangularTube {
     Form: string;
     Width: number;
     Height: number;
     WallThickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface QuadraticTube {
     Form: string;
     SideLength: number;
     WallThickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface Pipe {
     Form: string;
     SideLength: number;
     WallThickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface RectangularPipe {
     Form: string;
     Width: number;
     Height: number;
     WallThickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
     [k: string]: any;
 }
 export interface Coil {
     Form: string;
     Width: number;
     WallThickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
     [k: string]: any;
 }
 export interface RoundBar {
     Form: string;
     Diameter: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface HexagonalBar {
     Form: string;
     Diameter: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface FlatBar {
     Form: string;
     Width: number;
     Thickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface Other {
     Form: string;
     Description: string;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
+}
+/**
+ * Measured Values in a structured fashion for easy processing and rendering of data
+ */
+export interface Measurement {
+    /**
+     * The property measured
+     */
+    Property?: string;
+    /**
+     * A measured or calculated Value (e.g. mean of individual measurements).
+     */
+    Value: number;
+    /**
+     * The lower limit according product specification. If not provided it is 0.
+     */
+    Minimum?: number;
+    /**
+     * The upper limit according product specification. If not provided it is ∞.
+     */
+    Maximum?: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface ProductDescriptionSupplementaryInformation {
     [k: string]: KeyValueObject;
@@ -317,32 +395,6 @@ export interface TensileTest {
      */
     C13?: Measurement;
     SupplementaryInformation?: TensileTestSupplementaryInformation;
-    [k: string]: any;
-}
-/**
- * Measured Values in a structured fashion for easy processing and rendering of data
- */
-export interface Measurement {
-    /**
-     * The property measured
-     */
-    Property?: string;
-    /**
-     * A measured or calculated Value (e.g. mean of individual measurements).
-     */
-    Value: number;
-    /**
-     * The lower limit according product specification. If not provided it is 0.
-     */
-    Minimum?: number;
-    /**
-     * The upper limit according product specification. If not provided it is ∞.
-     */
-    Maximum?: number;
-    /**
-     * The Unit of Value.
-     */
-    Unit?: string;
 }
 export interface TensileTestSupplementaryInformation {
     [k: string]: KeyValueObject;
@@ -361,7 +413,6 @@ export interface HardnessTest {
      */
     C32?: Measurement;
     SupplementaryInformation?: HardnessTestSupplementaryInformation;
-    [k: string]: any;
 }
 export interface HardnessTestSupplementaryInformation {
     [k: string]: KeyValueObject;
@@ -374,7 +425,7 @@ export interface NotchedBarImpactTest {
     /**
      * Width of test piece
      */
-    C41?: string;
+    C41?: Measurement;
     /**
      * Individual values
      */
@@ -384,7 +435,6 @@ export interface NotchedBarImpactTest {
      */
     C43?: Measurement;
     SupplementaryInformation?: NotchedBarImpactTestSupplementaryInformation;
-    [k: string]: any;
 }
 export interface NotchedBarImpactTestSupplementaryInformation {
     [k: string]: KeyValueObject;
@@ -585,12 +635,10 @@ export interface OtherTests {
      */
     D01?: string;
     NonDestructiveTests?: NonDestructiveTests;
-    SupplementaryInformation?: OtherTestsSupplementaryInformation;
+    OtherProductTests?: OtherProductTests;
 }
 export interface NonDestructiveTests {}
-export interface OtherTestsSupplementaryInformation {
-    [k: string]: KeyValueObject;
-}
+export interface OtherProductTests {}
 export interface Validation {
     /**
      * Statement of compliance
