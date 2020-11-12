@@ -27,7 +27,7 @@
     "test:extract-emails": "lerna run --scope @s1seven/schema-tools-extract-emails test",
     "test:generate-html": "lerna run --scope @s1seven/schema-tools-generate-html test",
     "test:generate-interfaces": "lerna run --scope @s1seven/schema-tools-generate-interfaces test",
-    "test:generate-en10168-pdf": "lerna run --scope @s1seven/schema-tools-generate-EN10168-pdf-template test",
+    "test:generate-en10168-pdf": "lerna run --scope @s1seven/schema-tools-generate-en10168-pdf-template test",
     "test:validate": "lerna run --scope @s1seven/schema-tools-validate test",
     "build": "npm run cleanup && lerna run compile",
     "cleanup": "lerna run cleanup --stream --parallel",
