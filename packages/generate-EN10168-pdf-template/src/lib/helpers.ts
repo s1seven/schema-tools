@@ -39,7 +39,6 @@ export function renderChemicalComposition(chemicalComposition: ChemicalCompositi
   return {
     style: 'table',
     table: {
-      // widths: Array(ChemicalElements.length + 1).fill(10),
       body: [...tableBody, ...suppInformation],
     },
     layout: tableLayout,
