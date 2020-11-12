@@ -1,4 +1,4 @@
-import { CommercialTransactionSupplementaryInformation } from '../types';
+import { CommercialTransactionSupplementaryInformation, TableCell } from '../types';
 import { Translate } from './translate';
 
 const createBrackets = (amount: number) => [...Array(amount).fill({})];
@@ -7,7 +7,7 @@ export const supplementaryInformation = (
   data: CommercialTransactionSupplementaryInformation,
   i18n: Translate,
   colSpan = 3,
-) => {
+): TableCell[][] => {
   const dataMapped = Object.keys(data).map(
     (element) => [
       { text: data[element].Key, style: 'tableHeader', colSpan: colSpan - 2 },

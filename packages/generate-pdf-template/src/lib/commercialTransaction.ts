@@ -1,9 +1,12 @@
 import { supplementaryInformation } from './supplementaryInformation';
-import { CommercialTransaction } from '../types';
+import { CommercialTransaction, TableElement } from '../types';
 import { Translate } from './translate';
 import { tableLayout } from './tableLayout';
 
-export function createCommercialTransaction(commercialTransaction: CommercialTransaction, i18n: Translate) {
+export function createCommercialTransaction(
+  commercialTransaction: CommercialTransaction,
+  i18n: Translate,
+): TableElement {
   const contentToOmit = ['A01', 'A04', 'A06', 'A06.1', 'A06.2', 'A06.3', 'SupplementaryInformation'];
   const content = Object.keys(commercialTransaction)
     .filter((element) => !contentToOmit.includes(element))
@@ -16,19 +19,15 @@ export function createCommercialTransaction(commercialTransaction: CommercialTra
   const suppInformation = supplementaryInformation(commercialTransaction.SupplementaryInformation, i18n);
 
   return {
-    content: [
-      {
-        style: 'table',
-        table: {
-          widths: [150, 100, 200],
-          body: [
-            [{ text: i18n.translate('CommercialTransaction', 'certificateGroups'), style: 'h2', colSpan: 3 }, {}, {}],
-            ...content,
-            ...suppInformation,
-          ],
-        },
-        layout: tableLayout,
-      },
-    ],
+    style: 'table',
+    table: {
+      widths: [150, 100, 200],
+      body: [
+        [{ text: i18n.translate('CommercialTransaction', 'certificateGroups'), style: 'h2', colSpan: 3 }, {}, {}],
+        ...content,
+        ...suppInformation,
+      ],
+    },
+    layout: tableLayout,
   };
 }

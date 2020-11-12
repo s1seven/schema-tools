@@ -1,7 +1,7 @@
-import { ProductShape } from '../types';
+import { ProductShape, TableCell } from '../types';
 import { Translate } from './translate';
 
-export function productShape(productShape: ProductShape, i18n: Translate) {
+export function productShape(productShape: ProductShape, i18n: Translate): TableCell[][] {
   if (productShape === undefined) return [];
   const header = [{ text: i18n.translate('B09', 'certificateFields'), style: 'tableHeader', colSpan: 4 }, {}, {}, {}];
 

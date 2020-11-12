@@ -4,9 +4,12 @@ import { createCommercialTransaction } from './lib/commercialTransaction';
 import { createProductDescription } from './lib/createProductDescription';
 // import { getTranslations } from './lib/helpers';
 import { Translate } from './lib/translate';
-import { Certificate } from './types';
+import { Certificate, Content } from './types';
 
-export async function generateContent(certificate: Certificate, translations: Record<string, unknown>) {
+export async function generateContent(
+  certificate: Certificate,
+  translations: Record<string, unknown>,
+): Promise<Content> {
   // TODO: update build config to do :
   // ? const translations = await getTranslations(certificate.Certificate.CertificateLanguages, certificate.RefSchemaUrl);
   const i18n = new Translate(translations);
@@ -14,5 +17,5 @@ export async function generateContent(certificate: Certificate, translations: Re
   const commercialTransaction = createCommercialTransaction(certificate.Certificate.CommercialTransaction, i18n);
   const productDescription = createProductDescription(certificate.Certificate.ProductDescription, i18n);
 
-  return [...commercialParties.content, ...commercialTransaction.content, ...productDescription.content];
+  return [commercialParties, commercialTransaction, productDescription];
 }

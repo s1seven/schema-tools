@@ -3,11 +3,11 @@ import { measurement } from './measurement';
 import { productNorms } from './productNorms';
 import { productShape } from './productShape';
 import { supplementaryInformation } from './supplementaryInformation';
-import { ProductDescription } from '../types';
+import { ProductDescription, TableElement } from '../types';
 import { Translate } from './translate';
 import { tableLayout } from './tableLayout';
 
-export function createProductDescription(productDescription: ProductDescription, i18n: Translate) {
+export function createProductDescription(productDescription: ProductDescription, i18n: Translate): TableElement {
   const B02ProductNorms = productNorms(productDescription.B02, i18n);
 
   const contentToOmit = ['B01', 'B02', 'B09', 'B10', 'B11', 'B12', 'B12', 'B13', 'SupplementaryInformation'];
@@ -33,31 +33,27 @@ export function createProductDescription(productDescription: ProductDescription,
   );
 
   return {
-    content: [
-      {
-        style: 'table',
-        table: {
-          widths: [150, '*', '*', 300],
-          body: [
-            [{ text: i18n.translate('ProductDescription', 'certificateGroups'), style: 'h2', colSpan: 4 }, {}, {}, {}],
-            [
-              { text: i18n.translate('B01', 'certificateFields'), style: 'tableHeader', colSpan: 3 },
-              {},
-              {},
-              { text: productDescription.B01, style: 'p' },
-            ],
-            ...B02ProductNorms,
-            ...content,
-            ...B09productShape,
-            ...B10measurement,
-            ...B11measurement,
-            ...B12measurement,
-            ...B13measurement,
-            ...suppInformation,
-          ],
-        },
-        layout: tableLayout,
-      },
-    ],
+    style: 'table',
+    table: {
+      widths: [150, '*', '*', 300],
+      body: [
+        [{ text: i18n.translate('ProductDescription', 'certificateGroups'), style: 'h2', colSpan: 4 }, {}, {}, {}],
+        [
+          { text: i18n.translate('B01', 'certificateFields'), style: 'tableHeader', colSpan: 3 },
+          {},
+          {},
+          { text: productDescription.B01, style: 'p' },
+        ],
+        ...B02ProductNorms,
+        ...content,
+        ...B09productShape,
+        ...B10measurement,
+        ...B11measurement,
+        ...B12measurement,
+        ...B13measurement,
+        ...suppInformation,
+      ],
+    },
+    layout: tableLayout,
   };
 }

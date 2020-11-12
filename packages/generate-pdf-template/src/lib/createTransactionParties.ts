@@ -1,4 +1,4 @@
-import { CommercialTransaction } from '../types';
+import { CommercialTransaction, TableElement } from '../types';
 import { TRANSACTION_COLUMNS_COUNT } from './constants';
 import { fillTableRow } from './helpers';
 import { Translate } from './translate';
@@ -43,7 +43,7 @@ function splitIfTooLong<T>(arr: T[]): T[][] | (T | string)[][][] {
   ];
 }
 
-export function createTransactionParties(commercialTransaction: CommercialTransaction, i18n: Translate) {
+export function createTransactionParties(commercialTransaction: CommercialTransaction, i18n: Translate): TableElement {
   const [keys, values] = separateCommercialParties(commercialTransaction, i18n);
   if (keys.length <= TRANSACTION_COLUMNS_COUNT) {
     const contentBody = [
@@ -51,16 +51,12 @@ export function createTransactionParties(commercialTransaction: CommercialTransa
       fillTableRow(values, TRANSACTION_COLUMNS_COUNT, ''),
     ];
     return {
-      content: [
-        {
-          style: 'table',
-          table: {
-            widths: [200, 150, 150],
-            body: contentBody,
-          },
-          layout: tableLayout,
-        },
-      ],
+      style: 'table',
+      table: {
+        widths: [200, 150, 150],
+        body: contentBody,
+      },
+      layout: tableLayout,
     };
   }
   const finalKeys = splitIfTooLong(keys);
@@ -68,15 +64,11 @@ export function createTransactionParties(commercialTransaction: CommercialTransa
   const contentBody = [...finalKeys[0], ...finalValues[0], ...finalKeys[1], ...finalValues[1]];
 
   return {
-    content: [
-      {
-        style: 'table',
-        table: {
-          widths: [200, 150, 150],
-          body: contentBody,
-        },
-        layout: tableLayout,
-      },
-    ],
+    style: 'table',
+    table: {
+      widths: [200, 150, 150],
+      body: contentBody,
+    },
+    layout: tableLayout,
   };
 }
