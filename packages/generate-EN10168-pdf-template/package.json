@@ -1,20 +1,23 @@
 {
   "name": "@s1seven/schema-tools-generate-pdf-template",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/generateContent.js",
   "license": "",
   "devDependencies": {
     "@s1seven/schema-tools-generate-interfaces": "^0.0.8",
-    "@s1seven/schema-tools-utils": "^0.0.8",
     "@types/node": "^14.14.6",
     "@types/pdfmake": "^0.1.16",
+    "lato-font": "^3.0.0",
     "parcel-bundler": "^1.12.4",
     "pdfmake": "^0.1.68",
     "typescript": "^4.0.5"
   },
+  "dependencies": {
+    "@s1seven/schema-tools-utils": "^0.0.8"
+  },
   "scripts": {
     "test": "jest --ci --config ../../jest.config.json ",
-    "build": "parcel build src/generateContent.ts --no-cache --no-source-maps",
+    "build": "parcel build src/generateContent.ts --no-cache --no-source-maps --target=node",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix --ignore-path src/types/schemaTypes.ts",
     "create-example": "node ./utils/create-example.js",
     "create-interfaces": "node ./utils/create-certificate-interfaces.js https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json ./src/types/schemaTypes.ts"
