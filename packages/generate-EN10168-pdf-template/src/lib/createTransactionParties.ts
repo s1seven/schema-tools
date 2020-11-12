@@ -46,7 +46,7 @@ export function createTransactionParties(commercialTransaction: CommercialTransa
   const [keys, values] = separateCommercialParties(commercialTransaction, i18n);
   if (keys.length <= TRANSACTION_COLUMNS_COUNT) {
     const contentBody = [
-      fillTableRow(keys, TRANSACTION_COLUMNS_COUNT, ''), 
+      fillTableRow(keys, TRANSACTION_COLUMNS_COUNT, ''),
       fillTableRow(values, TRANSACTION_COLUMNS_COUNT, ''),
     ];
     return {
