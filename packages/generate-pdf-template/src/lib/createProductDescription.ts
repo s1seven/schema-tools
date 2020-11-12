@@ -21,10 +21,10 @@ export function createProductDescription(productDescription: ProductDescription,
     ]);
 
   const B09productShape = productShape(productDescription.B09, i18n);
-  const B10measurement = measurement(productDescription.B10, 'B10');
-  const B11measurement = measurement(productDescription.B11, 'B11');
-  const B12measurement = measurement(productDescription.B12, 'B12');
-  const B13measurement = measurement(productDescription.B13, 'B13');
+  const B10measurement = measurement(productDescription.B10, 'B10', i18n);
+  const B11measurement = measurement(productDescription.B11, 'B11', i18n);
+  const B12measurement = measurement(productDescription.B12, 'B12', i18n);
+  const B13measurement = measurement(productDescription.B13, 'B13', i18n);
 
   const suppInformation = supplementaryInformation(
     productDescription.SupplementaryInformation,
