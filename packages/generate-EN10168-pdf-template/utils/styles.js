@@ -26,6 +26,11 @@ module.exports = {
     fontSize: 14,
     margin: [0, 4, 0, 4],
   },
+  h4: {
+    bold: true,
+    fontSize: 12,
+    margin: [0, 4, 0, 4],
+  },
   p: {
     fontSize: 10,
     margin: [0, 4, 0, 4],
