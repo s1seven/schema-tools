@@ -1,6 +1,7 @@
 import { supplementaryInformation } from './supplementaryInformation';
 import { CommercialTransaction } from '../types';
 import { Translate } from './translate';
+import { tableLayout } from './tableLayout';
 
 export function createCommercialTransaction(commercialTransaction: CommercialTransaction, i18n: Translate) {
   const contentToOmit = ['A01', 'A04', 'A06', 'A06.1', 'A06.2', 'A06.3', 'SupplementaryInformation'];
@@ -26,20 +27,7 @@ export function createCommercialTransaction(commercialTransaction: CommercialTra
             ...suppInformation,
           ],
         },
-        layout: {
-          hLineWidth: function () {
-            return 0;
-          },
-          vLineWidth: function () {
-            return 0;
-          },
-          hLineColor: function () {
-            return 'gray';
-          },
-          vLineColor: function () {
-            return 'gray';
-          },
-        },
+        layout: tableLayout,
       },
     ],
   };

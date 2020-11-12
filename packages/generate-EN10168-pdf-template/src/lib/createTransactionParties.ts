@@ -2,6 +2,7 @@ import { CommercialTransaction } from '../types';
 import { TRANSACTION_COLUMNS_COUNT } from './constants';
 import { fillTableRow } from './helpers';
 import { Translate } from './translate';
+import { tableLayout } from './tableLayout';
 
 function separateCommercialParties(commercialTransaction: CommercialTransaction, i18n: Translate) {
   const initKeys =
@@ -57,14 +58,7 @@ export function createTransactionParties(commercialTransaction: CommercialTransa
             widths: [200, 150, 150],
             body: contentBody,
           },
-          layout: {
-            hLineWidth: function () {
-              return 0;
-            },
-            vLineWidth: function () {
-              return 0;
-            },
-          },
+          layout: tableLayout,
         },
       ],
     };
@@ -81,14 +75,7 @@ export function createTransactionParties(commercialTransaction: CommercialTransa
           widths: [200, 150, 150],
           body: contentBody,
         },
-        layout: {
-          hLineWidth: function () {
-            return 0;
-          },
-          vLineWidth: function () {
-            return 0;
-          },
-        },
+        layout: tableLayout,
       },
     ],
   };
