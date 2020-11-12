@@ -1,11 +1,11 @@
 import { loadExternalFile } from '@s1seven/schema-tools-utils';
 import { CertificateLanguages } from '../types';
 
-export function fillTableRow(arr: any[], colCounts: number) {
+export function fillTableRow(arr: any[], colCounts: number, fill = {}) {
   if (arr.length === colCounts) {
     return arr;
   } else {
-    arr.push({});
+    arr.push(fill);
     return fillTableRow(arr, colCounts);
   }
 }
