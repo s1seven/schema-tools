@@ -12,7 +12,7 @@ describe('Rendering commercial transaction', () => {
     const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     const commercialTransaction = createCommercialTransaction(certificate.Certificate.CommercialTransaction, i18n);
-    const tableBody = commercialTransaction.content[0].table.body;
+    const tableBody = commercialTransaction.table.body;
 
     expect(tableBody.length).toEqual(10);
     expect(tableBody[0]).toEqual([
@@ -65,7 +65,7 @@ describe('Rendering transaction parties', () => {
     const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     const transactionParties = createTransactionParties(certificate.Certificate.CommercialTransaction, i18n);
-    const tableBody = transactionParties.content[0].table.body;
+    const tableBody = transactionParties.table.body;
 
     expect(tableBody.length).toEqual(2);
     expect(tableBody[0]).toEqual([
@@ -169,7 +169,7 @@ describe('Rendering transaction parties', () => {
       } as CommercialTransaction,
       i18n,
     );
-    const tableBody = transactionParties.content[0].table.body;
+    const tableBody = transactionParties.table.body;
 
     expect(tableBody.length).toEqual(2);
     expect(tableBody[0]).toEqual([
