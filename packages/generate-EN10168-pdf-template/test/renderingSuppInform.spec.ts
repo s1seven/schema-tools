@@ -1,4 +1,4 @@
-import { getTranslations } from '../src/lib/helpers';
+import { getTranslations } from './getTranslations';
 import { Translate } from '../src/lib/translate';
 import { supplementaryInformation } from '../src/lib/supplementaryInformation';
 

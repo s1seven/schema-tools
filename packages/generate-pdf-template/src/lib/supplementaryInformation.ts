@@ -1,7 +1,7 @@
 import { CommercialTransactionSupplementaryInformation, TableCell } from '../types';
 import { Translate } from './translate';
 
-const createBrackets = (amount: number) => [...Array(amount).fill({})];
+const createEmptyColumns = (amount: number) => [...Array(amount).fill({})];
 
 export const supplementaryInformation = (
   data: CommercialTransactionSupplementaryInformation,
@@ -11,7 +11,7 @@ export const supplementaryInformation = (
   const dataMapped = Object.keys(data).map(
     (element) => [
       { text: data[element].Key, style: 'tableHeader', colSpan: colSpan - 2 },
-      ...createBrackets(colSpan - 3),
+      ...createEmptyColumns(colSpan - 3),
       { text: `${data[element].Value} ${data[element].Unit ? data[element].Unit : ''}`, style: 'p', colSpan: 2 },
     ],
     {},
@@ -21,7 +21,7 @@ export const supplementaryInformation = (
   return [
     [
       { text: i18n.translate('SupplementaryInformation', 'otherFields'), style: 'h2', colSpan },
-      ...createBrackets(colSpan - 1),
+      ...createEmptyColumns(colSpan - 1),
     ],
     ...dataMapped,
   ];

@@ -1,4 +1,4 @@
-import { getTranslations } from '../src/lib/helpers';
+import { getTranslations } from './getTranslations';
 import { Translate } from '../src/lib/translate';
 
 const defaultSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
