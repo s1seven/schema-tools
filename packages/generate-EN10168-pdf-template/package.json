@@ -2,26 +2,20 @@
   "name": "@s1seven/schema-tools-generate-pdf-template",
   "version": "0.0.1",
   "main": "index.js",
-  "license": "MIT",
+  "license": "",
   "devDependencies": {
     "@s1seven/schema-tools-generate-interfaces": "^0.0.8",
     "@s1seven/schema-tools-utils": "^0.0.8",
-    "@types/chai": "^4.2.14",
-    "@types/mocha": "^8.0.3",
     "@types/node": "^14.14.6",
-    "chai": "^4.2.0",
-    "mocha": "^8.2.1",
     "parcel-bundler": "^1.12.4",
     "pdfmake": "^0.1.68",
-    "ts-node": "^9.0.0",
     "typescript": "^4.0.5"
   },
   "scripts": {
-    "test": "mocha -r ts-node/register test/**/*.ts",
+    "test": "jest --ci --config ../../jest.config.json ",
     "build": "parcel build src/generateContent.ts --no-cache --no-source-maps",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix --ignore-path src/types/schemaTypes.ts",
     "create-example": "node ./utils/create-example.js",
     "create-interfaces": "node ./utils/create-certificate-interfaces.js https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json ./src/types/schemaTypes.ts"
-  },
-  "dependencies": {}
+  }
 }

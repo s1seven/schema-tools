@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
 import { Translate } from '../src/lib/translate';
 import { createTransactionParties } from '../src/lib/createTransactionParties';
@@ -15,13 +14,13 @@ describe('Rendering commercial transaction', () => {
     const commercialTransaction = createCommercialTransaction(certificate.Certificate.CommercialTransaction, i18n);
     const tableBody = commercialTransaction.content[0].table.body;
 
-    expect(tableBody.length).to.be.equal(10);
-    expect(tableBody[0]).to.be.eql([
+    expect(tableBody.length).toEqual(10);
+    expect(tableBody[0]).toEqual([
       { text: 'Commercial transaction / Angaben zum Geschäftsvorgang', style: 'h2', colSpan: 3 },
       {},
       {},
     ]);
-    expect(tableBody[1]).to.be.eql([
+    expect(tableBody[1]).toEqual([
       {
         text: 'A02 Type of inspection document / Art der Prüfbescheinigung',
         style: 'tableHeader',
@@ -33,7 +32,7 @@ describe('Rendering commercial transaction', () => {
         style: 'p',
       },
     ]);
-    expect(tableBody[8]).to.be.eql([
+    expect(tableBody[8]).toEqual([
       {
         text: 'Invoice',
         style: 'tableHeader',
@@ -46,7 +45,7 @@ describe('Rendering commercial transaction', () => {
       },
     ]);
 
-    expect(tableBody[9]).to.be.eql([
+    expect(tableBody[9]).toEqual([
       {
         text: 'Date of delivery note',
         style: 'tableHeader',
@@ -68,8 +67,8 @@ describe('Rendering transaction parties', () => {
     const transactionParties = createTransactionParties(certificate.Certificate.CommercialTransaction, i18n);
     const tableBody = transactionParties.content[0].table.body;
 
-    expect(tableBody.length).to.be.equal(2);
-    expect(tableBody[0]).to.be.eql([
+    expect(tableBody.length).toEqual(2);
+    expect(tableBody[0]).toEqual([
       [
         {
           text: "A04 Manufacturer's mark / Zeichen des Herstellers",
@@ -89,7 +88,7 @@ describe('Rendering transaction parties', () => {
         },
       ],
     ]);
-    expect(tableBody[1]).to.be.eql([
+    expect(tableBody[1]).toEqual([
       [
         {
           image:
@@ -172,8 +171,8 @@ describe('Rendering transaction parties', () => {
     );
     const tableBody = transactionParties.content[0].table.body;
 
-    expect(tableBody.length).to.be.equal(2);
-    expect(tableBody[0]).to.be.eql([
+    expect(tableBody.length).toEqual(2);
+    expect(tableBody[0]).toEqual([
       [{ text: "A01 Manufacturer's plant / Herstellerwerk", style: 'tableHeader' }],
       [{ text: 'A06 Purchaser / Besteller', style: 'tableHeader' }],
       '',

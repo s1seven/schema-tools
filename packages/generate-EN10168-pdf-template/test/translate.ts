@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { getTranslations } from '../src/lib/helpers';
 import { Translate } from '../src/lib/translate';
 
@@ -9,20 +8,20 @@ describe('Translate', () => {
     const translations = await getTranslations(['DE', 'EN'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     const translation = i18n.translate('A01', 'certificateFields');
-    expect(translation).to.be.equal("A01 Herstellerwerk / Manufacturer's plant");
+    expect(translation).toEqual("A01 Herstellerwerk / Manufacturer's plant");
   });
 
   it('correctly translate certificateGroups into 2 languages', async () => {
     const translations = await getTranslations(['DE', 'FR'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     const translation = i18n.translate('ProductDescription', 'certificateGroups');
-    expect(translation).to.be.equal('Beschreibung des Erzeugnisses / Description du produit');
+    expect(translation).toEqual('Beschreibung des Erzeugnisses / Description du produit');
   });
   
   it('correctly translate certificateGroups into 1 language', async () => {
     const translations = await getTranslations(['FR'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     const translation = i18n.translate('ChemicalComposition', 'otherFields');
-    expect(translation).to.be.equal('Composition chimique');
+    expect(translation).toEqual('Composition chimique');
   });
 });

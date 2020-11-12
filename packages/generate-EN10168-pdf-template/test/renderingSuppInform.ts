@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { getTranslations } from '../src/lib/helpers';
 import { Translate } from '../src/lib/translate';
 import { supplementaryInformation } from '../src/lib/supplementaryInformation';
@@ -9,7 +8,7 @@ describe('Rendering supplementary information', () => {
   it('does not render header when no supplementary inforamtion is given', async () => {
     const translations = await getTranslations(['EN'], defaultSchemaUrl);
     const i18n = new Translate(translations);
-    expect(supplementaryInformation({}, i18n)).to.be.eql([]);
+    expect(supplementaryInformation({}, i18n)).toEqual([]);
   });
 
   it('correctly renders header in one language', async () => {
@@ -22,7 +21,7 @@ describe('Rendering supplementary information', () => {
     };
     const translations = await getTranslations(['EN'], defaultSchemaUrl);
     const i18n = new Translate(translations);
-    expect(supplementaryInformation(suppInfo, i18n)[0]).to.be.eql([
+    expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
       { text: 'Supplementary information', style: 'h2', colSpan: 3 },
       {},
       {},
@@ -39,7 +38,7 @@ describe('Rendering supplementary information', () => {
     };
     const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
     const i18n = new Translate(translations);
-    expect(supplementaryInformation(suppInfo, i18n)[0]).to.be.eql([
+    expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
       { text: 'Supplementary information / Ergänzende Angaben', style: 'h2', colSpan: 3 },
       {},
       {},
@@ -61,17 +60,17 @@ describe('Rendering supplementary information', () => {
     const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     const supplementarInforamtion = supplementaryInformation(suppInfo, i18n);
-    expect(supplementarInforamtion.length).to.be.equal(3);
-    expect(supplementarInforamtion[0]).to.be.eql([
+    expect(supplementarInforamtion.length).toEqual(3);
+    expect(supplementarInforamtion[0]).toEqual([
       { text: 'Supplementary information / Ergänzende Angaben', style: 'h2', colSpan: 3 },
       {},
       {},
     ]);
-    expect(supplementarInforamtion[1]).to.be.eql([
+    expect(supplementarInforamtion[1]).toEqual([
       { text: 'First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 1 },
       { text: '1.0 Apples', style: 'p', colSpan: 2 },
     ]);
-    expect(supplementarInforamtion[2]).to.be.eql([
+    expect(supplementarInforamtion[2]).toEqual([
       { text: 'Last Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 1 },
       { text: 'A96 ', style: 'p', colSpan: 2 },
     ]);
@@ -88,14 +87,14 @@ describe('Rendering supplementary information', () => {
     const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     const supplementarInforamtion = supplementaryInformation(suppInfo, i18n, 4);
-    expect(supplementarInforamtion.length).to.be.equal(2);
-    expect(supplementarInforamtion[0]).to.be.eql([
+    expect(supplementarInforamtion.length).toEqual(2);
+    expect(supplementarInforamtion[0]).toEqual([
       { text: 'Supplementary information / Ergänzende Angaben', style: 'h2', colSpan: 4 },
       {},
       {},
       {},
     ]);
-    expect(supplementarInforamtion[1]).to.be.eql([
+    expect(supplementarInforamtion[1]).toEqual([
       { text: 'First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 2 },
       {},
       { text: '1.0 Apples', style: 'p', colSpan: 2 },
