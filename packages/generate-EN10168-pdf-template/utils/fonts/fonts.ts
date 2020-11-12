@@ -3,6 +3,5 @@ export const fonts = {
     normal: 'fonts/Lato-Regular.ttf',
     bold: 'fonts/Lato-Bold.ttf',
     light: 'fonts/Lato-Light.ttf',
-  }
-}
-//module.exports = fonts;
+  },
+};
