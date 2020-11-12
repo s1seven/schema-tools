@@ -1,19 +1,22 @@
 import { Measurement, TableCell } from '../types';
+import { Translate } from './translate';
 
-export function measurement(measurement: Measurement, name: string): TableCell[][] {
+export function measurement(measurement: Measurement, name: string, i18n: Translate): TableCell[][] {
   if (measurement === undefined) return [];
   const { Property, Value, Minimum, Maximum, Unit } = measurement;
-  const keys = [
-    { text: `${name} ${Property}`, style: 'tableHeader' },
-    { text: 'Minimum', style: 'tableHeader' },
-    { text: 'Value', style: 'tableHeader' },
-    { text: 'Maximum', style: 'tableHeader' },
+  return [
+    [
+      { text: `${i18n.translate(name, 'certificateFields')} ${Property ? Property : ''}`, style: 'tableHeader' },
+      {},
+      {},
+      {
+        aling: 'justify',
+        columns: [
+          { text: `${Value} ${Unit ? Unit : ''}` },
+          { text: `${Minimum ? `min ${Minimum} ${Unit}` : ''}` },
+          { text: `${Maximum ? `max ${Maximum} ${Unit}` : ''}` },
+        ],
+      },
+    ],
   ];
-  const values = [
-    { text: Unit, style: 'p' },
-    { text: Minimum, style: 'p' },
-    { text: Value, style: 'p' },
-    { text: Maximum, style: 'p' },
-  ];
-  return [keys, values];
 }
