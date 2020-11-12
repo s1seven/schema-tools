@@ -1,8 +1,9 @@
 const { loadExternalFile } = require('@s1seven/schema-tools-utils');
 const PdfPrinter = require('pdfmake');
 const fs = require('fs');
+const path = require('path');
+const vm = require('vm');
 const styles = require('./styles');
-const { generateContent } = require('../dist/generateContent');
 const certificate = require('../../../fixtures/EN10168/v0.0.2/valid_cert.json');
 
 const fonts = {
@@ -14,11 +15,38 @@ const fonts = {
   },
 };
 
+function buildModule(filePath) {
+  const code = fs.readFileSync(filePath, 'utf8');
+  const _module = new module.constructor();
+  _module.filename = filePath;
+  _module._compile(code, filePath);
+  return _module.exports;
+}
+
+async function generateInSandbox(certificate, translations) {
+  const { generateContent } = buildModule(path.resolve('./dist/generateContent.js'));
+
+  const code = `(async function () {
+    content = await generateContent(certificate, translations);
+  }())`;
+
+  const script = new vm.Script(code);
+  const context = {
+    certificate,
+    translations,
+    generateContent,
+    content: {},
+  };
+  vm.createContext(context);
+  await script.runInContext(context);
+  const { content } = context;
+  return content;
+}
+
 async function generateExample(certificate, translations) {
   const printer = new PdfPrinter(fonts);
-  const content = await generateContent(certificate, translations);
 
-  // console.log(JSON.stringify(content, null, 2));
+  const content = await generateInSandbox(certificate, translations);
 
   const docDefinition = {
     pageSize: 'A4',
