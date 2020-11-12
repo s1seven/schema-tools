@@ -17,7 +17,7 @@ describe('Translate', () => {
     const translation = i18n.translate('ProductDescription', 'certificateGroups');
     expect(translation).toEqual('Beschreibung des Erzeugnisses / Description du produit');
   });
-  
+
   it('correctly translate certificateGroups into 1 language', async () => {
     const translations = await getTranslations(['FR'], defaultSchemaUrl);
     const i18n = new Translate(translations);
