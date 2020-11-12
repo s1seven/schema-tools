@@ -5,9 +5,14 @@ import { supplementaryInformation } from '../src/lib/supplementaryInformation';
 const defaultSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
 
 describe('Rendering supplementary information', () => {
+  let translations: Record<string, unknown>;
+
+  beforeAll(async () => {
+    translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
+  });
+
   it('does not render header when no supplementary inforamtion is given', async () => {
-    const translations = await getTranslations(['EN'], defaultSchemaUrl);
-    const i18n = new Translate(translations);
+    const i18n = new Translate({ EN: translations.EN });
     expect(supplementaryInformation({}, i18n)).toEqual([]);
   });
 
@@ -19,10 +24,9 @@ describe('Rendering supplementary information', () => {
         Unit: 'Apples',
       },
     };
-    const translations = await getTranslations(['EN'], defaultSchemaUrl);
-    const i18n = new Translate(translations);
+    const i18n = new Translate({ EN: translations.EN });
     expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
-      { text: 'Supplementary information', style: 'h3', colSpan: 3 },
+      { text: 'Supplementary information', style: 'h4', colSpan: 3 },
       {},
       {},
     ]);
@@ -36,10 +40,10 @@ describe('Rendering supplementary information', () => {
         Unit: 'Apples',
       },
     };
-    const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
-    const i18n = new Translate(translations);
+    const i18n = new Translate({ EN: translations.EN, DE:translations.DE });
+
     expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
-      { text: 'Supplementary information / Ergänzende Angaben', style: 'h3', colSpan: 3 },
+      { text: 'Supplementary information / Ergänzende Angaben', style: 'h4', colSpan: 3 },
       {},
       {},
     ]);
@@ -57,12 +61,12 @@ describe('Rendering supplementary information', () => {
         Value: 'A96',
       },
     };
-    const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
-    const i18n = new Translate(translations);
+    const i18n = new Translate({ EN: translations.EN, DE:translations.DE });
+
     const supplementarInforamtion = supplementaryInformation(suppInfo, i18n);
     expect(supplementarInforamtion.length).toEqual(3);
     expect(supplementarInforamtion[0]).toEqual([
-      { text: 'Supplementary information / Ergänzende Angaben', style: 'h3', colSpan: 3 },
+      { text: 'Supplementary information / Ergänzende Angaben', style: 'h4', colSpan: 3 },
       {},
       {},
     ]);
@@ -84,12 +88,12 @@ describe('Rendering supplementary information', () => {
         Unit: 'Apples',
       },
     };
-    const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
-    const i18n = new Translate(translations);
+    const i18n = new Translate({ EN: translations.EN, DE:translations.DE });
+
     const supplementarInforamtion = supplementaryInformation(suppInfo, i18n, 4);
     expect(supplementarInforamtion.length).toEqual(2);
     expect(supplementarInforamtion[0]).toEqual([
-      { text: 'Supplementary information / Ergänzende Angaben', style: 'h3', colSpan: 4 },
+      { text: 'Supplementary information / Ergänzende Angaben', style: 'h4', colSpan: 4 },
       {},
       {},
       {},

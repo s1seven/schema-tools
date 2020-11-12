@@ -8,9 +8,14 @@ import { CommercialTransaction } from '../src/types';
 const defaultSchemaUrl = certificate.RefSchemaUrl || 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
 
 describe('Rendering commercial transaction', () => {
+  let translations: Record<string, unknown>;
+
+  beforeAll(async () => {
+    translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
+  });
+
   it('correctly renders for testingCertificate', async () => {
-    const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
-    const i18n = new Translate(translations);
+    const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const commercialTransaction = createCommercialTransaction(certificate.Certificate.CommercialTransaction, i18n);
     const tableBody = commercialTransaction.table.body;
 
@@ -61,9 +66,14 @@ describe('Rendering commercial transaction', () => {
 });
 
 describe('Rendering transaction parties', () => {
+  let translations: Record<string, unknown>;
+
+  beforeAll(async () => {
+    translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
+  });
+
   it('correctly renders for testingCertificate', async () => {
-    const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
-    const i18n = new Translate(translations);
+    const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const transactionParties = createTransactionParties(certificate.Certificate.CommercialTransaction, i18n);
     const tableBody = transactionParties.table.body;
 
@@ -144,8 +154,7 @@ describe('Rendering transaction parties', () => {
   });
 
   it("correctly renders when Manufacturer's mark is not provided", async () => {
-    const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
-    const i18n = new Translate(translations);
+    const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const transactionParties = createTransactionParties(
       {
         A01: {
