@@ -5,6 +5,7 @@ import { productShape } from './productShape';
 import { supplementaryInformation } from './supplementaryInformation';
 import { ProductDescription } from '../types';
 import { Translate } from './translate';
+import { tableLayout } from './tableLayout';
 
 export function createProductDescription(productDescription: ProductDescription, i18n: Translate) {
   const B02ProductNorms = productNorms(productDescription.B02, i18n);
@@ -55,20 +56,7 @@ export function createProductDescription(productDescription: ProductDescription,
             ...suppInformation,
           ],
         },
-        layout: {
-          hLineWidth: function () {
-            return 0;
-          },
-          vLineWidth: function () {
-            return 0;
-          },
-          hLineColor: function () {
-            return 'gray';
-          },
-          vLineColor: function () {
-            return 'gray';
-          },
-        },
+        layout: tableLayout,
       },
     ],
   };
