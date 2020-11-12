@@ -18,7 +18,7 @@
   "scripts": {
     "test": "jest --ci --config ../../jest.config.json ",
     "build": "parcel build src/generateContent.ts --no-cache --no-source-maps --target=node",
-    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix --ignore-path src/types/schemaTypes.ts",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
     "create-example": "node ./utils/create-example.js",
     "create-interfaces": "node ./utils/create-certificate-interfaces.js https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json ./src/types/schemaTypes.ts"
   }
