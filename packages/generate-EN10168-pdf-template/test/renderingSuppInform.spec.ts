@@ -22,7 +22,7 @@ describe('Rendering supplementary information', () => {
     const translations = await getTranslations(['EN'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
-      { text: 'Supplementary information', style: 'h2', colSpan: 3 },
+      { text: 'Supplementary information', style: 'h3', colSpan: 3 },
       {},
       {},
     ]);
@@ -39,7 +39,7 @@ describe('Rendering supplementary information', () => {
     const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
-      { text: 'Supplementary information / Ergänzende Angaben', style: 'h2', colSpan: 3 },
+      { text: 'Supplementary information / Ergänzende Angaben', style: 'h3', colSpan: 3 },
       {},
       {},
     ]);
@@ -62,7 +62,7 @@ describe('Rendering supplementary information', () => {
     const supplementarInforamtion = supplementaryInformation(suppInfo, i18n);
     expect(supplementarInforamtion.length).toEqual(3);
     expect(supplementarInforamtion[0]).toEqual([
-      { text: 'Supplementary information / Ergänzende Angaben', style: 'h2', colSpan: 3 },
+      { text: 'Supplementary information / Ergänzende Angaben', style: 'h3', colSpan: 3 },
       {},
       {},
     ]);
@@ -89,7 +89,7 @@ describe('Rendering supplementary information', () => {
     const supplementarInforamtion = supplementaryInformation(suppInfo, i18n, 4);
     expect(supplementarInforamtion.length).toEqual(2);
     expect(supplementarInforamtion[0]).toEqual([
-      { text: 'Supplementary information / Ergänzende Angaben', style: 'h2', colSpan: 4 },
+      { text: 'Supplementary information / Ergänzende Angaben', style: 'h3', colSpan: 4 },
       {},
       {},
       {},
