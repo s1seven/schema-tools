@@ -8,10 +8,10 @@ const certificate = require('../../../fixtures/EN10168/v0.0.2/valid_cert.json');
 
 const fonts = {
   Lato: {
-    normal: 'utils/fonts/Lato-Light.ttf',
-    bold: 'utils/fonts/Lato-Regular.ttf',
-    italics: 'utils/fonts/Lato-LightItalic.ttf',
-    light: 'utils/fonts/Lato-Light.ttf',
+    normal: 'node_modules/lato-font/fonts/lato-normal/lato-normal.woff',
+    bold: 'node_modules/lato-font/fonts/lato-bold/lato-bold.woff',
+    italics: 'node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff',
+    light: 'node_modules/lato-font/fonts/lato-light/lato-light.woff',
   },
 };
 
