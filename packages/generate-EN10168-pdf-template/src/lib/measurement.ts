@@ -1,6 +1,6 @@
-import { Measurement } from '../types';
+import { Measurement, TableCell } from '../types';
 
-export function measurement(measurement: Measurement, name: string) {
+export function measurement(measurement: Measurement, name: string): TableCell[][] {
   if (measurement === undefined) return [];
   const { Property, Value, Minimum, Maximum, Unit } = measurement;
   const keys = [
