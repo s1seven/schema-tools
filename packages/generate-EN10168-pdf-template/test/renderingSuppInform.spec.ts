@@ -26,7 +26,7 @@ describe('Rendering supplementary information', () => {
     };
     const i18n = new Translate({ EN: translations.EN });
     expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
-      { text: 'Supplementary information', style: 'h4', colSpan: 3 },
+      { text: 'Supplementary information', style: 'h5', colSpan: 3 },
       {},
       {},
     ]);
@@ -43,7 +43,7 @@ describe('Rendering supplementary information', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
 
     expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
-      { text: 'Supplementary information / Ergänzende Angaben', style: 'h4', colSpan: 3 },
+      { text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 3 },
       {},
       {},
     ]);
@@ -66,17 +66,19 @@ describe('Rendering supplementary information', () => {
     const supplementarInforamtion = supplementaryInformation(suppInfo, i18n);
     expect(supplementarInforamtion.length).toEqual(3);
     expect(supplementarInforamtion[0]).toEqual([
-      { text: 'Supplementary information / Ergänzende Angaben', style: 'h4', colSpan: 3 },
+      { text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 3 },
       {},
       {},
     ]);
     expect(supplementarInforamtion[1]).toEqual([
-      { text: 'First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 1 },
-      { text: '1.0 Apples', style: 'p', colSpan: 2 },
+      { text: 'First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 2 },
+      {},
+      { text: '1.0 Apples', style: 'p', colSpan: 1 },
     ]);
     expect(supplementarInforamtion[2]).toEqual([
-      { text: 'Last Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 1 },
-      { text: 'A96 ', style: 'p', colSpan: 2 },
+      { text: 'Last Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 2 },
+      {},
+      { text: 'A96 ', style: 'p', colSpan: 1 },
     ]);
   });
 
@@ -93,15 +95,16 @@ describe('Rendering supplementary information', () => {
     const supplementarInforamtion = supplementaryInformation(suppInfo, i18n, 4);
     expect(supplementarInforamtion.length).toEqual(2);
     expect(supplementarInforamtion[0]).toEqual([
-      { text: 'Supplementary information / Ergänzende Angaben', style: 'h4', colSpan: 4 },
+      { text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 4 },
       {},
       {},
       {},
     ]);
     expect(supplementarInforamtion[1]).toEqual([
-      { text: 'First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 2 },
+      { text: 'First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 3 },
       {},
-      { text: '1.0 Apples', style: 'p', colSpan: 2 },
+      {},
+      { text: '1.0 Apples', style: 'p', colSpan: 1 },
     ]);
   });
 });

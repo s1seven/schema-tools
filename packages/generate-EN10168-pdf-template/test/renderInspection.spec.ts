@@ -1,7 +1,7 @@
 import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
 import { getTranslations } from './getTranslations';
 import { Translate } from '../src/lib/translate';
-import { renderChemicalComposition } from '../src/lib/helpers';
+import { renderChemicalComposition } from '../src/lib/createInspection';
 
 const defaultSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
 
@@ -15,7 +15,7 @@ describe('Rendering inspection section', () => {
   it('correctly renders ChemicalComposition', async () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const chemicalComposition = renderChemicalComposition(certificate.Certificate.Inspection.ChemicalComposition, i18n);
-    expect(chemicalComposition.table).toEqual({
+    expect(chemicalComposition[1].table).toEqual({
       body: [
         [
           {
@@ -254,7 +254,7 @@ describe('Rendering inspection section', () => {
         [
           {
             text: 'Supplementary information / Ergänzende Angaben',
-            style: 'h4',
+            style: 'h5',
             colSpan: 19,
           },
           {},
@@ -280,8 +280,9 @@ describe('Rendering inspection section', () => {
           {
             text: 'Bq/kg',
             style: 'tableHeader',
-            colSpan: 17,
+            colSpan: 18,
           },
+          {},
           {},
           {},
           {},
@@ -301,7 +302,7 @@ describe('Rendering inspection section', () => {
           {
             text: '<100 ',
             style: 'p',
-            colSpan: 2,
+            colSpan: 1,
           },
         ],
       ],
