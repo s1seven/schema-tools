@@ -8,7 +8,7 @@ export const supplementaryInformation = (
   colSpan = 3,
 ): TableCell[][] => {
   const dataMapped = Object.keys(data).map((element) => [
-    { text: data[element].Key, style: 'tableHeader', colSpan: colSpan - 1 },
+    { text: `${element} ${data[element].Key}`, style: 'tableHeader', colSpan: colSpan - 1 },
     ...createEmptyColumns(colSpan - 2),
     { text: `${data[element].Value} ${data[element].Unit ? data[element].Unit : ''}`, style: 'p', colSpan: 1 },
   ]);
