@@ -12,10 +12,10 @@ export function productNorms(productNorms: ProductNorms, i18n: Translate): Table
   const header = [{ text: i18n.translate('B02', 'certificateFields'), colSpan: 4, style: 'tableHeader' }, {}, {}, {}];
 
   const aaa = Object.keys(productNorms).map((norm) => [
-    { text: i18n.translate(norm, 'otherFields'), style: 'tableHeader', colSpan: 3 },
+    { text: i18n.translate(norm, 'otherFields'), style: 'caption', colSpan: 3 },
     {},
     {},
-    { text: productNorms[norm].join(', '), style: 'p' },
+    { text: productNorms[norm].join(', '), style: 'caption' },
   ]);
 
   return [header, ...aaa];

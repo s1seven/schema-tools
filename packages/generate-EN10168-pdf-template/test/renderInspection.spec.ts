@@ -183,7 +183,6 @@ describe('Rendering inspection section', () => {
           {},
           {},
           {
-            alignment: 'justify',
             style: 'p',
             text: '5, 1, 200 m',
           },
@@ -259,7 +258,6 @@ describe('Rendering inspection section', () => {
           {},
           {},
           {
-            alignment: 'justify',
             style: 'p',
             text: '42, 39, 40 ',
           },
