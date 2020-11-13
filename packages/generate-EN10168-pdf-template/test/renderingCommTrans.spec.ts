@@ -41,12 +41,13 @@ describe('Rendering commercial transaction', () => {
       {
         text: 'Invoice',
         style: 'tableHeader',
-        colSpan: 1,
+        colSpan: 2,
       },
+      {},
       {
         text: '18/01067/D ',
         style: 'p',
-        colSpan: 2,
+        colSpan: 1,
       },
     ]);
 
@@ -54,12 +55,13 @@ describe('Rendering commercial transaction', () => {
       {
         text: 'Date of delivery note',
         style: 'tableHeader',
-        colSpan: 1,
+        colSpan: 2,
       },
+      {},
       {
         text: '2020-09-29 ',
         style: 'p',
-        colSpan: 2,
+        colSpan: 1,
       },
     ]);
   });

@@ -28,6 +28,12 @@ module.exports = {
   },
   h4: {
     bold: true,
+    decoration: 'underline',
+    fontSize: 12,
+    margin: [0, 4, 0, 4],
+  },
+  h5: {
+    bold: true,
     fontSize: 12,
     margin: [0, 4, 0, 4],
   },
