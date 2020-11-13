@@ -39,7 +39,7 @@ describe('Rendering commercial transaction', () => {
     ]);
     expect(tableBody[8]).toEqual([
       {
-        text: 'Invoice',
+        text: 'A10 Invoice',
         style: 'tableHeader',
         colSpan: 2,
       },
@@ -53,7 +53,7 @@ describe('Rendering commercial transaction', () => {
 
     expect(tableBody[9]).toEqual([
       {
-        text: 'Date of delivery note',
+        text: 'A11 Date of delivery note',
         style: 'tableHeader',
         colSpan: 2,
       },

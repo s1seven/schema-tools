@@ -112,7 +112,7 @@ describe('Rendering inspection section', () => {
           {
             colSpan: 3,
             style: 'tableHeader',
-            text: 'Test no.',
+            text: 'C14 Test no.',
           },
           {},
           {},
@@ -156,7 +156,7 @@ describe('Rendering inspection section', () => {
       SupplementaryInformation: {
         C33: {
           Value: 'C33 Value',
-          Key: 'C33 key',
+          Key: 'key',
         },
       },
     };
@@ -295,7 +295,7 @@ describe('Rendering inspection section', () => {
   it('correctly renders ChemicalComposition', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const chemicalComposition = renderChemicalComposition(certificate.Certificate.Inspection.ChemicalComposition, i18n);
-    expect(chemicalComposition[1].table).toEqual({
+    expect(chemicalComposition[2].table).toEqual({
       body: [
         [
           {
@@ -533,12 +533,12 @@ describe('Rendering inspection section', () => {
         ],
       ],
     });
-    expect(chemicalComposition[2].table).toEqual({
+    expect(chemicalComposition[3].table).toEqual({
       widths: [240, '*'],
       body: [
         [{ text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 2 }, {}],
         [
-          { text: 'Bq/kg', style: 'tableHeader', colSpan: 1 },
+          { text: 'C110 Bq/kg', style: 'tableHeader', colSpan: 1 },
           { text: '<100 ', style: 'p', colSpan: 1 },
         ],
       ],

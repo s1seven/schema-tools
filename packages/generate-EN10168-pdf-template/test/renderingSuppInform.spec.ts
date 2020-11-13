@@ -35,7 +35,7 @@ describe('Rendering supplementary information', () => {
   it('correctly renders header in two languages', () => {
     const suppInfo = {
       A11: {
-        Key: 'First Supplementary Information Commercial Transaction',
+        Key: 'A11 First Supplementary Information Commercial Transaction',
         Value: '1.0',
         Unit: 'Apples',
       },
@@ -71,12 +71,12 @@ describe('Rendering supplementary information', () => {
       {},
     ]);
     expect(supplementarInforamtion[1]).toEqual([
-      { text: 'First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 2 },
+      { text: 'A11 First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 2 },
       {},
       { text: '1.0 Apples', style: 'p', colSpan: 1 },
     ]);
     expect(supplementarInforamtion[2]).toEqual([
-      { text: 'Last Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 2 },
+      { text: 'A96 Last Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 2 },
       {},
       { text: 'A96 ', style: 'p', colSpan: 1 },
     ]);
@@ -101,7 +101,7 @@ describe('Rendering supplementary information', () => {
       {},
     ]);
     expect(supplementarInforamtion[1]).toEqual([
-      { text: 'First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 3 },
+      { text: 'A11 First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 3 },
       {},
       {},
       { text: '1.0 Apples', style: 'p', colSpan: 1 },

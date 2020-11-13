@@ -177,9 +177,18 @@ export function renderOtherMechanicalTests(
 export function renderChemicalComposition(
   chemicalComposition: ChemicalComposition,
   i18n: Translate,
-): [ContentText, TableElement, TableElement] {
+): [ContentText, TableElement, TableElement, TableElement] {
+  const C70 = chemicalComposition.C70
+    ? [
+        { text: i18n.translate('C70', 'certificateFields'), style: 'tableHeader' },
+        {},
+        {},
+        { text: chemicalComposition.C70, style: 'p' },
+      ]
+    : createEmptyColumns(4);
+
   const ChemicalElements: { key: string; value: ChemicalElement }[] = Object.keys(chemicalComposition)
-    .filter((element) => element !== 'SupplementaryInformation')
+    .filter((element) => element !== 'C70' && element !== 'SupplementaryInformation')
     .map((el) => ({ key: el, value: chemicalComposition[el] }));
 
   const tableBody = [
@@ -203,6 +212,14 @@ export function renderChemicalComposition(
 
   return [
     { text: i18n.translate('ChemicalComposition', 'otherFields'), style: 'h4' },
+    {
+      style: 'table',
+      table: {
+        widths: [160, '*', '*', 300],
+        body: [C70],
+      },
+      layout: tableLayout,
+    },
     {
       style: 'table',
       table: {
