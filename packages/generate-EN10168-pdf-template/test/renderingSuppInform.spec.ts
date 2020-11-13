@@ -11,12 +11,12 @@ describe('Rendering supplementary information', () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
-  it('does not render header when no supplementary inforamtion is given', async () => {
+  it('does not render header when no supplementary inforamtion is given', () => {
     const i18n = new Translate({ EN: translations.EN });
     expect(supplementaryInformation({}, i18n)).toEqual([]);
   });
 
-  it('correctly renders header in one language', async () => {
+  it('correctly renders header in one language', () => {
     const suppInfo = {
       A11: {
         Key: 'First Supplementary Information Commercial Transaction',
@@ -32,7 +32,7 @@ describe('Rendering supplementary information', () => {
     ]);
   });
 
-  it('correctly renders header in two languages', async () => {
+  it('correctly renders header in two languages', () => {
     const suppInfo = {
       A11: {
         Key: 'First Supplementary Information Commercial Transaction',
@@ -49,7 +49,7 @@ describe('Rendering supplementary information', () => {
     ]);
   });
 
-  it('correctly renders supplementary information', async () => {
+  it('correctly renders supplementary information', () => {
     const suppInfo = {
       A11: {
         Key: 'First Supplementary Information Commercial Transaction',
@@ -82,7 +82,7 @@ describe('Rendering supplementary information', () => {
     ]);
   });
 
-  it('correctly renders supplementary information for colSpan = 4', async () => {
+  it('correctly renders supplementary information for colSpan = 4', () => {
     const suppInfo = {
       A11: {
         Key: 'First Supplementary Information Commercial Transaction',
