@@ -21,7 +21,7 @@ export function createCommercialTransaction(
   return {
     style: 'table',
     table: {
-      widths: [150, 100, 200],
+      widths: [140, 100, 200],
       body: [
         [{ text: i18n.translate('CommercialTransaction', 'certificateGroups'), style: 'h2', colSpan: 3 }, {}, {}],
         ...content,

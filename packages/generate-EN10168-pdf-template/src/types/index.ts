@@ -7,4 +7,5 @@ export interface TableElement {
   style: string;
   table: Table;
   layout: TableLayout;
+  id?: string;
 }

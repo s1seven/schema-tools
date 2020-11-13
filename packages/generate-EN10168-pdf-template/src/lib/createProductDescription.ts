@@ -1,5 +1,5 @@
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
-import { measurement } from './measurement';
+import { renderMeasurement } from './measurement';
 import { productNorms } from './productNorms';
 import { productShape } from './productShape';
 import { supplementaryInformation } from './supplementaryInformation';
@@ -21,10 +21,10 @@ export function createProductDescription(productDescription: ProductDescription,
     ]);
 
   const B09productShape = productShape(productDescription.B09, i18n);
-  const B10measurement = measurement(productDescription.B10, 'B10', i18n);
-  const B11measurement = measurement(productDescription.B11, 'B11', i18n);
-  const B12measurement = measurement(productDescription.B12, 'B12', i18n);
-  const B13measurement = measurement(productDescription.B13, 'B13', i18n);
+  const B10measurement = renderMeasurement(productDescription.B10, 'B10', i18n);
+  const B11measurement = renderMeasurement(productDescription.B11, 'B11', i18n);
+  const B12measurement = renderMeasurement(productDescription.B12, 'B12', i18n);
+  const B13measurement = renderMeasurement(productDescription.B13, 'B13', i18n);
 
   const suppInformation = supplementaryInformation(
     productDescription.SupplementaryInformation,
@@ -34,8 +34,9 @@ export function createProductDescription(productDescription: ProductDescription,
 
   return {
     style: 'table',
+    id: 'ProductDescription',
     table: {
-      widths: [150, '*', '*', 300],
+      widths: [160, '*', '*', 300],
       body: [
         [{ text: i18n.translate('ProductDescription', 'certificateGroups'), style: 'h2', colSpan: 4 }, {}, {}, {}],
         [

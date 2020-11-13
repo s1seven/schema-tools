@@ -40,7 +40,7 @@ describe('Rendering supplementary information', () => {
         Unit: 'Apples',
       },
     };
-    const i18n = new Translate({ EN: translations.EN, DE:translations.DE });
+    const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
 
     expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
       { text: 'Supplementary information / Ergänzende Angaben', style: 'h4', colSpan: 3 },
@@ -61,7 +61,7 @@ describe('Rendering supplementary information', () => {
         Value: 'A96',
       },
     };
-    const i18n = new Translate({ EN: translations.EN, DE:translations.DE });
+    const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
 
     const supplementarInforamtion = supplementaryInformation(suppInfo, i18n);
     expect(supplementarInforamtion.length).toEqual(3);
@@ -88,7 +88,7 @@ describe('Rendering supplementary information', () => {
         Unit: 'Apples',
       },
     };
-    const i18n = new Translate({ EN: translations.EN, DE:translations.DE });
+    const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
 
     const supplementarInforamtion = supplementaryInformation(suppInfo, i18n, 4);
     expect(supplementarInforamtion.length).toEqual(2);
