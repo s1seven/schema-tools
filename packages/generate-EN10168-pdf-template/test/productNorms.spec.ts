@@ -5,8 +5,13 @@ import { productNorms } from '../src/lib/productNorms';
 const defaultSchemaUrl = certificate.RefSchemaUrl || 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
 
 describe('Product norms', () => {
+  let translations: Record<string, unknown>;
+
+  beforeAll(async () => {
+    translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
+  });
+
   it('works for example certificate', async () => {
-    const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     const norms = productNorms(certificate.Certificate.ProductDescription.B02, i18n);
     const expected = [
@@ -23,12 +28,12 @@ describe('Product norms', () => {
       [
         {
           text: 'Steel designation / Stahlbezeichnung',
-          style: 'tableHeader',
+          style: 'caption',
           colSpan: 3,
         },
         {},
         {},
-        { text: 'S355J2H', style: 'p' },
+        { text: 'S355J2H', style: 'caption' },
       ],
     ];
     expect(norms).toEqual(expected);
@@ -39,7 +44,6 @@ describe('Product norms', () => {
     MaterialNorm: [],
   };
   it('correctly renders header', async () => {
-    const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     const norms = productNorms(normsInput, i18n);
     expect(norms[0]).toEqual([
@@ -50,18 +54,16 @@ describe('Product norms', () => {
     ]);
   });
   it('correctly renders for many values', async () => {
-    const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     const norms = productNorms(normsInput, i18n);
     expect(norms[2]).toEqual([
-      { text: 'Mass norm / Mass Norm', colSpan: 3, style: 'tableHeader' },
+      { text: 'Mass norm / Mass Norm', colSpan: 3, style: 'caption' },
       {},
       {},
-      { text: 'EN 10219-1:2006, EN 10220', style: 'p' },
+      { text: 'EN 10219-1:2006, EN 10220', style: 'caption' },
     ]);
   });
   it("doesn't render norms that are not included", async () => {
-    const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     const norms = productNorms(normsInput, i18n);
     expect(norms.length).toEqual(4);

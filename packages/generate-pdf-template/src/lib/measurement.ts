@@ -29,7 +29,6 @@ export function renderMeasurementArray(measurements: Measurement[], name: string
       {},
       {},
       {
-        alignment: 'justify',
         text: `${measurements.map(({ Value }) => Value).join(', ')} ${measurements[0]?.Unit || ''}`,
         style: 'p',
       },
