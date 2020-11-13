@@ -66,7 +66,7 @@ export function createInspection(inspection: Inspection, i18n: Translate): (Tabl
   ];
 }
 
-function renderTensileTest(tensileTest: TensileTest, i18n: Translate): [ContentText, TableElement] {
+export function renderTensileTest(tensileTest: TensileTest, i18n: Translate): [ContentText, TableElement] {
   const C10 = tensileTest.C10
     ? [{ text: i18n.translate('C10', 'certificateFields'), style: 'p' }, {}, {}, { text: tensileTest.C10, style: 'p' }]
     : createEmptyColumns(4);
@@ -92,7 +92,7 @@ function renderTensileTest(tensileTest: TensileTest, i18n: Translate): [ContentT
   ];
 }
 
-function renderHardnessTest(hardnessTest: HardnessTest, i18n: Translate): [ContentText, TableElement] {
+export function renderHardnessTest(hardnessTest: HardnessTest, i18n: Translate): [ContentText, TableElement] {
   const C30 = hardnessTest.C30
     ? [{ text: i18n.translate('C30', 'certificateFields'), style: 'p' }, {}, {}, { text: hardnessTest.C30, style: 'p' }]
     : createEmptyColumns(4);
@@ -115,7 +115,7 @@ function renderHardnessTest(hardnessTest: HardnessTest, i18n: Translate): [Conte
   ];
 }
 
-function renderNotchedBarImpactTest(
+export function renderNotchedBarImpactTest(
   notchedBarImpactTest: NotchedBarImpactTest,
   i18n: Translate,
 ): [ContentText, TableElement] {
@@ -148,7 +148,7 @@ function renderNotchedBarImpactTest(
   ];
 }
 
-function renderOtherMechanicalTests(
+export function renderOtherMechanicalTests(
   otherMechanicalTests: OtherMechanicalTests,
   i18n: Translate,
 ): [ContentText, TableElement] {

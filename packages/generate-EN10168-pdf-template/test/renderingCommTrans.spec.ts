@@ -14,7 +14,7 @@ describe('Rendering commercial transaction', () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
-  it('correctly renders for testingCertificate', async () => {
+  it('correctly renders for testingCertificate', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const commercialTransaction = createCommercialTransaction(certificate.Certificate.CommercialTransaction, i18n);
     const tableBody = commercialTransaction.table.body;
@@ -74,7 +74,7 @@ describe('Rendering transaction parties', () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
-  it('correctly renders for testingCertificate', async () => {
+  it('correctly renders for testingCertificate', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const transactionParties = createTransactionParties(certificate.Certificate.CommercialTransaction, i18n);
     const tableBody = transactionParties.table.body;
@@ -155,7 +155,7 @@ describe('Rendering transaction parties', () => {
     ]);
   });
 
-  it("correctly renders when Manufacturer's mark is not provided", async () => {
+  it("correctly renders when Manufacturer's mark is not provided", () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const transactionParties = createTransactionParties(
       {
