@@ -44,3 +44,5 @@ export function renderChemicalComposition(chemicalComposition: ChemicalCompositi
     layout: tableLayout,
   };
 }
+
+// TODO: add joinAndLocalizeNumber, localizeDate, localizeValue, localizeNumber helpers
