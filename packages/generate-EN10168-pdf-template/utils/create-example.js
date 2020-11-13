@@ -60,6 +60,10 @@ async function generateExample(certificate, translations) {
       font: 'Lato',
       fontSize: 10,
     },
+    pageBreakBefore: function (currentNode) {
+      const mainSection = ['ProductDescription', 'Inspection'];
+      return mainSection.includes(currentNode.id);
+    },
   };
   const pdfDoc = printer.createPdfKitDocument(docDefinition);
   pdfDoc.pipe(fs.createWriteStream('utils/generating.pdf'));
