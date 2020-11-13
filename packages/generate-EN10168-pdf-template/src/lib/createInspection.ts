@@ -177,7 +177,7 @@ export function renderOtherMechanicalTests(
 export function renderChemicalComposition(
   chemicalComposition: ChemicalComposition,
   i18n: Translate,
-): [ContentText, TableElement] {
+): [ContentText, TableElement, TableElement] {
   const ChemicalElements: { key: string; value: ChemicalElement }[] = Object.keys(chemicalComposition)
     .filter((element) => element !== 'SupplementaryInformation')
     .map((el) => ({ key: el, value: chemicalComposition[el] }));
@@ -198,7 +198,7 @@ export function renderChemicalComposition(
   ];
 
   const suppInformation = chemicalComposition.SupplementaryInformation
-    ? supplementaryInformation(chemicalComposition.SupplementaryInformation, i18n, ChemicalElements.length + 1)
+    ? supplementaryInformation(chemicalComposition.SupplementaryInformation, i18n, 2)
     : [];
 
   return [
@@ -206,7 +206,15 @@ export function renderChemicalComposition(
     {
       style: 'table',
       table: {
-        body: [...tableBody, ...suppInformation],
+        body: tableBody,
+      },
+      layout: tableLayout,
+    },
+    {
+      style: 'table',
+      table: {
+        widths: [240, '*'],
+        body: suppInformation,
       },
       layout: tableLayout,
     },
