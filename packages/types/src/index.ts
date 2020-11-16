@@ -40,3 +40,9 @@ export interface SchemaConfig {
   schemaType: SchemaTypes;
   version: string;
 }
+
+export type Languages = 'EN' | 'DE' | 'FR' | 'PL';
+
+export type Translations = {
+  [key in Languages]?: any;
+};
