@@ -1,5 +1,12 @@
 import { cast, Result, Sanitizer, SanitizerFailure } from '@restless/sanitizers';
-import { ECoCSchema, EN10168Schema, SchemaConfig, SchemaTypes, ValidationError } from '@s1seven/schema-tools-types';
+import {
+  ECoCSchema,
+  EN10168Schema,
+  SchemaConfig,
+  SchemaTypes,
+  Translations,
+  ValidationError,
+} from '@s1seven/schema-tools-types';
 import { ErrorObject } from 'ajv';
 import axios from 'axios';
 import * as fs from 'fs';
@@ -83,6 +90,31 @@ export function getSchemaConfig(refSchemaUrl: URL): SchemaConfig {
     return val;
   }) as [any, SchemaTypes, string];
   return { baseUrl, schemaType, version };
+}
+
+export function getCertificateLanguages(certificate: EN10168Schema | ECoCSchema): string[] | null {
+  if ((certificate as EN10168Schema)?.Certificate?.CertificateLanguages) {
+    return (certificate as EN10168Schema)?.Certificate?.CertificateLanguages;
+  }
+  return null;
+}
+
+export async function getTranslations(
+  certificateLanguages: string[],
+  schemaConfig: SchemaConfig,
+): Promise<Translations> {
+  const translationsArray = await Promise.all(
+    certificateLanguages.map(async (lang) => {
+      const filePath = getRefSchemaUrl(schemaConfig, `${lang}.json`).href;
+      return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
+    }),
+  );
+
+  return translationsArray.reduce((acc, translation) => {
+    const [key] = Object.keys(translation);
+    acc[key] = translation[key];
+    return acc;
+  }, {});
 }
 
 export type ExternalFile = ReturnType<typeof loadExternalFile>;
