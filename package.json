@@ -1,5 +1,6 @@
 {
   "name": "@s1seven/schema-tools",
+  "version": "0.0.0",
   "private": false,
   "publicConfig": {
     "access": "public"
