@@ -1,8 +1,7 @@
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
-import { createEmptyColumns, localizeValue } from './helpers';
+import { createEmptyColumns, localizeValue, tableLayout } from './helpers';
 import { NonDestructiveTests, OtherProductTests, OtherTests, TableCell, TableElement } from '../types';
 import { Translate } from './translate';
-import { tableLayout } from './tableLayout';
 
 export function createOtherTests(otherTests: OtherTests, i18n: Translate): TableElement {
   const D01 = [

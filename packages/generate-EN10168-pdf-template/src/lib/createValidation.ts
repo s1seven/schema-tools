@@ -1,8 +1,7 @@
+import { localizeDate, tableLayout } from './helpers';
 import { supplementaryInformation } from './supplementaryInformation';
-import { ContentColumns, TableElement, Validation } from '../types';
 import { Translate } from './translate';
-import { tableLayout } from './tableLayout';
-import { localizeDate } from './helpers';
+import { ContentColumns, TableElement, Validation } from '../types';
 
 export function createValidation(
   validation: Validation,

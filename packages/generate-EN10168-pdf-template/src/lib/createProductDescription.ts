@@ -1,11 +1,42 @@
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
+import { tableLayout } from './helpers';
 import { renderMeasurement } from './measurement';
-import { productNorms } from './productNorms';
-import { productShape } from './productShape';
 import { supplementaryInformation } from './supplementaryInformation';
-import { ProductDescription, TableElement } from '../types';
+import { ProductDescription, ProductShape, TableCell, TableElement } from '../types';
 import { Translate } from './translate';
-import { tableLayout } from './tableLayout';
+
+interface ProductNorms {
+  ProductNorm?: string[];
+  MaterialNorm?: string[];
+  MassNorm?: string[];
+  SteelDesignation?: string[];
+}
+
+export function productNorms(productNorms: ProductNorms, i18n: Translate): TableCell[][] {
+  const header = [{ text: i18n.translate('B02', 'certificateFields'), colSpan: 4, style: 'tableHeader' }, {}, {}, {}];
+
+  const aaa = Object.keys(productNorms).map((norm) => [
+    { text: i18n.translate(norm, 'otherFields'), style: 'caption', colSpan: 3 },
+    {},
+    {},
+    { text: productNorms[norm].join(', '), style: 'caption' },
+  ]);
+
+  return [header, ...aaa];
+}
+
+export function productShape(productShape: ProductShape, i18n: Translate): TableCell[][] {
+  if (productShape === undefined) return [];
+  const header = [{ text: i18n.translate('B09', 'certificateFields'), style: 'tableHeader', colSpan: 4 }, {}, {}, {}];
+
+  const content = Object.keys(productShape).map((key) => [
+    { text: i18n.translate(key, 'otherFields'), style: 'caption', colSpan: 3 },
+    {},
+    {},
+    { text: productShape[key], style: 'caption' },
+  ]);
+  return [header, ...content];
+}
 
 export function createProductDescription(productDescription: ProductDescription, i18n: Translate): TableElement {
   const B02ProductNorms = productNorms(productDescription.B02, i18n);

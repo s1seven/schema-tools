@@ -1,7 +1,7 @@
 import { supplementaryInformation } from './supplementaryInformation';
 import { CommercialTransaction, TableElement } from '../types';
 import { Translate } from './translate';
-import { tableLayout } from './tableLayout';
+import { tableLayout } from './helpers';
 
 export function createCommercialTransaction(
   commercialTransaction: CommercialTransaction,

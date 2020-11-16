@@ -1,5 +1,5 @@
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
-import { createEmptyColumns, localizeNumber } from './helpers';
+import { createEmptyColumns, localizeNumber, tableLayout } from './helpers';
 import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
 import {
@@ -15,7 +15,6 @@ import {
   TensileTest,
 } from '../types';
 import { Translate } from './translate';
-import { tableLayout } from './tableLayout';
 
 export function createInspection(inspection: Inspection, i18n: Translate): (TableElement | Content)[] {
   const contentToRender = ['C00', 'C01', 'C02', 'C03'];

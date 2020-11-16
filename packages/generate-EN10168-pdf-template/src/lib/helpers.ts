@@ -1,3 +1,5 @@
+import { TableLayout } from '../types';
+
 export function fillTableRow(arr: any[], colCounts: number, fill = {}) {
   if (arr.length === colCounts) {
     return arr;
@@ -8,6 +10,15 @@ export function fillTableRow(arr: any[], colCounts: number, fill = {}) {
 }
 
 export const createEmptyColumns = (amount: number) => Array(amount).fill({});
+
+export const tableLayout: TableLayout = {
+  hLineWidth: function (): number {
+    return 0;
+  },
+  vLineWidth: function (): number {
+    return 0;
+  },
+};
 
 export function localizeValue(value: string, type: string, locales: string | string[] = 'EN') {
   let result: any;

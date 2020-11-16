@@ -1,8 +1,7 @@
-import { CommercialTransaction, TableElement } from '../types';
 import { TRANSACTION_COLUMNS_COUNT } from './constants';
-import { fillTableRow } from './helpers';
+import { fillTableRow, tableLayout } from './helpers';
 import { Translate } from './translate';
-import { tableLayout } from './tableLayout';
+import { CommercialTransaction, TableElement } from '../types';
 
 function separateCommercialParties(commercialTransaction: CommercialTransaction, i18n: Translate) {
   const initKeys =
