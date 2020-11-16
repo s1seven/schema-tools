@@ -1,6 +1,7 @@
 const { loadExternalFile } = require('@s1seven/schema-tools-utils');
 const PdfPrinter = require('pdfmake');
 const fs = require('fs');
+const Module = require('module');
 const path = require('path');
 const vm = require('vm');
 const styles = require('./styles');
@@ -17,7 +18,7 @@ const fonts = {
 
 function buildModule(filePath) {
   const code = fs.readFileSync(filePath, 'utf8');
-  const _module = new module.constructor();
+  const _module = new Module(filePath);
   _module.filename = filePath;
   _module._compile(code, filePath);
   return _module.exports;
