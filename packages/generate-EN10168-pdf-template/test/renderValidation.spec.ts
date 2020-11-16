@@ -54,7 +54,7 @@ describe('Rendering validation section', () => {
           {},
           {
             style: 'p',
-            text: '2019-04-26T09:30:10-01:00',
+            text: 'Friday, 4/26/2019',
           },
         ],
         [

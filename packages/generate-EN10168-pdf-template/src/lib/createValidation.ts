@@ -2,6 +2,7 @@ import { supplementaryInformation } from './supplementaryInformation';
 import { ContentColumns, TableElement, Validation } from '../types';
 import { Translate } from './translate';
 import { tableLayout } from './tableLayout';
+import { localizeDate } from './helpers';
 
 export function createValidation(
   validation: Validation,
@@ -40,7 +41,7 @@ export function createValidation(
                 { text: i18n.translate('Z02', 'certificateFields'), style: 'tableHeader', colSpan: 2 },
                 {},
                 {
-                  text: validation.Z02,
+                  text: localizeDate(validation.Z02, i18n.languages[0]),
                   style: 'p',
                 },
               ],

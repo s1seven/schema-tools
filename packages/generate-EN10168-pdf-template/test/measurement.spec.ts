@@ -22,7 +22,7 @@ describe('Rendering measurement', () => {
       {
         alignment: 'justify',
         columns: [
-          { text: '1200 mm', style: 'p' },
+          { text: '1,200 mm', style: 'p' },
           { text: '', style: 'p' },
           { text: '', style: 'p' },
         ],

@@ -1,5 +1,5 @@
 export class Translate {
-  languages = ['EN'];
+  languages: string[] = ['EN'];
   translations: Record<string, unknown>;
 
   constructor(_translations: Record<string, unknown>) {
