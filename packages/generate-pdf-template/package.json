@@ -8,6 +8,7 @@
     "@s1seven/schema-tools-utils": "^0.0.8",
     "@types/node": "^14.14.6",
     "@types/pdfmake": "^0.1.16",
+    "full-icu": "^1.3.1",
     "lato-font": "^3.0.0",
     "parcel-bundler": "^1.12.4",
     "pdfmake": "^0.1.68",
@@ -16,8 +17,8 @@
   "scripts": {
     "test": "jest --ci --config ../../jest.config.json ",
     "build": "parcel build src/generateContent.ts --no-cache --no-source-maps --target=node",
-    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix --ignore-path src/types/schemaTypes.ts",
-    "create-example": "node ./utils/create-example.js",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
+    "create-example": "node --icu-data-dir=./node_modules/full-icu/icudt64l.dat ./utils/create-example.js",
     "create-interfaces": "node ./utils/create-certificate-interfaces.js https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json ./src/types/schemaTypes.ts"
   }
 }

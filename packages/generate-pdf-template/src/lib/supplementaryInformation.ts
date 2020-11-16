@@ -1,5 +1,5 @@
 import { CommercialTransactionSupplementaryInformation, TableCell } from '../types';
-import { createEmptyColumns } from './helpers';
+import { createEmptyColumns, localizeValue } from './helpers';
 import { Translate } from './translate';
 
 export const supplementaryInformation = (
@@ -10,7 +10,13 @@ export const supplementaryInformation = (
   const dataMapped = Object.keys(data).map((element) => [
     { text: `${element} ${data[element].Key}`, style: 'tableHeader', colSpan: colSpan - 1 },
     ...createEmptyColumns(colSpan - 2),
-    { text: `${data[element].Value} ${data[element].Unit ? data[element].Unit : ''}`, style: 'p', colSpan: 1 },
+    {
+      text: `${localizeValue(data[element].Value, data[element].Type, i18n.languages)} ${
+        data[element].Unit ? data[element].Unit : ''
+      }`,
+      style: 'p',
+      colSpan: 1,
+    },
   ]);
 
   if (dataMapped.length === 0) return [];

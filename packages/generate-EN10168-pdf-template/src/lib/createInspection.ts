@@ -1,5 +1,5 @@
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
-import { createEmptyColumns } from './helpers';
+import { createEmptyColumns, localizeNumber } from './helpers';
 import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
 import {
@@ -202,7 +202,10 @@ export function renderChemicalComposition(
     ],
     [
       { text: 'Actual', style: 'caption' },
-      ...ChemicalElements.map((chemicalElement) => ({ text: chemicalElement.value.Actual, style: 'small' })),
+      ...ChemicalElements.map((chemicalElement) => ({
+        text: localizeNumber(chemicalElement.value.Actual, i18n.languages[0]),
+        style: 'small',
+      })),
     ],
   ];
 

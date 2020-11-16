@@ -459,75 +459,75 @@ describe('Rendering inspection section', () => {
             style: 'caption',
           },
           {
-            text: 0.017,
+            text: '1.7',
             style: 'small',
           },
           {
-            text: 0.0106,
+            text: '1.06',
             style: 'small',
           },
           {
-            text: 0.0003,
+            text: '0.03',
             style: 'small',
           },
           {
-            text: 0.00005,
+            text: '0.005',
             style: 'small',
           },
           {
-            text: 0.00012,
+            text: '0.012',
             style: 'small',
           },
           {
-            text: 0.00022,
+            text: '0.022',
             style: 'small',
           },
           {
-            text: 0.0006,
+            text: '0.06',
             style: 'small',
           },
           {
-            text: 0.0004,
+            text: '0.04',
             style: 'small',
           },
           {
-            text: 0.0014,
+            text: '0.14',
             style: 'small',
           },
           {
-            text: 0.0001,
+            text: '0.01',
             style: 'small',
           },
           {
-            text: 0.00001,
+            text: '0.001',
             style: 'small',
           },
           {
-            text: 0.00001,
+            text: '0.001',
             style: 'small',
           },
           {
-            text: 0.000003,
+            text: '0.0003',
             style: 'small',
           },
           {
-            text: 0.00009,
+            text: '0.009',
             style: 'small',
           },
           {
-            text: 0.00005,
+            text: '0.005',
             style: 'small',
           },
           {
-            text: 0.000012,
+            text: '0.0012',
             style: 'small',
           },
           {
-            text: 0.000015,
+            text: '0.0015',
             style: 'small',
           },
           {
-            text: 0.042,
+            text: '4.2',
             style: 'small',
           },
         ],

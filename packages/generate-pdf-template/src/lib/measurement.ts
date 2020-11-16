@@ -1,5 +1,6 @@
-import { Measurement, TableCell } from '../types';
+import { localizeNumber } from './helpers';
 import { Translate } from './translate';
+import { Measurement, TableCell } from '../types';
 
 export function renderMeasurement(measurement: Measurement, name: string, i18n: Translate): TableCell[][] {
   if (measurement === undefined) return [];
@@ -12,9 +13,9 @@ export function renderMeasurement(measurement: Measurement, name: string, i18n: 
       {
         alignment: 'justify',
         columns: [
-          { text: `${Value} ${Unit ? Unit : ''}`, style: 'p' },
-          { text: `${Minimum ? `min ${Minimum} ${Unit}` : ''}`, style: 'p' },
-          { text: `${Maximum ? `max ${Maximum} ${Unit}` : ''}`, style: 'p' },
+          { text: `${localizeNumber(Value, i18n.languages[0])} ${Unit ? Unit : ''}`, style: 'p' },
+          { text: `${Minimum ? `min ${localizeNumber(Minimum, i18n.languages[0])} ${Unit}` : ''}`, style: 'p' },
+          { text: `${Maximum ? `max ${localizeNumber(Maximum, i18n.languages[0])} ${Unit}` : ''}`, style: 'p' },
         ],
       },
     ],
@@ -29,7 +30,9 @@ export function renderMeasurementArray(measurements: Measurement[], name: string
       {},
       {},
       {
-        text: `${measurements.map(({ Value }) => Value).join(', ')} ${measurements[0]?.Unit || ''}`,
+        text: `${measurements.map(({ Value }) => localizeNumber(Value, i18n.languages[0])).join(', ')} ${
+          measurements[0]?.Unit || ''
+        }`,
         style: 'p',
       },
     ],
