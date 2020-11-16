@@ -2,6 +2,23 @@
   "name": "@s1seven/schema-tools-generate-en10168-pdf-template",
   "version": "0.0.1",
   "main": "dist/generateContent.js",
+  "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/generate-EN10168-pdf-template#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s1seven/schema-tools/.git"
+  },
+  "bugs": {
+    "url": "https://github.com/s1seven/schema-tools/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "publicConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
   "license": "",
   "devDependencies": {
     "@s1seven/schema-tools-generate-interfaces": "^0.0.9",
