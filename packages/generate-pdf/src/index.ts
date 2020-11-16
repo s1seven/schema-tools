@@ -4,7 +4,7 @@ import {
   getTranslations,
   getSchemaConfig,
 } from '@s1seven/schema-tools-utils';
-import { BaseCertificateSchema } from '@s1seven/schema-tools-types';
+import { BaseCertificateSchema, Translations } from '@s1seven/schema-tools-types';
 import merge from 'lodash.merge';
 import htmlToPdfmake from 'html-to-pdfmake';
 import jsdom from 'jsdom';
@@ -30,7 +30,9 @@ const baseDocDefinition = (pdfMakeContent: TDocumentDefinitions['content']): TDo
   content: [pdfMakeContent],
 });
 
-async function buildModule(refSchemaUrl: string): Promise<{ generateContent: Function }> {
+async function buildModule(
+  refSchemaUrl: string,
+): Promise<{ generateContent: (certificate: BaseCertificateSchema, translations: Translations) => Content }> {
   const code = (await loadExternalFile(refSchemaUrl, 'text')) as string;
   const _module = new Module(refSchemaUrl);
   _module.filename = refSchemaUrl;
