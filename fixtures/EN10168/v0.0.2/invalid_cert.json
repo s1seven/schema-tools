@@ -109,75 +109,75 @@
       },
       "ChemicalComposition": {
         "C71": {
-          "Actual": 0.017,
+          "Actual": 1.7,
           "Symbol": "C"
         },
         "C72": {
-          "Actual": 0.0106,
+          "Actual": 1.06,
           "Symbol": "Mn"
         },
         "C73": {
-          "Actual": 0.0003,
+          "Actual": 0.03,
           "Symbol": "Si"
         },
         "C74": {
-          "Actual": 0.00005,
+          "Actual": 0.005,
           "Symbol": "S"
         },
         "C75": {
-          "Actual": 0.00012,
+          "Actual": 0.012,
           "Symbol": "P"
         },
         "C76": {
-          "Actual": 0.00022,
+          "Actual": 0.022,
           "Symbol": "Al"
         },
         "C77": {
-          "Actual": 0.0006,
+          "Actual": 0.06,
           "Symbol": "Cr"
         },
         "C78": {
-          "Actual": 0.0004,
+          "Actual": 0.04,
           "Symbol": "Ni"
         },
         "C79": {
-          "Actual": 0.0014,
+          "Actual": 0.14,
           "Symbol": "Cu"
         },
         "C80": {
-          "Actual": 0.0001,
+          "Actual": 0.01,
           "Symbol": "Mo"
         },
         "C81": {
-          "Actual": 0.00001,
+          "Actual": 0.001,
           "Symbol": "V"
         },
         "C82": {
-          "Actual": 0.00001,
+          "Actual": 0.001,
           "Symbol": "Nb"
         },
         "C83": {
-          "Actual": 0.000003,
+          "Actual": 0.0003,
           "Symbol": "B"
         },
         "C85": {
-          "Actual": 0.00009,
+          "Actual": 0.009,
           "Symbol": "N"
         },
         "C86": {
-          "Actual": 0.00005,
+          "Actual": 0.005,
           "Symbol": "As"
         },
         "C87": {
-          "Actual": 0.000012,
+          "Actual": 0.0012,
           "Symbol": "Sn"
         },
         "C88": {
-          "Actual": 0.000015,
+          "Actual": 0.0015,
           "Symbol": "Ti"
         },
         "C92": {
-          "Actual": 0.042,
+          "Actual": 4.2,
           "Symbol": "CEV"
         },
         "SupplementaryInformation": {
