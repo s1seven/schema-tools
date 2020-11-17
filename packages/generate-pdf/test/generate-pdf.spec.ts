@@ -50,7 +50,7 @@ describe('GeneratePDF', function () {
           reject(err);
         });
     });
-  }, 15000);
+  }, 20000);
 
   it('should render PDF certificate using certificate object and local PDF generator script', async () => {
     certificate.RefSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.3-1/schema.json';
@@ -75,7 +75,7 @@ describe('GeneratePDF', function () {
       generatorPath,
     })) as PDFKit.PDFDocument;
 
-    const outputFilePath = './test.pdf';
+    const outputFilePath = './test-2.pdf';
     const writeStream = createWriteStream(outputFilePath);
     pdfDoc.pipe(writeStream);
     pdfDoc.end();
@@ -91,7 +91,7 @@ describe('GeneratePDF', function () {
           reject(err);
         });
     });
-  }, 10000);
+  }, 15000);
 
   it('should render PDF certificate using HTML certificate ', async () => {
     const certificateHtmlPath = `${__dirname}/../../../fixtures/EN10168/v0.0.2/template_hbs.html`;
