@@ -6,6 +6,7 @@ import {
   asECoCCertificate,
 } from '@s1seven/schema-tools-utils';
 
+// TODO: Add types or enums for party.role ?
 export interface PartyEmail {
   emails: string[];
   role: string;
@@ -14,23 +15,55 @@ export interface PartyEmail {
   purchaseOrderPosition?: string;
 }
 
+export const SENDER_ROLES = ['Supplier', 'Manufacturer', 'Seller'];
+export const RECEIVER_ROLES = ['Customer', 'Recipient', 'Buyer', 'ProductConsignee', 'CertificateConsignee'];
+
 const en10168CompanyRole = {
   ['A01']: 'Seller',
   ['A06']: 'Buyer',
   ['A06.1']: 'Buyer',
-  ['A06.2']: 'Consignee',
-  ['A06.3']: 'Consignee of certificate',
+  ['A06.2']: 'ProductConsignee',
+  ['A06.3']: 'CertificateConsignee',
 };
+
+export function getSender(parties: PartyEmail[], role?: string): PartyEmail | null {
+  return (
+    parties.find((party) =>
+      role ? role.toLowerCase() === party.role.toLowerCase() : SENDER_ROLES.includes(party.role),
+    ) || null
+  );
+}
+
+export function getSenders(parties: PartyEmail[]): PartyEmail[] | null {
+  const senders = parties.filter((party) => SENDER_ROLES.includes(party.role));
+  return senders.length ? senders : null;
+}
+
+export function getReceiver(parties: PartyEmail[], role?: string): PartyEmail | null {
+  return (
+    parties.find((party) =>
+      role ? role.toLowerCase() === party.role.toLowerCase() : RECEIVER_ROLES.includes(party.role),
+    ) || null
+  );
+}
+
+export function getReceivers(parties: PartyEmail[]): PartyEmail[] | null {
+  const receivers = parties.filter((party) => RECEIVER_ROLES.includes(party.role));
+  return receivers.length ? receivers : null;
+}
 
 function extractEmailsFromEN10168(certificate: EN10168Schema): PartyEmail[] {
   if (!certificate?.Certificate?.CommercialTransaction) {
     return [];
   }
+  const { CommercialTransaction } = certificate.Certificate;
   const validKeys = Object.keys(en10168CompanyRole);
-  const purchaseOrderNumber = certificate.Certificate.CommercialTransaction['A07'];
-  const purchaseOrderPosition = certificate.Certificate.CommercialTransaction['A97'];
+  const purchaseOrderNumber = CommercialTransaction['A07'];
+  const purchaseOrderPosition = Object.prototype.hasOwnProperty.call(CommercialTransaction, 'A97')
+    ? CommercialTransaction['A97'].toString()
+    : '';
 
-  return Object.entries(certificate.Certificate.CommercialTransaction)
+  return Object.entries(CommercialTransaction)
     .map(([key, value]) => {
       if (validKeys.includes(key)) {
         const company = value as any;
