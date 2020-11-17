@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.10](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.0.9...@s1seven/schema-tools-extract-emails@0.0.10) (2020-11-17)
+
+
+### Bug Fixes
+
+* add helpers to manipulate parties by roles ([cdd1dee](http://github.com/s1seven/schema-tools/commit/cdd1dee77cd2b303f8de6d264209d41d43be69cd))
+
+
+
+
+
 ## [0.0.9](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.0.8...@s1seven/schema-tools-extract-emails@0.0.9) (2020-11-16)
 
 
