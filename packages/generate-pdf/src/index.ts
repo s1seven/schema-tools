@@ -14,10 +14,12 @@ import { Content, StyleDictionary, TDocumentDefinitions, TFontDictionary } from 
 import { URL } from 'url';
 import vm from 'vm';
 
+export { Content, StyleDictionary, TDocumentDefinitions, TFontDictionary } from 'pdfmake/interfaces';
+
 export type GeneratePdfOptions = {
   inputType?: 'json' | 'html';
   outputType?: 'buffer' | 'stream';
-  templatePath?: string;
+  generatorPath?: string;
   docDefinition?: Partial<TDocumentDefinitions>;
   fonts?: TFontDictionary;
 };
@@ -46,10 +48,12 @@ const baseDocDefinition = (content: TDocumentDefinitions['content']): TDocumentD
 });
 
 async function buildModule(
-  refSchemaUrl: URL,
+  filePath: string,
+  moduleName?: string,
 ): Promise<{ generateContent: (certificate: EN10168Schema | ECoCSchema, translations: Translations) => Content }> {
-  const code = (await loadExternalFile(refSchemaUrl.href, 'text')) as string;
-  const fileName = refSchemaUrl.pathname;
+  const code = (await loadExternalFile(filePath, 'text')) as string;
+
+  const fileName = moduleName || filePath;
   const _module = new Module(fileName);
   _module.filename = fileName;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,12 +64,21 @@ async function buildModule(
 async function generateInSandbox(
   certificate: EN10168Schema | ECoCSchema,
   translations: Record<string, unknown>,
+  generatorPath?: string,
 ): Promise<Content> {
-  const refSchemaUrl = new URL(certificate.RefSchemaUrl);
-  const [, schemaType, version] = refSchemaUrl.pathname.split('/');
-  refSchemaUrl.pathname = `/${schemaType}/${version}/generate-pdf.min.js`;
+  let filePath: string;
+  let moduleName: string;
+  if (generatorPath) {
+    filePath = generatorPath;
+  } else {
+    const refSchemaUrl = new URL(certificate.RefSchemaUrl);
+    const [, schemaType, version] = refSchemaUrl.pathname.split('/');
+    refSchemaUrl.pathname = `/${schemaType}/${version}/generate-pdf.min.js`;
+    filePath = refSchemaUrl.href;
+    moduleName = refSchemaUrl.pathname;
+  }
 
-  const { generateContent } = await buildModule(refSchemaUrl);
+  const { generateContent } = await buildModule(filePath, moduleName);
   const code = `(async function () {
     content = await generateContent(certificate, translations);
   }())`;
@@ -91,12 +104,13 @@ function getPdfMakeContentFromHTML(certificate: string): TDocumentDefinitions['c
 
 async function getPdfMakeContentFromObject(
   certificate: EN10168Schema | ECoCSchema,
+  generatorPath?: string,
 ): Promise<TDocumentDefinitions['content']> {
   const refSchemaUrl = new URL(certificate.RefSchemaUrl);
   const schemaConfig = getSchemaConfig(refSchemaUrl);
   const certificateLanguages = getCertificateLanguages(certificate);
   const translations = certificateLanguages ? await getTranslations(certificateLanguages, schemaConfig) : {};
-  return generateInSandbox(certificate, translations);
+  return generateInSandbox(certificate, translations, generatorPath);
 }
 
 async function getPdfMakeStyles(certificate: EN10168Schema | ECoCSchema): Promise<StyleDictionary> {
@@ -124,7 +138,7 @@ export async function generatePdf(
     } else {
       throw new Error(`Invalid certificate type : ${typeof certificateInput}`);
     }
-    pdfMakeContent = await getPdfMakeContentFromObject(rawCert as EN10168Schema | ECoCSchema);
+    pdfMakeContent = await getPdfMakeContentFromObject(rawCert as EN10168Schema | ECoCSchema, opts.generatorPath);
     if (!opts.docDefinition.styles) {
       opts.docDefinition.styles = await getPdfMakeStyles(rawCert);
     }
