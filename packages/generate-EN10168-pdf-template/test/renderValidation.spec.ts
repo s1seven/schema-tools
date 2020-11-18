@@ -16,22 +16,13 @@ describe('Rendering validation section', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const validation = createValidation(certificate.Certificate.Validation, i18n);
 
-    expect(validation[0].table).toEqual({
-      body: [
-        [
-          {
-            colSpan: 3,
-            style: 'h2',
-            text: 'Validation / Bestätigungen',
-          },
-          {},
-          {},
-        ],
-      ],
-      widths: [160, '*', 300],
+    expect(validation[0]).toEqual({
+      margin: [0, 0, 0, 4],
+      style: 'h2',
+      text: 'Validation / Bestätigungen',
     });
 
-    expect((validation[1].columns as any)[0].table).toEqual({
+    expect((validation[2].columns as any)[0].table).toEqual({
       body: [
         [
           {

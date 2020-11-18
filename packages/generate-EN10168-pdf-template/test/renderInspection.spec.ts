@@ -21,7 +21,7 @@ describe('Rendering inspection section', () => {
   it('correctly renders TensileTest', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const tensileTest = renderTensileTest(certificate.Certificate.Inspection.TensileTest, i18n);
-    expect(tensileTest[1].table).toEqual({
+    expect(tensileTest[2].table).toEqual({
       body: [
         [{}, {}, {}, {}],
         [
@@ -162,7 +162,7 @@ describe('Rendering inspection section', () => {
       },
     };
     const hardnessTest = renderHardnessTest(HardnessTest, i18n);
-    expect(hardnessTest[1].table).toEqual({
+    expect(hardnessTest[2].table).toEqual({
       body: [
         [
           {
@@ -248,7 +248,7 @@ describe('Rendering inspection section', () => {
       certificate.Certificate.Inspection.NotchedBarImpactTest,
       i18n,
     );
-    expect(notchedBarImpactTest[1].table).toEqual({
+    expect(notchedBarImpactTest[2].table).toEqual({
       body: [
         [{}, {}, {}, {}],
         [
@@ -296,250 +296,73 @@ describe('Rendering inspection section', () => {
   it('correctly renders ChemicalComposition', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const chemicalComposition = renderChemicalComposition(certificate.Certificate.Inspection.ChemicalComposition, i18n);
-    expect((chemicalComposition[2] as TableElement).table).toEqual({
-      body: [
-        [
-          {
-            text: '',
-            style: 'caption',
-          },
-          {
-            text: 'C71',
-            style: 'caption',
-          },
-          {
-            text: 'C72',
-            style: 'caption',
-          },
-          {
-            text: 'C73',
-            style: 'caption',
-          },
-          {
-            text: 'C74',
-            style: 'caption',
-          },
-          {
-            text: 'C75',
-            style: 'caption',
-          },
-          {
-            text: 'C76',
-            style: 'caption',
-          },
-          {
-            text: 'C77',
-            style: 'caption',
-          },
-          {
-            text: 'C78',
-            style: 'caption',
-          },
-          {
-            text: 'C79',
-            style: 'caption',
-          },
-          {
-            text: 'C80',
-            style: 'caption',
-          },
-          {
-            text: 'C81',
-            style: 'caption',
-          },
-          {
-            text: 'C82',
-            style: 'caption',
-          },
-          {
-            text: 'C83',
-            style: 'caption',
-          },
-          {
-            text: 'C85',
-            style: 'caption',
-          },
-          {
-            text: 'C86',
-            style: 'caption',
-          },
-          {
-            text: 'C87',
-            style: 'caption',
-          },
-          {
-            text: 'C88',
-            style: 'caption',
-          },
-          {
-            text: 'C92',
-            style: 'caption',
-          },
-        ],
-        [
-          {
-            text: 'Symbol',
-            style: 'caption',
-          },
-          {
-            text: 'C',
-            style: 'caption',
-          },
-          {
-            text: 'Mn',
-            style: 'caption',
-          },
-          {
-            text: 'Si',
-            style: 'caption',
-          },
-          {
-            text: 'S',
-            style: 'caption',
-          },
-          {
-            text: 'P',
-            style: 'caption',
-          },
-          {
-            text: 'Al',
-            style: 'caption',
-          },
-          {
-            text: 'Cr',
-            style: 'caption',
-          },
-          {
-            text: 'Ni',
-            style: 'caption',
-          },
-          {
-            text: 'Cu',
-            style: 'caption',
-          },
-          {
-            text: 'Mo',
-            style: 'caption',
-          },
-          {
-            text: 'V',
-            style: 'caption',
-          },
-          {
-            text: 'Nb',
-            style: 'caption',
-          },
-          {
-            text: 'B',
-            style: 'caption',
-          },
-          {
-            text: 'N',
-            style: 'caption',
-          },
-          {
-            text: 'As',
-            style: 'caption',
-          },
-          {
-            text: 'Sn',
-            style: 'caption',
-          },
-          {
-            text: 'Ti',
-            style: 'caption',
-          },
-          {
-            text: 'CEV',
-            style: 'caption',
-          },
-        ],
-        [
-          {
-            text: 'Actual',
-            style: 'caption',
-          },
-          {
-            text: '1.7',
-            style: 'small',
-          },
-          {
-            text: '1.06',
-            style: 'small',
-          },
-          {
-            text: '0.03',
-            style: 'small',
-          },
-          {
-            text: '0.005',
-            style: 'small',
-          },
-          {
-            text: '0.012',
-            style: 'small',
-          },
-          {
-            text: '0.022',
-            style: 'small',
-          },
-          {
-            text: '0.06',
-            style: 'small',
-          },
-          {
-            text: '0.04',
-            style: 'small',
-          },
-          {
-            text: '0.14',
-            style: 'small',
-          },
-          {
-            text: '0.01',
-            style: 'small',
-          },
-          {
-            text: '0.001',
-            style: 'small',
-          },
-          {
-            text: '0.001',
-            style: 'small',
-          },
-          {
-            text: '0.0003',
-            style: 'small',
-          },
-          {
-            text: '0.009',
-            style: 'small',
-          },
-          {
-            text: '0.005',
-            style: 'small',
-          },
-          {
-            text: '0.0012',
-            style: 'small',
-          },
-          {
-            text: '0.0015',
-            style: 'small',
-          },
-          {
-            text: '4.2',
-            style: 'small',
-          },
-        ],
-      ],
-    });
+    // console.log(JSON.stringify(chemicalComposition[3]));
+
     expect((chemicalComposition[3] as TableElement).table).toEqual({
-      widths: [160, '*', '*', 300],
+      widths: [45, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25],
       body: [
-        [{ text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 4 }, {}, {}, {}],
-        [{ text: 'C110 Bq/kg', style: 'tableHeader', colSpan: 3 }, {}, {}, { text: '<100 ', style: 'p', colSpan: 1 }],
+        [
+          { text: '', style: 'p' },
+          { text: 'C71', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C72', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C73', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C74', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C75', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C76', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C77', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C78', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C79', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C80', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C81', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C82', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C83', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C85', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C86', style: 'p', margin: [-2, 2, -2, 2] },
+        ],
+        [
+          { text: 'Symbol', style: 'p' },
+          { text: 'C', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'Mn', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'Si', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'S', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'P', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'Al', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'Cr', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'Ni', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'Cu', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'Mo', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'V', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'Nb', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'B', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'N', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'As', style: 'p', margin: [-2, 2, -2, 2] },
+        ],
+        [
+          { text: 'Actual [%]', style: 'p' },
+          { text: '1.7', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '1.06', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.03', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.005', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.012', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.022', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.06', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.04', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.14', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.01', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.001', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.001', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.0003', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.009', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.005', style: 'caption', margin: [-2, 2, -2, 2] },
+        ],
       ],
     });
+    // expect((chemicalComposition[4] as TableElement).table).toEqual({
+    //   widths: [160, '*', '*', 300],
+    //   body: [
+    //     [{ text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 4 }, {}, {}, {}],
+    //     [{ text: 'C110 Bq/kg', style: 'tableHeader', colSpan: 3 }, {}, {}, { text: '<100 ', style: 'p', colSpan: 1 }],
+    //   ],
+    // });
   });
 });

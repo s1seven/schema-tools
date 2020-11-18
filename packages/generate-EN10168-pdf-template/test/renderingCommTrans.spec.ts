@@ -17,33 +17,31 @@ describe('Rendering commercial transaction', () => {
   it('correctly renders for testingCertificate', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const commercialTransaction = createCommercialTransaction(certificate.Certificate.CommercialTransaction, i18n);
-    const tableBody = commercialTransaction.table.body;
+    const tableBody = commercialTransaction[2].table.body;
 
-    expect(tableBody.length).toEqual(10);
+    expect(tableBody.length).toEqual(9);
     expect(tableBody[0]).toEqual([
-      { text: 'Commercial transaction / Angaben zum Geschäftsvorgang', style: 'h2', colSpan: 3 },
-      {},
-      {},
-    ]);
-    expect(tableBody[1]).toEqual([
       {
         text: 'A02 Type of inspection document / Art der Prüfbescheinigung',
         style: 'tableHeader',
-        colSpan: 2,
+        colSpan: 3,
       },
+      {},
       {},
       {
         text: 'Inspection Certificate 3.1 according to EN 10204',
         style: 'p',
       },
     ]);
-    expect(tableBody[8]).toEqual([
+    expect(tableBody[7]).toEqual([
       {
         text: 'A10 Invoice',
         style: 'tableHeader',
-        colSpan: 2,
+        colSpan: 3,
       },
       {},
+      {},
+
       {
         text: '18/01067/D ',
         style: 'p',
@@ -51,12 +49,13 @@ describe('Rendering commercial transaction', () => {
       },
     ]);
 
-    expect(tableBody[9]).toEqual([
+    expect(tableBody[8]).toEqual([
       {
         text: 'A11 Date of delivery note',
         style: 'tableHeader',
-        colSpan: 2,
+        colSpan: 3,
       },
+      {},
       {},
       {
         text: '2020-09-29 ',

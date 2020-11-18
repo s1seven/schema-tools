@@ -34,7 +34,7 @@ describe('Product norms', () => {
         },
         {},
         {},
-        { text: 'S355J2H', style: 'caption' },
+        { text: 'S355J2H', style: 'p' },
       ],
     ];
     expect(norms).toEqual(expected);
@@ -61,7 +61,7 @@ describe('Product norms', () => {
       { text: 'Mass norm / Mass Norm', colSpan: 3, style: 'caption' },
       {},
       {},
-      { text: 'EN 10219-1:2006, EN 10220', style: 'caption' },
+      { text: 'EN 10219-1:2006, EN 10220', style: 'p' },
     ]);
   });
   it("doesn't render norms that are not included", async () => {
