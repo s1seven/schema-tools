@@ -85,7 +85,7 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
       },
       joinAndLocalizeNumber: function (lvalue: any[], separator = ', ', locales = ['EN'], property = '') {
         const localizeNumber = (val: any) => {
-          return new Intl.NumberFormat(locales).format(val);
+          return new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(val);
         };
         const result = property
           ? lvalue.map((val) => localizeNumber(val[property])).join(separator)
@@ -107,7 +107,7 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
 
         switch (type) {
           case 'number':
-            result = new Intl.NumberFormat(locales).format(Number(value));
+            result = new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(Number(value));
             break;
           case 'date':
             result = localizeDate();
@@ -132,7 +132,7 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
         return new SafeString(result);
       },
       localizeNumber: function (lvalue: number, locales: string | string[] = 'EN') {
-        const result = new Intl.NumberFormat(locales).format(lvalue);
+        const result = new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(lvalue);
         return new SafeString(result);
       },
       get: function (object: Record<string, unknown>, path: string | string[]) {
