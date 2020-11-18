@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.11](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.10...@s1seven/schema-tools-generate-html@0.0.11) (2020-11-18)
+
+
+### Bug Fixes
+
+* add maximumSignificantDigits in helpers ([aa8202f](http://github.com/s1seven/schema-tools/commit/aa8202fca4cd55921fafe6603099c515b3b77853))
+
+
+
+
+
 ## [0.0.10](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.9...@s1seven/schema-tools-generate-html@0.0.10) (2020-11-17)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-html
