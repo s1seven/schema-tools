@@ -1,5 +1,5 @@
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
-import { createEmptyColumns, localizeNumber, tableLayout } from './helpers';
+import { createEmptyColumns, emptyTable, localizeNumber, tableLayout } from './helpers';
 import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
 import {
@@ -19,7 +19,7 @@ import { Translate } from './translate';
 export function createInspection(inspection: Inspection, i18n: Translate): (TableElement | Content)[] {
   const contentToRender = ['C00', 'C01', 'C02', 'C03'];
   const content = Object.keys(inspection)
-    .filter((element) => contentToRender.includes(element))
+    .filter((element) => contentToRender.includes(element) && inspection[element])
     .map((element) => [
       { text: i18n.translate(element, 'certificateFields'), style: 'tableHeader', colSpan: 3 },
       {},
@@ -39,6 +39,7 @@ export function createInspection(inspection: Inspection, i18n: Translate): (Tabl
   const otherMechanicalTests = inspection.OtherMechanicalTests
     ? renderOtherMechanicalTests(inspection.OtherMechanicalTests, i18n)
     : [];
+
   const chemicalComposition = inspection.ChemicalComposition
     ? renderChemicalComposition(inspection.ChemicalComposition, i18n)
     : [];
@@ -67,13 +68,20 @@ export function createInspection(inspection: Inspection, i18n: Translate): (Tabl
 
 export function renderTensileTest(tensileTest: TensileTest, i18n: Translate): [ContentText, TableElement] {
   const C10 = tensileTest.C10
-    ? [{ text: i18n.translate('C10', 'certificateFields'), style: 'p' }, {}, {}, { text: tensileTest.C10, style: 'p' }]
+    ? [
+        { text: i18n.translate('C10', 'certificateFields'), style: 'tableHeader' },
+        {},
+        {},
+        { text: tensileTest.C10, style: 'p' },
+      ]
     : createEmptyColumns(4);
   const measurementKeys = ['C11', 'C12', 'C13'];
-  const tableBody = measurementKeys.map((key) => {
-    const r = renderMeasurement(tensileTest[key], key, i18n);
-    return r[0] || [];
-  });
+  const tableBody = measurementKeys
+    .filter((key) => tensileTest[key])
+    .map((key) => {
+      const r = renderMeasurement(tensileTest[key], key, i18n);
+      return r[0] || [];
+    });
   const suppInformation = tensileTest.SupplementaryInformation
     ? supplementaryInformation(tensileTest.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
     : [];
@@ -82,6 +90,7 @@ export function renderTensileTest(tensileTest: TensileTest, i18n: Translate): [C
     { text: i18n.translate('TensileTest', 'otherFields'), style: 'h4' },
     {
       style: 'table',
+      id: 'TensileTest',
       table: {
         widths: [160, '*', '*', 300],
         body: [C10, ...tableBody, ...suppInformation],
@@ -93,10 +102,15 @@ export function renderTensileTest(tensileTest: TensileTest, i18n: Translate): [C
 
 export function renderHardnessTest(hardnessTest: HardnessTest, i18n: Translate): [ContentText, TableElement] {
   const C30 = hardnessTest.C30
-    ? [{ text: i18n.translate('C30', 'certificateFields'), style: 'p' }, {}, {}, { text: hardnessTest.C30, style: 'p' }]
+    ? [
+        { text: i18n.translate('C30', 'certificateFields'), style: 'tableHeader' },
+        {},
+        {},
+        { text: hardnessTest.C30, style: 'p' },
+      ]
     : createEmptyColumns(4);
-  const C31 = renderMeasurementArray(hardnessTest.C31, 'C31', i18n);
-  const C32 = renderMeasurement(hardnessTest.C32, 'C32', i18n);
+  const C31 = hardnessTest.C31 ? renderMeasurementArray(hardnessTest.C31, 'C31', i18n) : [];
+  const C32 = hardnessTest.C32 ? renderMeasurement(hardnessTest.C32, 'C32', i18n) : [];
   const suppInformation = hardnessTest.SupplementaryInformation
     ? supplementaryInformation(hardnessTest.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
     : [];
@@ -120,15 +134,15 @@ export function renderNotchedBarImpactTest(
 ): [ContentText, TableElement] {
   const C40 = notchedBarImpactTest.C40
     ? [
-        { text: i18n.translate('C40', 'certificateFields'), style: 'p' },
+        { text: i18n.translate('C40', 'certificateFields'), style: 'tableHeader' },
         {},
         {},
         { text: notchedBarImpactTest.C40, style: 'p' },
       ]
     : createEmptyColumns(4);
-  const C41 = renderMeasurement(notchedBarImpactTest.C41, 'C41', i18n);
-  const C42 = renderMeasurementArray(notchedBarImpactTest.C42, 'C42', i18n);
-  const C43 = renderMeasurement(notchedBarImpactTest.C43, 'C43', i18n);
+  const C41 = notchedBarImpactTest.C41 ? renderMeasurement(notchedBarImpactTest.C41, 'C41', i18n) : [];
+  const C42 = notchedBarImpactTest.C42 ? renderMeasurementArray(notchedBarImpactTest.C42, 'C42', i18n) : [];
+  const C43 = notchedBarImpactTest.C43 ? renderMeasurement(notchedBarImpactTest.C43, 'C43', i18n) : [];
 
   const suppInformation = notchedBarImpactTest.SupplementaryInformation
     ? supplementaryInformation(notchedBarImpactTest.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
@@ -151,53 +165,50 @@ export function renderOtherMechanicalTests(
   otherMechanicalTests: OtherMechanicalTests,
   i18n: Translate,
 ): [ContentText, TableElement] {
-  const values = Object.keys(otherMechanicalTests).map(
-    (element) => [
-      { text: otherMechanicalTests[element].Key, style: 'p' },
-      {},
-      {},
-      { text: otherMechanicalTests[element].Value, style: 'p' },
-    ],
+  const values = Object.keys(otherMechanicalTests).map((element) => [
+    { text: `${element} ${otherMechanicalTests[element].Key}`, style: 'p' },
     {},
-  );
+    {},
+    { text: otherMechanicalTests[element].Value || '', style: 'p' },
+  ]);
 
   return [
     { text: i18n.translate('OtherMechanicalTests', 'otherFields'), style: 'h4' },
     {
       style: 'table',
       table: {
-        body: [...values],
+        widths: [160, '*', '*', 300],
+        body: values,
       },
       layout: tableLayout,
     },
   ];
 }
 
-export function renderChemicalComposition(
-  chemicalComposition: ChemicalComposition,
-  i18n: Translate,
-): [ContentText, TableElement, TableElement, TableElement] {
-  const C70 = chemicalComposition.C70
-    ? [
-        { text: i18n.translate('C70', 'certificateFields'), style: 'tableHeader' },
-        {},
-        {},
-        { text: chemicalComposition.C70, style: 'p' },
-      ]
-    : createEmptyColumns(4);
-
+function createChemicalElementTables(chemicalComposition: ChemicalComposition, i18n: Translate): TableElement[] {
   const ChemicalElements: { key: string; value: ChemicalElement }[] = Object.keys(chemicalComposition)
     .filter((element) => element !== 'C70' && element !== 'SupplementaryInformation')
     .map((el) => ({ key: el, value: chemicalComposition[el] }));
 
+  // TODO: split ChemicalElements in chunks of X elements and create one table for each group ?
+  // const chunkSize = 12;
+  // const SplittedChemicalElements: { key: string; value: ChemicalElement }[][] = new Array(
+  //   Math.ceil(ChemicalElements.length / chunkSize),
+  // )
+  //   .fill('')
+  //   .map((_) => ChemicalElements.splice(0, chunkSize));
+
   const tableBody = [
     [
-      { text: '', style: ' caption' },
+      { text: '', style: 'caption' },
       ...ChemicalElements.map((chemicalElement) => ({ text: chemicalElement.key, style: 'caption' })),
     ],
     [
       { text: 'Symbol', style: 'caption' },
-      ...ChemicalElements.map((chemicalElement) => ({ text: chemicalElement.value.Symbol, style: 'caption' })),
+      ...ChemicalElements.map((chemicalElement) => ({
+        text: chemicalElement.value.Symbol,
+        style: 'caption',
+      })),
     ],
     [
       { text: 'Actual', style: 'caption' },
@@ -208,9 +219,35 @@ export function renderChemicalComposition(
     ],
   ];
 
+  return [
+    {
+      style: 'table',
+      table: {
+        body: tableBody,
+      },
+      layout: tableLayout,
+    },
+  ];
+}
+
+export function renderChemicalComposition(
+  chemicalComposition: ChemicalComposition,
+  i18n: Translate,
+): (ContentText | TableElement)[] {
+  const C70 = chemicalComposition.C70
+    ? [
+        { text: i18n.translate('C70', 'certificateFields'), style: 'tableHeader' },
+        {},
+        {},
+        { text: chemicalComposition.C70, style: 'p' },
+      ]
+    : createEmptyColumns(4);
+
+  const chemicalElements = createChemicalElementTables(chemicalComposition, i18n);
+
   const suppInformation = chemicalComposition.SupplementaryInformation
-    ? supplementaryInformation(chemicalComposition.SupplementaryInformation, i18n, 2)
-    : [];
+    ? supplementaryInformation(chemicalComposition.SupplementaryInformation, i18n, 4)
+    : [[{ text: '', colSpan: 4 }, {}, {}, {}]];
 
   return [
     { text: i18n.translate('ChemicalComposition', 'otherFields'), style: 'h4' },
@@ -222,17 +259,11 @@ export function renderChemicalComposition(
       },
       layout: tableLayout,
     },
+    ...chemicalElements,
     {
       style: 'table',
       table: {
-        body: tableBody,
-      },
-      layout: tableLayout,
-    },
-    {
-      style: 'table',
-      table: {
-        widths: [240, '*'],
+        widths: [160, '*', '*', 300],
         body: suppInformation,
       },
       layout: tableLayout,

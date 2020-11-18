@@ -16,7 +16,9 @@ export function createCommercialTransaction(
       { text: commercialTransaction[element], style: 'p' },
     ]);
 
-  const suppInformation = supplementaryInformation(commercialTransaction.SupplementaryInformation, i18n);
+  const suppInformation = commercialTransaction.SupplementaryInformation
+    ? supplementaryInformation(commercialTransaction.SupplementaryInformation, i18n)
+    : [];
 
   return {
     style: 'table',

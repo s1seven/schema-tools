@@ -4,12 +4,10 @@ import { Translate } from './translate';
 import { CommercialTransaction, TableElement } from '../types';
 
 function separateCommercialParties(commercialTransaction: CommercialTransaction, i18n: Translate) {
-  const initKeys =
-    commercialTransaction['A04'] !== undefined
-      ? [[{ text: i18n.translate('A04', 'certificateFields'), style: 'tableHeader' }]]
-      : [];
-  const initValues =
-    commercialTransaction['A04'] !== undefined ? [[{ image: commercialTransaction.A04, width: 150 }]] : [];
+  const initKeys = commercialTransaction['A04']
+    ? [[{ text: i18n.translate('A04', 'certificateFields'), style: 'tableHeader' }]]
+    : [];
+  const initValues = commercialTransaction['A04'] ? [[{ image: commercialTransaction.A04, width: 150 }]] : [];
 
   const commercialTransactionParties = Object.keys(commercialTransaction).filter((element) =>
     ['A01', 'A06', 'A06.1', 'A06.2', 'A06.3'].includes(element),
@@ -25,7 +23,7 @@ function separateCommercialParties(commercialTransaction: CommercialTransaction,
       text: `${commercialTransaction[element].City},${commercialTransaction[element].ZipCode},${commercialTransaction[element].Country}`,
       style: 'p',
     },
-    { text: commercialTransaction[element].VAT_Id, style: 'p' },
+    { text: commercialTransaction[element]?.VAT_Id || '', style: 'p' },
     { text: commercialTransaction[element].Email, style: 'p' },
   ]);
 

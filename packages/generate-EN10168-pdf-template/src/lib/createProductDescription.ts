@@ -15,14 +15,14 @@ interface ProductNorms {
 export function productNorms(productNorms: ProductNorms, i18n: Translate): TableCell[][] {
   const header = [{ text: i18n.translate('B02', 'certificateFields'), colSpan: 4, style: 'tableHeader' }, {}, {}, {}];
 
-  const aaa = Object.keys(productNorms).map((norm) => [
+  const content = Object.keys(productNorms).map((norm) => [
     { text: i18n.translate(norm, 'otherFields'), style: 'caption', colSpan: 3 },
     {},
     {},
     { text: productNorms[norm].join(', '), style: 'caption' },
   ]);
 
-  return [header, ...aaa];
+  return [header, ...content];
 }
 
 export function productShape(productShape: ProductShape, i18n: Translate): TableCell[][] {
@@ -57,11 +57,9 @@ export function createProductDescription(productDescription: ProductDescription,
   const B12measurement = renderMeasurement(productDescription.B12, 'B12', i18n);
   const B13measurement = renderMeasurement(productDescription.B13, 'B13', i18n);
 
-  const suppInformation = supplementaryInformation(
-    productDescription.SupplementaryInformation,
-    i18n,
-    PRODUCT_DESCRIPTION_COLUMNS_COUNT,
-  );
+  const suppInformation = productDescription.SupplementaryInformation
+    ? supplementaryInformation(productDescription.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
+    : [];
 
   return {
     style: 'table',

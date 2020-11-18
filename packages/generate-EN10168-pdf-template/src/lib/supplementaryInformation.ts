@@ -11,15 +11,13 @@ export const supplementaryInformation = (
     { text: `${element} ${data[element].Key}`, style: 'tableHeader', colSpan: colSpan - 1 },
     ...createEmptyColumns(colSpan - 2),
     {
-      text: `${localizeValue(data[element].Value, data[element].Type, i18n.languages)} ${
-        data[element].Unit ? data[element].Unit : ''
-      }`,
+      text: `${localizeValue(data[element].Value, data[element].Type, i18n.languages[0])} ${data[element].Unit || ''}`,
       style: 'p',
       colSpan: 1,
     },
   ]);
 
-  if (dataMapped.length === 0) return [];
+  if (!dataMapped?.length) return [];
   return [
     [
       { text: i18n.translate('SupplementaryInformation', 'otherFields'), style: 'h5', colSpan },

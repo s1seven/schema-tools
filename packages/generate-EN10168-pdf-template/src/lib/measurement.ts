@@ -3,7 +3,7 @@ import { Translate } from './translate';
 import { Measurement, TableCell } from '../types';
 
 export function renderMeasurement(measurement: Measurement, name: string, i18n: Translate): TableCell[][] {
-  if (measurement === undefined) return [];
+  if (!measurement) return [];
   const { Property, Value, Minimum, Maximum, Unit } = measurement;
   return [
     [
@@ -23,7 +23,7 @@ export function renderMeasurement(measurement: Measurement, name: string, i18n: 
 }
 
 export function renderMeasurementArray(measurements: Measurement[], name: string, i18n: Translate): TableCell[][] {
-  if (measurements === undefined) return [];
+  if (!measurements?.length) return [];
   return [
     [
       { text: i18n.translate(name, 'certificateFields'), style: 'tableHeader' },

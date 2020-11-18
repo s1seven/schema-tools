@@ -75,7 +75,7 @@ export function createValidation(
       style: 'table',
       table: {
         widths: [160, '*', 300],
-        body: [...suppInformation],
+        body: suppInformation,
       },
       layout: tableLayout,
     },

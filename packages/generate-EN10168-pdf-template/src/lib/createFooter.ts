@@ -5,7 +5,7 @@ export function createFooter(RefSchemaUrl: string): TableElement {
   return {
     style: 'table',
     table: {
-      widths: [35, 150, 250],
+      widths: [32, 250, 200],
       body: [
         [
           { text: 'Powered by ', style: 'small', alignment: 'left' },

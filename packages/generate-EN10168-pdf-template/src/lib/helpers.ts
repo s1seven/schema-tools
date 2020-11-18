@@ -1,11 +1,11 @@
-import { TableLayout } from '../types';
+import { TableElement, TableLayout } from '../types';
 
 export function fillTableRow(arr: any[], colCounts: number, fill = {}) {
   if (arr.length === colCounts) {
     return arr;
   } else {
     arr.push(fill);
-    return fillTableRow(arr, colCounts);
+    return fillTableRow(arr, colCounts, fill);
   }
 }
 
@@ -18,6 +18,18 @@ export const tableLayout: TableLayout = {
   vLineWidth: function (): number {
     return 0;
   },
+};
+
+export const emptyTable = (sectionName: string, colsCount = 4, widths = [160, '*', '*', 300]): TableElement => {
+  return {
+    style: 'table',
+    id: sectionName,
+    table: {
+      widths,
+      body: [createEmptyColumns(colsCount)],
+    },
+    layout: tableLayout,
+  };
 };
 
 export function localizeValue(value: string, type: string, locales: string | string[] = 'EN') {
