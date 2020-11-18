@@ -7,7 +7,7 @@ import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 export function createCommercialTransaction(
   commercialTransaction: CommercialTransaction,
   i18n: Translate,
-): (TableElement | ContentText | ContentCanvas)[] {
+): [ContentText, ContentCanvas, TableElement] {
   const contentToOmit = ['A01', 'A04', 'A06', 'A06.1', 'A06.2', 'A06.3', 'SupplementaryInformation'];
   const content = Object.keys(commercialTransaction)
     .filter((element) => !contentToOmit.includes(element))

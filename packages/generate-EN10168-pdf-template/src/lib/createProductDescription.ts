@@ -41,7 +41,7 @@ export function productShape(productShape: ProductShape, i18n: Translate): Table
 export function createProductDescription(
   productDescription: ProductDescription,
   i18n: Translate,
-): (TableElement | ContentText | ContentCanvas)[] {
+): [ContentText, ContentCanvas, TableElement] {
   const B02ProductNorms = productNorms(productDescription.B02, i18n);
 
   const contentToOmit = ['B01', 'B02', 'B09', 'B10', 'B11', 'B12', 'B12', 'B13', 'SupplementaryInformation'];

@@ -6,7 +6,7 @@ import { ContentCanvas, ContentColumns, ContentText, TableElement, Validation } 
 export function createValidation(
   validation: Validation,
   i18n: Translate,
-): (TableElement | ContentColumns | ContentText | ContentCanvas)[] {
+): [ContentText, ContentCanvas, ContentColumns, TableElement] {
   const suppInformation = validation.SupplementaryInformation
     ? supplementaryInformation(validation.SupplementaryInformation, i18n, 3)
     : [[{ text: '', colSpan: 3 }, {}, {}]];
