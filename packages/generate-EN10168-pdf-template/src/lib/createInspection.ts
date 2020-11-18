@@ -5,7 +5,7 @@ import { supplementaryInformation } from './supplementaryInformation';
 import {
   ChemicalComposition,
   ChemicalElement,
-  Content,
+  ContentCanvas,
   ContentText,
   HardnessTest,
   Inspection,
@@ -16,7 +16,10 @@ import {
 } from '../types';
 import { Translate } from './translate';
 
-export function createInspection(inspection: Inspection, i18n: Translate): (TableElement | Content)[] {
+export function createInspection(
+  inspection: Inspection,
+  i18n: Translate,
+): (TableElement | ContentText | ContentCanvas)[] {
   const contentToRender = ['C00', 'C01', 'C02', 'C03'];
   const content = Object.keys(inspection)
     .filter((element) => contentToRender.includes(element) && inspection[element])
@@ -45,16 +48,14 @@ export function createInspection(inspection: Inspection, i18n: Translate): (Tabl
     : [];
 
   return [
+    { text: `${i18n.translate('Inspection', 'certificateGroups')}`, style: 'h2', margin: [0, 0, 0, 4] },
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] },
     {
       id: 'Inspection',
       style: 'table',
       table: {
         widths: [160, '*', '*', 300],
-        body: [
-          [{ text: i18n.translate('Inspection', 'certificateGroups'), style: 'h2', colSpan: 4 }, {}, {}, {}],
-          ...content,
-          ...suppInformation,
-        ],
+        body: [...content, ...suppInformation],
       },
       layout: tableLayout,
     },
@@ -66,7 +67,10 @@ export function createInspection(inspection: Inspection, i18n: Translate): (Tabl
   ];
 }
 
-export function renderTensileTest(tensileTest: TensileTest, i18n: Translate): [ContentText, TableElement] {
+export function renderTensileTest(
+  tensileTest: TensileTest,
+  i18n: Translate,
+): [ContentText, ContentCanvas, TableElement] {
   const C10 = tensileTest.C10
     ? [
         { text: i18n.translate('C10', 'certificateFields'), style: 'tableHeader' },
@@ -88,6 +92,7 @@ export function renderTensileTest(tensileTest: TensileTest, i18n: Translate): [C
 
   return [
     { text: i18n.translate('TensileTest', 'otherFields'), style: 'h4' },
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }] },
     {
       style: 'table',
       id: 'TensileTest',
@@ -100,7 +105,10 @@ export function renderTensileTest(tensileTest: TensileTest, i18n: Translate): [C
   ];
 }
 
-export function renderHardnessTest(hardnessTest: HardnessTest, i18n: Translate): [ContentText, TableElement] {
+export function renderHardnessTest(
+  hardnessTest: HardnessTest,
+  i18n: Translate,
+): [ContentText, ContentCanvas, TableElement] {
   const C30 = hardnessTest.C30
     ? [
         { text: i18n.translate('C30', 'certificateFields'), style: 'tableHeader' },
@@ -117,6 +125,7 @@ export function renderHardnessTest(hardnessTest: HardnessTest, i18n: Translate):
 
   return [
     { text: i18n.translate('HardnessTest', 'otherFields'), style: 'h4' },
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }] },
     {
       style: 'table',
       table: {
@@ -131,7 +140,7 @@ export function renderHardnessTest(hardnessTest: HardnessTest, i18n: Translate):
 export function renderNotchedBarImpactTest(
   notchedBarImpactTest: NotchedBarImpactTest,
   i18n: Translate,
-): [ContentText, TableElement] {
+): [ContentText, ContentCanvas, TableElement] {
   const C40 = notchedBarImpactTest.C40
     ? [
         { text: i18n.translate('C40', 'certificateFields'), style: 'tableHeader' },
@@ -150,6 +159,7 @@ export function renderNotchedBarImpactTest(
 
   return [
     { text: i18n.translate('NotchedBarImpactTest', 'otherFields'), style: 'h4' },
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }] },
     {
       style: 'table',
       table: {
@@ -164,7 +174,7 @@ export function renderNotchedBarImpactTest(
 export function renderOtherMechanicalTests(
   otherMechanicalTests: OtherMechanicalTests,
   i18n: Translate,
-): [ContentText, TableElement] {
+): [ContentText, ContentCanvas, TableElement] {
   const values = Object.keys(otherMechanicalTests).map((element) => [
     { text: `${element} ${otherMechanicalTests[element].Key}`, style: 'p' },
     {},
@@ -174,6 +184,7 @@ export function renderOtherMechanicalTests(
 
   return [
     { text: i18n.translate('OtherMechanicalTests', 'otherFields'), style: 'h4' },
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }] },
     {
       style: 'table',
       table: {
@@ -200,31 +211,66 @@ function createChemicalElementTables(
     .fill('')
     .map((_) => ChemicalElements.splice(0, chunkSize));
 
+  const margin = [-2, 2, -2, 2];
+
   return SplittedChemicalElements.map((chemicalElements) => {
     const body = [
       [
         { text: '', style: 'p' },
-        ...chemicalElements.map((chemicalElement) => ({ text: chemicalElement.key, style: 'p' })),
+        ...chemicalElements.map((chemicalElement) => ({
+          text: chemicalElement.key,
+          style: 'p',
+          margin,
+        })),
       ],
       [
         { text: 'Symbol', style: 'p' },
         ...chemicalElements.map((chemicalElement) => ({
           text: chemicalElement.value.Symbol,
           style: 'p',
+          margin,
         })),
       ],
       [
-        { text: 'Actual', style: 'p' },
+        { text: 'Actual [%]', style: 'p' },
         ...chemicalElements.map((chemicalElement) => ({
           text: localizeNumber(chemicalElement.value.Actual, i18n.languages[0]),
           style: 'caption',
+          margin,
         })),
       ],
     ];
+    if (
+      chemicalElements.some((chemicalElement) => Object.prototype.hasOwnProperty.call(chemicalElement.value, 'Minimum'))
+    ) {
+      const MinimumRow = [
+        { text: 'Minimum', style: 'p' },
+        ...chemicalElements.map((chemicalElement) => ({
+          text: chemicalElement.value?.Minimum ? localizeNumber(chemicalElement.value.Minimum, i18n.languages[0]) : '',
+          style: 'caption',
+          margin,
+        })),
+      ];
+      body.push(MinimumRow);
+    }
+    if (
+      chemicalElements.some((chemicalElement) => Object.prototype.hasOwnProperty.call(chemicalElement.value, 'Maximum'))
+    ) {
+      const MaximumRow = [
+        { text: 'Maximun', style: 'p' },
+        ...chemicalElements.map((chemicalElement) => ({
+          text: chemicalElement.value?.Maximum ? localizeNumber(chemicalElement.value.Maximum, i18n.languages[0]) : '',
+          style: 'caption',
+          margin,
+        })),
+      ];
+      body.push(MaximumRow);
+    }
+
     return {
       style: 'table',
       table: {
-        widths: new Array(chemicalElements.length + 1).fill('').map((_, i) => (i === 0 ? 35 : 30)),
+        widths: new Array(chemicalElements.length + 1).fill('').map((_, i) => (i === 0 ? 45 : 25)),
         body,
       },
       layout: tableLayout,
@@ -235,7 +281,7 @@ function createChemicalElementTables(
 export function renderChemicalComposition(
   chemicalComposition: ChemicalComposition,
   i18n: Translate,
-): (ContentText | TableElement)[] {
+): (ContentText | ContentCanvas | TableElement)[] {
   const C70 = chemicalComposition.C70
     ? [
         { text: i18n.translate('C70', 'certificateFields'), style: 'tableHeader' },
@@ -253,6 +299,7 @@ export function renderChemicalComposition(
 
   return [
     { text: i18n.translate('ChemicalComposition', 'otherFields'), style: 'h4' },
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }] },
     {
       style: 'table',
       table: {

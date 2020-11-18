@@ -23,8 +23,8 @@ export async function generateContent(
 
   return [
     commercialParties,
-    commercialTransaction,
-    productDescription,
+    ...commercialTransaction,
+    ...productDescription,
     ...inspection,
     ...otherTests,
     ...validation,

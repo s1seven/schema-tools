@@ -2,7 +2,7 @@ import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { tableLayout } from './helpers';
 import { renderMeasurement } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
-import { ProductDescription, ProductShape, TableCell, TableElement } from '../types';
+import { ContentCanvas, ContentText, ProductDescription, ProductShape, TableCell, TableElement } from '../types';
 import { Translate } from './translate';
 
 interface ProductNorms {
@@ -19,7 +19,7 @@ export function productNorms(productNorms: ProductNorms, i18n: Translate): Table
     { text: i18n.translate(norm, 'otherFields'), style: 'caption', colSpan: 3 },
     {},
     {},
-    { text: productNorms[norm].join(', '), style: 'caption' },
+    { text: productNorms[norm].join(', '), style: 'p' },
   ]);
 
   return [header, ...content];
@@ -33,12 +33,15 @@ export function productShape(productShape: ProductShape, i18n: Translate): Table
     { text: i18n.translate(key, 'otherFields'), style: 'caption', colSpan: 3 },
     {},
     {},
-    { text: productShape[key], style: 'caption' },
+    { text: productShape[key], style: 'p' },
   ]);
   return [header, ...content];
 }
 
-export function createProductDescription(productDescription: ProductDescription, i18n: Translate): TableElement {
+export function createProductDescription(
+  productDescription: ProductDescription,
+  i18n: Translate,
+): (TableElement | ContentText | ContentCanvas)[] {
   const B02ProductNorms = productNorms(productDescription.B02, i18n);
 
   const contentToOmit = ['B01', 'B02', 'B09', 'B10', 'B11', 'B12', 'B12', 'B13', 'SupplementaryInformation'];
@@ -61,29 +64,32 @@ export function createProductDescription(productDescription: ProductDescription,
     ? supplementaryInformation(productDescription.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
     : [];
 
-  return {
-    style: 'table',
-    id: 'ProductDescription',
-    table: {
-      widths: [160, '*', '*', 300],
-      body: [
-        [{ text: i18n.translate('ProductDescription', 'certificateGroups'), style: 'h2', colSpan: 4 }, {}, {}, {}],
-        [
-          { text: i18n.translate('B01', 'certificateFields'), style: 'tableHeader', colSpan: 3 },
-          {},
-          {},
-          { text: productDescription.B01, style: 'p' },
+  return [
+    { text: `${i18n.translate('ProductDescription', 'certificateGroups')}`, style: 'h2', margin: [0, 0, 0, 4] },
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] },
+    {
+      style: 'table',
+      id: 'ProductDescription',
+      table: {
+        widths: [160, '*', '*', 300],
+        body: [
+          [
+            { text: i18n.translate('B01', 'certificateFields'), style: 'tableHeader', colSpan: 3 },
+            {},
+            {},
+            { text: productDescription.B01, style: 'p' },
+          ],
+          ...B02ProductNorms,
+          ...content,
+          ...B09productShape,
+          ...B10measurement,
+          ...B11measurement,
+          ...B12measurement,
+          ...B13measurement,
+          ...suppInformation,
         ],
-        ...B02ProductNorms,
-        ...content,
-        ...B09productShape,
-        ...B10measurement,
-        ...B11measurement,
-        ...B12measurement,
-        ...B13measurement,
-        ...suppInformation,
-      ],
+      },
+      layout: tableLayout,
     },
-    layout: tableLayout,
-  };
+  ];
 }

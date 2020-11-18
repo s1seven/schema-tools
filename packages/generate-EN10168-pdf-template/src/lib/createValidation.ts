@@ -1,26 +1,19 @@
 import { localizeDate, tableLayout } from './helpers';
 import { supplementaryInformation } from './supplementaryInformation';
 import { Translate } from './translate';
-import { ContentColumns, TableElement, Validation } from '../types';
+import { ContentCanvas, ContentColumns, ContentText, TableElement, Validation } from '../types';
 
 export function createValidation(
   validation: Validation,
   i18n: Translate,
-): [TableElement, ContentColumns, TableElement] {
+): (TableElement | ContentColumns | ContentText | ContentCanvas)[] {
   const suppInformation = validation.SupplementaryInformation
     ? supplementaryInformation(validation.SupplementaryInformation, i18n, 3)
     : [[{ text: '', colSpan: 3 }, {}, {}]];
 
   return [
-    {
-      style: 'table',
-      id: 'Validation',
-      table: {
-        widths: [160, '*', 300],
-        body: [[{ text: i18n.translate('Validation', 'certificateGroups'), style: 'h2', colSpan: 3 }, {}, {}]],
-      },
-      layout: tableLayout,
-    },
+    { text: `${i18n.translate('Validation', 'certificateGroups')}`, style: 'h2', margin: [0, 0, 0, 4] },
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] },
     {
       columns: [
         {
