@@ -1,5 +1,5 @@
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
-import { createEmptyColumns, emptyTable, localizeNumber, tableLayout } from './helpers';
+import { createEmptyColumns, localizeNumber, tableLayout } from './helpers';
 import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
 import {
