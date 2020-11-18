@@ -185,49 +185,51 @@ export function renderOtherMechanicalTests(
   ];
 }
 
-function createChemicalElementTables(chemicalComposition: ChemicalComposition, i18n: Translate): TableElement[] {
+function createChemicalElementTables(
+  chemicalComposition: ChemicalComposition,
+  i18n: Translate,
+  chunkSize = 15,
+): TableElement[] {
   const ChemicalElements: { key: string; value: ChemicalElement }[] = Object.keys(chemicalComposition)
     .filter((element) => element !== 'C70' && element !== 'SupplementaryInformation')
     .map((el) => ({ key: el, value: chemicalComposition[el] }));
 
-  // TODO: split ChemicalElements in chunks of X elements and create one table for each group ?
-  // const chunkSize = 12;
-  // const SplittedChemicalElements: { key: string; value: ChemicalElement }[][] = new Array(
-  //   Math.ceil(ChemicalElements.length / chunkSize),
-  // )
-  //   .fill('')
-  //   .map((_) => ChemicalElements.splice(0, chunkSize));
+  const SplittedChemicalElements: { key: string; value: ChemicalElement }[][] = new Array(
+    Math.ceil(ChemicalElements.length / chunkSize),
+  )
+    .fill('')
+    .map((_) => ChemicalElements.splice(0, chunkSize));
 
-  const tableBody = [
-    [
-      { text: '', style: 'caption' },
-      ...ChemicalElements.map((chemicalElement) => ({ text: chemicalElement.key, style: 'caption' })),
-    ],
-    [
-      { text: 'Symbol', style: 'caption' },
-      ...ChemicalElements.map((chemicalElement) => ({
-        text: chemicalElement.value.Symbol,
-        style: 'caption',
-      })),
-    ],
-    [
-      { text: 'Actual', style: 'caption' },
-      ...ChemicalElements.map((chemicalElement) => ({
-        text: localizeNumber(chemicalElement.value.Actual, i18n.languages[0]),
-        style: 'small',
-      })),
-    ],
-  ];
-
-  return [
-    {
+  return SplittedChemicalElements.map((chemicalElements) => {
+    const body = [
+      [
+        { text: '', style: 'p' },
+        ...chemicalElements.map((chemicalElement) => ({ text: chemicalElement.key, style: 'p' })),
+      ],
+      [
+        { text: 'Symbol', style: 'p' },
+        ...chemicalElements.map((chemicalElement) => ({
+          text: chemicalElement.value.Symbol,
+          style: 'p',
+        })),
+      ],
+      [
+        { text: 'Actual', style: 'p' },
+        ...chemicalElements.map((chemicalElement) => ({
+          text: localizeNumber(chemicalElement.value.Actual, i18n.languages[0]),
+          style: 'caption',
+        })),
+      ],
+    ];
+    return {
       style: 'table',
       table: {
-        body: tableBody,
+        widths: new Array(chemicalElements.length + 1).fill('').map((_, i) => (i === 0 ? 35 : 30)),
+        body,
       },
       layout: tableLayout,
-    },
-  ];
+    };
+  });
 }
 
 export function renderChemicalComposition(
