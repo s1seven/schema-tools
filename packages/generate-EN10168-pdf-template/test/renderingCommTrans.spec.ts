@@ -123,7 +123,7 @@ describe('Rendering transaction parties', () => {
         },
         {
           style: 'p',
-          text: undefined,
+          text: '',
         },
         {
           text: 'sbs.steeltrader@gmail.com',

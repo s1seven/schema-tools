@@ -7,6 +7,7 @@ import {
   renderHardnessTest,
   renderNotchedBarImpactTest,
 } from '../src/lib/createInspection';
+import { TableElement } from '../src/types';
 
 const defaultSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
 
@@ -165,7 +166,7 @@ describe('Rendering inspection section', () => {
       body: [
         [
           {
-            style: 'p',
+            style: 'tableHeader',
             text: 'C30 Method of test / Prüfverfahren',
           },
           {},
@@ -295,12 +296,12 @@ describe('Rendering inspection section', () => {
   it('correctly renders ChemicalComposition', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const chemicalComposition = renderChemicalComposition(certificate.Certificate.Inspection.ChemicalComposition, i18n);
-    expect(chemicalComposition[2].table).toEqual({
+    expect((chemicalComposition[2] as TableElement).table).toEqual({
       body: [
         [
           {
             text: '',
-            style: ' caption',
+            style: 'caption',
           },
           {
             text: 'C71',
@@ -533,14 +534,11 @@ describe('Rendering inspection section', () => {
         ],
       ],
     });
-    expect(chemicalComposition[3].table).toEqual({
-      widths: [240, '*'],
+    expect((chemicalComposition[3] as TableElement).table).toEqual({
+      widths: [160, '*', '*', 300],
       body: [
-        [{ text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 2 }, {}],
-        [
-          { text: 'C110 Bq/kg', style: 'tableHeader', colSpan: 1 },
-          { text: '<100 ', style: 'p', colSpan: 1 },
-        ],
+        [{ text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 4 }, {}, {}, {}],
+        [{ text: 'C110 Bq/kg', style: 'tableHeader', colSpan: 3 }, {}, {}, { text: '<100 ', style: 'p', colSpan: 1 }],
       ],
     });
   });
