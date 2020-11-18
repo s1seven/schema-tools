@@ -147,7 +147,7 @@ export async function generatePdf(
   }
 
   const docDefinition: TDocumentDefinitions = opts.docDefinition
-    ? merge(opts.docDefinition, baseDocDefinition(pdfMakeContent))
+    ? merge(JSON.parse(JSON.stringify(opts.docDefinition)), baseDocDefinition(pdfMakeContent))
     : baseDocDefinition(pdfMakeContent);
 
   const printer = new PdfPrinter(opts.fonts || fonts);
