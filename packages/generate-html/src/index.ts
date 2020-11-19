@@ -76,6 +76,9 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
       hasKey: function (object: Record<string, unknown>, key: string, options: any) {
         return Object.prototype.hasOwnProperty.call(object, key) ? options.fn(this) : options.inverse(this);
       },
+      some: function (array: unknown[], path: string, options: any) {
+        return array.some((el) => get(el, path, null)) ? options.fn(this) : options.inverse(this);
+      },
       notEmpty: function (object: Record<string, unknown>, options: any) {
         return typeof object === 'object' && Object.keys(object).length ? options.fn(this) : options.inverse(this);
       },
@@ -85,7 +88,7 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
       },
       joinAndLocalizeNumber: function (lvalue: any[], separator = ', ', locales = ['EN'], property = '') {
         const localizeNumber = (val: any) => {
-          return new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(val);
+          return val ? new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(val) : '';
         };
         const result = property
           ? lvalue.map((val) => localizeNumber(val[property])).join(separator)
@@ -107,7 +110,7 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
 
         switch (type) {
           case 'number':
-            result = new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(Number(value));
+            result = value ? new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(Number(value)) : '';
             break;
           case 'date':
             result = localizeDate();
@@ -132,13 +135,28 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
         return new SafeString(result);
       },
       localizeNumber: function (lvalue: number, locales: string | string[] = 'EN') {
-        const result = new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(lvalue);
+        const result = lvalue ? new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(lvalue) : '';
         return new SafeString(result);
       },
       get: function (object: Record<string, unknown>, path: string | string[]) {
         path = typeof path === 'string' ? path.split(',').map((val) => val.trim()) : path;
         const result = get(object, path);
         return new SafeString(result);
+      },
+      chunk: function (
+        elements: Record<string, unknown>[],
+        chunkSize = 15,
+        filter?: string | string[],
+        filterOut?: boolean,
+      ) {
+        filter = typeof filter === 'string' ? filter.split(',').map((val) => val.trim()) : filter;
+        const ChemicalElements = Object.keys(elements)
+          .filter((element) => (filterOut ? !filter.includes(element) : filter.includes(element)))
+          .map((el) => ({ key: el, value: elements[el] }));
+
+        return new Array(Math.ceil(ChemicalElements.length / chunkSize))
+          .fill('')
+          .map((_) => ChemicalElements.splice(0, chunkSize));
       },
     },
   };
