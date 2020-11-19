@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.4](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.0.3...@s1seven/schema-tools-generate-en10168-pdf-template@0.0.4) (2020-11-19)
+
+
+### Bug Fixes
+
+* improve typings ([b30754d](http://github.com/s1seven/schema-tools/commit/b30754d1643d63eccb8de4b06c0ba8f06376b106))
+* node-forge vulnerability ([5499300](http://github.com/s1seven/schema-tools/commit/5499300f7bac02c6b3e02f80cae84cfc2ce5f628))
+* split chemical elements in 2 tables ([37270c7](http://github.com/s1seven/schema-tools/commit/37270c7d8feb2f4806e24c5bb4486c7dc096e187))
+* style improvements ([e813e79](http://github.com/s1seven/schema-tools/commit/e813e79c8942f21c82680cc2094575b1689f743d))
+* update tests ([7d38366](http://github.com/s1seven/schema-tools/commit/7d3836638c503818882b66c48564c06b584fa4de))
+
+
+
+
+
 ## [0.0.3](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.0.2...@s1seven/schema-tools-generate-en10168-pdf-template@0.0.3) (2020-11-18)
 
 

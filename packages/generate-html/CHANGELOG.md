@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.12](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.11...@s1seven/schema-tools-generate-html@0.0.12) (2020-11-19)
+
+
+### Bug Fixes
+
+* add new helpers ([5a71f0b](http://github.com/s1seven/schema-tools/commit/5a71f0b888e7abcb73e1bf9e9284bc807a76413d))
+
+
+
+
+
 ## [0.0.11](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.10...@s1seven/schema-tools-generate-html@0.0.11) (2020-11-18)
 
 
