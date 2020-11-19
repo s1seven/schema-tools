@@ -1,13 +1,6 @@
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { createEmptyColumns, localizeValue, tableLayout } from './helpers';
-import {
-  ContentCanvas,
-  ContentText,
-  NonDestructiveTests,
-  OtherProductTests,
-  OtherTests,
-  TableElement,
-} from '../types';
+import { ContentCanvas, ContentText, NonDestructiveTests, OtherProductTests, OtherTests, TableElement } from '../types';
 import { Translate } from './translate';
 
 export function createOtherTests(

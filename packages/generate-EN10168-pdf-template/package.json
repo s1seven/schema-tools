@@ -31,7 +31,11 @@
     "pdfmake": "^0.1.68",
     "typescript": "^4.0.5"
   },
+  "resolutions": {
+    "node-forge": ">=0.10.0"
+  },
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "test": "jest --ci --config ../../jest.config.json ",
     "build": "parcel build src/generateContent.ts --no-cache --no-source-maps --target=node",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
