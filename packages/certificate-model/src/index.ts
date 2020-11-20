@@ -1,5 +1,6 @@
 import { extractEmails, PartyEmail } from '@s1seven/schema-tools-extract-emails';
 import { generateHtml, GenerateHtmlOptions } from '@s1seven/schema-tools-generate-html';
+import { generatePdf, GeneratePdfOptions } from '@s1seven/schema-tools-generate-pdf';
 import { JSONSchema7, SchemaConfig } from '@s1seven/schema-tools-types';
 import {
   castCertificate,
@@ -91,7 +92,7 @@ function set<T = any>(scope: CertificateModel, data: Record<string, unknown> | T
   });
 }
 
-// JSONSchema || JSONSchema7Definition
+// JSONSchema7 || JSONSchema7Definition
 function getProperties(schema: any, validator?: Ajv.Ajv) {
   const root = !validator;
   if (root || !validator) {
@@ -205,10 +206,10 @@ export class CertificateModel<T = any> extends EventEmitter {
   }
 
   setListeners() {
-    this.on('do:generate-html', (options?: GenerateHtmlOptions) => this.generateHtml(options));
-    this.on('do:generate-pdf', (options) => this.generatePdf(options));
+    this.on('generate-html', (options: GenerateHtmlOptions) => this.generateHtml(options));
+    this.on('generate-pdf', (options: GeneratePdfOptions) => this.generatePdf(options));
     this.on(
-      'do:set',
+      'set',
       (
         data: string | Record<string, unknown> | T,
         value?: any | KVCertificateModelOptions,
@@ -273,12 +274,7 @@ export class CertificateModel<T = any> extends EventEmitter {
       return acc;
     }, {} as T);
 
-    return cloneDeepWith(res, (value) => {
-      if (value instanceof CertificateModel) {
-        return value.toJSON(stripUndefined);
-      }
-      return value;
-    });
+    return cloneDeepWith(res, (value) => (value instanceof CertificateModel ? value.toJSON(stripUndefined) : value));
   }
 
   async generateHtml(options?: GenerateHtmlOptions): Promise<string> {
@@ -287,13 +283,17 @@ export class CertificateModel<T = any> extends EventEmitter {
     return result;
   }
 
-  async generatePdf(options: any): Promise<any> {
-    const result = await Promise.resolve(options);
+  async generatePdf(options: GeneratePdfOptions): Promise<Buffer | PDFKit.PDFDocument> {
+    const result = await generatePdf(this as Record<string, unknown>, {
+      inputType: 'json',
+      outputType: 'buffer',
+      ...options,
+    });
     this.emit('done:generate-pdf', result);
     return result;
   }
 
-  async getEmails(): Promise<PartyEmail[] | null> {
+  async getTransactionParties(): Promise<PartyEmail[] | null> {
     return extractEmails(this as Record<string, unknown>);
   }
 }

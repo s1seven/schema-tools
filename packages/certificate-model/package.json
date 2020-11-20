@@ -44,6 +44,7 @@
   "dependencies": {
     "@s1seven/schema-tools-extract-emails": "^0.0.10",
     "@s1seven/schema-tools-generate-html": "^0.0.12",
+    "@s1seven/schema-tools-generate-pdf": "^0.0.3",
     "@s1seven/schema-tools-types": "^0.0.8",
     "@s1seven/schema-tools-utils": "^0.0.9",
     "@s1seven/schema-tools-validate": "^0.0.9",

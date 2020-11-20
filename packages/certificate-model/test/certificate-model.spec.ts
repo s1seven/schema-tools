@@ -133,11 +133,11 @@ describe('CertificateModel', function () {
           JSON.stringify(
             [
               {
-                expected: 'should be equal to one of the allowed values',
-                keyword: 'enum',
-                path: '.EcocData.DataLevel',
                 root: '',
+                path: '.EcocData.DataLevel',
+                keyword: 'enum',
                 schemaPath: '#/properties/DataLevel/enum',
+                expected: 'should be equal to one of the allowed values',
               },
             ],
             null,
