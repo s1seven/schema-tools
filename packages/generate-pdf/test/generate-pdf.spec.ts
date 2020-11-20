@@ -15,7 +15,7 @@ describe('GeneratePDF', function () {
   };
 
   it('should render PDF certificate using certificate object and remote PDF generator script', async () => {
-    certificate.RefSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.3-1/schema.json';
+    certificate.RefSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.3-2/schema.json';
     const docDefinition: Partial<TDocumentDefinitions> = {
       pageSize: 'A4',
       pageMargins: [20, 20, 20, 40],
@@ -50,10 +50,10 @@ describe('GeneratePDF', function () {
           reject(err);
         });
     });
-  }, 20000);
+  }, 25000);
 
   it('should render PDF certificate using certificate object and local PDF generator script', async () => {
-    certificate.RefSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.3-1/schema.json';
+    certificate.RefSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.3-2/schema.json';
     const generatorPath = path.resolve(`${__dirname}/../../generate-EN10168-pdf-template/dist/generateContent.js`);
 
     const docDefinition: Partial<TDocumentDefinitions> = {
