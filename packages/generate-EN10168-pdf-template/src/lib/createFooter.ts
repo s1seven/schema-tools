@@ -17,7 +17,7 @@ export function createFooter(RefSchemaUrl: string): TableElement {
                 margin: [0, 0, 0, 0],
               },
               {
-                text: 'en10204',
+                text: 'en10204.io',
                 style: 'small',
                 color: 'blue',
                 margin: [0, 0, 0, 0],
