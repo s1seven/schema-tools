@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.9](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.0.8...@s1seven/schema-tools-types@0.0.9) (2020-11-20)
+
+
+### Bug Fixes
+
+* add type ([acb910e](http://github.com/s1seven/schema-tools/commit/acb910eb2dc71cb92d6ae1fc4a9ce1b47d227aee))
+
+
+
+
+
 ## [0.0.8](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.0.7...@s1seven/schema-tools-types@0.0.8) (2020-11-16)
 
 **Note:** Version bump only for package @s1seven/schema-tools-types

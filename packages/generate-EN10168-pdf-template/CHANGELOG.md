@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.5](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.0.4...@s1seven/schema-tools-generate-en10168-pdf-template@0.0.5) (2020-11-20)
+
+
+### Bug Fixes
+
+* footer ([e55a62b](http://github.com/s1seven/schema-tools/commit/e55a62bcc03d2b2441e502ec7f82cecfcc13f011))
+
+
+
+
+
 ## [0.0.4](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.0.3...@s1seven/schema-tools-generate-en10168-pdf-template@0.0.4) (2020-11-19)
 
 

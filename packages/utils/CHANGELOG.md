@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.10](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.0.9...@s1seven/schema-tools-utils@0.0.10) (2020-11-20)
+
+
+### Bug Fixes
+
+* replace semver-regex ([28b9393](http://github.com/s1seven/schema-tools/commit/28b9393aa942841637743f8b2a52a6796b677608))
+
+
+
+
+
 ## [0.0.9](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.0.8...@s1seven/schema-tools-utils@0.0.9) (2020-11-16)
 
 

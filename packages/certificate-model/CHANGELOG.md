@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.6](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.0.5...@s1seven/schema-tools-certificate-model@0.0.6) (2020-11-20)
+
+
+### Bug Fixes
+
+* add pdf generator ([99b5b1a](http://github.com/s1seven/schema-tools/commit/99b5b1a8ca40ba5891390307859890313bc18cff))
+
+
+
+
+
 ## [0.0.5](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.0.4...@s1seven/schema-tools-certificate-model@0.0.5) (2020-11-19)
 
 **Note:** Version bump only for package @s1seven/schema-tools-certificate-model

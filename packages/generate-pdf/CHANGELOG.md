@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.4](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.0.3...@s1seven/schema-tools-generate-pdf@0.0.4) (2020-11-20)
+
+
+### Bug Fixes
+
+* update test refSchemaUrl ([6796983](http://github.com/s1seven/schema-tools/commit/6796983443d8c3f1a9e64fbdf5d521cce3479f5a))
+
+
+
+
+
 ## [0.0.3](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.0.2...@s1seven/schema-tools-generate-pdf@0.0.3) (2020-11-18)
 
 
