@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export { JSONSchema7 } from 'json-schema';
+export { JSONSchema7, JSONSchema7Definition } from 'json-schema';
 
 export type SchemaTypes = 'en10168-schemas' | 'e-coc-schemas';
 
