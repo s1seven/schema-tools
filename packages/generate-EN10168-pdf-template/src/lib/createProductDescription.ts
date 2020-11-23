@@ -29,12 +29,20 @@ export function productShape(productShape: ProductShape, i18n: Translate): Table
   if (productShape === undefined) return [];
   const header = [{ text: i18n.translate('B09', 'certificateFields'), style: 'tableHeader', colSpan: 4 }, {}, {}, {}];
 
-  const content = Object.keys(productShape).map((key) => [
-    { text: i18n.translate(key, 'otherFields'), style: 'caption', colSpan: 3 },
-    {},
-    {},
-    { text: productShape[key], style: 'p' },
-  ]);
+  const content = Object.keys(productShape)
+    .filter((key) => key.toLowerCase() !== 'unit')
+    .map((key) => [
+      { text: i18n.translate(key, 'otherFields'), style: 'caption', colSpan: 3 },
+      {},
+      {},
+      {
+        text:
+          key === 'Form'
+            ? i18n.translate(productShape[key], 'otherFields')
+            : `${productShape[key]} ${productShape.Unit || ''}`,
+        style: 'p',
+      },
+    ]);
   return [header, ...content];
 }
 
