@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools-generate-en10168-pdf-template",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "Apache-2.0",
   "main": "dist/generateContent.js",
   "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/generate-EN10168-pdf-template#readme",
@@ -21,8 +21,8 @@
     "dist"
   ],
   "devDependencies": {
-    "@s1seven/schema-tools-generate-interfaces": "^0.0.11",
-    "@s1seven/schema-tools-utils": "^0.0.11",
+    "@s1seven/schema-tools-generate-interfaces": "^0.0.12",
+    "@s1seven/schema-tools-utils": "^0.0.12",
     "@types/node": "^14.14.6",
     "@types/pdfmake": "^0.1.16",
     "full-icu": "^1.3.1",
