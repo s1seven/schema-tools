@@ -70,7 +70,7 @@ export function formatValidationErrors(errors: ErrorObject[] = [], validationFil
 }
 
 export function getSemanticVersion(rawVersion: string): string | null {
-  return semver.instance(rawVersion).version; 
+  return semver.instance(rawVersion).version;
 }
 
 export function getRefSchemaUrl(opts: SchemaConfig, filename = 'schema.json'): URL {
