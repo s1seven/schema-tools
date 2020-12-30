@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.6](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.0.5...@s1seven/schema-tools-generate-en10168-pdf-template@0.0.6) (2020-12-30)
+
+
+### Bug Fixes
+
+* B09 rendering ([6c3bad3](http://github.com/s1seven/schema-tools/commit/6c3bad38a39124f7c3d643774ac41b7badbc5174))
+
+
+
+
+
 ## [0.0.5](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.0.4...@s1seven/schema-tools-generate-en10168-pdf-template@0.0.5) (2020-11-20)
 
 

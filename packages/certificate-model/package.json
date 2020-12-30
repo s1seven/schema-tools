@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-certificate-model",
   "description": "Tool to create class / instances specific to a schema",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/certificate-model#readme",
   "license": "",
@@ -46,12 +46,12 @@
     "typescript": "4.0.2"
   },
   "dependencies": {
-    "@s1seven/schema-tools-extract-emails": "^0.0.11",
-    "@s1seven/schema-tools-generate-html": "^0.0.13",
-    "@s1seven/schema-tools-generate-pdf": "^0.0.4",
+    "@s1seven/schema-tools-extract-emails": "^0.0.12",
+    "@s1seven/schema-tools-generate-html": "^0.0.14",
+    "@s1seven/schema-tools-generate-pdf": "^0.0.5",
     "@s1seven/schema-tools-types": "^0.0.9",
-    "@s1seven/schema-tools-utils": "^0.0.10",
-    "@s1seven/schema-tools-validate": "^0.0.10",
+    "@s1seven/schema-tools-utils": "^0.0.11",
+    "@s1seven/schema-tools-validate": "^0.0.11",
     "@types/lodash.clonedeepwith": "^4.5.6",
     "@types/lodash.merge": "^4.6.6",
     "@types/node": "14.0.27",
