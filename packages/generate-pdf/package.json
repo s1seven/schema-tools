@@ -33,7 +33,7 @@
     "cleanup": "rimraf -rf dist coverage",
     "compile": "tsc -p tsconfig.build.json",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
-    "test": "jest --ci --config ../../jest.config.json ",
+    "test": "jest --ci --runInBand --config ../../jest.config.json ",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {

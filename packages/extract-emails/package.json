@@ -37,7 +37,7 @@
     "compile:browser": "tsc -p tsconfig.browser.json",
     "compile": "npm run compile:node && npm run compile:browser",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
-    "test": "jest --ci --config ../../jest.config.json ",
+    "test": "jest --ci --runInBand --config ../../jest.config.json ",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
