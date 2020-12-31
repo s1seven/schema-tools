@@ -44,7 +44,7 @@ describe('GeneratePDF', function () {
         .on('finish', () => {
           expect(existsSync(outputFilePath)).toEqual(true);
           unlinkSync(outputFilePath);
-          resolve();
+          resolve(true);
         })
         .on('error', (err) => {
           reject(err);
@@ -85,7 +85,7 @@ describe('GeneratePDF', function () {
         .on('finish', () => {
           expect(existsSync(outputFilePath)).toEqual(true);
           unlinkSync(outputFilePath);
-          resolve();
+          resolve(true);
         })
         .on('error', (err) => {
           reject(err);
