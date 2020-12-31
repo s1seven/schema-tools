@@ -7,7 +7,8 @@ import {
   readDir,
   readFile,
 } from '@s1seven/schema-tools-utils';
-import Ajv from 'ajv';
+import Ajv, { ValidateFunction } from 'ajv';
+import addFormats from 'ajv-formats';
 import flatten from 'lodash.flatten';
 import groupBy from 'lodash.groupby';
 import path from 'path';
@@ -17,7 +18,7 @@ export type ValidateOptions = {
   ignoredExts?: string[];
 };
 
-export type ValidateFunction = Ajv.ValidateFunction;
+export { ValidateFunction } from 'ajv';
 
 const validateOptions: ValidateOptions = {
   ignoredPaths: ['.DS_Store', '.git', '.gitignore', 'node_modules', 'package.json', 'package-lock.json'],
@@ -58,20 +59,22 @@ async function* loadLocalSchemas(paths: string[]): AsyncIterable<{ data: BaseCer
   }
 }
 
-export async function setValidator(refSchemaUrl: string): Promise<Ajv.ValidateFunction> {
+export async function setValidator(refSchemaUrl: string): Promise<ValidateFunction> {
   const schema: Record<string, unknown> = (await loadExternalFile(refSchemaUrl, 'json')) as Record<string, unknown>;
   const ajv = new Ajv({
     loadSchema: async (uri) => (await loadExternalFile(uri, 'json')) as Record<string, unknown>,
+    strict: false,
   });
+  addFormats(ajv);
   const validator = await ajv.compileAsync(schema);
   const cacheKey = `validator-${refSchemaUrl}`;
   cache.set(cacheKey, validator);
   return validator;
 }
 
-export function getValidator(refSchemaUrl: string): Ajv.ValidateFunction | undefined {
+export function getValidator(refSchemaUrl: string): ValidateFunction | undefined {
   const cacheKey = `validator-${refSchemaUrl}`;
-  return cache.get<Ajv.ValidateFunction>(cacheKey);
+  return cache.get<ValidateFunction>(cacheKey);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
