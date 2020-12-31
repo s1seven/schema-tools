@@ -11,7 +11,8 @@ import {
   formatValidationErrors,
 } from '@s1seven/schema-tools-utils';
 import { setValidator, ValidateFunction } from '@s1seven/schema-tools-validate';
-import Ajv from 'ajv';
+import Ajv, { ErrorObject } from 'ajv';
+import addFormats from 'ajv-formats';
 import { EventEmitter } from 'events';
 import cloneDeepWith from 'lodash.clonedeepwith';
 import merge from 'lodash.merge';
@@ -93,10 +94,12 @@ function set<T = any>(scope: CertificateModel, data: Record<string, unknown> | T
 }
 
 // JSONSchema7 || JSONSchema7Definition
-function getProperties(schema: any, validator?: Ajv.Ajv) {
+function getProperties(schema: any, validator?: Ajv) {
   const root = !validator;
   if (root || !validator) {
-    const ajv = new Ajv();
+    const ajv = new Ajv({ strict: false });
+    addFormats(ajv);
+
     validator = ajv.addSchema(schema, '');
   }
   if (schema.definitions) {
@@ -258,7 +261,7 @@ export class CertificateModel<T = any> extends EventEmitter {
     this.emit('done:set', this);
   }
 
-  validate(data?: T): { valid: boolean; errors: Ajv.ErrorObject[] | null | undefined } {
+  validate(data?: T): { valid: boolean; errors: ErrorObject[] | null | undefined } {
     data = data || this.toJSON(true);
     const valid = this.validator(data) as boolean;
     return { valid, errors: this.validator.errors };

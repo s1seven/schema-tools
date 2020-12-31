@@ -37,7 +37,7 @@ describe('CertificateModel', function () {
       expect(JSON.stringify(toJSON, null, 2)).toEqual(JSON.stringify(validEn10168Certificate, null, 2));
       expect(validation.valid).toEqual(true);
     });
-  }, 5000);
+  }, 6000);
 
   it('should NOT build invalid instance using schemaConfig EN10168 v0.0.2 when using invalid certificate', async () => {
     const CertModel = await CertificateModel.build({
@@ -55,7 +55,7 @@ describe('CertificateModel', function () {
             [
               {
                 root: '',
-                path: '.Certificate.ProductDescription.B02',
+                path: '/Certificate/ProductDescription/B02',
                 keyword: 'type',
                 schemaPath: '#/properties/B02/type',
                 expected: 'should be object',
@@ -67,7 +67,7 @@ describe('CertificateModel', function () {
         ),
       );
     });
-  }, 5000);
+  }, 6000);
 
   it('should NOT set invalid instance using schemaConfig EN10168 v0.0.2 when using invalid certificate', async () => {
     const CertModel = await CertificateModel.build({
@@ -79,7 +79,7 @@ describe('CertificateModel', function () {
 
     const cert = new CertModel<EN10168Schema>(validEn10168Certificate);
     await new Promise((resolve) => {
-      cert.on('ready', () => resolve());
+      cert.on('ready', () => resolve(true));
     });
 
     await expect(cert.set(invalidEN10168Certificate)).rejects.toThrow(
@@ -87,7 +87,7 @@ describe('CertificateModel', function () {
         [
           {
             root: '',
-            path: '.Certificate.ProductDescription.B02',
+            path: '/Certificate/ProductDescription/B02',
             keyword: 'type',
             schemaPath: '#/properties/B02/type',
             expected: 'should be object',
@@ -97,7 +97,7 @@ describe('CertificateModel', function () {
         2,
       ),
     );
-  }, 5000);
+  }, 6000);
 
   it('should build model using schema config E-CoC v0.0.2-2 when using valid certificate', async () => {
     const CertModel = await CertificateModel.build({
@@ -109,14 +109,14 @@ describe('CertificateModel', function () {
 
     const cert = new CertModel<EN10168Schema>(validECoCCertificate);
     await new Promise((resolve) => {
-      cert.on('ready', () => resolve());
+      cert.on('ready', () => resolve(true));
     });
 
     const validation = cert.validate();
     const toJSON = cert.toJSON();
     expect(JSON.stringify(toJSON, null, 2)).toEqual(JSON.stringify(validECoCCertificate, null, 2));
     expect(validation.valid).toEqual(true);
-  }, 5000);
+  }, 6000);
 
   it('should NOT build model using schema config E-CoC v0.0.2-2 when using invalid certificate', async () => {
     const CertModel = await CertificateModel.build({
@@ -134,7 +134,7 @@ describe('CertificateModel', function () {
             [
               {
                 root: '',
-                path: '.EcocData.DataLevel',
+                path: '/EcocData/DataLevel',
                 keyword: 'enum',
                 schemaPath: '#/properties/DataLevel/enum',
                 expected: 'should be equal to one of the allowed values',
@@ -146,5 +146,5 @@ describe('CertificateModel', function () {
         ),
       );
     });
-  }, 5000);
+  }, 6000);
 });
