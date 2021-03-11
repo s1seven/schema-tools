@@ -48,7 +48,7 @@
     "@types/ajv": "^1.0.0",
     "@types/lodash.merge": "^4.6.6",
     "@types/node": "^14.14.16",
-    "json-schema-to-typescript": "^9.1.1",
+    "json-schema-to-typescript": "^10.0.0",
     "lodash.merge": "^4.6.2"
   },
   "gitHead": "a4f88739c574e60fd79bcf81ded0f4dcd9318660"
