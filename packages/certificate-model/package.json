@@ -20,6 +20,7 @@
   },
   "private": false,
   "main": "dist/index",
+  "browser": "dist.browser/index",
   "types": "dist/index",
   "files": [
     "dist"
@@ -32,7 +33,9 @@
     "build": "npm run clean && npm run compile",
     "clean": "rimraf -rf ./dist",
     "cleanup": "rimraf -rf dist coverage",
-    "compile": "tsc -p tsconfig.build.json",
+    "compile:node": "tsc -p tsconfig.build.json",
+    "compile:browser": "tsc -p tsconfig.browser.json",
+    "compile": "npm run compile:node && npm run compile:browser",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
     "test": "jest --ci --runInBand --config ../../jest.config.json ",
     "prepublishOnly": "npm run build"
@@ -43,8 +46,6 @@
   },
   "dependencies": {
     "@s1seven/schema-tools-extract-emails": "^0.0.14",
-    "@s1seven/schema-tools-generate-html": "^0.0.16",
-    "@s1seven/schema-tools-generate-pdf": "^0.0.7",
     "@s1seven/schema-tools-types": "^0.0.11",
     "@s1seven/schema-tools-utils": "^0.0.13",
     "@s1seven/schema-tools-validate": "^0.0.13",

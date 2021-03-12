@@ -1,7 +1,5 @@
 import { extractEmails, PartyEmail } from '@s1seven/schema-tools-extract-emails';
-import { generateHtml, GenerateHtmlOptions } from '@s1seven/schema-tools-generate-html';
-import { generatePdf, GeneratePdfOptions } from '@s1seven/schema-tools-generate-pdf';
-import { JSONSchema7, SchemaConfig } from '@s1seven/schema-tools-types';
+import { JSONSchema7, JSONSchema7Definition, SchemaConfig } from '@s1seven/schema-tools-types';
 import {
   castCertificate,
   getRefSchemaUrl,
@@ -52,11 +50,14 @@ async function getSchema(
       ...defaultBuildCertificateOptions,
       ...(options.schemaConfig || {}),
     } as SchemaConfig;
-    schemaConfig.version = getSemanticVersion(schemaConfig.version);
+    schemaConfig.version = getSemanticVersion(schemaConfig.version) as string;
     refSchemaUrl = getRefSchemaUrl(schemaConfig);
     schema = (await loadExternalFile(refSchemaUrl.href, 'json')) as JSONSchema7;
-  } else if (options.schema) {
+  } else if (typeof options.schema === 'object') {
     schema = options.schema;
+    if (typeof schema.$id !== 'string') {
+      throw new TypeError('Schema has not valid $id property');
+    }
     refSchemaUrl = new URL(schema.$id);
     schemaConfig = getSchemaConfig(refSchemaUrl);
   } else {
@@ -94,33 +95,32 @@ function set<T = any>(scope: CertificateModel, data: Record<string, unknown> | T
 }
 
 // JSONSchema7 || JSONSchema7Definition
-function getProperties(schema: any, validator?: Ajv) {
+function getProperties(schema: JSONSchema7, validator?: Ajv) {
   const root = !validator;
   if (root || !validator) {
     const ajv = new Ajv({ strict: false });
     addFormats(ajv);
-
     validator = ajv.addSchema(schema, '');
   }
-  if (schema.definitions) {
+  if (schema?.definitions) {
     for (const key in schema.definitions) {
       validator.addSchema(schema.definitions[key], `#/definitions/${key}`);
     }
   }
-  if (schema.$ref) {
+  if (schema?.$ref) {
     const validator2 = validator.getSchema(schema.$ref);
-    if (typeof validator2.schema === 'object') {
+    if (typeof validator2?.schema === 'object') {
       schema = validator2.schema;
     }
   }
-  if (schema.properties) {
+  if (schema?.properties) {
     return cloneDeepWith(schema.properties);
   }
   // JSONSchema7Definition[]
-  const defs: any[] = schema['anyOf'] || schema['allOf'] || (root && schema['oneOf']);
+  const defs = schema['anyOf'] || schema['allOf'] || (root && schema['oneOf']);
   return defs
-    ? defs.reduce((acc, def) => {
-        acc = merge(acc, getProperties(def, validator));
+    ? (defs as JSONSchema7Definition[]).reduce((acc, def) => {
+        acc = merge(acc, getProperties(def as JSONSchema7, validator));
         return acc;
       }, {} as Record<string, unknown>)
     : {};
@@ -129,7 +129,7 @@ function getProperties(schema: any, validator?: Ajv) {
 export class CertificateModel<T = any> extends EventEmitter {
   static symbols: any;
 
-  _validator: ValidateFunction;
+  _validator: ValidateFunction = new Ajv().compile({});
 
   static merge(obj1: Record<string, unknown>, obj2: Record<string, unknown>) {
     return merge(obj1, obj2);
@@ -209,8 +209,6 @@ export class CertificateModel<T = any> extends EventEmitter {
   }
 
   setListeners() {
-    this.on('generate-html', (options: GenerateHtmlOptions) => this.generateHtml(options));
-    this.on('generate-pdf', (options: GeneratePdfOptions) => this.generatePdf(options));
     this.on(
       'set',
       (
@@ -278,22 +276,6 @@ export class CertificateModel<T = any> extends EventEmitter {
     }, {} as T);
 
     return cloneDeepWith(res, (value) => (value instanceof CertificateModel ? value.toJSON(stripUndefined) : value));
-  }
-
-  async generateHtml(options?: GenerateHtmlOptions): Promise<string> {
-    const result = await generateHtml(this as Record<string, unknown>, options);
-    this.emit('done:generate-html', result);
-    return result;
-  }
-
-  async generatePdf(options: GeneratePdfOptions): Promise<Buffer | PDFKit.PDFDocument> {
-    const result = await generatePdf(this as Record<string, unknown>, {
-      inputType: 'json',
-      outputType: 'buffer',
-      ...options,
-    });
-    this.emit('done:generate-pdf', result);
-    return result;
   }
 
   async getTransactionParties(): Promise<PartyEmail[] | null> {
