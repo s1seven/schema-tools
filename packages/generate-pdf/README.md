@@ -1,5 +1,10 @@
 # Schema-tools-generate-pdf
 
+[![npm][npm-image]][npm-url] 
+
+[npm-image]: https://img.shields.io/npm/v/@s1seven/schema-tools-generate-pdf.svg?style=flat
+[npm-url]: https://npmjs.org/package/@s1seven/schema-tools-generate-pdf
+
 The `generate-pdf` module is using [pdfmake] to generate PDF buffer | stream from a certificate as JSON or HTML.
 
 ## Install
