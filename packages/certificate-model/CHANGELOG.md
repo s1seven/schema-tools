@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.10](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.0.9...@s1seven/schema-tools-certificate-model@0.0.10) (2021-03-12)
+
+
+### Bug Fixes
+
+* remove pdf and html generator and add browser build ([c0650b9](http://github.com/s1seven/schema-tools/commit/c0650b9e86d6badf2aa2c84db63e4a1eea782149))
+* update package-lock ([48fb2f9](http://github.com/s1seven/schema-tools/commit/48fb2f94cf0fcda8c35b64557aeb2b69419358da))
+
+
+
+
+
 ## [0.0.9](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.0.8...@s1seven/schema-tools-certificate-model@0.0.9) (2020-12-31)
 
 

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.17](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.16...@s1seven/schema-tools-generate-html@0.0.17) (2021-03-12)
+
+
+### Bug Fixes
+
+* add npm badge ([1dfc34c](http://github.com/s1seven/schema-tools/commit/1dfc34cd8d19953c5121ca1a97ff9e8863c76109))
+* update package-lock ([48fb2f9](http://github.com/s1seven/schema-tools/commit/48fb2f94cf0fcda8c35b64557aeb2b69419358da))
+
+
+
+
+
 ## [0.0.16](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.15...@s1seven/schema-tools-generate-html@0.0.16) (2020-12-31)
 
 

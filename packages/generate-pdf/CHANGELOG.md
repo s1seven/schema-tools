@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.8](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.0.7...@s1seven/schema-tools-generate-pdf@0.0.8) (2021-03-12)
+
+
+### Bug Fixes
+
+* add example ([6080ccc](http://github.com/s1seven/schema-tools/commit/6080cccc6896a5654f59eb20c16f31647eef708c))
+* add npm badge ([e0ebc0a](http://github.com/s1seven/schema-tools/commit/e0ebc0ae8f1bc0411b3e128f7650f3f8d832fd07))
+* update package-lock ([48fb2f9](http://github.com/s1seven/schema-tools/commit/48fb2f94cf0fcda8c35b64557aeb2b69419358da))
+
+
+
+
+
 ## [0.0.7](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.0.6...@s1seven/schema-tools-generate-pdf@0.0.7) (2020-12-31)
 
 

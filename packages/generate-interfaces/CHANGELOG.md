@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.14](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-interfaces@0.0.13...@s1seven/schema-tools-generate-interfaces@0.0.14) (2021-03-12)
+
+
+### Bug Fixes
+
+* update package-lock ([48fb2f9](http://github.com/s1seven/schema-tools/commit/48fb2f94cf0fcda8c35b64557aeb2b69419358da))
+* **deps:** update dependency json-schema-to-typescript to v10 ([#26](http://github.com/s1seven/schema-tools/issues/26)) ([4ef68a7](http://github.com/s1seven/schema-tools/commit/4ef68a772c09ca8c8fe2f1c91dec94744565a305))
+* add npm badge ([765649e](http://github.com/s1seven/schema-tools/commit/765649e03f4a886391e0fa3be266cccebd2d68cb))
+
+
+
+
+
 ## [0.0.13](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-interfaces@0.0.12...@s1seven/schema-tools-generate-interfaces@0.0.13) (2020-12-31)
 
 

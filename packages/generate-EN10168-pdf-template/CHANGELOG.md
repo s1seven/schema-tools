@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.9](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.0.8...@s1seven/schema-tools-generate-en10168-pdf-template@0.0.9) (2021-03-12)
+
+
+### Bug Fixes
+
+* move npm-force-resolutions ([6b8b66e](http://github.com/s1seven/schema-tools/commit/6b8b66ed0982cb8dab426061c63b809a91838961))
+* update package-lock ([48fb2f9](http://github.com/s1seven/schema-tools/commit/48fb2f94cf0fcda8c35b64557aeb2b69419358da))
+
+
+
+
+
 ## [0.0.8](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.0.7...@s1seven/schema-tools-generate-en10168-pdf-template@0.0.8) (2020-12-31)
 
 

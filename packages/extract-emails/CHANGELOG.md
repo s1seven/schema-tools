@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.15](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.0.14...@s1seven/schema-tools-extract-emails@0.0.15) (2021-03-12)
+
+
+### Bug Fixes
+
+* add example ([08a89ed](http://github.com/s1seven/schema-tools/commit/08a89ed0db03bc165ed2ff8480474e912e70ad2c))
+* add npm badge ([6dbc74a](http://github.com/s1seven/schema-tools/commit/6dbc74a244b719e8b9b62668e579d384d2c469f0))
+* update package-lock ([48fb2f9](http://github.com/s1seven/schema-tools/commit/48fb2f94cf0fcda8c35b64557aeb2b69419358da))
+
+
+
+
+
 ## [0.0.14](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.0.13...@s1seven/schema-tools-extract-emails@0.0.14) (2020-12-31)
 
 
