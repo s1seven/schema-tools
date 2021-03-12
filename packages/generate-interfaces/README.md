@@ -1,5 +1,10 @@
 # Schema-tools-generate-interfaces
 
+[![npm][npm-image]][npm-url] 
+
+[npm-image]: https://img.shields.io/npm/v/@s1seven/schema-tools-generate-interfaces.svg?style=flat
+[npm-url]: https://npmjs.org/package/@s1seven/schema-tools-generate-interfaces
+
 The `generate-interfaces` module is using [json-schema-to-typescript] to generate TS interfaces and types using a JSON / OpenAPI schema.
 
 ## Install
