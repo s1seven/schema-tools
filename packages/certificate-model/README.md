@@ -1,5 +1,10 @@
 # Schema-tools-certificate-model
 
+[![npm][npm-image]][npm-url] 
+
+[npm-image]: https://img.shields.io/npm/v/@s1seven/schema-tools-certificate-model.svg?style=flat
+[npm-url]: https://npmjs.org/package/@s1seven/schema-tools-certificate-model
+
 The `certificate-model` module provides a class using template pattern to generate a class / instances based a given JSON schema.
 
 ## Install
