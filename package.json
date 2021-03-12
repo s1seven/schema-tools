@@ -44,8 +44,8 @@
     "publish": "lerna publish"
   },
   "devDependencies": {
-    "@lerna/publish": "3.22.1",
-    "@lerna/run": "3.21.0",
+    "@lerna/publish": "4.0.0",
+    "@lerna/run": "4.0.0",
     "@types/jest": "26.0.20",
     "@types/node": "^14.14.16",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
@@ -55,7 +55,7 @@
     "eslint-plugin-prettier": "^3.3.0",
     "jest": "^26.6.3",
     "jest-junit": "12.0.0",
-    "lerna": "^3.22.1",
+    "lerna": "^4.0.0",
     "lint-staged": "^10.5.3",
     "npm-run-all": "^4.1.5",
     "pre-commit": "^1.2.2",
