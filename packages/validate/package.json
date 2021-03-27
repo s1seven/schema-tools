@@ -52,7 +52,7 @@
     "@types/lodash.groupby": "^4.6.6",
     "@types/node": "^14.14.16",
     "ajv": "^7.0.2",
-    "ajv-formats": "^1.5.1",
+    "ajv-formats": "^2.0.0",
     "lodash.flatten": "^4.4.0",
     "lodash.groupby": "^4.6.0"
   },
