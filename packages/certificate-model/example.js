@@ -60,7 +60,7 @@ async function eCoCCertificate(CertModel) {
 (async function (argv) {
   try {
     const schemaType = argv[2] || 'en10168-schemas';
-    const schemaVersion = argv[3] || '0.0.2';
+    const schemaVersion = argv[3] || 'v0.0.2-2';
 
     const CertModel = await CertificateModel.build({
       schemaConfig: {

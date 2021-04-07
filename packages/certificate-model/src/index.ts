@@ -39,7 +39,7 @@ const defaultKVSchemaOptions: KVCertificateModelOptions = {
   internal: false,
 };
 
-async function getSchema(
+export async function getSchema(
   options: Partial<BuildCertificateModelOptions>,
 ): Promise<{ schema: JSONSchema7; schemaConfig: SchemaConfig }> {
   let schema: JSONSchema7;
@@ -82,6 +82,13 @@ function get(scope: CertificateModel, key: string, internal?: boolean) {
   return scope[key];
 }
 
+// function get< K extends keyof T, T = any,>(scope: CertificateModel<T>, key: K, internal?: boolean) {
+//   if (internal) {
+//     key = getSymbol(key as string);
+//   }
+//   return scope[key];
+// }
+
 function set<T = any>(scope: CertificateModel, data: Record<string, unknown> | T, internal?: boolean) {
   Object.keys(data).forEach((key) => {
     const ok = key;
@@ -98,7 +105,7 @@ function set<T = any>(scope: CertificateModel, data: Record<string, unknown> | T
 function getProperties(schema: JSONSchema7, validator?: Ajv) {
   const root = !validator;
   if (root || !validator) {
-    const ajv = new Ajv({ strict: false });
+    const ajv = new Ajv({ strict: false, allErrors: true });
     addFormats(ajv);
     validator = ajv.addSchema(schema, '');
   }
@@ -172,7 +179,7 @@ export class CertificateModel<T = any> extends EventEmitter {
     return new NewClass<CertificateInstance>(certificate);
   }
 
-  constructor(data?: any, options?: Record<string, unknown>) {
+  constructor(data?: any, options?: KVCertificateModelOptions) {
     super();
     this.setListeners();
     if (data) {
@@ -184,7 +191,9 @@ export class CertificateModel<T = any> extends EventEmitter {
           this.emit('error', error);
         });
     } else {
-      this.emit('ready');
+      process.nextTick(() => {
+        this.emit('ready');
+      });
     }
   }
 
@@ -224,11 +233,20 @@ export class CertificateModel<T = any> extends EventEmitter {
     return get(this, name, opts.internal);
   }
 
+  // get<K extends keyof T>(name: K, options?: KVCertificateModelOptions): T[K] {
+  //   const opts = merge(defaultKVSchemaOptions, options || {});
+  //   return get<K, T>(this, name, opts.internal);
+  // }
+
+  // set<K extends keyof T>(data: K, value: T[K], options?: KVCertificateModelOptions): Promise<void>;
+  // set(data: Record<string, unknown> | T, value: KVCertificateModelOptions): Promise<void>;
+  // set(data: string, value: string | Record<string, unknown>, options?: KVCertificateModelOptions): Promise<void>;
+
   async set(
     data: string | Record<string, unknown> | T,
     value?: any | KVCertificateModelOptions,
     options?: KVCertificateModelOptions,
-  ) {
+  ): Promise<void> {
     if (typeof data === 'string') {
       return this.set(
         {
