@@ -7,7 +7,7 @@ import {
   Translations,
   ValidationError,
 } from '@s1seven/schema-tools-types';
-import { ErrorObject } from 'ajv';
+import type { ErrorObject } from 'ajv';
 import axios from 'axios';
 import * as fs from 'fs';
 import NodeCache from 'node-cache';
@@ -58,11 +58,14 @@ export function getErrorPaths(filePath?: string) {
   };
 }
 
-export function formatValidationErrors(errors: ErrorObject[] = [], validationFilePath?: string): ValidationError[] {
+export function formatValidationErrors(
+  errors: ErrorObject<string, Record<string, any>, unknown>[] = [],
+  validationFilePath?: string,
+): ValidationError[] {
   const paths = getErrorPaths(validationFilePath);
   return errors.map((error) => ({
     root: paths.root,
-    path: `${paths.path}${error.dataPath}`,
+    path: `${paths.path}${error.instancePath}`,
     keyword: error.keyword || '',
     schemaPath: error.schemaPath || '',
     expected: error.message || '',
