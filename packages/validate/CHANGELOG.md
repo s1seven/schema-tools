@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.15](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-validate@0.0.14...@s1seven/schema-tools-validate@0.0.15) (2021-04-07)
+
+
+### Bug Fixes
+
+* update dependencies and display all ajv errors ([3b6888b](http://github.com/s1seven/schema-tools/commit/3b6888b5ad75cf9ee5928d369f864a585eade1a5))
+
+
+
+
+
 ## [0.0.14](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-validate@0.0.13...@s1seven/schema-tools-validate@0.0.14) (2021-03-12)
 
 

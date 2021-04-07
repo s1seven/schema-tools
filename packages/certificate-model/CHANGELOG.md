@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.11](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.0.10...@s1seven/schema-tools-certificate-model@0.0.11) (2021-04-07)
+
+
+### Bug Fixes
+
+* update dependencies and display all ajv errors ([ef90988](http://github.com/s1seven/schema-tools/commit/ef90988bd34dd72d4a3ecfba424a7882254adde2))
+
+
+
+
+
 ## [0.0.10](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.0.9...@s1seven/schema-tools-certificate-model@0.0.10) (2021-03-12)
 
 

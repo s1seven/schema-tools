@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.15](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.0.14...@s1seven/schema-tools-utils@0.0.15) (2021-04-07)
+
+
+### Bug Fixes
+
+* update dependencies ([8c86241](http://github.com/s1seven/schema-tools/commit/8c862416d0936c6e8df863b554c8d912492416ba))
+
+
+
+
+
 ## [0.0.14](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.0.13...@s1seven/schema-tools-utils@0.0.14) (2021-03-12)
 
 
