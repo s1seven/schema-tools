@@ -64,6 +64,7 @@ export async function setValidator(refSchemaUrl: string): Promise<ValidateFuncti
   const ajv = new Ajv({
     loadSchema: async (uri) => (await loadExternalFile(uri, 'json')) as Record<string, unknown>,
     strict: false,
+    allErrors: true,
   });
   addFormats(ajv);
   const validator = await ajv.compileAsync(schema);

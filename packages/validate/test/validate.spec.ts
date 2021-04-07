@@ -23,7 +23,21 @@ describe('ValidateSchema', function () {
             root: 'v0.0.2',
             keyword: 'type',
             schemaPath: '#/properties/B02/type',
-            expected: 'should be object',
+            expected: 'must be object',
+          },
+          {
+            expected: 'must be object',
+            keyword: 'type',
+            path: 'invalid_cert.json/Certificate/ProductDescription/B10',
+            root: 'v0.0.2',
+            schemaPath: '#/definitions/Measurement/type',
+          },
+          {
+            expected: 'must be object',
+            keyword: 'type',
+            path: 'invalid_cert.json/Certificate/ProductDescription/B12',
+            root: 'v0.0.2',
+            schemaPath: '#/definitions/Measurement/type',
           },
         ],
       });
@@ -38,7 +52,21 @@ describe('ValidateSchema', function () {
             root: 'v0.0.2',
             keyword: 'type',
             schemaPath: '#/properties/B02/type',
-            expected: 'should be object',
+            expected: 'must be object',
+          },
+          {
+            expected: 'must be object',
+            keyword: 'type',
+            path: 'schema.json/Certificate/ProductDescription/B10',
+            root: 'v0.0.2',
+            schemaPath: '#/definitions/Measurement/type',
+          },
+          {
+            expected: 'must be object',
+            keyword: 'type',
+            path: 'schema.json/Certificate/ProductDescription/B12',
+            root: 'v0.0.2',
+            schemaPath: '#/definitions/Measurement/type',
           },
         ],
       });
@@ -57,7 +85,7 @@ describe('ValidateSchema', function () {
       expect(await validate(invalidCertificatePath)).toEqual({
         ['v0.0.2-2']: [
           {
-            expected: 'should be equal to one of the allowed values',
+            expected: 'must be equal to one of the allowed values',
             keyword: 'enum',
             path: 'invalid_cert.json/EcocData/DataLevel',
             root: 'v0.0.2-2',
