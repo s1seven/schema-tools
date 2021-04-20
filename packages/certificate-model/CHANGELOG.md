@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.12](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.0.11...@s1seven/schema-tools-certificate-model@0.0.12) (2021-04-20)
+
+
+### Bug Fixes
+
+* remove uselessa async ([4670975](http://github.com/s1seven/schema-tools/commit/46709755d527b61f85b24c4f448b3bd5599e0bea))
+
+
+
+
+
 ## [0.0.11](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.0.10...@s1seven/schema-tools-certificate-model@0.0.11) (2021-04-07)
 
 

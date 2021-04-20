@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.17](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.0.16...@s1seven/schema-tools-extract-emails@0.0.17) (2021-04-20)
+
+
+### Bug Fixes
+
+* handle VatIds ([0aa2b2a](http://github.com/s1seven/schema-tools/commit/0aa2b2a6ee72296940e6f1c09911d02713edbf54))
+
+
+
+
+
 ## [0.0.16](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.0.15...@s1seven/schema-tools-extract-emails@0.0.16) (2021-04-07)
 
 
