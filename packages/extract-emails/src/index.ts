@@ -11,6 +11,7 @@ export interface PartyEmail {
   emails: string[];
   role: string;
   name: string;
+  vatId: string;
   purchaseOrderNumber?: string;
   purchaseOrderPosition?: string;
 }
@@ -69,6 +70,7 @@ function extractEmailsFromEN10168(certificate: EN10168Schema): PartyEmail[] {
         const company = value as any;
         return {
           emails: [company.Email],
+          vatId: company.VAT_Id,
           name: company.CompanyName,
           role: en10168CompanyRole[key],
           purchaseOrderNumber,
@@ -93,12 +95,19 @@ function extractEmailsFromECoC(certificate: ECoCSchema): PartyEmail[] {
   )?.Value;
 
   return certificate.EcocData.Data.Parties.map((party) => {
-    const emailProp = party?.AdditionalPartyProperties?.find((property) => property?.Name.toLowerCase() === 'email');
-    return emailProp?.Value
+    const emailProp = party?.AdditionalPartyProperties?.find(
+      (property: { Name: string; Value: string }) => property?.Name.toLowerCase() === 'email',
+    );
+    const vatIdProp = party?.PartyIdentifier?.find(
+      (property: { NameOfIdentifier: string; ValueOfIdentifier: string }) =>
+        property?.NameOfIdentifier.toLowerCase() === 'vatid',
+    );
+    return vatIdProp?.ValueOfIdentifier
       ? {
           name: party.PartyName,
           role: party.PartyRole,
-          emails: emailProp.Value,
+          emails: emailProp?.Value || null,
+          vatId: vatIdProp?.ValueOfIdentifier,
           purchaseOrderNumber,
           purchaseOrderPosition,
         }
