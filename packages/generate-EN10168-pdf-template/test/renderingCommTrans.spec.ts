@@ -122,7 +122,7 @@ describe('Rendering transaction parties', () => {
         },
         {
           style: 'p',
-          text: '',
+          text: 'IT00504870015',
         },
         {
           text: 'sbs.steeltrader@gmail.com',
