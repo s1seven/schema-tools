@@ -125,7 +125,7 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
       },
       localizeDate: function (lvalue: string | number | Date, locales: string | string[] = 'EN') {
         const event = new Date(lvalue);
-        const options = {
+        const options: Intl.DateTimeFormatOptions = {
           weekday: 'long',
           year: 'numeric',
           month: 'numeric',
