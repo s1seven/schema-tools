@@ -296,7 +296,7 @@ export class CertificateModel<T = any> extends EventEmitter {
     return cloneDeepWith(res, (value) => (value instanceof CertificateModel ? value.toJSON(stripUndefined) : value));
   }
 
-  async getTransactionParties(): Promise<PartyEmail[] | null> {
+  getTransactionParties(): Promise<PartyEmail[] | null> {
     return extractEmails(this as Record<string, unknown>);
   }
 }
