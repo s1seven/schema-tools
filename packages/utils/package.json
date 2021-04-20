@@ -44,7 +44,7 @@
     "@restless/sanitizers": "^0.2.5",
     "@s1seven/schema-tools-types": "^0.0.12",
     "@types/node": "^14.14.16",
-    "ajv": "^8.0.5",
+    "ajv": "^8.1.0",
     "axios": "^0.21.1",
     "node-cache": "^5.1.2",
     "semver-lite": "0.0.6"

@@ -23,12 +23,12 @@
   "devDependencies": {
     "@s1seven/schema-tools-generate-interfaces": "^0.0.15",
     "@s1seven/schema-tools-utils": "^0.0.15",
-    "@types/node": "^14.14.6",
-    "@types/pdfmake": "^0.1.16",
-    "full-icu": "^1.3.1",
+    "@types/node": "^14.14.41",
+    "@types/pdfmake": "^0.1.17",
+    "full-icu": "^1.3.4",
     "lato-font": "^3.0.0",
-    "parcel-bundler": "^1.12.4",
-    "pdfmake": "^0.1.68",
+    "parcel-bundler": "^1.12.5",
+    "pdfmake": "^0.1.71",
     "typescript": "4.2.4"
   },
   "resolutions": {
@@ -36,10 +36,11 @@
   },
   "scripts": {
     "test": "jest --ci --runInBand --config ../../jest.config.json ",
+    "test:staged": "jest --ci --runInBand --onlyChanged --config ../../jest.config.json ",
     "build": "parcel build src/generateContent.ts --no-cache --no-source-maps --target=node",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
     "create-example": "node --icu-data-dir=`echo $(./node_modules/.bin/node-full-icu-path)` ./utils/create-example.js",
     "create-example:no-icu": "node ./utils/create-example.js",
-    "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json ./src/types/schemaTypes.ts"
+    "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.en10204.io/en10168-schemas/v0.0.3/schema.json ./src/types/schemaTypes.ts"
   }
 }

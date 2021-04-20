@@ -35,6 +35,7 @@
     "compile": "tsc -p tsconfig.build.json",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
     "test": "jest --ci --runInBand --config ../../jest.config.json ",
+    "test:staged": "jest --ci --runInBand --onlyChanged --config ../../jest.config.json ",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
@@ -47,11 +48,11 @@
     "@types/lodash.get": "^4.4.6",
     "@types/lodash.merge": "^4.6.6",
     "@types/mjml": "^4.7.0",
-    "@types/node": "^14.14.16",
-    "handlebars": "^4.7.6",
+    "@types/node": "^14.14.41",
+    "handlebars": "^4.7.7",
     "lodash.get": "^4.4.2",
     "lodash.merge": "^4.6.2",
-    "mjml": "^4.8.1"
+    "mjml": "^4.9.0"
   },
   "gitHead": "a4f88739c574e60fd79bcf81ded0f4dcd9318660"
 }

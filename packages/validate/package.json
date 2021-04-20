@@ -39,6 +39,7 @@
     "compile": "npm run compile:node && npm run compile:browser",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
     "test": "jest --ci --runInBand --config ../../jest.config.json ",
+    "test:staged": "jest --ci --runInBand --onlyChanged --config ../../jest.config.json ",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
@@ -50,8 +51,8 @@
     "@s1seven/schema-tools-utils": "^0.0.15",
     "@types/lodash.flatten": "^4.4.6",
     "@types/lodash.groupby": "^4.6.6",
-    "@types/node": "^14.14.16",
-    "ajv": "^8.0.5",
+    "@types/node": "^14.14.41",
+    "ajv": "^8.1.0",
     "ajv-formats": "^2.0.2",
     "lodash.flatten": "^4.4.0",
     "lodash.groupby": "^4.6.0"
