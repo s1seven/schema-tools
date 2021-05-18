@@ -7,6 +7,7 @@ export type GenerateOptions = Options;
 let baseOptions: GenerateOptions = {
   bannerComment: '',
   cwd: process.cwd(),
+  format: true,
   declareExternallyReferenced: true,
   enableConstEnums: false,
   ignoreMinAndMaxItems: false,
