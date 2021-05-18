@@ -1,6 +1,13 @@
 name: Schema-tools CI
 
-on: push
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
 jobs:
   container-job:
     runs-on: ubuntu-latest
@@ -23,18 +30,15 @@ jobs:
       # - name: Scan dependencies with AuditJS
       #   run: num run scan:deps
 
-      - name: Test build
+      - name: Build packages
         run: npm run build
 
-      - name: Run ESlint
-        run: npm run lint
-
-        # TODO: only run tests on changed code
+      # TODO: only run tests on changed code
       - name: Run Jest tests
-        run: num run test
+        run: npm run test
 
       - name: Scan coverage
-        run: num run scan:code
+        run: npm run scan:code
         env:
           SONAR_URL: ${{ secrets.SONAR_URL }}
           SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
