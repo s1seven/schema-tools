@@ -35,7 +35,7 @@ jobs:
 
       # TODO: only run tests on changed code
       - name: Run Jest tests
-        run: npm run test
+        run: npm run test:cov
 
       - name: Scan coverage
         run: npm run scan:code

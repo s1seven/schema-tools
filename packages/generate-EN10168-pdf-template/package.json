@@ -35,8 +35,9 @@
     "node-forge": ">=0.10.0"
   },
   "scripts": {
-    "test": "jest --ci --runInBand --config ../../jest.config.json ",
-    "test:staged": "jest --ci --runInBand --onlyChanged --config ../../jest.config.json ",
+    "test": "jest --runInBand --config ../../jest.config.json",
+    "test:cov": "jest --coverage --runInBand --config ../../jest.config.json",
+    "test:staged": "jest --runInBand --onlyChanged --config ../../jest.config.json",
     "build": "parcel build src/generateContent.ts --no-cache --no-source-maps --target=node",
     "compile": "npm run build",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
