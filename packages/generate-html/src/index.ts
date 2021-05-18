@@ -92,7 +92,7 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
         };
         const result = property
           ? lvalue.map((val) => localizeNumber(val[property])).join(separator)
-          : lvalue.map((val) => localizeNumber(val[property])).join(separator);
+          : lvalue.map((val) => localizeNumber(val)).join(separator);
 
         return new SafeString(result);
       },
