@@ -11,6 +11,7 @@ describe('GenerateInterfaces', function () {
 
   const generateOptions = {
     bannerComment: '',
+    format: true,
     style: {
       bracketSpacing: false,
       printWidth: 100,
