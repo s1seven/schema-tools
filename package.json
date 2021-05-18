@@ -68,7 +68,7 @@
     "rimraf": "^3.0.2",
     "sonarqube-scanner": "^2.8.0",
     "sonarqube-verify": "^1.0.2",
-    "standard-version": "9.2.0",
+    "standard-version": "9.3.0",
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.1",
     "tsconfig-paths": "3.9.0",
