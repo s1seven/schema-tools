@@ -114,3 +114,6 @@ dist.browser
 
 # output from generate-pdf
 *.pdf
+
+# Output of 'sonarqube scanner'
+.scannerwork
