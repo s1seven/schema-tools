@@ -1,8 +1,5 @@
 {
-  "verbose": true,
-  "collectCoverage": true,
   "coverageDirectory": "./coverage",
-  "coverageReporters": ["lcov", "text"],
   "collectCoverageFrom": ["**/src/**", "!**/test/**"],
   "coverageThreshold": {
     "global": {

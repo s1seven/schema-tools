@@ -26,6 +26,7 @@
     "format": "prettier --write \"packages/**/*.{ts,json}\"",
     "reset": "npm run cleanup && rimraf -rf node_modules && npm run bootstrap",
     "test": "lerna run test",
+    "test:cov": "lerna run test:cov",
     "test:staged": "lerna run test:staged",
     "test:certificate-model": "lerna run --scope @s1seven/schema-tools-certificate-model test",
     "test:extract-emails": "lerna run --scope @s1seven/schema-tools-extract-emails test",
