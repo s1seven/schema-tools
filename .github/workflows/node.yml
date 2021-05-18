@@ -1,0 +1,44 @@
+name: Schema-tools CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm run bootstrap
+
+      # - name: Scan dependencies with AuditJS
+      #   run: num run scan:deps
+
+      - name: Build packages
+        run: npm run build
+
+      # TODO: only run tests on changed code
+      - name: Run Jest tests
+        run: npm run test:cov
+
+      - name: Scan coverage
+        run: npm run scan:code
+        env:
+          SONAR_URL: ${{ secrets.SONAR_URL }}
+          SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}

@@ -35,13 +35,14 @@ export const emptyTable = (sectionName: string, colsCount = 4, widths = [160, '*
 export function localizeValue(value: string, type: string, locales: string | string[] = 'EN') {
   let result: any;
 
-  const localizeDate = () => {
-    return new Intl.DateTimeFormat(locales, {
+  const getLocalizeDate = () => {
+    const options: Intl.DateTimeFormatOptions = {
       weekday: 'long',
       year: 'numeric',
       month: 'numeric',
       day: 'numeric',
-    }).format(new Date(value));
+    };
+    return new Intl.DateTimeFormat(locales, options).format(new Date(value));
   };
 
   switch (type) {
@@ -49,10 +50,10 @@ export function localizeValue(value: string, type: string, locales: string | str
       result = new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(Number(value));
       break;
     case 'date':
-      result = localizeDate();
+      result = getLocalizeDate();
       break;
     case 'date-time':
-      result = localizeDate();
+      result = getLocalizeDate();
       break;
     default:
       result = value;
@@ -62,7 +63,7 @@ export function localizeValue(value: string, type: string, locales: string | str
 
 export function localizeDate(lvalue: string | number | Date, locales: string | string[] = 'EN') {
   const event = new Date(lvalue);
-  const options = {
+  const options: Intl.DateTimeFormatOptions = {
     weekday: 'long',
     year: 'numeric',
     month: 'numeric',

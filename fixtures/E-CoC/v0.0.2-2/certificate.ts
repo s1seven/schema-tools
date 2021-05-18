@@ -97,10 +97,10 @@ export interface ECoC {
   Attachment?: Attachment;
 }
 export interface DataLevelA {
-  DataLevel?: string;
+  DataLevel?: 'A';
 }
 export interface DataLevelB {
-  DataLevel?: string;
+  DataLevel?: 'B';
   Data?: HigherDataLevel;
 }
 export interface HigherDataLevel {
@@ -264,7 +264,7 @@ export interface Attachment {
   [k: string]: any;
 }
 export interface DataLevelC {
-  DataLevel?: string;
+  DataLevel?: 'C';
   Data?: HigherDataLevel;
   Results?: Results;
 }
@@ -309,52 +309,157 @@ export interface Results {
     };
     [k: string]: any;
   }[];
-  ChemicalAnalysis?: {
-    /**
-     * Heat number of initial melt
-     */
-    Heat?: string;
-    /**
-     * Sample no. or any type of identification of the sample
-     */
-    Sample?: string;
-    /**
-     * If the sample is taken from a specific area of the test piece, e.g. top or bottom
-     */
-    Location?: string;
-    /**
-     * Share of element
-     */
-    Values: {
+  ChemicalAnalysis?: [
+    {
       /**
-       * The symbol of the element
+       * Heat number of initial melt
        */
-      Symbol: string;
+      Heat?: string;
       /**
-       * The measured part of the element as absolute number.
+       * Sample no. or any type of identification of the sample
        */
-      ActualFrom: number;
+      Sample?: string;
       /**
-       * The measured part of the element as absolute number.
+       * If the sample is taken from a specific area of the test piece, e.g. top or bottom
        */
-      ActualTo?: number;
+      Location?: string;
       /**
-       * The minimum if defined by the product specification, otherwise the element must not provided.
+       * Share of element
        */
-      Minimum?: number;
+      Values: [
+        {
+          /**
+           * The symbol of the element
+           */
+          Symbol: string;
+          /**
+           * The measured part of the element as absolute number.
+           */
+          ActualFrom: number;
+          /**
+           * The measured part of the element as absolute number.
+           */
+          ActualTo?: number;
+          /**
+           * The minimum if defined by the product specification, otherwise the element must not provided.
+           */
+          Minimum?: number;
+          /**
+           * The maximum as defined by the product specification.
+           */
+          Maximum?: number;
+          /**
+           * The technology (or norm) used, e.g. COM, XRF, OES etc.
+           */
+          TestMethod?: string;
+        },
+        ...{
+          /**
+           * The symbol of the element
+           */
+          Symbol: string;
+          /**
+           * The measured part of the element as absolute number.
+           */
+          ActualFrom: number;
+          /**
+           * The measured part of the element as absolute number.
+           */
+          ActualTo?: number;
+          /**
+           * The minimum if defined by the product specification, otherwise the element must not provided.
+           */
+          Minimum?: number;
+          /**
+           * The maximum as defined by the product specification.
+           */
+          Maximum?: number;
+          /**
+           * The technology (or norm) used, e.g. COM, XRF, OES etc.
+           */
+          TestMethod?: string;
+        }[]
+      ];
       /**
-       * The maximum as defined by the product specification.
+       * The standard/norm the test was conducted in accordance to
        */
-      Maximum?: number;
+      Standards?: string[];
+    },
+    ...{
       /**
-       * The technology (or norm) used, e.g. COM, XRF, OES etc.
+       * Heat number of initial melt
        */
-      TestMethod?: string;
-    }[];
-    /**
-     * The standard/norm the test was conducted in accordance to
-     */
-    Standards?: string[];
-  }[];
+      Heat?: string;
+      /**
+       * Sample no. or any type of identification of the sample
+       */
+      Sample?: string;
+      /**
+       * If the sample is taken from a specific area of the test piece, e.g. top or bottom
+       */
+      Location?: string;
+      /**
+       * Share of element
+       */
+      Values: [
+        {
+          /**
+           * The symbol of the element
+           */
+          Symbol: string;
+          /**
+           * The measured part of the element as absolute number.
+           */
+          ActualFrom: number;
+          /**
+           * The measured part of the element as absolute number.
+           */
+          ActualTo?: number;
+          /**
+           * The minimum if defined by the product specification, otherwise the element must not provided.
+           */
+          Minimum?: number;
+          /**
+           * The maximum as defined by the product specification.
+           */
+          Maximum?: number;
+          /**
+           * The technology (or norm) used, e.g. COM, XRF, OES etc.
+           */
+          TestMethod?: string;
+        },
+        ...{
+          /**
+           * The symbol of the element
+           */
+          Symbol: string;
+          /**
+           * The measured part of the element as absolute number.
+           */
+          ActualFrom: number;
+          /**
+           * The measured part of the element as absolute number.
+           */
+          ActualTo?: number;
+          /**
+           * The minimum if defined by the product specification, otherwise the element must not provided.
+           */
+          Minimum?: number;
+          /**
+           * The maximum as defined by the product specification.
+           */
+          Maximum?: number;
+          /**
+           * The technology (or norm) used, e.g. COM, XRF, OES etc.
+           */
+          TestMethod?: string;
+        }[]
+      ];
+      /**
+       * The standard/norm the test was conducted in accordance to
+       */
+      Standards?: string[];
+    }[]
+  ];
   [k: string]: any;
 }
