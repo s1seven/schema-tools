@@ -66,11 +66,11 @@ export async function getSchema(
   return { schema, schemaConfig };
 }
 
-function getSymbol(name: string) {
+function getSymbol(name: string): string {
   if (!getSymbol.cache[name]) {
     getSymbol.cache[name] = typeof Symbol !== 'undefined' ? Symbol(name) : `__${name}`;
   }
-  return getSymbol.cache[name];
+  return (getSymbol.cache[name] as unknown) as string;
 }
 
 getSymbol.cache = {};
