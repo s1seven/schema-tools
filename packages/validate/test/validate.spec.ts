@@ -38,6 +38,32 @@ describe('ValidateSchema', function () {
       ],
     };
 
+    const invalidCertResponseByRefSchemaUrl = {
+      ['v0.0.2']: [
+        {
+          path: 'schema.json/Certificate/ProductDescription/B02',
+          root: 'v0.0.2',
+          keyword: typeLiteral,
+          schemaPath: '#/properties/B02/type',
+          expected: mustBeObjectLiteral,
+        },
+        {
+          expected: mustBeObjectLiteral,
+          keyword: typeLiteral,
+          path: 'schema.json/Certificate/ProductDescription/B10',
+          root: 'v0.0.2',
+          schemaPath: schemaPath,
+        },
+        {
+          expected: mustBeObjectLiteral,
+          keyword: typeLiteral,
+          path: 'schema.json/Certificate/ProductDescription/B12',
+          root: 'v0.0.2',
+          schemaPath: schemaPath,
+        },
+      ],
+    };
+
     it('should validate valid example certificate using certificate path (string)', async () => {
       expect(await validate(validCertificatePath)).toEqual({});
     }, 5000);
@@ -53,31 +79,7 @@ describe('ValidateSchema', function () {
 
     it('should validate invalid example certificate using certificate (object)', async () => {
       const schema = JSON.parse(readFileSync(invalidCertificatePath, 'utf8') as string);
-      expect(await validate(schema)).toEqual({
-        ['v0.0.2']: [
-          {
-            path: 'schema.json/Certificate/ProductDescription/B02',
-            root: 'v0.0.2',
-            keyword: typeLiteral,
-            schemaPath: '#/properties/B02/type',
-            expected: mustBeObjectLiteral,
-          },
-          {
-            expected: mustBeObjectLiteral,
-            keyword: typeLiteral,
-            path: 'schema.json/Certificate/ProductDescription/B10',
-            root: 'v0.0.2',
-            schemaPath: schemaPath,
-          },
-          {
-            expected: mustBeObjectLiteral,
-            keyword: typeLiteral,
-            path: 'schema.json/Certificate/ProductDescription/B12',
-            root: 'v0.0.2',
-            schemaPath: schemaPath,
-          },
-        ],
-      });
+      expect(await validate(schema)).toEqual(invalidCertResponseByRefSchemaUrl);
     }, 5000);
 
     it('should validate invalid and valid example certificate by providing container folders path', async () => {
@@ -86,6 +88,12 @@ describe('ValidateSchema', function () {
       });
 
       expect(validationResults).toEqual(invalidCertsValidationResponse);
+    }, 5000);
+
+    it('should validate invalid and valid example certificate by providing them in an array', async () => {
+      const invalidSchema = JSON.parse(readFileSync(invalidCertificatePath, 'utf8') as string);
+      const validSchema = JSON.parse(readFileSync(validCertificatePath, 'utf8') as string);
+      expect(await validate([validSchema, invalidSchema])).toEqual(invalidCertResponseByRefSchemaUrl);
     }, 5000);
   });
 
