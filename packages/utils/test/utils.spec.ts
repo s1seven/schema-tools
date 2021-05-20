@@ -14,7 +14,7 @@ describe('Utils', function () {
     delete ecocSchema.RefSchemaUrl;
     const responseInvalid = asECoCCertificate(ecocSchema, '/');
     expect(responseInvalid).toHaveProperty('error');
-  }, 25000);
+  });
 
   it('should validate EN10168 certficates', async () => {
     const enSchema = JSON.parse(readFileSync(EN_CERT_PATH, 'utf8') as string);
@@ -24,5 +24,5 @@ describe('Utils', function () {
     delete enSchema.Certificate;
     const responseInvalid = asEN10168Certificate(enSchema, '/');
     expect(responseInvalid).toHaveProperty('error');
-  }, 25000);
+  });
 });
