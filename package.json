@@ -18,7 +18,7 @@
     "url": "https://github.com/s1seven/schema-tools/issues"
   },
   "engines": {
-    "node": ">=11",
+    "node": ">=12",
     "npm": ">=6"
   },
   "scripts": {
