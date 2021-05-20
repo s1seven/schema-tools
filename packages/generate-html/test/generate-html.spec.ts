@@ -15,6 +15,12 @@ describe('GenerateHTML', function () {
     expect(html).toEqual(expectedHtmlFromHbs);
   }, 5000);
 
+  it('should render HTML certificate using loaded certificate and HBS template', async () => {
+    const certificate = JSON.parse(readFileSync(certificatePath, 'utf8') as string);
+    const html = await generateHtml(certificate);
+    expect(html).toEqual(expectedHtmlFromHbs);
+  }, 5000);
+
   it.skip('should render HTML certificate using certificate local path and MJML template', async () => {
     const html = await generateHtml(certificatePath, { templateType: 'mjml' });
     expect(html).toEqual(expectedHtmlFromMjml);
