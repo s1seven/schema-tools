@@ -6,12 +6,13 @@ import { createValidation } from './lib/createValidation';
 import { createOtherTests } from './lib/createOtherTests';
 import { createFooter } from './lib/createFooter';
 import { Translate } from './lib/translate';
-import { Certificate, ContentTypes } from './types';
+import { Certificate } from './types';
+import { Content } from 'pdfmake/interfaces';
 
 export async function generateContent(
   certificate: Certificate,
   translations: Record<string, unknown>,
-): Promise<ContentTypes> {
+): Promise<Content> {
   const i18n = new Translate(translations);
   const commercialParties = createTransactionParties(certificate.Certificate.CommercialTransaction, i18n);
   const commercialTransaction = createCommercialTransaction(certificate.Certificate.CommercialTransaction, i18n);
