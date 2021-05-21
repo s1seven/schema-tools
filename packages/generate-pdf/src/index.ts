@@ -47,25 +47,25 @@ const baseDocDefinition = (content: TDocumentDefinitions['content']): TDocumentD
   },
 });
 
-async function buildModule(
+export async function buildModule(
   filePath: string,
   moduleName?: string,
-): Promise<{ generateContent: (certificate: EN10168Schema | ECoCSchema, translations: Translations) => Content }> {
+): Promise<{ generateContent: (certificate: EN10168Schema | ECoCSchema, translations: Translations) => Content[] }> {
   const code = (await loadExternalFile(filePath, 'text')) as string;
-
   const fileName = moduleName || filePath;
   const _module = new Module(fileName);
   _module.filename = fileName;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (_module as any)._compile(code, fileName);
+  _module.loaded = true;
   return _module.exports;
 }
 
-async function generateInSandbox(
+export async function generateInSandbox(
   certificate: EN10168Schema | ECoCSchema,
   translations: Record<string, unknown>,
   generatorPath?: string,
-): Promise<Content> {
+): Promise<Content[]> {
   let filePath: string;
   let moduleName: string;
   if (generatorPath) {
@@ -88,7 +88,7 @@ async function generateInSandbox(
     certificate,
     translations,
     generateContent,
-    content: [] as Content,
+    content: [] as Content[],
   };
   vm.createContext(context);
   await script.runInContext(context);
