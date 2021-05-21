@@ -17,10 +17,10 @@ const mockCacheGet = jest.fn();
 const mockCacheSet = jest.fn();
 (cache as any) = { get: mockCacheGet, set: mockCacheSet };
 
-const EN_CERT_PATH = `${__dirname}/../../../fixtures/EN10168/v0.0.2/valid_cert.json`;
+const EN_10168_CERT_PATH = `${__dirname}/../../../fixtures/EN10168/v0.0.2/valid_cert.json`;
 const ECOC_CERT_PATH = `${__dirname}/../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json`;
 const MOCK_CERT = 'cert';
-const enSchema = JSON.parse(readFileSync(EN_CERT_PATH, 'utf8') as string);
+const en10168ertificate = JSON.parse(readFileSync(EN_10168_CERT_PATH, 'utf8') as string);
 const refSchemaUrl = new URL('https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json');
 const schemaConf: SchemaConfig = {
   baseUrl: 'https://schemas.en10204.io',
@@ -47,13 +47,13 @@ describe('Utils', function () {
 
   describe('EN10168', function () {
     it('should validate a valid certificate', async () => {
-      const responseOk = asEN10168Certificate(enSchema, '/');
+      const responseOk = asEN10168Certificate(en10168ertificate, '/');
       expect(responseOk).toHaveProperty('ok');
     });
 
     it('should validate an invalid certificate', async () => {
-      delete enSchema.Certificate;
-      const responseInvalid = asEN10168Certificate(enSchema, '/');
+      delete en10168ertificate.Certificate;
+      const responseInvalid = asEN10168Certificate(en10168ertificate, '/');
       expect(responseInvalid).toHaveProperty('error');
     });
   });
@@ -68,29 +68,29 @@ describe('Utils', function () {
     });
 
     it('should load file from cache', async () => {
-      mockCacheGet.mockReturnValueOnce(enSchema);
-      const certificate = await loadExternalFile(EN_CERT_PATH, 'json');
-      expect(mockCacheGet).toHaveBeenCalledWith(EN_CERT_PATH);
-      expect(certificate).toEqual(enSchema);
+      mockCacheGet.mockReturnValueOnce(en10168ertificate);
+      const certificate = await loadExternalFile(EN_10168_CERT_PATH, 'json');
+      expect(mockCacheGet).toHaveBeenCalledWith(EN_10168_CERT_PATH);
+      expect(certificate).toEqual(en10168ertificate);
     });
 
     it('should return javascript object', async () => {
-      const certificate = await loadExternalFile(EN_CERT_PATH, 'json');
+      const certificate = await loadExternalFile(EN_10168_CERT_PATH, 'json');
       expect(certificate).toBeInstanceOf(Object);
     });
 
     it('should return string', async () => {
-      const certificate = await loadExternalFile(EN_CERT_PATH, 'text');
+      const certificate = await loadExternalFile(EN_10168_CERT_PATH, 'text');
       expect(typeof certificate === 'string').toBeTruthy();
     });
 
     it('should return buffer', async () => {
-      const certificate = await loadExternalFile(EN_CERT_PATH, 'arraybuffer');
+      const certificate = await loadExternalFile(EN_10168_CERT_PATH, 'arraybuffer');
       expect(certificate).toBeInstanceOf(Buffer);
     });
 
     it('should return stream', async () => {
-      const certificate = await loadExternalFile(EN_CERT_PATH, 'stream');
+      const certificate = await loadExternalFile(EN_10168_CERT_PATH, 'stream');
       expect(certificate).toBeInstanceOf(Stream);
     });
   });
@@ -108,13 +108,13 @@ describe('Utils', function () {
       (axios as any).get.mockClear();
     });
 
-    it('should return certificates in the requested languages', async () => {
+    it('should return translations in the requested languages', async () => {
       (axios as any).get.mockResolvedValue({ data: MOCK_CERT, status: 200 });
       const translatedCerts = await getTranslations(certificateLanguages, schemaConf);
       expect(translatedCerts).toMatchObject({ DE: MOCK_CERT, FR: MOCK_CERT, EN: MOCK_CERT });
     });
 
-    it('should fail at languages, where no certification is present.', async () => {
+    it('should fail at languages, where no translation is present.', async () => {
       (axios as any).get.mockImplementationOnce((filePath: string) => {
         if (filePath.endsWith('DE.json')) {
           throw new Error();

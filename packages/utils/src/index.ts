@@ -113,6 +113,7 @@ export async function getTranslations(
         return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
       } catch (error) {
         errors.push(lang);
+        return null;
       }
     }),
   );
