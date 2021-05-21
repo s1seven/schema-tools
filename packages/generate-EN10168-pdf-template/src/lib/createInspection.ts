@@ -5,8 +5,6 @@ import { supplementaryInformation } from './supplementaryInformation';
 import {
   ChemicalComposition,
   ChemicalElement,
-  ContentCanvas,
-  ContentText,
   HardnessTest,
   Inspection,
   NotchedBarImpactTest,
@@ -15,6 +13,7 @@ import {
   TensileTest,
 } from '../types';
 import { Translate } from './translate';
+import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
 
 export function createInspection(
   inspection: Inspection,
