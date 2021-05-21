@@ -44,7 +44,7 @@ export function writeFile(path: string, content: string): Promise<void> {
   return promisify(fs.writeFile)(path, content);
 }
 
-export function getErrorPaths(filePath?: string) {
+export function getErrorPaths(filePath?: string): { path: string; root: string } {
   if (typeof filePath == 'string') {
     const filePathParts = filePath.split('/');
     return {
@@ -105,12 +105,22 @@ export async function getTranslations(
   certificateLanguages: string[],
   schemaConfig: SchemaConfig,
 ): Promise<Translations> {
+  const errors = [];
   const translationsArray = await Promise.all(
     certificateLanguages.map(async (lang) => {
       const filePath = getRefSchemaUrl(schemaConfig, `${lang}.json`).href;
-      return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
+      try {
+        return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
+      } catch (error) {
+        errors.push(lang);
+        return null;
+      }
     }),
   );
+
+  if (errors.length) {
+    throw new Error(`these languages have errors: ${errors.join(', ')}`);
+  }
 
   return translationsArray.reduce((acc, translation) => {
     const [key] = Object.keys(translation);
@@ -184,7 +194,6 @@ export function asEN10168Certificate<EN10168Schema>(
   return Result.ok(value as EN10168Schema);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function asECoCCertificate<ECoCSchema>(value: unknown, path: string): Result<SanitizerFailure[], ECoCSchema> {
   const baseProperties = ['EcocData', 'RefSchemaUrl'];
   const isSchemaValid = baseProperties.every((prop) => Object.prototype.hasOwnProperty.call(value, prop));

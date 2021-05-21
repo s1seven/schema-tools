@@ -12,6 +12,7 @@ import addFormats from 'ajv-formats';
 import flatten from 'lodash.flatten';
 import groupBy from 'lodash.groupby';
 import path from 'path';
+import fs from 'fs';
 
 export type ValidateOptions = {
   ignoredPaths?: string[];
@@ -27,15 +28,20 @@ const validateOptions: ValidateOptions = {
 
 async function getLocalSchemaPaths(localSchemasDir: string, options: ValidateOptions): Promise<string[]> {
   const { ignoredPaths = [], ignoredExts = [] } = options;
-  const directories = (await readDir(localSchemasDir))
+  const dirsAndFiles = (await readDir(localSchemasDir))
     .filter((name: string) => !ignoredPaths.includes(name) && ignoredExts.every((ext) => !name.endsWith(ext)))
-    .map((dir: string) => path.resolve(localSchemasDir, dir)) as string[];
+    .map((dir: string) => path.resolve(localSchemasDir, dir));
 
   const subDirectories = await Promise.all(
-    directories.map(async (dir) => {
-      return (await readDir(dir))
+    dirsAndFiles.map(async (dirOrFile) => {
+      const isFile = fs.lstatSync(dirOrFile).isFile();
+      if (isFile) {
+        return dirOrFile;
+      }
+
+      return (await readDir(dirOrFile))
         .filter((name: string) => name.endsWith('json'))
-        .map((name: string) => path.resolve(localSchemasDir, dir, name));
+        .map((name: string) => path.resolve(localSchemasDir, dirOrFile, name));
     }),
   );
 

@@ -18,7 +18,7 @@
     "url": "https://github.com/s1seven/schema-tools/issues"
   },
   "engines": {
-    "node": ">=11",
+    "node": ">=12",
     "npm": ">=6"
   },
   "scripts": {
@@ -34,6 +34,7 @@
     "test:generate-interfaces": "lerna run --scope @s1seven/schema-tools-generate-interfaces test",
     "test:generate-en10168-pdf": "lerna run --scope @s1seven/schema-tools-generate-en10168-pdf-template test",
     "test:generate-pdf": "lerna run --scope @s1seven/schema-tools-generate-pdf test",
+    "test:utils": "lerna run --scope @s1seven/schema-tools-utils test",
     "test:validate": "lerna run --scope @s1seven/schema-tools-validate test",
     "scan:deps": "auditjs ossi",
     "scan:code": "sonarqube-verify",
