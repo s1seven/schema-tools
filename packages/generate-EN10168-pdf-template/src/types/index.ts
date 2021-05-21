@@ -1,6 +1,6 @@
-import { Margins, Table, TableLayout } from 'pdfmake/interfaces';
+import { Margins, Table, TableLayout, Content } from 'pdfmake/interfaces';
 
-export * from 'pdfmake/interfaces';
+export type ContentTypes = Content;
 export * from './schemaTypes';
 
 export interface TableElement {
