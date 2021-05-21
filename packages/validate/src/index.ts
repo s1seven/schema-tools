@@ -30,7 +30,7 @@ async function getLocalSchemaPaths(localSchemasDir: string, options: ValidateOpt
   const { ignoredPaths = [], ignoredExts = [] } = options;
   const dirsAndFiles = (await readDir(localSchemasDir))
     .filter((name: string) => !ignoredPaths.includes(name) && ignoredExts.every((ext) => !name.endsWith(ext)))
-    .map((dir: string) => path.resolve(localSchemasDir, dir)) as string[];
+    .map((dir: string) => path.resolve(localSchemasDir, dir));
 
   const subDirectories = await Promise.all(
     dirsAndFiles.map(async (dirOrFile) => {
