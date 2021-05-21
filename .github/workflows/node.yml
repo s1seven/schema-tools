@@ -42,3 +42,4 @@ jobs:
         env:
           SONAR_URL: ${{ secrets.SONAR_URL }}
           SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
