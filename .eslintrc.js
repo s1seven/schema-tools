@@ -25,10 +25,13 @@ module.exports = {
   rules: {
     quotes: ['warn', 'single'],
     'member-access': 'off',
-    'ordered-imports': 'off',
-    'member-ordering': 'off',
+    'sort-imports': ['warn', { memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'] }],
     'interface-name': 'off',
     'arrow-parens': 'off',
     'object-literal-sort-keys': 'off',
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
 };
