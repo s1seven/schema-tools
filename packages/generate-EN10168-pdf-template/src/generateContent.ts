@@ -1,3 +1,4 @@
+import { Content } from 'pdfmake/interfaces';
 import { createTransactionParties } from './lib/createTransactionParties';
 import { createCommercialTransaction } from './lib/commercialTransaction';
 import { createInspection } from './lib/createInspection';
@@ -6,7 +7,7 @@ import { createValidation } from './lib/createValidation';
 import { createOtherTests } from './lib/createOtherTests';
 import { createFooter } from './lib/createFooter';
 import { Translate } from './lib/translate';
-import { Certificate, Content } from './types';
+import { Certificate } from './types';
 
 export async function generateContent(
   certificate: Certificate,
