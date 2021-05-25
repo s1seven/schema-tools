@@ -1,7 +1,7 @@
+import { TableCell } from 'pdfmake/interfaces';
 import { createEmptyColumns, localizeValue } from './helpers';
 import { Translate } from './translate';
 import { CommercialTransactionSupplementaryInformation } from '../types';
-import { TableCell } from 'pdfmake/interfaces';
 
 export const supplementaryInformation = (
   data: CommercialTransactionSupplementaryInformation,

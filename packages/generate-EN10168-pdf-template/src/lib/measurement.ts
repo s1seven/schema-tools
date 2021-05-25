@@ -1,7 +1,7 @@
+import { TableCell } from 'pdfmake/interfaces';
 import { localizeNumber } from './helpers';
 import { Translate } from './translate';
 import { Measurement } from '../types';
-import { TableCell } from 'pdfmake/interfaces';
 
 export function renderMeasurement(measurement: Measurement, name: string, i18n: Translate): TableCell[][] {
   if (!measurement) return [];
