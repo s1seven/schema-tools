@@ -50,8 +50,7 @@ const expectedRecipient = {
 };
 
 browserTests();
-const isBrowserEnv = process.env.NODE_ENV === 'browser';
-if (!isBrowserEnv) {
+if (!process.env.IS_BROWSER_ENV) {
   serverSideTests();
 }
 

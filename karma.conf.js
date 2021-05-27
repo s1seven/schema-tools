@@ -19,7 +19,7 @@ module.exports = function (config) {
       resolve: {
         extensions: ['.ts', '.tsx', '.js'],
         fallback: {
-          fs: require.resolve('fs-web'),
+          fs: require.resolve('browserfs'),
         },
       },
       output: {
@@ -35,7 +35,7 @@ module.exports = function (config) {
         }),
         new webpack.DefinePlugin({
           'process.env': {
-            NODE_ENV: JSON.stringify('browser'),
+            IS_BROWSER_ENV: true,
           },
         }),
       ],
