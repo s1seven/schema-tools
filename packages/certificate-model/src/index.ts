@@ -70,7 +70,7 @@ function getSymbol(name: string): string {
   if (!getSymbol.cache[name]) {
     getSymbol.cache[name] = typeof Symbol !== 'undefined' ? Symbol(name) : `__${name}`;
   }
-  return (getSymbol.cache[name] as unknown) as string;
+  return getSymbol.cache[name] as unknown as string;
 }
 
 getSymbol.cache = {};
