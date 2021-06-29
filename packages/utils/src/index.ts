@@ -8,8 +8,10 @@ import {
   ValidationError,
 } from '@s1seven/schema-tools-types';
 import type { ErrorObject } from 'ajv';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import * as fs from 'fs';
+import { Agent as HttpAgent } from 'http';
+import { Agent as HttpsAgent } from 'https';
 import NodeCache from 'node-cache';
 import semver from 'semver-lite';
 import { Readable } from 'stream';
@@ -20,6 +22,14 @@ export const cache = new NodeCache({
   stdTTL: 60 * 60,
   checkperiod: 600,
   maxKeys: 200,
+});
+
+export const axiosInstance = axios.create({
+  timeout: 60000,
+  httpAgent: new HttpAgent({ keepAlive: true }),
+  httpsAgent: new HttpsAgent({ keepAlive: true }),
+  maxRedirects: 10,
+  maxContentLength: 50 * 1000 * 1000,
 });
 
 export function readDir(path: string): Promise<string[]> {
@@ -101,6 +111,7 @@ export function getCertificateLanguages(certificate: EN10168Schema | ECoCSchema)
   return null;
 }
 
+// TODO: allow to load translations from local file, options: {schemaConfig: SchemaConfig} | {translationsPath: string} = {}
 export async function getTranslations(
   certificateLanguages: string[],
   schemaConfig: SchemaConfig,
@@ -131,28 +142,26 @@ export async function getTranslations(
 
 export type ExternalFile = ReturnType<typeof loadExternalFile>;
 
-// TODO: add options as fourth arg, with encoding and other stream options ?
 export async function loadExternalFile(
   filePath: string,
   type: 'json' | 'text' | 'arraybuffer' | 'stream' = 'json',
   useCache = true,
 ): Promise<Record<string, unknown> | string | Buffer | Readable | undefined> {
-  let result: Record<string, unknown> | string | Buffer | Readable | undefined = useCache
-    ? cache.get(filePath)
-    : undefined;
+  const cacheKey = `${filePath}-${type}`;
+  let result: Record<string, unknown> | string | Buffer | Readable | undefined =
+    useCache && type !== 'stream' ? cache.get(cacheKey) : undefined;
 
   if (result) {
     return result;
   }
 
   if (filePath.startsWith('http')) {
-    const { data, status } = await axios.get(filePath, { responseType: type });
-    if (status !== 200) {
-      throw new Error(`Loading error: ${status}`);
-    }
+    const options: AxiosRequestConfig = {
+      responseType: type,
+    };
+    const { data } = await axiosInstance.get(filePath, options);
     result = data;
   } else {
-    // filePath = path.resolve(filePath);
     const stats = await statFile(filePath);
     if (!stats.isFile()) {
       throw new Error(`Loading error: ${filePath} is not a file`);
@@ -172,7 +181,7 @@ export async function loadExternalFile(
     }
   }
   if (useCache && type !== 'stream') {
-    cache.set(filePath, result);
+    cache.set(cacheKey, result);
   }
   return result;
 }
@@ -217,9 +226,9 @@ export function castWithoutError<T>(certificate: Record<string, unknown>, fn: Sa
 }
 
 export function castCertificate(certificate: Record<string, unknown>): EN10168Schema | ECoCSchema {
-  const en10168ertificate = castWithoutError<EN10168Schema>(certificate, asEN10168Certificate);
-  if (en10168ertificate) {
-    return en10168ertificate;
+  const en10168Certificate = castWithoutError<EN10168Schema>(certificate, asEN10168Certificate);
+  if (en10168Certificate) {
+    return en10168Certificate;
   }
 
   const eCoCcertificate = castWithoutError<ECoCSchema>(certificate, asECoCCertificate);
