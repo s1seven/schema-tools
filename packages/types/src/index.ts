@@ -13,7 +13,28 @@ import {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export { JSONSchema7, JSONSchema7Definition } from 'json-schema';
 
+export interface ValidationError {
+  root: string;
+  path: string;
+  keyword: string;
+  schemaPath: string;
+  expected: string;
+}
+
 export type SchemaTypes = 'en10168-schemas' | 'e-coc-schemas' | 'coa-schemas' | 'cdn-schemas';
+
+export enum SupportedSchemas {
+  EN10168 = 'en10168',
+  'ECOC' = 'e-coc',
+  COA = 'coa',
+  CDN = 'cdn',
+}
+
+export interface SchemaConfig {
+  baseUrl: string;
+  schemaType: SchemaTypes;
+  version: string;
+}
 
 export class BaseCertificateSchema {
   @IsUrl({ protocols: ['http', 'https'], require_tld: false, require_protocol: true })
@@ -156,6 +177,7 @@ export class CDNSchemaCertificate {
   @IsArray()
   Certificates: Record<string, any>[];
 }
+
 export class CDNSchema extends BaseCertificateSchema {
   @IsOptional()
   @IsEnum(CertificateDocumentMetadata)
@@ -166,16 +188,4 @@ export class CDNSchema extends BaseCertificateSchema {
   CertificateDeliveryNote: CDNSchemaCertificate;
 }
 
-export interface ValidationError {
-  root: string;
-  path: string;
-  keyword: string;
-  schemaPath: string;
-  expected: string;
-}
-
-export interface SchemaConfig {
-  baseUrl: string;
-  schemaType: SchemaTypes;
-  version: string;
-}
+export type Schemas = EN10168Schema | CoASchema | CDNSchema | ECoCSchema;
