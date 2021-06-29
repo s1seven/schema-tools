@@ -12,6 +12,7 @@ import {
 } from 'class-validator';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export { JSONSchema7, JSONSchema7Definition } from 'json-schema';
+import 'reflect-metadata';
 
 export interface ValidationError {
   root: string;
@@ -94,6 +95,7 @@ export class EN10168Schema extends BaseCertificateSchema {
   @IsEnum(CertificateDocumentMetadata)
   DocumentMetadata?: CertificateDocumentMetadata;
 
+  @IsNotEmptyObject()
   @Type(() => EN10168SchemaCertificate)
   @ValidateNested()
   Certificate: EN10168SchemaCertificate;
@@ -106,7 +108,8 @@ export class ECoCSchema extends BaseCertificateSchema {
   @IsUUID()
   Uuid: string;
 
-  @IsUrl()
+  @IsOptional()
+  @IsString()
   URL: string;
 
   @IsNotEmptyObject()
@@ -156,6 +159,7 @@ export class CoASchema extends BaseCertificateSchema {
   @IsEnum(CertificateDocumentMetadata)
   DocumentMetadata?: CertificateDocumentMetadata;
 
+  @IsNotEmptyObject()
   @Type(() => CoASchemaCertificate)
   @ValidateNested()
   Certificate: CoASchemaCertificate;
@@ -183,6 +187,7 @@ export class CDNSchema extends BaseCertificateSchema {
   @IsEnum(CertificateDocumentMetadata)
   DocumentMetadata?: CertificateDocumentMetadata;
 
+  @IsNotEmptyObject()
   @Type(() => CDNSchemaCertificate)
   @ValidateNested()
   CertificateDeliveryNote: CDNSchemaCertificate;
