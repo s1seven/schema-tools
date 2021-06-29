@@ -1,14 +1,20 @@
-import { cast, Result, Sanitizer, SanitizerFailure } from '@restless/sanitizers';
 import {
+  CertificateLanguages,
+  CoASchema,
+  CDNSchema,
   ECoCSchema,
   EN10168Schema,
   SchemaConfig,
+  Schemas,
   SchemaTypes,
+  SupportedSchemas,
   Translations,
   ValidationError,
 } from '@s1seven/schema-tools-types';
 import type { ErrorObject } from 'ajv';
 import axios, { AxiosRequestConfig } from 'axios';
+import { plainToClass } from 'class-transformer';
+import { validateSync } from 'class-validator';
 import * as fs from 'fs';
 import { Agent as HttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
@@ -100,15 +106,12 @@ export function getSchemaConfig(refSchemaUrl: URL): SchemaConfig {
       return getSemanticVersion(val);
     }
     return val;
-  }) as [any, SchemaTypes, string];
+  }) as [string, SchemaTypes, string];
   return { baseUrl, schemaType, version };
 }
 
-export function getCertificateLanguages(certificate: EN10168Schema | ECoCSchema): string[] | null {
-  if ((certificate as EN10168Schema)?.Certificate?.CertificateLanguages) {
-    return (certificate as EN10168Schema)?.Certificate?.CertificateLanguages;
-  }
-  return null;
+export function getCertificateLanguages(certificate: Schemas): CertificateLanguages[] | null {
+  return certificate?.Certificate?.CertificateLanguages || null;
 }
 
 // TODO: allow to load translations from local file, options: {schemaConfig: SchemaConfig} | {translationsPath: string} = {}
@@ -186,54 +189,57 @@ export async function loadExternalFile(
   return result;
 }
 
-export function asEN10168Certificate<EN10168Schema>(
-  value: unknown,
-  path: string,
-): Result<SanitizerFailure[], EN10168Schema> {
-  const baseProperties = ['Certificate', 'RefSchemaUrl'];
-  const isSchemaValid = baseProperties.every((prop) => Object.prototype.hasOwnProperty.call(value, prop));
-  if (!isSchemaValid) {
-    return Result.error([
-      {
-        path: `Invalid ${path} asEN10168Certificate`,
-        expected: baseProperties.join(','),
-      },
-    ]);
+function preValidateCertificate<T extends Schemas>(certificate: T, throwError?: boolean): T {
+  const errors = validateSync(certificate);
+  if (errors?.length) {
+    if (throwError) {
+      throw new Error(JSON.stringify(errors, null, 2));
+    } else {
+      return null;
+    }
   }
-  return Result.ok(value as EN10168Schema);
+  return certificate;
 }
 
-export function asECoCCertificate<ECoCSchema>(value: unknown, path: string): Result<SanitizerFailure[], ECoCSchema> {
-  const baseProperties = ['EcocData', 'RefSchemaUrl'];
-  const isSchemaValid = baseProperties.every((prop) => Object.prototype.hasOwnProperty.call(value, prop));
-  if (!isSchemaValid) {
-    return Result.error([
-      {
-        path: `Invalid ${path} asECoCCertificate`,
-        expected: baseProperties.join(','),
-      },
-    ]);
-  }
-  return Result.ok(value as ECoCSchema);
+export function asEN10168Certificate(value: unknown, throwError?: boolean): EN10168Schema {
+  const certificate = plainToClass(EN10168Schema, value);
+  return preValidateCertificate(certificate, throwError);
 }
 
-export function castWithoutError<T>(certificate: Record<string, unknown>, fn: Sanitizer<T>): T {
-  try {
-    return cast<T>(certificate, fn);
-  } catch (error) {
-    return null;
-  }
+export function asECoCCertificate(value: unknown, throwError?: boolean): ECoCSchema {
+  const certificate = plainToClass(ECoCSchema, value);
+  return preValidateCertificate(certificate, throwError);
 }
 
-export function castCertificate(certificate: Record<string, unknown>): EN10168Schema | ECoCSchema {
-  const en10168Certificate = castWithoutError<EN10168Schema>(certificate, asEN10168Certificate);
-  if (en10168Certificate) {
-    return en10168Certificate;
-  }
+export function asCoACertificate(value: unknown, throwError?: boolean): CoASchema {
+  const certificate = plainToClass(CoASchema, value);
+  return preValidateCertificate(certificate, throwError);
+}
 
-  const eCoCcertificate = castWithoutError<ECoCSchema>(certificate, asECoCCertificate);
-  if (eCoCcertificate) {
-    return eCoCcertificate;
+export function asCDNCertificate(value: unknown, throwError?: boolean): CDNSchema {
+  const certificate = plainToClass(CDNSchema, value);
+  return preValidateCertificate(certificate, throwError);
+}
+
+export const castCertificatesMap = {
+  [SupportedSchemas.EN10168]: asEN10168Certificate,
+  [SupportedSchemas.ECOC]: asECoCCertificate,
+  [SupportedSchemas.COA]: asCoACertificate,
+  [SupportedSchemas.CDN]: asCDNCertificate,
+};
+
+export function castCertificate(certificate: Record<string, unknown>): {
+  certificate: Schemas;
+  type: SupportedSchemas;
+} {
+  let validCertificate: Schemas;
+  const supportedSchemas = Object.keys(SupportedSchemas);
+  for (let i = 0; i <= supportedSchemas.length; i += 1) {
+    const supportedSchema = supportedSchemas[i] as SupportedSchemas;
+    validCertificate = castCertificatesMap[supportedSchema](certificate);
+    if (validCertificate) {
+      return { certificate: validCertificate, type: supportedSchema };
+    }
   }
   throw new Error('Could not cast the certificate to the right type');
 }
