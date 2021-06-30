@@ -1,18 +1,24 @@
-import { extractEmails, PartyEmail } from '@s1seven/schema-tools-extract-emails';
-import { JSONSchema7, JSONSchema7Definition, SchemaConfig } from '@s1seven/schema-tools-types';
+import Ajv, { ErrorObject } from 'ajv';
 import {
   castCertificate,
+  formatValidationErrors,
   getRefSchemaUrl,
   getSchemaConfig,
   getSemanticVersion,
   loadExternalFile,
-  formatValidationErrors,
 } from '@s1seven/schema-tools-utils';
+import { extractEmails, PartyEmail } from '@s1seven/schema-tools-extract-emails';
+import {
+  JSONSchema7,
+  JSONSchema7Definition,
+  SchemaConfig,
+  Schemas,
+  SupportedSchemas,
+} from '@s1seven/schema-tools-types';
 import { setValidator, ValidateFunction } from '@s1seven/schema-tools-validate';
-import Ajv, { ErrorObject } from 'ajv';
 import addFormats from 'ajv-formats';
-import { EventEmitter } from 'events';
 import cloneDeepWith from 'lodash.clonedeepwith';
+import { EventEmitter } from 'events';
 import merge from 'lodash.merge';
 import { URL } from 'url';
 
@@ -26,7 +32,7 @@ export type KVCertificateModelOptions = {
   internal: boolean;
 };
 
-export type CertificateInstance = ReturnType<typeof castCertificate>;
+export type CertificateInstance = ReturnType<typeof castCertificate>['certificate'];
 
 const defaultBuildCertificateOptions: SchemaConfig = {
   schemaType: 'en10168-schemas',
@@ -75,7 +81,7 @@ function getSymbol(name: string): string {
 
 getSymbol.cache = {};
 
-function get(scope: CertificateModel, key: string, internal?: boolean) {
+function get<T extends Schemas>(scope: CertificateModel<T>, key: string, internal?: boolean) {
   if (internal) {
     key = getSymbol(key);
   }
@@ -89,7 +95,7 @@ function get(scope: CertificateModel, key: string, internal?: boolean) {
 //   return scope[key];
 // }
 
-function set<T = any>(scope: CertificateModel, data: Record<string, unknown> | T, internal?: boolean) {
+function set<T extends Schemas>(scope: CertificateModel<T>, data: Record<string, unknown> | T, internal?: boolean) {
   Object.keys(data).forEach((key) => {
     const ok = key;
     if (internal) {
@@ -133,10 +139,10 @@ function getProperties(schema: JSONSchema7, validator?: Ajv) {
     : {};
 }
 
-export class CertificateModel<T = any> extends EventEmitter {
+export class CertificateModel<T extends Schemas> extends EventEmitter {
   static symbols: any;
 
-  _validator: ValidateFunction = new Ajv().compile({});
+  _validator: ValidateFunction = new Ajv({ strict: false }).compile({});
 
   static merge(obj1: Record<string, unknown>, obj2: Record<string, unknown>) {
     return merge(obj1, obj2);
@@ -149,7 +155,7 @@ export class CertificateModel<T = any> extends EventEmitter {
     return typeof customizer === 'function' ? cloneDeepWith(obj1, customizer) : cloneDeepWith(obj1);
   }
 
-  static cast(data: Record<string, unknown>): CertificateInstance {
+  static cast(data: Record<string, unknown>): { type: SupportedSchemas; certificate: CertificateInstance } {
     return castCertificate(data);
   }
 
@@ -158,7 +164,7 @@ export class CertificateModel<T = any> extends EventEmitter {
     const refSchemaUrl = getRefSchemaUrl(schemaConfig).href;
     const validator = await setValidator(refSchemaUrl);
 
-    return class CertificateModel1<R = any> extends CertificateModel<R> {
+    return class CertificateModel1<R extends Schemas> extends CertificateModel<R> {
       _validator = validator;
 
       get schema() {
@@ -180,20 +186,14 @@ export class CertificateModel<T = any> extends EventEmitter {
   }
 
   constructor(data?: any, options?: KVCertificateModelOptions) {
-    super();
+    super({ captureRejections: true });
     this.setListeners();
     if (data) {
       this.set(data, options || {})
-        .then(() => {
-          this.emit('ready');
-        })
-        .catch((error: Error) => {
-          this.emit('error', error);
-        });
+        .then(() => this.emit('ready'))
+        .catch((error: Error) => this.emit('error', error));
     } else {
-      process.nextTick(() => {
-        this.emit('ready');
-      });
+      process.nextTick(() => this.emit('ready'));
     }
   }
 
@@ -230,7 +230,7 @@ export class CertificateModel<T = any> extends EventEmitter {
 
   get(name: string, options?: KVCertificateModelOptions) {
     const opts = merge(defaultKVSchemaOptions, options || {});
-    return get(this, name, opts.internal);
+    return get<T>(this, name, opts.internal);
   }
 
   // get<K extends keyof T>(name: K, options?: KVCertificateModelOptions): T[K] {
@@ -297,6 +297,6 @@ export class CertificateModel<T = any> extends EventEmitter {
   }
 
   getTransactionParties(): Promise<PartyEmail[] | null> {
-    return extractEmails(this as Record<string, unknown>);
+    return extractEmails(this.toJSON() as Record<string, unknown>);
   }
 }
