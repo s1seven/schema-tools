@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import 'reflect-metadata';
 import {
   IsArray,
   IsDateString,
@@ -12,7 +12,7 @@ import {
 } from 'class-validator';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export { JSONSchema7, JSONSchema7Definition } from 'json-schema';
-import 'reflect-metadata';
+import { Type } from 'class-transformer';
 
 export interface ValidationError {
   root: string;
