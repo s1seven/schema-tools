@@ -1,8 +1,8 @@
+import { CommercialTransaction, TableElement } from '../types';
 import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
-import { tableLayout } from './helpers';
 import { supplementaryInformation } from './supplementaryInformation';
-import { CommercialTransaction, TableElement } from '../types';
+import { tableLayout } from './helpers';
 import { Translate } from './translate';
 
 export function createCommercialTransaction(

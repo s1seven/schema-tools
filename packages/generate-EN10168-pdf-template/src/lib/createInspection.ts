@@ -1,7 +1,3 @@
-import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
-import { createEmptyColumns, localizeNumber, tableLayout } from './helpers';
-import { renderMeasurement, renderMeasurementArray } from './measurement';
-import { supplementaryInformation } from './supplementaryInformation';
 import {
   ChemicalComposition,
   ChemicalElement,
@@ -12,8 +8,12 @@ import {
   TableElement,
   TensileTest,
 } from '../types';
-import { Translate } from './translate';
 import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
+import { createEmptyColumns, localizeNumber, tableLayout } from './helpers';
+import { renderMeasurement, renderMeasurementArray } from './measurement';
+import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
+import { supplementaryInformation } from './supplementaryInformation';
+import { Translate } from './translate';
 
 export function createInspection(
   inspection: Inspection,
@@ -208,7 +208,7 @@ function createChemicalElementTables(
     Math.ceil(ChemicalElements.length / chunkSize),
   )
     .fill('')
-    .map((_) => ChemicalElements.splice(0, chunkSize));
+    .map(() => ChemicalElements.splice(0, chunkSize));
 
   const margin = [-2, 2, -2, 2];
 

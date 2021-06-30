@@ -1,9 +1,9 @@
 import { ContentCanvas, ContentText, TableCell } from 'pdfmake/interfaces';
+import { ProductDescription, ProductShape, TableElement } from '../types';
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
-import { tableLayout } from './helpers';
 import { renderMeasurement } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
-import { ProductDescription, ProductShape, TableElement } from '../types';
+import { tableLayout } from './helpers';
 import { Translate } from './translate';
 
 interface ProductNorms {

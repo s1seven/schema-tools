@@ -1,7 +1,7 @@
 import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
-import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { createEmptyColumns, localizeValue, tableLayout } from './helpers';
 import { NonDestructiveTests, OtherProductTests, OtherTests, TableElement } from '../types';
+import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { Translate } from './translate';
 
 export function createOtherTests(

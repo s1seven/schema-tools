@@ -1,7 +1,7 @@
 import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
+import { createValidation } from '../src/lib/createValidation';
 import { getTranslations } from './getTranslations';
 import { Translate } from '../src/lib/translate';
-import { createValidation } from '../src/lib/createValidation';
 
 const defaultSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
 

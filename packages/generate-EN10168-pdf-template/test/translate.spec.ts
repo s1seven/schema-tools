@@ -8,7 +8,7 @@ describe('Translate', () => {
     const translations = await getTranslations(['DE', 'EN'], defaultSchemaUrl);
     const i18n = new Translate(translations);
     const translation = i18n.translate('A01', 'certificateFields');
-    expect(translation).toEqual("A01 Herstellerwerk / Manufacturer's plant");
+    expect(translation).toEqual("A01 Herstellerwerk / Manufacturer's plant"); // eslint-disable-line quotes
   });
 
   it('correctly translate certificateGroups into 2 languages', async () => {

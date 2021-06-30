@@ -1,9 +1,10 @@
 import { getTranslations } from './getTranslations';
-import { Translate } from '../src/lib/translate';
 import { supplementaryInformation } from '../src/lib/supplementaryInformation';
+import { Translate } from '../src/lib/translate';
 
 const defaultSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
 
+/* eslint-disable sonarjs/no-duplicate-string */
 describe('Rendering supplementary information', () => {
   let translations: Record<string, unknown>;
 

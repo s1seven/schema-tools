@@ -1,13 +1,13 @@
-import { Content } from 'pdfmake/interfaces';
-import { createTransactionParties } from './lib/createTransactionParties';
-import { createCommercialTransaction } from './lib/commercialTransaction';
-import { createInspection } from './lib/createInspection';
-import { createProductDescription } from './lib/createProductDescription';
-import { createValidation } from './lib/createValidation';
-import { createOtherTests } from './lib/createOtherTests';
-import { createFooter } from './lib/createFooter';
-import { Translate } from './lib/translate';
 import { Certificate } from './types';
+import { Content } from 'pdfmake/interfaces';
+import { createCommercialTransaction } from './lib/commercialTransaction';
+import { createFooter } from './lib/createFooter';
+import { createInspection } from './lib/createInspection';
+import { createOtherTests } from './lib/createOtherTests';
+import { createProductDescription } from './lib/createProductDescription';
+import { createTransactionParties } from './lib/createTransactionParties';
+import { createValidation } from './lib/createValidation';
+import { Translate } from './lib/translate';
 
 export async function generateContent(
   certificate: Certificate,

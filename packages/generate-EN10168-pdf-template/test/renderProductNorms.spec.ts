@@ -1,7 +1,7 @@
 import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
 import { getTranslations } from './getTranslations';
-import { Translate } from '../src/lib/translate';
 import { productNorms } from '../src/lib/createProductDescription';
+import { Translate } from '../src/lib/translate';
 
 const defaultSchemaUrl = certificate.RefSchemaUrl || 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
 
@@ -39,11 +39,13 @@ describe('Product norms', () => {
     ];
     expect(norms).toEqual(expected);
   });
+
   const normsInput = {
     SteelDesignation: ['S355J2H'],
     MassNorm: ['EN 10219-1:2006', 'EN 10220'],
     MaterialNorm: [],
   };
+
   it('correctly renders header', async () => {
     const i18n = new Translate(translations);
     const norms = productNorms(normsInput, i18n);
@@ -54,6 +56,7 @@ describe('Product norms', () => {
       {},
     ]);
   });
+
   it('correctly renders for many values', async () => {
     const i18n = new Translate(translations);
     const norms = productNorms(normsInput, i18n);
@@ -64,6 +67,8 @@ describe('Product norms', () => {
       { text: 'EN 10219-1:2006, EN 10220', style: 'p' },
     ]);
   });
+
+  // eslint-disable-next-line quotes
   it("doesn't render norms that are not included", async () => {
     const i18n = new Translate(translations);
     const norms = productNorms(normsInput, i18n);

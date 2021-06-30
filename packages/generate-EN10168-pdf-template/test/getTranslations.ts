@@ -1,5 +1,5 @@
-import { loadExternalFile } from '@s1seven/schema-tools-utils';
 import { CertificateLanguages } from '../src/types';
+import { loadExternalFile } from '@s1seven/schema-tools-utils';
 
 export async function getTranslations(certificateLanguages: CertificateLanguages, refSchemaUrl: string) {
   const translationsArray = await Promise.all(
