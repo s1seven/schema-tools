@@ -113,7 +113,12 @@ describe('ExtractEmails', function () {
         });
 
         it('should extract emails', () => {
-          expect(emailsList).toEqual(expect.arrayContaining([...expectedReceivers, ...expectedSenders]));
+          const expectedParties = [...expectedReceivers, ...expectedSenders];
+          if (process.env.IS_BROWSER_ENV) {
+            expect(emailsList).toEqual(jasmine.arrayContaining(expectedParties));
+          } else {
+            expect(emailsList).toEqual(expect.arrayContaining(expectedParties));
+          }
         });
 
         it('should extract receivers', () => {
