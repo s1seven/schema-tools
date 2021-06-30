@@ -17,6 +17,8 @@ describe('ValidateSchema', function () {
       type: SupportedSchemas.EN10168,
       fixturesPath: '../../../fixtures/EN10168',
       version: 'v0.0.2',
+      validCertificate: require('../../../fixtures/EN10168/v0.0.2/valid_cert.json'),
+      invalidCertificate: require('../../../fixtures/EN10168/v0.0.2/invalid_cert.json'),
       validationErrors: (basePath: string, certVersion: string) => ({
         [certVersion]: [
           {
@@ -47,6 +49,8 @@ describe('ValidateSchema', function () {
       type: SupportedSchemas.ECOC,
       fixturesPath: '../../../fixtures/E-CoC',
       version: 'v0.0.2-2',
+      validCertificate: require('../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json'),
+      invalidCertificate: require('../../../fixtures/E-CoC/v0.0.2-2/invalid_cert.json'),
       validationErrors: (basePath: string, certVersion: string) => ({
         [certVersion]: [
           {
@@ -63,6 +67,8 @@ describe('ValidateSchema', function () {
       type: SupportedSchemas.COA,
       fixturesPath: '../../../fixtures/CoA',
       version: 'v0.0.2-1',
+      validCertificate: require('../../../fixtures/CoA/v0.0.2-1/valid_cert.json'),
+      invalidCertificate: require('../../../fixtures/CoA/v0.0.2-1/invalid_cert.json'),
       validationErrors: (basePath: string, certVersion: string) => ({
         [certVersion]: [
           {
@@ -96,22 +102,22 @@ describe('ValidateSchema', function () {
       const folderPath = `${testSuite.fixturesPath}/${testSuite.version}`;
 
       it('should validate valid certificate using certificate (object) ', async () => {
-        const certificate = require(validCertificatePath(folderPath));
+        const certificate = testSuite.validCertificate;
         const errors = await validate(certificate);
         expect(errors).toBeNull();
       });
 
       it('should validate invalid certificate using certificate (object)', async () => {
-        const invalidCert = require(invalidCertificatePath(folderPath));
+        const certificate = testSuite.invalidCertificate;
         const expectedErrors = testSuite.validationErrors('schema.json', testSuite.version);
         //
-        const errors = await validate(invalidCert);
+        const errors = await validate(certificate);
         expect(errors).toEqual(expectedErrors);
       });
 
       it('should validate invalid and valid certificate by providing them in an array', async () => {
-        const validCertificate = require(validCertificatePath(folderPath));
-        const invalidCertificate = require(invalidCertificatePath(folderPath));
+        const validCertificate = testSuite.validCertificate;
+        const invalidCertificate = testSuite.invalidCertificate;
         const expectedErrors = testSuite.validationErrors('schema.json', testSuite.version);
         //
         const errors = await validate([validCertificate, invalidCertificate]);
