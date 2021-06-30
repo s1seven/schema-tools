@@ -1,5 +1,5 @@
-import { readFileSync } from 'fs';
 import { generateHtml } from '../src/index';
+import { readFileSync } from 'fs';
 
 const certificatePath = `${__dirname}/../../../fixtures/EN10168/v0.0.2/valid_cert.json`;
 

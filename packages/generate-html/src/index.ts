@@ -1,6 +1,13 @@
-import { ECoCSchema, EN10168Schema, SchemaConfig } from '@s1seven/schema-tools-types';
-import { loadExternalFile, castCertificate, getRefSchemaUrl, getSchemaConfig } from '@s1seven/schema-tools-utils';
+import {
+  castCertificate,
+  getCertificateLanguages,
+  getRefSchemaUrl,
+  getSchemaConfig,
+  getTranslations,
+  loadExternalFile,
+} from '@s1seven/schema-tools-utils';
 import { compile, RuntimeOptions, SafeString } from 'handlebars';
+import { SchemaConfig, Schemas, Translations } from '@s1seven/schema-tools-types';
 import get from 'lodash.get';
 import merge from 'lodash.merge';
 import mjml2html from 'mjml';
@@ -15,10 +22,6 @@ interface MJMLParsingOpts {
   filePath?: string;
 }
 
-export type Translations = {
-  [key: string]: any;
-};
-
 export type GenerateHtmlOptions = {
   handlebars?: RuntimeOptions;
   mjml?: MJMLParsingOpts;
@@ -26,21 +29,6 @@ export type GenerateHtmlOptions = {
   schemaConfig?: SchemaConfig;
   templatePath?: string;
   translations?: Translations;
-};
-
-const getTranslations = async (certificateLanguages: string[], schemaConfig: SchemaConfig): Promise<Translations> => {
-  const translationsArray = await Promise.all(
-    certificateLanguages.map(async (lang) => {
-      const filePath = getRefSchemaUrl(schemaConfig, `${lang}.json`).href;
-      return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
-    }),
-  );
-
-  return translationsArray.reduce((acc, translation) => {
-    const [key] = Object.keys(translation);
-    acc[key] = translation[key];
-    return acc;
-  }, {});
 };
 
 const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOptions => {
@@ -156,13 +144,13 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
 
         return new Array(Math.ceil(ChemicalElements.length / chunkSize))
           .fill('')
-          .map((_) => ChemicalElements.splice(0, chunkSize));
+          .map(() => ChemicalElements.splice(0, chunkSize));
       },
     },
   };
 };
 
-const mjmlBaseOptions = (certificate: EN10168Schema | ECoCSchema, handlebarsOpts?: RuntimeOptions) => {
+const mjmlBaseOptions = (certificate: Schemas, handlebarsOpts?: RuntimeOptions) => {
   return {
     keepComments: true,
     preprocessors: [
@@ -174,16 +162,9 @@ const mjmlBaseOptions = (certificate: EN10168Schema | ECoCSchema, handlebarsOpts
   };
 };
 
-function getCertificateLanguages(certificate: EN10168Schema | ECoCSchema) {
-  if ((certificate as EN10168Schema)?.Certificate?.CertificateLanguages) {
-    return (certificate as EN10168Schema)?.Certificate?.CertificateLanguages;
-  }
-  return ['EN'];
-}
-
 async function parseMjmlTemplate(certificate: any, options: GenerateHtmlOptions): Promise<string> {
   const templateFilePath = options.templatePath || getRefSchemaUrl(options.schemaConfig, 'template.mjml').href;
-  const templateFile = (await loadExternalFile(templateFilePath, 'text')) as string;
+  const templateFile = await loadExternalFile(templateFilePath, 'text');
   options.mjml = merge(options.mjml || {}, mjmlBaseOptions(certificate, options.handlebars));
   const result = mjml2html(templateFile, options.mjml);
   if (result.errors) {
@@ -194,7 +175,7 @@ async function parseMjmlTemplate(certificate: any, options: GenerateHtmlOptions)
 
 async function parseHbsTemplate(certificate: any, options: GenerateHtmlOptions): Promise<string> {
   const templateFilePath = options.templatePath || getRefSchemaUrl(options.schemaConfig, 'template.hbs').href;
-  const templateFile = (await loadExternalFile(templateFilePath, 'text')) as string;
+  const templateFile = await loadExternalFile(templateFilePath, 'text');
   const template = compile<Record<string, unknown>>(templateFile);
   return template(certificate, options?.handlebars);
 }
@@ -203,17 +184,17 @@ export async function generateHtml(
   certificateInput: string | Record<string, unknown>,
   options: GenerateHtmlOptions = {},
 ): Promise<string> {
-  let rawCert: any;
+  let rawCert: Record<string, any>;
   if (typeof certificateInput === 'string') {
-    rawCert = (await loadExternalFile(certificateInput, 'json')) as any;
+    rawCert = await loadExternalFile(certificateInput, 'json');
   } else if (typeof certificateInput === 'object') {
     rawCert = certificateInput;
   } else {
     throw new Error(`Invalid input type : ${typeof certificateInput}`);
   }
 
-  const certificate = castCertificate(rawCert);
-  const certificateLanguages = getCertificateLanguages(certificate);
+  const { certificate } = castCertificate(rawCert);
+  const certificateLanguages = getCertificateLanguages(certificate) || ['EN'];
 
   if (!options.schemaConfig) {
     const refSchemaUrl = new URL(certificate.RefSchemaUrl);
@@ -221,11 +202,9 @@ export async function generateHtml(
   }
 
   const translations = options.translations || (await getTranslations(certificateLanguages, options.schemaConfig));
-
   options.handlebars = merge(options.handlebars || {}, handlebarsBaseOptions({ translations }));
 
-  if (options.templateType === 'mjml') {
-    return parseMjmlTemplate(certificate, options);
-  }
-  return parseHbsTemplate(certificate, options);
+  return options.templateType === 'mjml'
+    ? parseMjmlTemplate(certificate, options)
+    : parseHbsTemplate(certificate, options);
 }
