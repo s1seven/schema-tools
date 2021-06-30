@@ -1,7 +1,9 @@
 {
-  "RefSchemaUrl": "https://schemas.en10204.io/plastic-schemas/v0.0.1/schema.json",
+  "RefSchemaUrl": "https://schemas.en10204.io/plastic-schemas/v0.0.2-1/schema.json",
   "Certificate": {
     "CertificateLanguages": ["DE"],
+    "Number": "11000000",
+    "Date": "2021-12-01",
     "Parties": {
       "Manufacturer": {
         "CompanyName": "Plastic Productions AG",
@@ -30,22 +32,22 @@
     },
     "BusinessReferences": {
       "Order": {
-        "Number": 1,
-        "Position": 1,
-        "Date": "date",
+        "Number": "1",
+        "Position": "1",
+        "Date": "2021-12-01",
         "Quantity": 100.0,
-        "Unit": "kg"
+        "QuantityUnit": "kg"
       },
       "OrderConfirmation": {
         "Number": "22",
-        "Date": "dat"
+        "Date": "2021-12-01"
       },
       "Delivery": {
-        "NoteNumber": "3",
-        "Date": "date",
+        "Number": "3",
+        "Date": "2021-12-01",
         "Quantity": 90.0,
-        "Unit": "kg",
-        "Transport": "W345678"
+        "QuantityUnit": "kg",
+        "Transport": ["W345678"]
       },
       "GoodsReceiptNumber": "ddd",
       "InternalOrderNumber": "ddd"
@@ -81,6 +83,8 @@
         "Maximum": 89.0
       }
     ],
-    "DeclarationOfConformity": ""
+    "DeclarationOfConformity": {
+      "Declaration": ""
+    }
   }
 }
