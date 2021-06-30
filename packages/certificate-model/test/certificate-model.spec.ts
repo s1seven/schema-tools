@@ -1,4 +1,4 @@
-import { EN10168Schema, JSONSchema7, Schemas, SchemaTypes } from '@s1seven/schema-tools-types';
+import { ECoCSchema, EN10168Schema, JSONSchema7, Schemas, SchemaTypes } from '@s1seven/schema-tools-types';
 import { CertificateModel } from '../src/index';
 import invalidECoCCertificate from '../../../fixtures/E-CoC/v0.0.2-2/invalid_cert.json';
 import invalidEN10168Certificate from '../../../fixtures/EN10168/v0.0.2/invalid_cert.json';
@@ -40,15 +40,14 @@ describe('CertificateModel', function () {
     const testValidation = (cert: CertificateModel<Schemas>) => {
       const validation = cert.validate();
       const toJSON = cert.toJSON();
-      expect(JSON.stringify(toJSON, null, 2)).toEqual(JSON.stringify(validEN10168Certificate, null, 2));
       expect(validation.valid).toEqual(true);
+      expect(JSON.stringify(toJSON, null, 2)).toEqual(JSON.stringify(validEN10168Certificate, null, 2));
     };
 
     it('should build and validate instance using schemaConfig EN10168 v0.0.2  when using valid certificate', async () => {
       const CertModel = await CertificateModel.build({ schemaConfig });
-
       const cert = new CertModel<EN10168Schema>(validEN10168Certificate);
-      cert.on('ready', () => {
+      cert.once('ready', () => {
         testValidation(cert);
       });
     }, 6000);
@@ -58,31 +57,42 @@ describe('CertificateModel', function () {
         'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json',
         'json',
       )) as JSONSchema7;
-
       const cert = await CertificateModel.buildInstance({ schema }, validEN10168Certificate);
-      cert.on('ready', () => {
+      cert.once('ready', () => {
         testValidation(cert);
       });
     }, 6000);
 
-    it('should NOT build invalid instance using schemaConfig EN10168 v0.0.2 when using invalid certificate', async () => {
+    it('should return schema properties', async () => {
       const CertModel = await CertificateModel.build({ schemaConfig });
-
-      const cert = new CertModel<EN10168Schema>(invalidEN10168Certificate);
-      cert.on('error', (error) => {
-        expect(error).toEqual(new Error(JSON.stringify(validationErrors, null, 2)));
-      });
-    }, 6000);
-
-    it('should NOT set invalid instance using schemaConfig EN10168 v0.0.2 when using invalid certificate', async () => {
-      const CertModel = await CertificateModel.build({ schemaConfig });
-
       const cert = new CertModel<EN10168Schema>(validEN10168Certificate);
       await new Promise((resolve) => {
         cert.on('ready', () => resolve(true));
       });
+      const { schemaProperties } = cert;
+      expect(schemaProperties).toHaveProperty('RefSchemaUrl');
+      expect(schemaProperties).toHaveProperty('Certificate');
+      expect(schemaProperties).toHaveProperty('DocumentMetadata');
+    }, 8000);
 
-      await expect(cert.set(invalidEN10168Certificate)).rejects.toThrow(JSON.stringify(validationErrors, null, 2));
+    it('should NOT build invalid instance using schemaConfig EN10168 v0.0.2 when using invalid certificate', async () => {
+      const expectedError = new Error(JSON.stringify(validationErrors, null, 2));
+      const CertModel = await CertificateModel.build({ schemaConfig });
+      const cert = new CertModel<EN10168Schema>(invalidEN10168Certificate);
+      cert.on('error', (error) => {
+        expect(error).toEqual(expectedError);
+      });
+    }, 6000);
+
+    it('should NOT set invalid instance using schemaConfig EN10168 v0.0.2 when using invalid certificate', async () => {
+      const expectedError = new Error(JSON.stringify(validationErrors, null, 2));
+      const CertModel = await CertificateModel.build({ schemaConfig });
+      const cert = new CertModel<EN10168Schema>(validEN10168Certificate);
+      await new Promise((resolve, reject) => {
+        cert.once('ready', () => resolve(true));
+        cert.once('error', reject);
+      });
+      await expect(cert.set(invalidEN10168Certificate)).rejects.toThrow(expectedError);
     }, 6000);
   });
 
@@ -93,10 +103,9 @@ describe('CertificateModel', function () {
 
     it('should build model using schema config E-CoC v0.0.2-2 when using valid certificate', async () => {
       const CertModel = await CertificateModel.build({ schemaConfig });
-
-      const cert = new CertModel<EN10168Schema>(validECoCCertificate);
+      const cert = new CertModel<ECoCSchema>(validECoCCertificate);
       await new Promise((resolve) => {
-        cert.on('ready', () => resolve(true));
+        cert.once('ready', () => resolve(true));
       });
 
       const validation = cert.validate();
