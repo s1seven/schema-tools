@@ -9,6 +9,7 @@ import {
 } from '@s1seven/schema-tools-utils';
 import { extractEmails, PartyEmail } from '@s1seven/schema-tools-extract-emails';
 import {
+  BaseCertificateSchema,
   JSONSchema7,
   JSONSchema7Definition,
   SchemaConfig,
@@ -187,7 +188,6 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
 
   constructor(data?: any, options?: KVCertificateModelOptions) {
     super({ captureRejections: true });
-    this.setListeners();
     if (data) {
       this.set(data, options || {})
         .then(() => this.emit('ready'))
@@ -217,30 +217,20 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
     return getProperties(this.schema);
   }
 
-  setListeners() {
-    this.on(
-      'set',
-      (
-        data: string | Record<string, unknown> | T,
-        value?: any | KVCertificateModelOptions,
-        options?: KVCertificateModelOptions,
-      ) => this.set(data, value, options),
-    );
-  }
+  // get<K extends keyof T>(name: K, options?: KVCertificateModelOptions): T[K] {
+  //   const opts = merge(defaultKVSchemaOptions, options || {});
+  //   return get<K, T>(this, name, opts.internal);
+  // }
 
   get(name: string, options?: KVCertificateModelOptions) {
     const opts = merge(defaultKVSchemaOptions, options || {});
     return get<T>(this, name, opts.internal);
   }
 
-  // get<K extends keyof T>(name: K, options?: KVCertificateModelOptions): T[K] {
-  //   const opts = merge(defaultKVSchemaOptions, options || {});
-  //   return get<K, T>(this, name, opts.internal);
-  // }
-
   // set<K extends keyof T>(data: K, value: T[K], options?: KVCertificateModelOptions): Promise<void>;
-  // set(data: Record<string, unknown> | T, value: KVCertificateModelOptions): Promise<void>;
-  // set(data: string, value: string | Record<string, unknown>, options?: KVCertificateModelOptions): Promise<void>;
+  set(data: string, value: any, options?: KVCertificateModelOptions): Promise<void>;
+  set(data: Record<string, unknown>, options?: KVCertificateModelOptions): Promise<void>;
+  set(data: T, options?: KVCertificateModelOptions): Promise<void>;
 
   async set(
     data: string | Record<string, unknown> | T,
@@ -248,18 +238,13 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
     options?: KVCertificateModelOptions,
   ): Promise<void> {
     if (typeof data === 'string') {
-      return this.set(
-        {
-          [data]: value,
-        },
-        options,
-      );
+      return this.set({ [data]: value }, options);
     }
     data = data || {};
     const opts = merge(defaultKVSchemaOptions, value || {}) as KVCertificateModelOptions;
 
     if (Object.keys(data).includes('RefSchemaUrl')) {
-      this.validator = await setValidator((data as any).RefSchemaUrl);
+      this.validator = await setValidator((data as BaseCertificateSchema).RefSchemaUrl);
     }
     if (!opts.internal && opts.validate) {
       const dataToValidate = merge(this.toJSON(true), data);
@@ -291,7 +276,7 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
         acc[key] = val;
       }
       return acc;
-    }, {} as T);
+    }, {});
 
     return cloneDeepWith(res, (value) => (value instanceof CertificateModel ? value.toJSON(stripUndefined) : value));
   }
