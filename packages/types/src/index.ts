@@ -8,6 +8,7 @@ import {
   IsString,
   IsUrl,
   IsUUID,
+  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -143,6 +144,11 @@ export class CoASchemaCertificate {
   @IsNotEmptyObject()
   Product: Record<string, any>;
 
+  @ValidateIf((o) => typeof o.Analysis === 'undefined')
+  @IsArray()
+  Inspections: Record<string, any>;
+
+  @ValidateIf((o) => typeof o.Inspections === 'undefined')
   @IsNotEmptyObject()
   Analysis: Record<string, any>;
 
