@@ -1,7 +1,9 @@
+import * as fs from 'fs';
+import axios, { AxiosRequestConfig } from 'axios';
 import {
+  CDNSchema,
   CertificateLanguages,
   CoASchema,
-  CDNSchema,
   ECoCSchema,
   EN10168Schema,
   SchemaConfig,
@@ -12,17 +14,15 @@ import {
   ValidationError,
 } from '@s1seven/schema-tools-types';
 import type { ErrorObject } from 'ajv';
-import axios, { AxiosRequestConfig } from 'axios';
-import { plainToClass } from 'class-transformer';
-import { validateSync } from 'class-validator';
-import * as fs from 'fs';
 import { Agent as HttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
 import NodeCache from 'node-cache';
-import semver from 'semver-lite';
-import { Readable } from 'stream';
-import { URL } from 'url';
+import { plainToClass } from 'class-transformer';
 import { promisify } from 'util';
+import { Readable } from 'stream';
+import semver from 'semver-lite';
+import { URL } from 'url';
+import { validateSync } from 'class-validator';
 
 export const cache = new NodeCache({
   stdTTL: 60 * 60,

@@ -1,8 +1,3 @@
-import { SchemaConfig } from '@s1seven/schema-tools-types';
-import { readFileSync } from 'fs';
-import { Stream } from 'stream';
-import { URL } from 'url';
-import { SupportedSchemas } from '../../types/src';
 import {
   asCoACertificate,
   asECoCCertificate,
@@ -14,6 +9,10 @@ import {
   getTranslations,
   loadExternalFile,
 } from '../src/index';
+import { SchemaConfig, SupportedSchemas } from '@s1seven/schema-tools-types';
+import { readFileSync } from 'fs';
+import { Stream } from 'stream';
+import { URL } from 'url';
 
 describe('Utils', function () {
   const EN_10168_CERT_PATH = `${__dirname}/../../../fixtures/EN10168/v0.0.2/valid_cert.json`;
@@ -47,7 +46,7 @@ describe('Utils', function () {
       const certificate = JSON.parse(readFileSync(filePath, 'utf8'));
 
       describe(type, function () {
-        it(`should validate a valid certificate`, () => {
+        it('should validate a valid certificate', () => {
           const cert = validator(certificate);
           expect(cert).not.toBeNull();
         });
