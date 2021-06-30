@@ -15,7 +15,7 @@ describe('ValidateSchema', function () {
   const testsMap = [
     {
       type: SupportedSchemas.EN10168,
-      fixturesPath: `../../../fixtures/EN10168`,
+      fixturesPath: '../../../fixtures/EN10168',
       version: 'v0.0.2',
       validationErrors: (basePath: string, certVersion: string) => ({
         [certVersion]: [
@@ -45,7 +45,7 @@ describe('ValidateSchema', function () {
     },
     {
       type: SupportedSchemas.ECOC,
-      fixturesPath: `../../../fixtures/E-CoC`,
+      fixturesPath: '../../../fixtures/E-CoC',
       version: 'v0.0.2-2',
       validationErrors: (basePath: string, certVersion: string) => ({
         [certVersion]: [
@@ -61,7 +61,7 @@ describe('ValidateSchema', function () {
     },
     {
       type: SupportedSchemas.COA,
-      fixturesPath: `../../../fixtures/CoA`,
+      fixturesPath: '../../../fixtures/CoA',
       version: 'v0.0.2-1',
       validationErrors: (basePath: string, certVersion: string) => ({
         [certVersion]: [
@@ -134,7 +134,7 @@ describe('ValidateSchema', function () {
         it('should validate invalid and valid certificate by providing container folders path', async () => {
           const expectedErrors = testSuite.validationErrors('invalid_cert.json', testSuite.version);
           //
-          const errors = await validate(folderPath, {
+          const errors = await validate(`${__dirname}/${folderPath}`, {
             ignoredExts: ['html', 'ts', 'js', 'md'],
           });
           expect(errors).toEqual(expectedErrors);
