@@ -145,6 +145,12 @@ export async function getTranslations(
 
 export type ExternalFile = ReturnType<typeof loadExternalFile>;
 
+export function loadExternalFile(filePath: string): Promise<Record<string, unknown>>;
+export function loadExternalFile(filePath: string, type: 'json', useCache?: boolean): Promise<Record<string, unknown>>;
+export function loadExternalFile(filePath: string, type: 'text', useCache?: boolean): Promise<string>;
+export function loadExternalFile(filePath: string, type: 'arraybuffer', useCache?: boolean): Promise<Buffer>;
+export function loadExternalFile(filePath: string, type: 'stream', useCache?: boolean): Promise<Readable>;
+
 export async function loadExternalFile(
   filePath: string,
   type: 'json' | 'text' | 'arraybuffer' | 'stream' = 'json',
@@ -171,10 +177,10 @@ export async function loadExternalFile(
     }
     switch (type) {
       case 'json':
-        result = JSON.parse((await readFile(filePath, 'utf8')) as string) as Record<string, unknown>;
+        result = JSON.parse((await readFile(filePath, 'utf8')) as string);
         break;
       case 'text':
-        result = (await readFile(filePath, 'utf-8')) as string;
+        result = await readFile(filePath, 'utf-8');
         break;
       case 'arraybuffer':
         result = await readFile(filePath, null);
