@@ -60,10 +60,12 @@ jobs:
       - name: Build packages
         run: npm run build
 
-      - name: Run Karma tests
-        run: npm run test:browser
-
       # TODO: only run tests on changed code
+      - run: sudo apt-get install xvfb
+      - name: Run Karma tests
+        # run: npm run test:browser
+        run: xvfb-run --auto-servernum npm run test:browser
+
       - name: Run Jest tests
         run: npm run test:cov
 
