@@ -1,9 +1,9 @@
+import Ajv, { ValidateFunction } from 'ajv';
 import { BaseCertificateSchema, ValidationError } from '@s1seven/schema-tools-types';
 import { cache, formatValidationErrors, getErrorPaths, loadExternalFile, readDir } from '@s1seven/schema-tools-utils';
-import Ajv, { ValidateFunction } from 'ajv';
 import addFormats from 'ajv-formats';
-import { promises as fs } from 'fs';
 import flatten from 'lodash.flatten';
+import { promises as fs } from 'fs';
 import groupBy from 'lodash.groupby';
 import path from 'path';
 
