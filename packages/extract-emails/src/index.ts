@@ -1,5 +1,5 @@
 import { castCertificate, loadExternalFile } from '@s1seven/schema-tools-utils';
-import { ECoCSchema, EN10168Schema, SupportedSchemas } from '@s1seven/schema-tools-types';
+import { CoASchema, ECoCSchema, EN10168Schema, SupportedSchemas } from '@s1seven/schema-tools-types';
 
 export interface PartyEmail {
   emails: string[];
@@ -73,9 +73,8 @@ function extractEmailsFromEN10168(certificate: EN10168Schema): PartyEmail[] {
     : '';
 
   return Object.entries(CommercialTransaction)
-    .map(([key, value]) => {
+    .map(([key, company]: [string, any]) => {
       if (validKeys.includes(key)) {
-        const company = value as any;
         return {
           emails: [company.Email],
           vatId: company.VAT_Id,
@@ -123,6 +122,40 @@ function extractEmailsFromECoC(certificate: ECoCSchema): PartyEmail[] {
   }).filter((partyEmail) => partyEmail !== null);
 }
 
+function extractEmailsFromCoA(certificate: CoASchema): PartyEmail[] {
+  if (!certificate.Certificate.Parties) {
+    return [];
+  }
+
+  const Order = certificate.Certificate.BusinessReferences?.Order;
+  const Parties = certificate.Certificate.Parties;
+  const purchaseOrderNumber = Order?.Number;
+  const purchaseOrderPosition = Order?.Position;
+  const coaCompanyRole = {
+    ['Manufacturer']: SenderRoles.Manufacturer,
+    ['Customer']: ReceiverRoles.Customer,
+    ['ConsigneeOfCertificate']: ReceiverRoles.CertificateConsignee,
+  };
+  // console.log(certificate.Certificate.Parties);
+
+  const validKeys = Object.keys(coaCompanyRole);
+  return Object.entries(Parties)
+    .map(([key, company]: [string, any]) => {
+      if (validKeys.includes(key)) {
+        return {
+          emails: [company.Email],
+          vatId: company.Identifier.VAT,
+          name: company.Name || company.CompanyName,
+          role: coaCompanyRole[key],
+          purchaseOrderNumber,
+          purchaseOrderPosition,
+        };
+      }
+      return null;
+    })
+    .filter((partyEmail) => partyEmail !== null) as PartyEmail[];
+}
+
 export async function extractEmails(certificateInput: string | Record<string, unknown>): Promise<PartyEmail[] | null> {
   let rawCert: any;
   if (typeof certificateInput === 'string') {
@@ -140,7 +173,7 @@ export async function extractEmails(certificateInput: string | Record<string, un
     case SupportedSchemas.ECOC:
       return extractEmailsFromECoC(certificate as ECoCSchema);
     case SupportedSchemas.COA:
-      return null;
+      return extractEmailsFromCoA(certificate as CoASchema);
     default:
       return null;
   }
