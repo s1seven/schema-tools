@@ -196,7 +196,7 @@ export async function loadExternalFile(
 }
 
 function preValidateCertificate<T extends Schemas>(certificate: T, throwError?: boolean): T {
-  const errors = validateSync(certificate);
+  const errors = validateSync(certificate, {});
   if (errors?.length) {
     if (throwError) {
       throw new Error(JSON.stringify(errors, null, 2));
@@ -208,22 +208,22 @@ function preValidateCertificate<T extends Schemas>(certificate: T, throwError?: 
 }
 
 export function asEN10168Certificate(value: unknown, throwError?: boolean): EN10168Schema {
-  const certificate = plainToClass(EN10168Schema, value);
+  const certificate = plainToClass(EN10168Schema, value, { enableImplicitConversion: true, exposeDefaultValues: true });
   return preValidateCertificate(certificate, throwError);
 }
 
 export function asECoCCertificate(value: unknown, throwError?: boolean): ECoCSchema {
-  const certificate = plainToClass(ECoCSchema, value);
+  const certificate = plainToClass(ECoCSchema, value, { enableImplicitConversion: true, exposeDefaultValues: true });
   return preValidateCertificate(certificate, throwError);
 }
 
 export function asCoACertificate(value: unknown, throwError?: boolean): CoASchema {
-  const certificate = plainToClass(CoASchema, value);
+  const certificate = plainToClass(CoASchema, value, { enableImplicitConversion: true, exposeDefaultValues: true });
   return preValidateCertificate(certificate, throwError);
 }
 
 export function asCDNCertificate(value: unknown, throwError?: boolean): CDNSchema {
-  const certificate = plainToClass(CDNSchema, value);
+  const certificate = plainToClass(CDNSchema, value, { enableImplicitConversion: true, exposeDefaultValues: true });
   return preValidateCertificate(certificate, throwError);
 }
 
@@ -239,8 +239,8 @@ export function castCertificate(certificate: Record<string, unknown>): {
   type: SupportedSchemas;
 } {
   let validCertificate: Schemas;
-  const supportedSchemas = Object.keys(SupportedSchemas);
-  for (let i = 0; i <= supportedSchemas.length; i += 1) {
+  const supportedSchemas = Object.values(SupportedSchemas);
+  for (let i = 0; i < supportedSchemas.length; i += 1) {
     const supportedSchema = supportedSchemas[i] as SupportedSchemas;
     validCertificate = castCertificatesMap[supportedSchema](certificate);
     if (validCertificate) {
