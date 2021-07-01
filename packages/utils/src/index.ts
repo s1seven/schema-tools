@@ -240,8 +240,7 @@ export function castCertificate(certificate: Record<string, unknown>): {
 } {
   let validCertificate: Schemas;
   const supportedSchemas = Object.values(SupportedSchemas);
-  for (let i = 0; i < supportedSchemas.length; i += 1) {
-    const supportedSchema = supportedSchemas[i] as SupportedSchemas;
+  for (const supportedSchema of supportedSchemas) {
     validCertificate = castCertificatesMap[supportedSchema](certificate);
     if (validCertificate) {
       return { certificate: validCertificate, type: supportedSchema };
