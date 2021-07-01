@@ -41,7 +41,7 @@
     "test": "jest --runInBand --config ../../jest.config.json",
     "test:cov": "jest --ci --coverage --runInBand --config ../../jest.config.json",
     "test:staged": "jest --runInBand --onlyChanged --config ../../jest.config.json",
-    "test:browser": "karma start ../../karma.conf.js --single-run",
+    "test:browser": "rimraf -rf ./build && karma start ../../karma.conf.js  --browsers ChromeHeadlessCI --single-run",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
