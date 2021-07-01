@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.11](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.0.10...@s1seven/schema-tools-generate-pdf@0.0.11) (2021-07-01)
+
+
+### Bug Fixes
+
+* add dedicated test command with coverage option ([94619c4](http://github.com/s1seven/schema-tools/commit/94619c46ee938ada811c845f7b583c8435a852ec))
+* refactor and improve input/output typing ([f6535ad](http://github.com/s1seven/schema-tools/commit/f6535ad5b6a55859576e07290f1358153deeec90))
+* update lint script ([671dc91](http://github.com/s1seven/schema-tools/commit/671dc91e97ef58a3747a7fa45240a84881f2cfaa))
+* update lock again... ([29349ab](http://github.com/s1seven/schema-tools/commit/29349ab81362151aa393be0bbee9abba50a7bb11))
+* update package lock ([c644963](http://github.com/s1seven/schema-tools/commit/c64496312cd4bf0e1d1ca101f8eae6a32a21b07d))
+* update package lock ([0f92293](http://github.com/s1seven/schema-tools/commit/0f92293203cce89e8903a8675cef41f8a2df9f0e))
+
+
+
+
+
 ## [0.0.10](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.0.9...@s1seven/schema-tools-generate-pdf@0.0.10) (2021-04-20)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-pdf

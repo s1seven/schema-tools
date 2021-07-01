@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.0.13...@s1seven/schema-tools-types@0.1.0) (2021-07-01)
+
+
+### Bug Fixes
+
+* add new schemas union and enum ([9630235](http://github.com/s1seven/schema-tools/commit/96302350fc68fc8d30b46b531d0a1c5fb9227e65))
+* add reflect-metadata and improve validators ([bd59eb5](http://github.com/s1seven/schema-tools/commit/bd59eb5be957c2757aea277251848c066f92ae8e))
+* add support for mutliple CoA versions ([fda0546](http://github.com/s1seven/schema-tools/commit/fda05467c9022fe6383197a804ead4a179644a59))
+* update lint script ([be3f84f](http://github.com/s1seven/schema-tools/commit/be3f84fa350d0be6c034194a559d8387d2975aa4))
+* update package lock ([0f92293](http://github.com/s1seven/schema-tools/commit/0f92293203cce89e8903a8675cef41f8a2df9f0e))
+
+
+### Features
+
+* add support for new schemas and use class validator for prevalidation ([20a0721](http://github.com/s1seven/schema-tools/commit/20a07215646705390262482fd4dbfbc9c90d1150))
+
+
+
+
+
 ## [0.0.13](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.0.12...@s1seven/schema-tools-types@0.0.13) (2021-04-20)
 
 

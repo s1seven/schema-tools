@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.17](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-interfaces@0.0.16...@s1seven/schema-tools-generate-interfaces@0.0.17) (2021-07-01)
+
+
+### Bug Fixes
+
+* add dedicated test command with coverage option ([94619c4](http://github.com/s1seven/schema-tools/commit/94619c46ee938ada811c845f7b583c8435a852ec))
+* add new property for JSON-to-TS options ([d0edec7](http://github.com/s1seven/schema-tools/commit/d0edec7c3e3978ac6ca56cb95d40bb930e4f16c8))
+* run lint ([236bdcd](http://github.com/s1seven/schema-tools/commit/236bdcdd1792be707a940d9ef72fb501db6b55ce))
+* update lock again... ([29349ab](http://github.com/s1seven/schema-tools/commit/29349ab81362151aa393be0bbee9abba50a7bb11))
+* update package lock ([0f92293](http://github.com/s1seven/schema-tools/commit/0f92293203cce89e8903a8675cef41f8a2df9f0e))
+
+
+
+
+
 ## [0.0.16](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-interfaces@0.0.15...@s1seven/schema-tools-generate-interfaces@0.0.16) (2021-04-20)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-interfaces

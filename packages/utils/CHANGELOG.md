@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.17](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.0.16...@s1seven/schema-tools-utils@0.0.17) (2021-07-01)
+
+
+### Bug Fixes
+
+* add function overload to improve returned type accuracy ([6c32ecd](http://github.com/s1seven/schema-tools/commit/6c32ecd6d88832de0e3d3b7538b515a9b2f189cf))
+* add options in plainToClass ([3698a84](http://github.com/s1seven/schema-tools/commit/3698a84b09825f092c66bd84a0d9a05d0b3cf68c))
+* replace for loop with for of ([f4310ab](http://github.com/s1seven/schema-tools/commit/f4310abe9f4d1858000cd650ff25bf8ea891190d))
+* update lint script ([352a721](http://github.com/s1seven/schema-tools/commit/352a721c0c8d87478f6a4200a553663fcbaca9c8))
+* update lock again... ([29349ab](http://github.com/s1seven/schema-tools/commit/29349ab81362151aa393be0bbee9abba50a7bb11))
+* update package lock ([0f92293](http://github.com/s1seven/schema-tools/commit/0f92293203cce89e8903a8675cef41f8a2df9f0e))
+* use httpAgent and improve cache key ([d5faadf](http://github.com/s1seven/schema-tools/commit/d5faadfa2f70ead2293d9f645244b484c7bef91d))
+
+
+
+
+
 ## [0.0.16](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.0.15...@s1seven/schema-tools-utils@0.0.16) (2021-04-20)
 
 **Note:** Version bump only for package @s1seven/schema-tools-utils

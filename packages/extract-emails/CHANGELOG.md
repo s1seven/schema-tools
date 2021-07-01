@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.0.17...@s1seven/schema-tools-extract-emails@0.1.0) (2021-07-01)
+
+
+### Bug Fixes
+
+* add dedicated test command with coverage option ([94619c4](http://github.com/s1seven/schema-tools/commit/94619c46ee938ada811c845f7b583c8435a852ec))
+* refactor roles as enums ([d3f884a](http://github.com/s1seven/schema-tools/commit/d3f884a81113ffa210aff99c1a5ebb5717916aaa))
+* remove useless coment ([6f6d8a0](http://github.com/s1seven/schema-tools/commit/6f6d8a0a28faad0afce656f4e82b114aef4d29f0))
+* update lock again... ([29349ab](http://github.com/s1seven/schema-tools/commit/29349ab81362151aa393be0bbee9abba50a7bb11))
+* update package lock ([0f92293](http://github.com/s1seven/schema-tools/commit/0f92293203cce89e8903a8675cef41f8a2df9f0e))
+
+
+### Features
+
+* add support for CoA schema ([feb4e75](http://github.com/s1seven/schema-tools/commit/feb4e75e67fc2261a61fc0cf79fb1594c39147f2))
+* **browser-testing:** ci build error fix ([4f00d53](http://github.com/s1seven/schema-tools/commit/4f00d53a9302da77e3f46cb82d06675af9dc14ee))
+* **browser-testing:** karma - jasmine test suit setup ([0f4c854](http://github.com/s1seven/schema-tools/commit/0f4c85476770045452ff5da41d2b4a37863664b3))
+
+
+
+
+
 ## [0.0.17](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.0.16...@s1seven/schema-tools-extract-emails@0.0.17) (2021-04-20)
 
 

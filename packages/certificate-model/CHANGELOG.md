@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.0.12...@s1seven/schema-tools-certificate-model@0.1.0) (2021-07-01)
+
+
+### Bug Fixes
+
+* add dedicated test command with coverage option ([94619c4](http://github.com/s1seven/schema-tools/commit/94619c46ee938ada811c845f7b583c8435a852ec))
+* improve typing and add compatibility with new cast signatures ([7e10de6](http://github.com/s1seven/schema-tools/commit/7e10de652aa17d789fec0a1475ecd6bf2c218196))
+* improve typing and remove setListeners ([4e68a52](http://github.com/s1seven/schema-tools/commit/4e68a526c3de8bb68c3b7ffc95e1e3c375ca1e28))
+* solve type issue ([4522422](http://github.com/s1seven/schema-tools/commit/4522422ca3c84cd843c0beb0b8c0e36e9f69bae6))
+* update lock again... ([29349ab](http://github.com/s1seven/schema-tools/commit/29349ab81362151aa393be0bbee9abba50a7bb11))
+* update package lock ([0f92293](http://github.com/s1seven/schema-tools/commit/0f92293203cce89e8903a8675cef41f8a2df9f0e))
+
+
+### Features
+
+* **browser-testing:** karma - jasmine test suit setup ([0f4c854](http://github.com/s1seven/schema-tools/commit/0f4c85476770045452ff5da41d2b4a37863664b3))
+
+
+
+
+
 ## [0.0.12](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.0.11...@s1seven/schema-tools-certificate-model@0.0.12) (2021-04-20)
 
 

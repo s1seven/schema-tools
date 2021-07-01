@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.0.11...@s1seven/schema-tools-generate-en10168-pdf-template@0.1.0) (2021-07-01)
+
+
+### Bug Fixes
+
+* run lint ([1f96fbe](http://github.com/s1seven/schema-tools/commit/1f96fbe80f74c275941fea5f136027738da062d6))
+* run lint ([df356a7](http://github.com/s1seven/schema-tools/commit/df356a776f2b313e324a42af24e5244455a5d95d))
+* **generate-EN10168-pdf-template:** fixed imports breaking ci ([10ebfb9](http://github.com/s1seven/schema-tools/commit/10ebfb959a599f17f69582b09df256e815bc140d))
+* add dedicated test command with coverage option ([94619c4](http://github.com/s1seven/schema-tools/commit/94619c46ee938ada811c845f7b583c8435a852ec))
+* add missing compile script ([384550e](http://github.com/s1seven/schema-tools/commit/384550e6beb6b81d5a5eb419a629f36712d207d8))
+* add missing type and rename duplicate function ([5b7a1c6](http://github.com/s1seven/schema-tools/commit/5b7a1c601a6171f525f1f95dcb1e69dae3776b66))
+* update lock again... ([29349ab](http://github.com/s1seven/schema-tools/commit/29349ab81362151aa393be0bbee9abba50a7bb11))
+* update package lock ([0f92293](http://github.com/s1seven/schema-tools/commit/0f92293203cce89e8903a8675cef41f8a2df9f0e))
+
+
+### Features
+
+* **generate-EN10168-pdf-template:** migrated to parcel 2.0 ([b00f1d1](http://github.com/s1seven/schema-tools/commit/b00f1d1dcff4a2ee50e7dc346fac0235d5eb8467))
+
+
+
+
+
 ## [0.0.11](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.0.10...@s1seven/schema-tools-generate-en10168-pdf-template@0.0.11) (2021-04-20)
 
 

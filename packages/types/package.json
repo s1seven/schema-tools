@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-types",
   "description": "Types used in @s1seven/schema-tools packages",
-  "version": "0.0.13",
+  "version": "0.1.0",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/types#readme",

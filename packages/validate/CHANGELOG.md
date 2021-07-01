@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-validate@0.0.16...@s1seven/schema-tools-validate@0.1.0) (2021-07-01)
+
+
+### Bug Fixes
+
+* add dedicated test command with coverage option ([94619c4](http://github.com/s1seven/schema-tools/commit/94619c46ee938ada811c845f7b583c8435a852ec))
+* refactor and remove useless promises ([6d0ebff](http://github.com/s1seven/schema-tools/commit/6d0ebff35ff4486ed6affa2f981938104c049b9c))
+* update lint script ([ad9a415](http://github.com/s1seven/schema-tools/commit/ad9a415a3e0d9e92a7f8967d68865029fdc8b387))
+* update lock again... ([29349ab](http://github.com/s1seven/schema-tools/commit/29349ab81362151aa393be0bbee9abba50a7bb11))
+* update package lock ([0f92293](http://github.com/s1seven/schema-tools/commit/0f92293203cce89e8903a8675cef41f8a2df9f0e))
+
+
+### Features
+
+* **browser-testing:** ci build error fix ([4f00d53](http://github.com/s1seven/schema-tools/commit/4f00d53a9302da77e3f46cb82d06675af9dc14ee))
+* **browser-testing:** karma - jasmine test suit setup ([0f4c854](http://github.com/s1seven/schema-tools/commit/0f4c85476770045452ff5da41d2b4a37863664b3))
+
+
+
+
+
 ## [0.0.16](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-validate@0.0.15...@s1seven/schema-tools-validate@0.0.16) (2021-04-20)
 
 **Note:** Version bump only for package @s1seven/schema-tools-validate

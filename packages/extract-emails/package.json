@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-extract-emails",
   "description": "Tool to extract certificates emails",
-  "version": "0.0.17",
+  "version": "0.1.0",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/extract-emails#readme",
@@ -45,8 +45,8 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@s1seven/schema-tools-types": "^0.0.13",
-    "@s1seven/schema-tools-utils": "^0.0.16",
+    "@s1seven/schema-tools-types": "^0.1.0",
+    "@s1seven/schema-tools-utils": "^0.0.17",
     "@types/node": "^14.14.41"
   },
   "devDependencies": {
