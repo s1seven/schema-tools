@@ -136,8 +136,6 @@ function extractEmailsFromCoA(certificate: CoASchema): PartyEmail[] {
     ['Customer']: ReceiverRoles.Customer,
     ['ConsigneeOfCertificate']: ReceiverRoles.CertificateConsignee,
   };
-  // console.log(certificate.Certificate.Parties);
-
   const validKeys = Object.keys(coaCompanyRole);
   return Object.entries(Parties)
     .map(([key, company]: [string, any]) => {
