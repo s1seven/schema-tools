@@ -23,8 +23,7 @@ module.exports = function (config) {
         },
       },
       output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, './dist'),
+        path: path.resolve(process.cwd(), './build'),
       },
       module: {
         rules: [{ test: /\.tsx?$/, loader: 'ts-loader', exclude: /node_modules|dist/ }],
@@ -40,9 +39,16 @@ module.exports = function (config) {
         }),
       ],
     },
-    port: 9876,
+    // port: 9876,
     logLevel: config.LOG_INFO,
-    browsers: ['Chrome'],
+    // browsers: ['Chrome'],
     concurrency: Infinity,
+    browsers: ['ChromeHeadless', 'ChromeHeadlessCI'],
+    customLaunchers: {
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox'],
+      },
+    },
   });
 };
