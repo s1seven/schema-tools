@@ -1,144 +1,151 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { readFileSync } from 'fs';
+import { SupportedSchemas } from '../../types/src';
 import { validate } from '../src/index';
 
-const certVersion = 'v0.0.2';
 const typeLiteral = 'type';
 const mustBeObjectLiteral = 'must be object';
-const schemaPath = '#/definitions/Measurement/type';
+const measurmentSchemaPath = '#/definitions/Measurement/type';
 
-const certificateFoldersPath = `${__dirname}/../../../fixtures/EN10168/v0.0.2`;
-const validCertificatePath = `${certificateFoldersPath}/valid_cert.json`;
-const invalidCertificatePath = `${certificateFoldersPath}/invalid_cert.json`;
-const invalidCert = require('../../../fixtures/EN10168/v0.0.2/invalid_cert.json');
-const validCert = require('../../../fixtures/EN10168/v0.0.2/valid_cert.json');
-const invalidCertsValidationResponse = {
-  [certVersion]: [
-    {
-      root: certVersion,
-      path: 'invalid_cert.json/Certificate/ProductDescription/B02',
-      keyword: typeLiteral,
-      schemaPath: '#/properties/B02/type',
-      expected: mustBeObjectLiteral,
-    },
-    {
-      root: certVersion,
-      path: 'invalid_cert.json/Certificate/ProductDescription/B10',
-      keyword: typeLiteral,
-      schemaPath: schemaPath,
-      expected: mustBeObjectLiteral,
-    },
-    {
-      root: certVersion,
-      path: 'invalid_cert.json/Certificate/ProductDescription/B12',
-      keyword: typeLiteral,
-      schemaPath: schemaPath,
-      expected: mustBeObjectLiteral,
-    },
-  ],
-};
+describe('ValidateSchema', function () {
+  const validCertificatePath = (folderPath: string) =>
+    process.env.IS_BROWSER_ENV ? `${folderPath}/valid_cert.json` : `${__dirname}/${folderPath}/valid_cert.json`;
+  const invalidCertificatePath = (folderPath: string) =>
+    process.env.IS_BROWSER_ENV ? `${folderPath}/invalid_cert.json` : `${__dirname}/${folderPath}/invalid_cert.json`;
 
-const invalidCertResponseByRefSchemaUrl = {
-  ['v0.0.2']: [
+  const testsMap = [
     {
-      path: 'schema.json/Certificate/ProductDescription/B02',
-      root: 'v0.0.2',
-      keyword: typeLiteral,
-      schemaPath: '#/properties/B02/type',
-      expected: mustBeObjectLiteral,
+      type: SupportedSchemas.EN10168,
+      fixturesPath: '../../../fixtures/EN10168',
+      version: 'v0.0.2',
+      validCertificate: require('../../../fixtures/EN10168/v0.0.2/valid_cert.json'),
+      invalidCertificate: require('../../../fixtures/EN10168/v0.0.2/invalid_cert.json'),
+      validationErrors: (basePath: string, certVersion: string) => ({
+        [certVersion]: [
+          {
+            root: certVersion,
+            path: `${basePath}/Certificate/ProductDescription/B02`,
+            keyword: typeLiteral,
+            schemaPath: '#/properties/B02/type',
+            expected: mustBeObjectLiteral,
+          },
+          {
+            root: certVersion,
+            path: `${basePath}/Certificate/ProductDescription/B10`,
+            keyword: typeLiteral,
+            schemaPath: measurmentSchemaPath,
+            expected: mustBeObjectLiteral,
+          },
+          {
+            root: certVersion,
+            path: `${basePath}/Certificate/ProductDescription/B12`,
+            keyword: typeLiteral,
+            schemaPath: measurmentSchemaPath,
+            expected: mustBeObjectLiteral,
+          },
+        ],
+      }),
     },
     {
-      expected: mustBeObjectLiteral,
-      keyword: typeLiteral,
-      path: 'schema.json/Certificate/ProductDescription/B10',
-      root: 'v0.0.2',
-      schemaPath: schemaPath,
+      type: SupportedSchemas.ECOC,
+      fixturesPath: '../../../fixtures/E-CoC',
+      version: 'v0.0.2-2',
+      validCertificate: require('../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json'),
+      invalidCertificate: require('../../../fixtures/E-CoC/v0.0.2-2/invalid_cert.json'),
+      validationErrors: (basePath: string, certVersion: string) => ({
+        [certVersion]: [
+          {
+            expected: 'must be equal to one of the allowed values',
+            keyword: 'enum',
+            path: `${basePath}/EcocData/DataLevel`,
+            root: certVersion,
+            schemaPath: '#/properties/DataLevel/enum',
+          },
+        ],
+      }),
     },
     {
-      expected: mustBeObjectLiteral,
-      keyword: typeLiteral,
-      path: 'schema.json/Certificate/ProductDescription/B12',
-      root: 'v0.0.2',
-      schemaPath: schemaPath,
+      type: SupportedSchemas.COA,
+      fixturesPath: '../../../fixtures/CoA',
+      version: 'v0.0.2-1',
+      validCertificate: require('../../../fixtures/CoA/v0.0.2-1/valid_cert.json'),
+      invalidCertificate: require('../../../fixtures/CoA/v0.0.2-1/invalid_cert.json'),
+      validationErrors: (basePath: string, certVersion: string) => ({
+        [certVersion]: [
+          {
+            root: certVersion,
+            path: `${basePath}/Certificate`,
+            keyword: 'required',
+            schemaPath: '#/properties/Certificate/required',
+            expected: `must have required property 'CertificateLanguages'`, // eslint-disable-line
+          },
+          {
+            root: certVersion,
+            path: `${basePath}/Certificate/Date`,
+            keyword: 'format',
+            schemaPath: '#/properties/Certificate/properties/Date/format',
+            expected: 'must match format "date"',
+          },
+          {
+            root: certVersion,
+            path: `${basePath}/Certificate/BusinessReferences/Order/Number`,
+            keyword: 'type',
+            schemaPath: '#/definitions/BusinessReferences/properties/Order/properties/Number/type',
+            expected: 'must be string',
+          },
+        ],
+      }),
     },
-  ],
-};
+  ];
 
-browserTests();
-if (!process.env.IS_BROWSER_ENV) {
-  serverSideTests();
-}
+  testsMap.forEach((testSuite) => {
+    describe(testSuite.type, () => {
+      const folderPath = `${testSuite.fixturesPath}/${testSuite.version}`;
 
-function browserTests() {
-  describe('ValidateSchema', function () {
-    describe('EN10168 types', () => {
-      it('Should validate valid example certificate', async () => {
-        expect(await validate(validCert)).toEqual({});
+      it('should validate valid certificate using certificate (object) ', async () => {
+        const certificate = testSuite.validCertificate;
+        const errors = await validate(certificate);
+        expect(errors).toBeNull();
       });
-      it('Should validate valid invalid certificate', async () => {
-        expect(await validate(invalidCert)).toEqual(invalidCertResponseByRefSchemaUrl);
+
+      it('should validate invalid certificate using certificate (object)', async () => {
+        const certificate = testSuite.invalidCertificate;
+        const expectedErrors = testSuite.validationErrors('schema.json', testSuite.version);
+        //
+        const errors = await validate(certificate);
+        expect(errors).toEqual(expectedErrors);
       });
-    });
-  });
-}
 
-function serverSideTests() {
-  describe('ValidateSchema', function () {
-    describe('EN10168 types', () => {
-      it('should validate valid example certificate using certificate path (string)', async () => {
-        expect(await validate(validCertificatePath)).toEqual({});
-      }, 5000);
+      it('should validate invalid and valid certificate by providing them in an array', async () => {
+        const validCertificate = testSuite.validCertificate;
+        const invalidCertificate = testSuite.invalidCertificate;
+        const expectedErrors = testSuite.validationErrors('schema.json', testSuite.version);
+        //
+        const errors = await validate([validCertificate, invalidCertificate]);
+        expect(errors).toEqual(expectedErrors);
+      });
 
-      it('should validate valid example certificate using certificate (object) ', async () => {
-        const schema = JSON.parse(readFileSync(validCertificatePath, 'utf8') as string);
-        expect(await validate(schema)).toEqual({});
-      }, 5000);
-
-      it('should validate invalid example certificate using certificate path (string)', async () => {
-        expect(await validate(invalidCertificatePath)).toEqual(invalidCertsValidationResponse);
-      }, 5000);
-
-      it('should validate invalid example certificate using certificate (object)', async () => {
-        const schema = JSON.parse(readFileSync(invalidCertificatePath, 'utf8') as string);
-        expect(await validate(schema)).toEqual(invalidCertResponseByRefSchemaUrl);
-      }, 5000);
-
-      it('should validate invalid and valid example certificate by providing container folders path', async () => {
-        const validationResults = await validate(certificateFoldersPath, {
-          ignoredExts: ['html', 'ts', 'js', 'md'],
+      if (!process.env.IS_BROWSER_ENV) {
+        it('should validate valid certificate using certificate path (string)', async () => {
+          const errors = await validate(validCertificatePath(folderPath));
+          expect(errors).toBeNull();
         });
 
-        expect(validationResults).toEqual(invalidCertsValidationResponse);
-      }, 5000);
-
-      it('should validate invalid and valid example certificate by providing them in an array', async () => {
-        const invalidSchema = JSON.parse(readFileSync(invalidCertificatePath, 'utf8') as string);
-        const validSchema = JSON.parse(readFileSync(validCertificatePath, 'utf8') as string);
-        expect(await validate([validSchema, invalidSchema])).toEqual(invalidCertResponseByRefSchemaUrl);
-      }, 5000);
-    });
-
-    describe('E-CoC types', () => {
-      const validCertificatePath = `${__dirname}/../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json`;
-      const invalidCertificatePath = `${__dirname}/../../../fixtures/E-CoC/v0.0.2-2/invalid_cert.json`;
-
-      it('should validate valid example certificate using certificate path (string)', async () => {
-        expect(await validate(validCertificatePath)).toEqual({});
-      }, 5000);
-
-      it('should validate invalid example certificate using certificate path (string)', async () => {
-        expect(await validate(invalidCertificatePath)).toEqual({
-          ['v0.0.2-2']: [
-            {
-              expected: 'must be equal to one of the allowed values',
-              keyword: 'enum',
-              path: 'invalid_cert.json/EcocData/DataLevel',
-              root: 'v0.0.2-2',
-              schemaPath: '#/properties/DataLevel/enum',
-            },
-          ],
+        it('should validate invalid certificate using certificate path (string)', async () => {
+          const expectedErrors = testSuite.validationErrors('invalid_cert.json', testSuite.version);
+          //
+          const errors = await validate(invalidCertificatePath(folderPath));
+          expect(errors).toEqual(expectedErrors);
         });
-      }, 5000);
+
+        it('should validate invalid and valid certificate by providing container folders path', async () => {
+          const expectedErrors = testSuite.validationErrors('invalid_cert.json', testSuite.version);
+          //
+          const errors = await validate(`${__dirname}/${folderPath}`, {
+            ignoredExts: ['html', 'ts', 'js', 'md'],
+          });
+          expect(errors).toEqual(expectedErrors);
+        });
+      }
     });
   });
-}
+});

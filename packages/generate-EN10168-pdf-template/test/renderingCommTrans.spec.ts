@@ -1,9 +1,9 @@
 import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
+import { CommercialTransaction } from '../src/types';
+import { createCommercialTransaction } from '../src/lib/commercialTransaction';
+import { createTransactionParties } from '../src/lib/createTransactionParties';
 import { getTranslations } from './getTranslations';
 import { Translate } from '../src/lib/translate';
-import { createTransactionParties } from '../src/lib/createTransactionParties';
-import { createCommercialTransaction } from '../src/lib/commercialTransaction';
-import { CommercialTransaction } from '../src/types';
 
 const defaultSchemaUrl = certificate.RefSchemaUrl || 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
 
@@ -82,13 +82,13 @@ describe('Rendering transaction parties', () => {
     expect(tableBody[0]).toEqual([
       [
         {
-          text: "A04 Manufacturer's mark / Zeichen des Herstellers",
+          text: "A04 Manufacturer's mark / Zeichen des Herstellers", // eslint-disable-line
           style: 'tableHeader',
         },
       ],
       [
         {
-          text: "A01 Manufacturer's plant / Herstellerwerk",
+          text: "A01 Manufacturer's plant / Herstellerwerk", // eslint-disable-line
           style: 'tableHeader',
         },
       ],
@@ -154,6 +154,7 @@ describe('Rendering transaction parties', () => {
     ]);
   });
 
+  // eslint-disable-next-line
   it("correctly renders when Manufacturer's mark is not provided", () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
     const transactionParties = createTransactionParties(
@@ -183,7 +184,7 @@ describe('Rendering transaction parties', () => {
 
     expect(tableBody.length).toEqual(2);
     expect(tableBody[0]).toEqual([
-      [{ text: "A01 Manufacturer's plant / Herstellerwerk", style: 'tableHeader' }],
+      [{ text: "A01 Manufacturer's plant / Herstellerwerk", style: 'tableHeader' }], // eslint-disable-line
       [{ text: 'A06 Purchaser / Besteller', style: 'tableHeader' }],
       '',
     ]);

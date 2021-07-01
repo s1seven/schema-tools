@@ -1,9 +1,10 @@
-import { createWriteStream, existsSync, readFileSync, unlinkSync } from 'fs';
-import path from 'path';
-import { Writable } from 'stream';
-import { TDocumentDefinitions } from 'pdfmake/interfaces';
-import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
 import { buildModule, generateInSandbox, generatePdf } from '../src/index';
+import { createWriteStream, existsSync, readFileSync, unlinkSync } from 'fs';
+import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
+import { EN10168Schema } from '@s1seven/schema-tools-types';
+import path from 'path';
+import { TDocumentDefinitions } from 'pdfmake/interfaces';
+import { Writable } from 'stream';
 
 describe('GeneratePDF', function () {
   const fonts = {
@@ -37,7 +38,7 @@ describe('GeneratePDF', function () {
 
   it('should execute in a sandbox the PDF generator script and return pdfmake content', async () => {
     const generatorPath = path.resolve(`${__dirname}/../../generate-EN10168-pdf-template/dist/generateContent.js`);
-    const content = await generateInSandbox(certificate, {}, generatorPath);
+    const content = await generateInSandbox(certificate as EN10168Schema, {}, generatorPath);
     expect(content.length).toBeGreaterThan(1);
     expect(content[0]).toHaveProperty('style');
     expect(content[0]).toHaveProperty('table');
@@ -58,11 +59,11 @@ describe('GeneratePDF', function () {
       },
     };
 
-    const pdfDoc = (await generatePdf(certificate, {
+    const pdfDoc = await generatePdf(certificate, {
       docDefinition,
       outputType: 'stream',
       fonts,
-    })) as PDFKit.PDFDocument;
+    });
 
     const outputFilePath = './test.pdf';
     const writeStream = createWriteStream(outputFilePath);
@@ -87,12 +88,12 @@ describe('GeneratePDF', function () {
       },
     };
 
-    const pdfDoc = (await generatePdf(certificate, {
+    const pdfDoc = await generatePdf(certificate, {
       docDefinition,
       outputType: 'stream',
       fonts,
       generatorPath,
-    })) as PDFKit.PDFDocument;
+    });
 
     const outputFilePath = './test-2.pdf';
     const writeStream = createWriteStream(outputFilePath);
@@ -104,12 +105,12 @@ describe('GeneratePDF', function () {
   it('should render PDF certificate using HTML certificate ', async () => {
     const certificateHtmlPath = `${__dirname}/../../../fixtures/EN10168/v0.0.2/template_hbs.html`;
     const certificateHtml = readFileSync(certificateHtmlPath, 'utf8');
-
-    const buffer = (await generatePdf(certificateHtml, {
+    //
+    const buffer = await generatePdf(certificateHtml, {
       inputType: 'html',
       outputType: 'buffer',
       fonts,
-    })) as Buffer;
+    });
     expect(buffer instanceof Buffer).toEqual(true);
   }, 10000);
 });

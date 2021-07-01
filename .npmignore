@@ -7,7 +7,7 @@ tsconfig.module.json
 .github
 .prettierignore
 .vscode
-build/docs
+build
 **/*.spec.*
 coverage
 .nyc_output

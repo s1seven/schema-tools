@@ -1,13 +1,13 @@
-import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
-import { getTranslations } from './getTranslations';
-import { Translate } from '../src/lib/translate';
 import {
   renderChemicalComposition,
-  renderTensileTest,
   renderHardnessTest,
   renderNotchedBarImpactTest,
+  renderTensileTest,
 } from '../src/lib/createInspection';
+import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
+import { getTranslations } from './getTranslations';
 import { TableElement } from '../src/types';
+import { Translate } from '../src/lib/translate';
 
 const defaultSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
 

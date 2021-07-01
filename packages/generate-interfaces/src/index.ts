@@ -1,5 +1,5 @@
-import { loadExternalFile, removeFile, writeFile } from '@s1seven/schema-tools-utils';
 import { compile, JSONSchema, Options } from 'json-schema-to-typescript';
+import { loadExternalFile, removeFile, writeFile } from '@s1seven/schema-tools-utils';
 import merge from 'lodash.merge';
 
 export type GenerateOptions = Options;

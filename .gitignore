@@ -111,6 +111,7 @@ junit.xml
 
 dist
 dist.browser
+build
 
 # output from generate-pdf
 *.pdf

@@ -25,7 +25,7 @@ module.exports = {
   rules: {
     quotes: ['warn', 'single'],
     'member-access': 'off',
-    'sort-imports': ['warn', { memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'] }],
+    'sort-imports': ['warn', { ignoreCase: true, memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'] }],
     'interface-name': 'off',
     'arrow-parens': 'off',
     'object-literal-sort-keys': 'off',

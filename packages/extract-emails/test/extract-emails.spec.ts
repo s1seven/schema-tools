@@ -1,133 +1,166 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { extractEmails, getReceiver, getReceivers, getSender, getSenders } from '../src/index';
+import { SupportedSchemas } from '@s1seven/schema-tools-types';
+import {
+  extractEmails,
+  getReceiver,
+  getReceivers,
+  getSender,
+  getSenders,
+  PartyEmail,
+  ReceiverRoles,
+  SenderRoles,
+} from '../src/index';
 
-const en10168CertificatePath = `${__dirname}/../../../fixtures/EN10168/v0.0.2/valid_cert.json`;
-const eCoCCertificatePath = `${__dirname}/../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json`;
-const en10168Certificate = require('../../../fixtures/EN10168/v0.0.2/valid_cert.json');
-const eCoCCertificate = require('../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json');
+describe('ExtractEmails', function () {
+  const testSuitesMap = [
+    {
+      certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.0.2/valid_cert.json`,
+      certificate: require('../../../fixtures/EN10168/v0.0.2/valid_cert.json'),
+      version: 'v0.0.2',
+      type: SupportedSchemas.EN10168,
+      expectedSenders: {
+        [SenderRoles.Seller]: {
+          emails: ['sbs.steeltrader@gmail.com'],
+          vatId: 'IT00504870015',
+          name: 'ALESSIO TUBI S.p.A.',
+          role: 'Seller',
+          purchaseOrderNumber: '3100-L-42006554',
+          purchaseOrderPosition: '',
+        },
+      },
+      expectedReceivers: {
+        [ReceiverRoles.Buyer]: {
+          emails: ['sbs.steelfactory@gmail.com'],
+          vatId: 'CZ49356704',
+          name: 'KOENIGFRANKSTAHL S.R.O.',
+          role: 'Buyer',
+          purchaseOrderNumber: '3100-L-42006554',
+          purchaseOrderPosition: '',
+        },
+      },
+    },
+    {
+      certificatePath: `${__dirname}/../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json`,
+      certificate: require('../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json'),
+      version: 'v0.0.2-2',
+      type: SupportedSchemas.ECOC,
+      expectedSenders: {
+        [SenderRoles.Manufacturer]: {
+          name: 'CARPENTER TECHNOLOGY (EUROPE) S.A./N.V.',
+          role: 'Manufacturer',
+          emails: null,
+          vatId: 'BE0441345644',
+          purchaseOrderNumber: undefined,
+          purchaseOrderPosition: undefined,
+        },
+      },
+      expectedReceivers: {
+        [ReceiverRoles.Customer]: {
+          name: 'VOESTALPINE BOHLER AEROSPACE GMBH & CO KG',
+          role: 'Customer',
+          emails: ['contact@s1seven.com'],
+          vatId: 'ATU38337108',
+          purchaseOrderNumber: undefined,
+          purchaseOrderPosition: undefined,
+        },
+        [ReceiverRoles.Recipient]: {
+          name: 'VOESTALPINE BOHLER AEROSPACE GMBH & CO KG',
+          role: 'Recipient',
+          emails: null,
+          vatId: 'ATU38337108',
+          purchaseOrderNumber: undefined,
+          purchaseOrderPosition: undefined,
+        },
+      },
+    },
+    {
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.2-1/valid_cert.json`,
+      certificate: require('../../../fixtures/CoA/v0.0.2-1/valid_cert.json'),
+      version: 'v0.0.2-1',
+      type: SupportedSchemas.COA,
+      expectedSenders: {
+        [SenderRoles.Manufacturer]: {
+          name: 'Plastic Productions AG',
+          emails: ['hannes@s1seven.com'],
+          vatId: '',
+          role: 'Manufacturer',
+          purchaseOrderNumber: '1',
+          purchaseOrderPosition: '1',
+        },
+      },
+      expectedReceivers: {
+        [ReceiverRoles.Customer]: {
+          name: 'Plastic Processor SE',
+          emails: ['hannes@s1seven.com'],
+          vatId: '',
+          role: 'Customer',
+          purchaseOrderNumber: '1',
+          purchaseOrderPosition: '1',
+        },
+      },
+    },
+  ];
 
-const expectedSeller = {
-  emails: ['sbs.steeltrader@gmail.com'],
-  vatId: 'IT00504870015',
-  name: 'ALESSIO TUBI S.p.A.',
-  role: 'Seller',
-  purchaseOrderNumber: '3100-L-42006554',
-  purchaseOrderPosition: '',
-};
+  testSuitesMap.forEach((testSuite) => {
+    describe(testSuite.type, function () {
+      describe('from certificate by passing it as an object', () => {
+        let emailsList: PartyEmail[];
+        const expectedReceivers = Object.values(testSuite.expectedReceivers);
+        const expectedSenders = Object.values(testSuite.expectedSenders);
 
-const expectedBuyer = {
-  emails: ['sbs.steelfactory@gmail.com'],
-  vatId: 'CZ49356704',
-  name: 'KOENIGFRANKSTAHL S.R.O.',
-  role: 'Buyer',
-  purchaseOrderNumber: '3100-L-42006554',
-  purchaseOrderPosition: '',
-};
+        beforeAll(async () => {
+          emailsList = await extractEmails(testSuite.certificate);
+        });
 
-const expectedManufacturer = {
-  name: 'CARPENTER TECHNOLOGY (EUROPE) S.A./N.V.',
-  role: 'Manufacturer',
-  emails: null,
-  vatId: 'BE0441345644',
-  purchaseOrderNumber: undefined,
-  purchaseOrderPosition: undefined,
-};
-const expectedCustomer = {
-  name: 'VOESTALPINE BOHLER AEROSPACE GMBH & CO KG',
-  role: 'Customer',
-  emails: ['contact@s1seven.com'],
-  vatId: 'ATU38337108',
-  purchaseOrderNumber: undefined,
-  purchaseOrderPosition: undefined,
-};
-const expectedRecipient = {
-  name: 'VOESTALPINE BOHLER AEROSPACE GMBH & CO KG',
-  role: 'Recipient',
-  emails: null,
-  vatId: 'ATU38337108',
-  purchaseOrderNumber: undefined,
-  purchaseOrderPosition: undefined,
-};
+        it('should extract emails', () => {
+          const expectedParties = [...expectedReceivers, ...expectedSenders];
+          if (process.env.IS_BROWSER_ENV) {
+            expect(emailsList).toEqual(jasmine.arrayContaining(expectedParties));
+          } else {
+            expect(emailsList).toEqual(expect.arrayContaining(expectedParties));
+          }
+        });
 
-browserTests();
-if (!process.env.IS_BROWSER_ENV) {
-  serverSideTests();
-}
+        it('should extract receivers', () => {
+          const receivers = getReceivers(emailsList);
+          expect(receivers).toEqual(expectedReceivers);
+        });
 
-function browserTests() {
-  describe('ValidateSchema', function () {
-    it('should extract emails from EN10168 certificate by passing it as an object', async () => {
-      const emailsList = await extractEmails(en10168Certificate);
+        it('should extract senders', () => {
+          const senders = getSenders(emailsList);
+          expect(senders).toEqual(expectedSenders);
+        });
 
-      expect(emailsList).toEqual([expectedSeller, expectedBuyer]);
+        it('should extract receivers by role', () => {
+          Object.entries(testSuite.expectedReceivers).forEach(([role, expectedReceiver]) => {
+            const receiver = getReceiver(emailsList, role as ReceiverRoles);
+            expect(receiver).toEqual(expectedReceiver);
+          });
+        });
 
-      const receivers = getReceivers(emailsList);
-      expect(receivers).toEqual([expectedBuyer]);
+        it('should extract senders by role', () => {
+          Object.entries(testSuite.expectedSenders).forEach(([role, expectedSender]) => {
+            const sender = getSender(emailsList, role as SenderRoles);
+            expect(sender).toEqual(expectedSender);
+          });
+        });
+      });
 
-      const receiver = getReceiver(emailsList, 'Buyer');
-      expect(receiver).toEqual(expectedBuyer);
+      if (!process.env.IS_BROWSER_ENV) {
+        describe('from certificate by passing it as a file path', () => {
+          let emailsList: PartyEmail[];
+          const expectedReceivers = Object.values(testSuite.expectedReceivers);
+          const expectedSenders = Object.values(testSuite.expectedSenders);
 
-      const sender = getSender(emailsList, 'Seller');
-      expect(sender).toEqual(expectedSeller);
+          beforeAll(async () => {
+            emailsList = await extractEmails(testSuite.certificate);
+          });
 
-      const senders = getSenders(emailsList);
-      expect(senders).toEqual([expectedSeller]);
-    });
-
-    it('should extract emails from E-CoC certificate by passing it as an object', async () => {
-      const emailsList = await extractEmails(eCoCCertificate);
-      expect(emailsList).toEqual([expectedManufacturer, expectedCustomer, expectedRecipient]);
-
-      const receiver = getReceiver(emailsList, 'TestLab');
-      expect(receiver).toEqual(null);
-
-      const receivers = getReceivers(emailsList);
-      expect(receivers).toEqual([expectedCustomer, expectedRecipient]);
-
-      const sender = getSender(emailsList, 'Supplier');
-      expect(sender).toEqual(null);
-
-      const senders = getSenders(emailsList);
-      expect(senders).toEqual([expectedManufacturer]);
+          it('should extract emails', () => {
+            expect(emailsList).toEqual(expect.arrayContaining([...expectedReceivers, ...expectedSenders]));
+          });
+        });
+      }
     });
   });
-}
-
-function serverSideTests() {
-  describe('ExtractEmails', function () {
-    it('should extract emails from EN10168 certificate', async () => {
-      const emailsList = await extractEmails(en10168CertificatePath);
-
-      expect(emailsList).toEqual([expectedSeller, expectedBuyer]);
-
-      const receivers = getReceivers(emailsList);
-      expect(receivers).toEqual([expectedBuyer]);
-
-      const receiver = getReceiver(emailsList, 'Buyer');
-      expect(receiver).toEqual(expectedBuyer);
-
-      const sender = getSender(emailsList, 'Seller');
-      expect(sender).toEqual(expectedSeller);
-
-      const senders = getSenders(emailsList);
-      expect(senders).toEqual([expectedSeller]);
-    }, 3000);
-
-    it('should extract emails from E-CoC certificate', async () => {
-      const emailsList = await extractEmails(eCoCCertificatePath);
-      expect(emailsList).toEqual([expectedManufacturer, expectedCustomer, expectedRecipient]);
-
-      const receiver = getReceiver(emailsList, 'TestLab');
-      expect(receiver).toEqual(null);
-
-      const receivers = getReceivers(emailsList);
-      expect(receivers).toEqual([expectedCustomer, expectedRecipient]);
-
-      const sender = getSender(emailsList, 'Supplier');
-      expect(sender).toEqual(null);
-
-      const senders = getSenders(emailsList);
-      expect(senders).toEqual([expectedManufacturer]);
-    }, 3000);
-  });
-}
+});

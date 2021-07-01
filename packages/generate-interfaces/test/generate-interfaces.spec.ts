@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { readFileSync } from 'fs';
 import { generate } from '../src/index';
+import { readFileSync } from 'fs';
 
 const en10168chemaPath = 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
 const eCoCSchemaPath = 'https://schemas.en10204.io/e-coc-schemas/v0.0.2-2/schema.json';

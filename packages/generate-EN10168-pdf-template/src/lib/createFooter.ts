@@ -1,5 +1,5 @@
-import { tableLayout } from './helpers';
 import { TableElement } from '../types';
+import { tableLayout } from './helpers';
 
 export function createFooter(RefSchemaUrl: string): TableElement {
   return {

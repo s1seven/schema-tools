@@ -36,7 +36,7 @@
     "lato-font": "^3.0.0",
     "parcel": "^2.0.0-beta.3.1",
     "pdfmake": "^0.1.71",
-    "typescript": "4.2.4"
+    "typescript": "^4.3.4"
   },
   "resolutions": {
     "node-forge": ">=0.10.0"
@@ -47,7 +47,7 @@
     "test:staged": "jest --runInBand --onlyChanged --config ../../jest.config.json",
     "build": "parcel build src/generateContent.ts --no-source-maps --target=main --cache-dir=.parcel-cache && rm -rf .parcel-cache",
     "compile": "npm run build",
-    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
+    "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
     "create-example": "node --icu-data-dir=`echo $(./node_modules/.bin/node-full-icu-path)` ./utils/create-example.js",
     "create-example:no-icu": "node ./utils/create-example.js",
     "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.en10204.io/en10168-schemas/v0.0.3/schema.json ./src/types/schemaTypes.ts"

@@ -1,25 +1,41 @@
-import { cast, Result, Sanitizer, SanitizerFailure } from '@restless/sanitizers';
+import * as fs from 'fs';
+import axios, { AxiosRequestConfig } from 'axios';
 import {
+  CDNSchema,
+  CertificateLanguages,
+  CoASchema,
   ECoCSchema,
   EN10168Schema,
   SchemaConfig,
+  Schemas,
   SchemaTypes,
+  SupportedSchemas,
   Translations,
   ValidationError,
 } from '@s1seven/schema-tools-types';
 import type { ErrorObject } from 'ajv';
-import axios from 'axios';
-import * as fs from 'fs';
+import { Agent as HttpAgent } from 'http';
+import { Agent as HttpsAgent } from 'https';
 import NodeCache from 'node-cache';
-import semver from 'semver-lite';
-import { Readable } from 'stream';
-import { URL } from 'url';
+import { plainToClass } from 'class-transformer';
 import { promisify } from 'util';
+import { Readable } from 'stream';
+import semver from 'semver-lite';
+import { URL } from 'url';
+import { validateSync } from 'class-validator';
 
 export const cache = new NodeCache({
   stdTTL: 60 * 60,
   checkperiod: 600,
   maxKeys: 200,
+});
+
+export const axiosInstance = axios.create({
+  timeout: 60000,
+  httpAgent: new HttpAgent({ keepAlive: true }),
+  httpsAgent: new HttpsAgent({ keepAlive: true }),
+  maxRedirects: 10,
+  maxContentLength: 50 * 1000 * 1000,
 });
 
 export function readDir(path: string): Promise<string[]> {
@@ -90,17 +106,15 @@ export function getSchemaConfig(refSchemaUrl: URL): SchemaConfig {
       return getSemanticVersion(val);
     }
     return val;
-  }) as [any, SchemaTypes, string];
+  }) as [string, SchemaTypes, string];
   return { baseUrl, schemaType, version };
 }
 
-export function getCertificateLanguages(certificate: EN10168Schema | ECoCSchema): string[] | null {
-  if ((certificate as EN10168Schema)?.Certificate?.CertificateLanguages) {
-    return (certificate as EN10168Schema)?.Certificate?.CertificateLanguages;
-  }
-  return null;
+export function getCertificateLanguages(certificate: Schemas): CertificateLanguages[] | null {
+  return certificate?.Certificate?.CertificateLanguages || null;
 }
 
+// TODO: allow to load translations from local file, options: {schemaConfig: SchemaConfig} | {translationsPath: string} = {}
 export async function getTranslations(
   certificateLanguages: string[],
   schemaConfig: SchemaConfig,
@@ -131,38 +145,42 @@ export async function getTranslations(
 
 export type ExternalFile = ReturnType<typeof loadExternalFile>;
 
-// TODO: add options as fourth arg, with encoding and other stream options ?
+export function loadExternalFile(filePath: string): Promise<Record<string, unknown>>;
+export function loadExternalFile(filePath: string, type: 'json', useCache?: boolean): Promise<Record<string, unknown>>;
+export function loadExternalFile(filePath: string, type: 'text', useCache?: boolean): Promise<string>;
+export function loadExternalFile(filePath: string, type: 'arraybuffer', useCache?: boolean): Promise<Buffer>;
+export function loadExternalFile(filePath: string, type: 'stream', useCache?: boolean): Promise<Readable>;
+
 export async function loadExternalFile(
   filePath: string,
   type: 'json' | 'text' | 'arraybuffer' | 'stream' = 'json',
   useCache = true,
 ): Promise<Record<string, unknown> | string | Buffer | Readable | undefined> {
-  let result: Record<string, unknown> | string | Buffer | Readable | undefined = useCache
-    ? cache.get(filePath)
-    : undefined;
+  const cacheKey = `${filePath}-${type}`;
+  let result: Record<string, unknown> | string | Buffer | Readable | undefined =
+    useCache && type !== 'stream' ? cache.get(cacheKey) : undefined;
 
   if (result) {
     return result;
   }
 
   if (filePath.startsWith('http')) {
-    const { data, status } = await axios.get(filePath, { responseType: type });
-    if (status !== 200) {
-      throw new Error(`Loading error: ${status}`);
-    }
+    const options: AxiosRequestConfig = {
+      responseType: type,
+    };
+    const { data } = await axiosInstance.get(filePath, options);
     result = data;
   } else {
-    // filePath = path.resolve(filePath);
     const stats = await statFile(filePath);
     if (!stats.isFile()) {
       throw new Error(`Loading error: ${filePath} is not a file`);
     }
     switch (type) {
       case 'json':
-        result = JSON.parse((await readFile(filePath, 'utf8')) as string) as Record<string, unknown>;
+        result = JSON.parse((await readFile(filePath, 'utf8')) as string);
         break;
       case 'text':
-        result = (await readFile(filePath, 'utf-8')) as string;
+        result = await readFile(filePath, 'utf-8');
         break;
       case 'arraybuffer':
         result = await readFile(filePath, null);
@@ -172,59 +190,61 @@ export async function loadExternalFile(
     }
   }
   if (useCache && type !== 'stream') {
-    cache.set(filePath, result);
+    cache.set(cacheKey, result);
   }
   return result;
 }
 
-export function asEN10168Certificate<EN10168Schema>(
-  value: unknown,
-  path: string,
-): Result<SanitizerFailure[], EN10168Schema> {
-  const baseProperties = ['Certificate', 'RefSchemaUrl'];
-  const isSchemaValid = baseProperties.every((prop) => Object.prototype.hasOwnProperty.call(value, prop));
-  if (!isSchemaValid) {
-    return Result.error([
-      {
-        path: `Invalid ${path} asEN10168Certificate`,
-        expected: baseProperties.join(','),
-      },
-    ]);
+function preValidateCertificate<T extends Schemas>(certificate: T, throwError?: boolean): T {
+  const errors = validateSync(certificate, {});
+  if (errors?.length) {
+    if (throwError) {
+      throw new Error(JSON.stringify(errors, null, 2));
+    } else {
+      return null;
+    }
   }
-  return Result.ok(value as EN10168Schema);
+  return certificate;
 }
 
-export function asECoCCertificate<ECoCSchema>(value: unknown, path: string): Result<SanitizerFailure[], ECoCSchema> {
-  const baseProperties = ['EcocData', 'RefSchemaUrl'];
-  const isSchemaValid = baseProperties.every((prop) => Object.prototype.hasOwnProperty.call(value, prop));
-  if (!isSchemaValid) {
-    return Result.error([
-      {
-        path: `Invalid ${path} asECoCCertificate`,
-        expected: baseProperties.join(','),
-      },
-    ]);
-  }
-  return Result.ok(value as ECoCSchema);
+export function asEN10168Certificate(value: unknown, throwError?: boolean): EN10168Schema {
+  const certificate = plainToClass(EN10168Schema, value, { enableImplicitConversion: true, exposeDefaultValues: true });
+  return preValidateCertificate(certificate, throwError);
 }
 
-export function castWithoutError<T>(certificate: Record<string, unknown>, fn: Sanitizer<T>): T {
-  try {
-    return cast<T>(certificate, fn);
-  } catch (error) {
-    return null;
-  }
+export function asECoCCertificate(value: unknown, throwError?: boolean): ECoCSchema {
+  const certificate = plainToClass(ECoCSchema, value, { enableImplicitConversion: true, exposeDefaultValues: true });
+  return preValidateCertificate(certificate, throwError);
 }
 
-export function castCertificate(certificate: Record<string, unknown>): EN10168Schema | ECoCSchema {
-  const en10168ertificate = castWithoutError<EN10168Schema>(certificate, asEN10168Certificate);
-  if (en10168ertificate) {
-    return en10168ertificate;
-  }
+export function asCoACertificate(value: unknown, throwError?: boolean): CoASchema {
+  const certificate = plainToClass(CoASchema, value, { enableImplicitConversion: true, exposeDefaultValues: true });
+  return preValidateCertificate(certificate, throwError);
+}
 
-  const eCoCcertificate = castWithoutError<ECoCSchema>(certificate, asECoCCertificate);
-  if (eCoCcertificate) {
-    return eCoCcertificate;
+export function asCDNCertificate(value: unknown, throwError?: boolean): CDNSchema {
+  const certificate = plainToClass(CDNSchema, value, { enableImplicitConversion: true, exposeDefaultValues: true });
+  return preValidateCertificate(certificate, throwError);
+}
+
+export const castCertificatesMap = {
+  [SupportedSchemas.EN10168]: asEN10168Certificate,
+  [SupportedSchemas.ECOC]: asECoCCertificate,
+  [SupportedSchemas.COA]: asCoACertificate,
+  [SupportedSchemas.CDN]: asCDNCertificate,
+};
+
+export function castCertificate(certificate: Record<string, unknown>): {
+  certificate: Schemas;
+  type: SupportedSchemas;
+} {
+  let validCertificate: Schemas;
+  const supportedSchemas = Object.values(SupportedSchemas);
+  for (const supportedSchema of supportedSchemas) {
+    validCertificate = castCertificatesMap[supportedSchema](certificate);
+    if (validCertificate) {
+      return { certificate: validCertificate, type: supportedSchema };
+    }
   }
   throw new Error('Could not cast the certificate to the right type');
 }
