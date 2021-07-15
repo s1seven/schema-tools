@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { loadExternalFile } = require('@s1seven/schema-tools-utils');
 const PdfPrinter = require('pdfmake');
 const fs = require('fs');
