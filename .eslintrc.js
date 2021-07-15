@@ -23,7 +23,7 @@ module.exports = {
   ],
   plugins: ['@typescript-eslint/eslint-plugin'],
   rules: {
-    quotes: ['warn', 'single'],
+    quotes: ['warn', 'single', { avoidEscape: true }],
     'member-access': 'off',
     'sort-imports': ['warn', { ignoreCase: true, memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'] }],
     'interface-name': 'off',
