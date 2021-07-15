@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { generate } = require('@s1seven/schema-tools-generate-interfaces');
 const path = require('path');
 
