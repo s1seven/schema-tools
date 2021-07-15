@@ -45,56 +45,56 @@ describe('ValidateSchema', function () {
         ],
       }),
     },
-    {
-      type: SupportedSchemas.ECOC,
-      fixturesPath: '../../../fixtures/E-CoC',
-      version: 'v0.0.2-2',
-      validCertificate: require('../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json'),
-      invalidCertificate: require('../../../fixtures/E-CoC/v0.0.2-2/invalid_cert.json'),
-      validationErrors: (basePath: string, certVersion: string) => ({
-        [certVersion]: [
-          {
-            expected: 'must be equal to one of the allowed values',
-            keyword: 'enum',
-            path: `${basePath}/EcocData/DataLevel`,
-            root: certVersion,
-            schemaPath: '#/properties/DataLevel/enum',
-          },
-        ],
-      }),
-    },
-    {
-      type: SupportedSchemas.COA,
-      fixturesPath: '../../../fixtures/CoA',
-      version: 'v0.0.2-1',
-      validCertificate: require('../../../fixtures/CoA/v0.0.2-1/valid_cert.json'),
-      invalidCertificate: require('../../../fixtures/CoA/v0.0.2-1/invalid_cert.json'),
-      validationErrors: (basePath: string, certVersion: string) => ({
-        [certVersion]: [
-          {
-            root: certVersion,
-            path: `${basePath}/Certificate`,
-            keyword: 'required',
-            schemaPath: '#/properties/Certificate/required',
-            expected: `must have required property 'CertificateLanguages'`, // eslint-disable-line
-          },
-          {
-            root: certVersion,
-            path: `${basePath}/Certificate/Date`,
-            keyword: 'format',
-            schemaPath: '#/properties/Certificate/properties/Date/format',
-            expected: 'must match format "date"',
-          },
-          {
-            root: certVersion,
-            path: `${basePath}/Certificate/BusinessReferences/Order/Number`,
-            keyword: 'type',
-            schemaPath: '#/definitions/BusinessReferences/properties/Order/properties/Number/type',
-            expected: 'must be string',
-          },
-        ],
-      }),
-    },
+    // {
+    //   type: SupportedSchemas.ECOC,
+    //   fixturesPath: '../../../fixtures/E-CoC',
+    //   version: 'v0.0.2-2',
+    //   validCertificate: require('../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json'),
+    //   invalidCertificate: require('../../../fixtures/E-CoC/v0.0.2-2/invalid_cert.json'),
+    //   validationErrors: (basePath: string, certVersion: string) => ({
+    //     [certVersion]: [
+    //       {
+    //         expected: 'must be equal to one of the allowed values',
+    //         keyword: 'enum',
+    //         path: `${basePath}/EcocData/DataLevel`,
+    //         root: certVersion,
+    //         schemaPath: '#/properties/DataLevel/enum',
+    //       },
+    //     ],
+    //   }),
+    // },
+    // {
+    //   type: SupportedSchemas.COA,
+    //   fixturesPath: '../../../fixtures/CoA',
+    //   version: 'v0.0.2-1',
+    //   validCertificate: require('../../../fixtures/CoA/v0.0.2-1/valid_cert.json'),
+    //   invalidCertificate: require('../../../fixtures/CoA/v0.0.2-1/invalid_cert.json'),
+    //   validationErrors: (basePath: string, certVersion: string) => ({
+    //     [certVersion]: [
+    //       {
+    //         root: certVersion,
+    //         path: `${basePath}/Certificate`,
+    //         keyword: 'required',
+    //         schemaPath: '#/properties/Certificate/required',
+    //         expected: `must have required property 'CertificateLanguages'`, // eslint-disable-line
+    //       },
+    //       {
+    //         root: certVersion,
+    //         path: `${basePath}/Certificate/Date`,
+    //         keyword: 'format',
+    //         schemaPath: '#/properties/Certificate/properties/Date/format',
+    //         expected: 'must match format "date"',
+    //       },
+    //       {
+    //         root: certVersion,
+    //         path: `${basePath}/Certificate/BusinessReferences/Order/Number`,
+    //         keyword: 'type',
+    //         schemaPath: '#/definitions/BusinessReferences/properties/Order/properties/Number/type',
+    //         expected: 'must be string',
+    //       },
+    //     ],
+    //   }),
+    // },
   ];
 
   testsMap.forEach((testSuite) => {
