@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.1.0...@s1seven/schema-tools-types@0.1.1) (2021-07-15)
+
+
+### Bug Fixes
+
+* update CoA base model ([003c16c](http://github.com/s1seven/schema-tools/commit/003c16c1109a41e009022ea70cd19aed9a2a9e74))
+
+
+
+
+
 # [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.0.13...@s1seven/schema-tools-types@0.1.0) (2021-07-01)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.1.0...@s1seven/schema-tools-extract-emails@0.1.1) (2021-07-15)
+
+
+### Bug Fixes
+
+* increase object traversal safety ([dc91907](http://github.com/s1seven/schema-tools/commit/dc9190768bd2fdc26aecb86c5400b4566af4ee16))
+
+
+
+
+
 # [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.0.17...@s1seven/schema-tools-extract-emails@0.1.0) (2021-07-01)
 
 

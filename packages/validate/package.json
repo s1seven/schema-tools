@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-validate",
   "description": "Tool to validate certificates",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/validate#readme",
@@ -45,8 +45,8 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@s1seven/schema-tools-types": "^0.1.0",
-    "@s1seven/schema-tools-utils": "^0.0.17",
+    "@s1seven/schema-tools-types": "^0.1.1",
+    "@s1seven/schema-tools-utils": "^0.0.18",
     "@types/lodash.flatten": "^4.4.6",
     "@types/lodash.groupby": "^4.6.6",
     "@types/node": "^14.17.4",

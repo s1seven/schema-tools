@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.1.0...@s1seven/schema-tools-certificate-model@0.2.0) (2021-07-15)
+
+
+### Features
+
+* increase AJV strictness ([1fecc05](http://github.com/s1seven/schema-tools/commit/1fecc052bbc657d4b58f682688413da5f7b84517))
+
+
+
+
+
 # [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.0.12...@s1seven/schema-tools-certificate-model@0.1.0) (2021-07-01)
 
 

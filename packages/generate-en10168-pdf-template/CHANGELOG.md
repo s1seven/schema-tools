@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.1.0...@s1seven/schema-tools-generate-en10168-pdf-template@0.1.1) (2021-07-15)
+
+
+### Bug Fixes
+
+* cheating github folder renaming issue - II ([77997ed](http://github.com/s1seven/schema-tools/commit/77997ed0d09bbfee49c3c367f4b460645b6ff00f))
+* example lint ([c258cd5](http://github.com/s1seven/schema-tools/commit/c258cd595062481e030570926e1071c9969952a7))
+* example lint ([69ad3c8](http://github.com/s1seven/schema-tools/commit/69ad3c82365e01cc79579518b63e076b8fda7aac))
+
+
+
+
+
 # [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.0.11...@s1seven/schema-tools-generate-en10168-pdf-template@0.1.0) (2021-07-01)
 
 

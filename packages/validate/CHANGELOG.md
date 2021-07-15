@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-validate@0.1.0...@s1seven/schema-tools-validate@0.2.0) (2021-07-15)
+
+
+### Bug Fixes
+
+* example lint ([46a536c](http://github.com/s1seven/schema-tools/commit/46a536cf89c03428c80789a71ce887cb6a7a88b3))
+
+
+### Features
+
+* increase AJV strictness ([ebcffe6](http://github.com/s1seven/schema-tools/commit/ebcffe61fc3d7ecd6c6144d0bdfef4debc3a8a06))
+
+
+
+
+
 # [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-validate@0.0.16...@s1seven/schema-tools-validate@0.1.0) (2021-07-01)
 
 
