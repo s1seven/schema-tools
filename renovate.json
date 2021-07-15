@@ -7,5 +7,33 @@
     ":prConcurrentLimit10",
     ":maintainLockFilesWeekly"
   ],
-  "schedule": ["after 10pm and before 5am every weekday", "every weekend"]
+  "schedule": ["after 10pm and before 5am every weekday", "every weekend"],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["ts", "typescript"],
+      "groupName": "typescript",
+      "schedule": ["before 2am on monday"]
+    },
+    {
+      "matchPackagePatterns": ["eslint"],
+      "groupName": "eslint",
+      "schedule": ["before 2am on monday"]
+    },
+    {
+      "matchPackagePatterns": ["karma"],
+      "groupName": "karma",
+      "schedule": ["before 2am on monday"]
+    },
+    {
+      "matchPackagePatterns": ["jest"],
+      "groupName": "jest",
+      "schedule": ["before 2am on monday"]
+    },
+    {
+      "matchPackagePatterns": ["lerna"],
+      "groupName": "lerna",
+      "schedule": ["before 2am on monday"]
+    }
+  ],
+  "commitBody": "[skip ci]"
 }
