@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
