@@ -112,7 +112,15 @@ function set<T extends Schemas>(scope: CertificateModel<T>, data: Record<string,
 function getProperties(schema: JSONSchema7, validator?: Ajv) {
   const root = !validator;
   if (root || !validator) {
-    const ajv = new Ajv({ strict: false, allErrors: true });
+    const ajv = new Ajv({
+      discriminator: true,
+      strictSchema: true,
+      strictNumbers: true,
+      strictRequired: true,
+      // TODO: strictTypes: true,
+      strictTypes: false,
+      allErrors: true,
+    });
     addFormats(ajv);
     validator = ajv.addSchema(schema, '');
   }
