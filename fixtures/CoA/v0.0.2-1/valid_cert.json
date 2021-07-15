@@ -1,8 +1,8 @@
 {
-  "RefSchemaUrl": "https://schemas.en10204.io/plastic-schemas/v0.0.2-1/schema.json",
+  "RefSchemaUrl": "https://schemas.en10204.io/plastic-schemas/v0.0.2-3/schema.json",
   "Certificate": {
     "CertificateLanguages": ["DE"],
-    "Number": "11000000",
+    "Id": "11000000",
     "Date": "2021-12-01",
     "Parties": {
       "Manufacturer": {
