@@ -20,10 +20,7 @@ async function main(argv) {
     if (process.env.CI) {
       // fix invalid file path in Github actions
       coverage = Object.keys(coverage).reduce((acc, key) => {
-        const filePath = key.replace(
-          '/home/runner/work/microservices-common/microservices-common',
-          '/github/workspace',
-        );
+        const filePath = key.replace('/home/runner/work/schema-tools/schema-tools', '/github/workspace');
         const newKey = filePath;
         coverage[key].path = filePath;
         return { ...acc, [newKey]: coverage[key] };
