@@ -122,7 +122,7 @@ export class CoASchemaCertificate {
   CertificateLanguages: CertificateLanguages[];
 
   @IsString()
-  Number: string;
+  Id: string;
 
   @IsDateString()
   Date: string;

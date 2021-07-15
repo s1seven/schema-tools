@@ -1,11 +1,10 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { createWriteStream } = require('fs');
 const { generatePdf } = require('./dist/index');
 const en10168Certificate = require('../../fixtures/EN10168/v0.0.2/valid_cert.json');
 
-(async function (argv) {
+(async function () {
   try {
-    const schemaType = argv[2] || 'en10168-schemas';
-
     const fonts = {
       Lato: {
         normal: `${__dirname}/node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
@@ -28,11 +27,11 @@ const en10168Certificate = require('../../fixtures/EN10168/v0.0.2/valid_cert.jso
       },
     };
 
-    const pdfDoc = (await generatePdf(en10168Certificate, {
+    const pdfDoc = await generatePdf(en10168Certificate, {
       docDefinition,
       outputType: 'stream',
       fonts,
-    }));
+    });
 
     const outputFilePath = './test.pdf';
     const writeStream = createWriteStream(outputFilePath);
@@ -48,8 +47,7 @@ const en10168Certificate = require('../../fixtures/EN10168/v0.0.2/valid_cert.jso
           reject(err);
         });
     });
-
   } catch (error) {
     console.error(error.message);
   }
-})(process.argv);
+})();

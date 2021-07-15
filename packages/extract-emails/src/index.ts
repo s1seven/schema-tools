@@ -28,29 +28,29 @@ export enum ReceiverRoles {
 export const SENDER_ROLES = Object.values(SenderRoles);
 export const RECEIVER_ROLES = Object.values(ReceiverRoles);
 
-export function getSender(parties: PartyEmail[], role?: SenderRoles): PartyEmail | null {
+export function getSender(parties: PartyEmail[] = [], role?: SenderRoles): PartyEmail | null {
   return (
     parties.find((party) =>
-      role ? role.toLowerCase() === party.role.toLowerCase() : SENDER_ROLES.includes(party.role as SenderRoles),
+      role ? role.toLowerCase() === party?.role?.toLowerCase() : SENDER_ROLES.includes(party?.role as SenderRoles),
     ) || null
   );
 }
 
-export function getSenders(parties: PartyEmail[]): PartyEmail[] | null {
-  const senders = parties.filter((party) => SENDER_ROLES.includes(party.role as SenderRoles));
+export function getSenders(parties: PartyEmail[] = []): PartyEmail[] | null {
+  const senders = parties.filter((party) => SENDER_ROLES.includes(party?.role as SenderRoles));
   return senders.length ? senders : null;
 }
 
-export function getReceiver(parties: PartyEmail[], role?: ReceiverRoles): PartyEmail | null {
+export function getReceiver(parties: PartyEmail[] = [], role?: ReceiverRoles): PartyEmail | null {
   return (
     parties.find((party) =>
-      role ? role.toLowerCase() === party.role.toLowerCase() : RECEIVER_ROLES.includes(party.role as ReceiverRoles),
+      role ? role.toLowerCase() === party?.role?.toLowerCase() : RECEIVER_ROLES.includes(party?.role as ReceiverRoles),
     ) || null
   );
 }
 
-export function getReceivers(parties: PartyEmail[]): PartyEmail[] | null {
-  const receivers = parties.filter((party) => RECEIVER_ROLES.includes(party.role as ReceiverRoles));
+export function getReceivers(parties: PartyEmail[] = []): PartyEmail[] | null {
+  const receivers = parties.filter((party) => RECEIVER_ROLES.includes(party?.role as ReceiverRoles));
   return receivers.length ? receivers : null;
 }
 

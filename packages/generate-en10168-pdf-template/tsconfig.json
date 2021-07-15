@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./build/",
+    "outDir": "build",
     "module": "commonjs",
     "target": "es2018",
     "allowJs": true,

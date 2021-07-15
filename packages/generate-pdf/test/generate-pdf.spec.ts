@@ -31,13 +31,13 @@ describe('GeneratePDF', function () {
   };
 
   it('should build module using local PDF generator script', async () => {
-    const generatorPath = path.resolve(`${__dirname}/../../generate-EN10168-pdf-template/dist/generateContent.js`);
+    const generatorPath = path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
     const module = await buildModule(generatorPath);
     expect(module).toHaveProperty('generateContent');
   }, 3000);
 
   it('should execute in a sandbox the PDF generator script and return pdfmake content', async () => {
-    const generatorPath = path.resolve(`${__dirname}/../../generate-EN10168-pdf-template/dist/generateContent.js`);
+    const generatorPath = path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
     const content = await generateInSandbox(certificate as EN10168Schema, {}, generatorPath);
     expect(content.length).toBeGreaterThan(1);
     expect(content[0]).toHaveProperty('style');
@@ -74,7 +74,7 @@ describe('GeneratePDF', function () {
 
   it('should render PDF certificate using certificate object and local PDF generator script', async () => {
     certificate.RefSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.3-2/schema.json';
-    const generatorPath = path.resolve(`${__dirname}/../../generate-EN10168-pdf-template/dist/generateContent.js`);
+    const generatorPath = path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
 
     const docDefinition: Partial<TDocumentDefinitions> = {
       pageSize: 'A4',

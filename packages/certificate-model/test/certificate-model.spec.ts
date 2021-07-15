@@ -96,7 +96,7 @@ describe('CertificateModel', function () {
     }, 6000);
   });
 
-  describe('E-CoC', function () {
+  describe.skip('E-CoC', function () {
     const schemaType = 'e-coc-schemas' as SchemaTypes;
     const version = 'v0.0.2-2';
     const schemaConfig = { version, schemaType };
