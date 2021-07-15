@@ -19,7 +19,7 @@ const validateOptions: ValidateOptions = {
   ignoredExts: ['ts', 'js', 'md'],
 };
 
-async function getLocalSchemaPaths(localSchemasDir: string, options: ValidateOptions): Promise<string[]> {
+async function getLocalCertificatePaths(localSchemasDir: string, options: ValidateOptions): Promise<string[]> {
   const { ignoredPaths = [], ignoredExts = [] } = options;
   const dirsAndFiles = (await readDir(localSchemasDir))
     .filter((name: string) => !ignoredPaths.includes(name) && ignoredExts.every((ext) => !name.endsWith(ext)))
@@ -43,7 +43,9 @@ async function getLocalSchemaPaths(localSchemasDir: string, options: ValidateOpt
     .sort();
 }
 
-async function* loadLocalSchemas(paths: string[]): AsyncIterable<{ data: BaseCertificateSchema; filePath: string }> {
+async function* loadLocalCertificates(
+  paths: string[],
+): AsyncIterable<{ data: BaseCertificateSchema; filePath: string }> {
   let index = 0;
   while (index < paths.length) {
     const filePath = paths[index];
@@ -51,7 +53,7 @@ async function* loadLocalSchemas(paths: string[]): AsyncIterable<{ data: BaseCer
     try {
       data = JSON.parse(await fs.readFile(filePath, 'utf8'));
     } catch (error) {
-      console.error(`loadLocalSchemas error for : ${filePath} `, error.message);
+      console.warn(`loadLocalCertificates error for : ${filePath} `, error.message);
     }
     yield { data, filePath };
     index += 1;
@@ -62,9 +64,15 @@ export async function setValidator(refSchemaUrl: string): Promise<ValidateFuncti
   const schema = await loadExternalFile(refSchemaUrl, 'json');
   const ajv = new Ajv({
     loadSchema: (uri) => loadExternalFile(uri, 'json'),
-    strict: false,
+    discriminator: true,
+    strictSchema: true,
+    strictNumbers: true,
+    strictRequired: true,
+    // TODO: strictTypes: true,
+    strictTypes: false,
     allErrors: true,
   });
+  ajv.addKeyword('meta:license');
   addFormats(ajv);
   const validator = await ajv.compileAsync(schema);
   const cacheKey = `validator-${refSchemaUrl}`;
@@ -109,8 +117,8 @@ async function validateCertificateString(
   const tmpErrors: ValidationError[][] = [];
   const schemaPaths = certificates.endsWith('.json')
     ? [certificates]
-    : await getLocalSchemaPaths(certificates, options);
-  for await (const { data, filePath } of loadLocalSchemas(schemaPaths)) {
+    : await getLocalCertificatePaths(certificates, options);
+  for await (const { data, filePath } of loadLocalCertificates(schemaPaths)) {
     const error = await validateCertificate(data, filePath);
     if (error.length) {
       tmpErrors.push(error);
