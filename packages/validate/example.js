@@ -1,20 +1,11 @@
-
 /* eslint-disable @typescript-eslint/no-var-requires */
-
 const { validate } = require('./dist/index');
 
 (async function (argv) {
-  const localSchemasDir = argv[2] || `../../fixtures/`;
+  const localSchemasDir = argv[2] || '../../fixtures/';
   try {
     const errors = await validate(localSchemasDir, {
-      ignoredPaths: [
-        '.DS_Store',
-        '.git',
-        '.gitignore',
-        'node_modules',
-        'package.json',
-        'package-lock.json',
-      ],
+      ignoredPaths: ['.DS_Store', '.git', '.gitignore', 'node_modules', 'package.json', 'package-lock.json'],
       ignoredExts: ['ts', 'js', 'md'],
     });
     console.error(JSON.stringify(errors, null, 2));
