@@ -138,8 +138,13 @@ export class CoASchemaCertificate {
   @IsNotEmptyObject()
   Parties: Record<string, any>;
 
+  @ValidateIf((o) => typeof o.BusinessTransaction === 'undefined')
   @IsNotEmptyObject()
   BusinessReferences: Record<string, any>;
+
+  @ValidateIf((o) => typeof o.BusinessReferences === 'undefined')
+  @IsNotEmptyObject()
+  BusinessTransaction: Record<string, any>;
 
   @IsNotEmptyObject()
   Product: Record<string, any>;
@@ -178,8 +183,13 @@ export class CDNSchemaCertificate {
   @IsNotEmptyObject()
   Parties: Record<string, any>;
 
+  @ValidateIf((o) => typeof o.BusinessTransaction === 'undefined')
   @IsNotEmptyObject()
   BusinessReferences: Record<string, any>;
+
+  @ValidateIf((o) => typeof o.BusinessReferences === 'undefined')
+  @IsNotEmptyObject()
+  BusinessTransaction: Record<string, any>;
 
   @IsNotEmptyObject()
   Product: Record<string, any>;
