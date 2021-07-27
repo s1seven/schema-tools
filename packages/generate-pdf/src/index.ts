@@ -158,6 +158,7 @@ export async function generatePdf(
     generatorPath?: string;
     docDefinition?: Partial<TDocumentDefinitions>;
     fonts?: TFontDictionary;
+    translations?: Translations;
   },
 ): Promise<Buffer>;
 
@@ -169,6 +170,7 @@ export async function generatePdf(
     generatorPath?: string;
     docDefinition?: Partial<TDocumentDefinitions>;
     fonts?: TFontDictionary;
+    translations?: Translations;
   },
 ): Promise<PDFKit.PDFDocument>;
 
