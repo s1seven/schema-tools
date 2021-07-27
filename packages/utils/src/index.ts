@@ -114,7 +114,6 @@ export function getCertificateLanguages(certificate: Schemas): CertificateLangua
   return certificate?.Certificate?.CertificateLanguages || null;
 }
 
-// TODO: allow to load translations from local file, options: {schemaConfig: SchemaConfig} | {translationsPath: string} = {}
 export async function getTranslations(
   certificateLanguages: string[],
   schemaConfig: SchemaConfig,
