@@ -40,7 +40,8 @@
     "prepublishOnly": "npm run build",
     "test": "jest",
     "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
-    "test:staged": "jest --runInBand --onlyChanged"
+    "test:staged": "jest --runInBand --onlyChanged",
+    "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
   "dependencies": {
     "@s1seven/schema-tools-extract-emails": "^0.1.1",

@@ -42,6 +42,7 @@
     "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
     "test:staged": "jest --runInBand --onlyChanged",
     "test:browser": "rimraf -rf ./build && karma start ../../karma.conf.js --browsers ChromeHeadlessCI --single-run",
+    "scan:deps": "audit-ci --config ../../audit-ci.json",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {

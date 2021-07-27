@@ -33,11 +33,12 @@
     "clean": "rimraf -rf ./dist",
     "cleanup": "rimraf -rf dist coverage",
     "compile": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build",
     "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
     "test:staged": "jest --runInBand --onlyChanged",
-    "prepublishOnly": "npm run build"
+    "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
   "devDependencies": {
     "rimraf": "~3.0.2",

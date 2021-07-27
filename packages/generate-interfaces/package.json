@@ -37,7 +37,8 @@
     "prepublishOnly": "npm run build",
     "test": "jest",
     "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
-    "test:staged": "jest --runInBand --onlyChanged"
+    "test:staged": "jest --runInBand --onlyChanged",
+    "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
   "devDependencies": {
     "axios": "^0.21.1",
