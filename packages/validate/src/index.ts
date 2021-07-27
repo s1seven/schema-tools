@@ -19,7 +19,8 @@ const validateOptions: ValidateOptions = {
   ignoredExts: ['ts', 'js', 'md'],
 };
 
-async function getLocalCertificatePaths(localSchemasDir: string, options: ValidateOptions): Promise<string[]> {
+// traverse directory up to 2 levels
+async function getLocalCertificatePaths(localSchemasDir: string, options: ValidateOptions): Promise<any[]> {
   const { ignoredPaths = [], ignoredExts = [] } = options;
   const dirsAndFiles = (await fs.readdir(localSchemasDir).catch(() => []))
     .filter((name: string) => !ignoredPaths.includes(name) && ignoredExts.every((ext) => !name.endsWith(ext)))
@@ -34,7 +35,7 @@ async function getLocalCertificatePaths(localSchemasDir: string, options: Valida
       if (stats.isFile()) {
         return dirOrFile;
       } else if (stats.isSymbolicLink()) {
-        return null;
+        return undefined;
       }
 
       return (await fs.readdir(dirOrFile))
