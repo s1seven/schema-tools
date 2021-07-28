@@ -212,11 +212,11 @@ export interface ProductDescription {
   /**
    * Product type and its describing dimensional parameters
    */
-  B09?: ProductShape;
+  B09: ProductShape;
   /**
    * Product dimensions - length of the product
    */
-  B10?: Measurement;
+  B10: Measurement;
   /**
    * Product dimensions
    */
@@ -228,11 +228,11 @@ export interface ProductDescription {
   /**
    * Actual mass
    */
-  B13?: Measurement;
+  B13: Measurement;
   SupplementaryInformation?: ProductDescriptionSupplementaryInformation;
 }
 export interface Tube {
-  Form: string;
+  Form: 'Tube';
   OuterDiameter: number;
   WallThickness: number;
   /**
@@ -241,7 +241,7 @@ export interface Tube {
   Unit?: string;
 }
 export interface RectangularTube {
-  Form: string;
+  Form: 'RectangularTube';
   Width: number;
   Height: number;
   WallThickness: number;
@@ -251,7 +251,7 @@ export interface RectangularTube {
   Unit?: string;
 }
 export interface QuadraticTube {
-  Form: string;
+  Form: 'QuadraticTube';
   SideLength: number;
   WallThickness: number;
   /**
@@ -260,7 +260,7 @@ export interface QuadraticTube {
   Unit?: string;
 }
 export interface Pipe {
-  Form: string;
+  Form: 'Pipe';
   SideLength: number;
   WallThickness: number;
   /**
@@ -269,7 +269,7 @@ export interface Pipe {
   Unit?: string;
 }
 export interface RectangularPipe {
-  Form: string;
+  Form: 'RectangularPipe';
   Width: number;
   Height: number;
   WallThickness: number;
@@ -280,7 +280,7 @@ export interface RectangularPipe {
   [k: string]: any;
 }
 export interface Coil {
-  Form: string;
+  Form: 'Coil';
   Width: number;
   WallThickness: number;
   /**
@@ -290,7 +290,7 @@ export interface Coil {
   [k: string]: any;
 }
 export interface RoundBar {
-  Form: string;
+  Form: 'RoundBar';
   Diameter: number;
   /**
    * The Unit of Value.
@@ -298,7 +298,7 @@ export interface RoundBar {
   Unit?: string;
 }
 export interface HexagonalBar {
-  Form: string;
+  Form: 'HexagonalBar';
   Diameter: number;
   /**
    * The Unit of Value.
@@ -306,7 +306,7 @@ export interface HexagonalBar {
   Unit?: string;
 }
 export interface FlatBar {
-  Form: string;
+  Form: 'FlatBar';
   Width: number;
   Thickness: number;
   /**
@@ -315,7 +315,7 @@ export interface FlatBar {
   Unit?: string;
 }
 export interface Other {
-  Form: string;
+  Form: 'Other';
   Description: string;
   /**
    * The Unit of Value.
