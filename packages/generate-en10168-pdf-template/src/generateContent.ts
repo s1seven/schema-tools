@@ -1,4 +1,4 @@
-import { Certificate } from './types';
+import { Certificate, Translations } from './types';
 import { Content } from 'pdfmake/interfaces';
 import { createCommercialTransaction } from './lib/commercialTransaction';
 import { createFooter } from './lib/createFooter';
@@ -9,11 +9,8 @@ import { createTransactionParties } from './lib/createTransactionParties';
 import { createValidation } from './lib/createValidation';
 import { Translate } from './lib/translate';
 
-export async function generateContent(
-  certificate: Certificate,
-  translations: Record<string, unknown>,
-): Promise<Content> {
-  const i18n = new Translate(translations);
+export function generateContent(certificate: Certificate, translations: Translations): Content {
+  const i18n = new Translate(translations, certificate.Certificate.CertificateLanguages);
   const commercialParties = createTransactionParties(certificate.Certificate.CommercialTransaction, i18n);
   const commercialTransaction = createCommercialTransaction(certificate.Certificate.CommercialTransaction, i18n);
   const productDescription = createProductDescription(certificate.Certificate.ProductDescription, i18n);

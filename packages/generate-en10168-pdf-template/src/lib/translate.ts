@@ -1,16 +1,24 @@
-export class Translate {
-  languages: string[] = ['EN'];
-  translations: Record<string, unknown>;
+import { TranslationGroups, Translations } from '../types';
 
-  constructor(_translations: Record<string, unknown>) {
-    this.languages = Object.keys(_translations);
-    this.translations = _translations;
+export class Translate {
+  constructor(readonly translations: Translations, readonly languages: string[] = ['EN']) {}
+
+  getField(language: string, group: TranslationGroups, phrase: string) {
+    const translations = this.translations;
+    if (language in translations && group in translations[language] && phrase in translations[language][group]) {
+      return this.translations[language][group][phrase];
+    }
+    return '';
   }
 
-  translate(phrase: string, group: 'certificateFields' | 'certificateGroups' | 'otherFields') {
+  getTranslation(group: TranslationGroups, phrase: string) {
+    return this.languages.map((language) => this.getField(language, group, phrase)).join(' / ');
+  }
+
+  translate(phrase: string, group: TranslationGroups) {
     if (group === 'certificateFields') {
-      return `${phrase} ${this.languages.map((language) => this.translations[language][group][phrase]).join(' / ')}`;
+      return `${phrase} ${this.getTranslation(group, phrase)}`;
     }
-    return this.languages.map((language) => this.translations[language][group][phrase]).join(' / ');
+    return this.getTranslation(group, phrase);
   }
 }
