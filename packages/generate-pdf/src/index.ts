@@ -22,6 +22,7 @@ export type GeneratePdfOptions = {
   generatorPath?: string;
   docDefinition?: Partial<TDocumentDefinitions>;
   fonts?: TFontDictionary;
+  translations?: Translations;
 };
 
 const fonts = {
@@ -104,13 +105,15 @@ function getPdfMakeContentFromHTML(certificate: string): TDocumentDefinitions['c
 
 async function getPdfMakeContentFromObject(
   certificate: Schemas,
-  generatorPath?: string,
+  generatorPath: string = null,
+  translations: Translations = null,
 ): Promise<TDocumentDefinitions['content']> {
   const refSchemaUrl = new URL(certificate.RefSchemaUrl);
   const schemaConfig = getSchemaConfig(refSchemaUrl);
   const certificateLanguages = getCertificateLanguages(certificate);
-  // TODO: allow to override translations
-  const translations = certificateLanguages ? await getTranslations(certificateLanguages, schemaConfig) : {};
+  if (!translations) {
+    translations = certificateLanguages?.length ? await getTranslations(certificateLanguages, schemaConfig) : {};
+  }
   return generateInSandbox(certificate, translations, generatorPath);
 }
 
@@ -137,8 +140,8 @@ async function buildPdfContent(
     } else {
       throw new Error(`Invalid certificate type : ${typeof certificateInput}`);
     }
-    pdfMakeContent = await getPdfMakeContentFromObject(rawCert, options.generatorPath);
-    if (!options.docDefinition.styles) {
+    pdfMakeContent = await getPdfMakeContentFromObject(rawCert, options.generatorPath, options.translations);
+    if (options.docDefinition && !options.docDefinition.styles) {
       options.docDefinition.styles = await getPdfMakeStyles(rawCert);
     }
   } else {
@@ -155,6 +158,7 @@ export async function generatePdf(
     generatorPath?: string;
     docDefinition?: Partial<TDocumentDefinitions>;
     fonts?: TFontDictionary;
+    translations?: Translations;
   },
 ): Promise<Buffer>;
 
@@ -166,6 +170,7 @@ export async function generatePdf(
     generatorPath?: string;
     docDefinition?: Partial<TDocumentDefinitions>;
     fonts?: TFontDictionary;
+    translations?: Translations;
   },
 ): Promise<PDFKit.PDFDocument>;
 

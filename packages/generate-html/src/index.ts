@@ -184,7 +184,7 @@ export async function generateHtml(
   certificateInput: string | Record<string, unknown>,
   options: GenerateHtmlOptions = {},
 ): Promise<string> {
-  let rawCert: Record<string, any>;
+  let rawCert: Record<string, unknown>;
   if (typeof certificateInput === 'string') {
     rawCert = await loadExternalFile(certificateInput, 'json');
   } else if (typeof certificateInput === 'object') {
@@ -201,7 +201,9 @@ export async function generateHtml(
     options.schemaConfig = getSchemaConfig(refSchemaUrl);
   }
 
-  const translations = options.translations || (await getTranslations(certificateLanguages, options.schemaConfig));
+  const translations = certificateLanguages?.length
+    ? options.translations || (await getTranslations(certificateLanguages, options.schemaConfig))
+    : {};
   options.handlebars = merge(options.handlebars || {}, handlebarsBaseOptions({ translations }));
 
   return options.templateType === 'mjml'

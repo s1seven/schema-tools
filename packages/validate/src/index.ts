@@ -1,6 +1,6 @@
 import Ajv, { ValidateFunction } from 'ajv';
 import { BaseCertificateSchema, ValidationError } from '@s1seven/schema-tools-types';
-import { cache, formatValidationErrors, getErrorPaths, loadExternalFile, readDir } from '@s1seven/schema-tools-utils';
+import { cache, formatValidationErrors, getErrorPaths, loadExternalFile } from '@s1seven/schema-tools-utils';
 import addFormats from 'ajv-formats';
 import flatten from 'lodash.flatten';
 import { promises as fs } from 'fs';
@@ -19,20 +19,26 @@ const validateOptions: ValidateOptions = {
   ignoredExts: ['ts', 'js', 'md'],
 };
 
-async function getLocalCertificatePaths(localSchemasDir: string, options: ValidateOptions): Promise<string[]> {
+// traverse directory up to 2 levels
+async function getLocalCertificatePaths(localSchemasDir: string, options: ValidateOptions): Promise<any[]> {
   const { ignoredPaths = [], ignoredExts = [] } = options;
-  const dirsAndFiles = (await readDir(localSchemasDir))
+  const dirsAndFiles = (await fs.readdir(localSchemasDir).catch(() => []))
     .filter((name: string) => !ignoredPaths.includes(name) && ignoredExts.every((ext) => !name.endsWith(ext)))
     .map((dir: string) => path.resolve(localSchemasDir, dir));
 
+  if (!dirsAndFiles.length) {
+    return [];
+  }
   const subDirectories = await Promise.all(
     dirsAndFiles.map(async (dirOrFile) => {
       const stats = await fs.lstat(dirOrFile);
       if (stats.isFile()) {
         return dirOrFile;
+      } else if (stats.isSymbolicLink()) {
+        return undefined;
       }
 
-      return (await readDir(dirOrFile))
+      return (await fs.readdir(dirOrFile))
         .filter((name: string) => !ignoredPaths.includes(name) && name.endsWith('json'))
         .map((name: string) => path.resolve(localSchemasDir, dirOrFile, name));
     }),

@@ -142,6 +142,7 @@ describe('ValidateSchema', function () {
           //
           const errors = await validate(`${__dirname}/${folderPath}`, {
             ignoredExts: ['html', 'ts', 'js', 'md'],
+            ignoredPaths: ['translations.json'],
           });
           expect(errors).toEqual(expectedErrors);
         });

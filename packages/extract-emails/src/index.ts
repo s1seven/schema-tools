@@ -127,7 +127,7 @@ function extractEmailsFromCoA(certificate: CoASchema): PartyEmail[] {
     return [];
   }
 
-  const Order = certificate.Certificate.BusinessReferences?.Order;
+  const Order = certificate.Certificate.BusinessTransaction?.Order || certificate.Certificate.BusinessReferences?.Order;
   const Parties = certificate.Certificate.Parties;
   const purchaseOrderNumber = Order?.Number;
   const purchaseOrderPosition = Order?.Position;
@@ -155,7 +155,7 @@ function extractEmailsFromCoA(certificate: CoASchema): PartyEmail[] {
 }
 
 export async function extractEmails(certificateInput: string | Record<string, unknown>): Promise<PartyEmail[] | null> {
-  let rawCert: any;
+  let rawCert: Record<string, unknown>;
   if (typeof certificateInput === 'string') {
     rawCert = await loadExternalFile(certificateInput, 'json');
   } else if (typeof certificateInput === 'object') {
