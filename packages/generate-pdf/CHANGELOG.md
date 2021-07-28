@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.13](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.0.12...@s1seven/schema-tools-generate-pdf@0.0.13) (2021-07-28)
+
+
+### Bug Fixes
+
+* allow to override pdf translations ([911f19b](http://github.com/s1seven/schema-tools/commit/911f19b8e0e5baaa5b553c3dcb5fc5ed71c7738f))
+
+
+
+
+
 ## [0.0.12](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.0.11...@s1seven/schema-tools-generate-pdf@0.0.12) (2021-07-15)
 
 

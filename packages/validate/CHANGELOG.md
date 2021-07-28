@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-validate@0.2.0...@s1seven/schema-tools-validate@0.2.1) (2021-07-28)
+
+
+### Bug Fixes
+
+* ignore symlinks and update coverage tresholds ([4829785](http://github.com/s1seven/schema-tools/commit/4829785559a099470e24aa3dcee9b2593b1982c8))
+* solve type issue ([9fcae19](http://github.com/s1seven/schema-tools/commit/9fcae193a7d9a21c1f02c3fdee1537bc5722bae7))
+
+
+
+
+
 # [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-validate@0.1.0...@s1seven/schema-tools-validate@0.2.0) (2021-07-15)
 
 

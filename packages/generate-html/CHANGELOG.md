@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.22](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.21...@s1seven/schema-tools-generate-html@0.0.22) (2021-07-28)
+
+
+### Bug Fixes
+
+* add extra check before loading translations ([077201e](http://github.com/s1seven/schema-tools/commit/077201e1e999d99b8369b5e1fff15fb7b6c11390))
+
+
+
+
+
 ## [0.0.21](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.20...@s1seven/schema-tools-generate-html@0.0.21) (2021-07-15)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-html

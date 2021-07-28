@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.1.1...@s1seven/schema-tools-extract-emails@0.1.2) (2021-07-28)
+
+
+### Bug Fixes
+
+* consider new BusinessTransaction property ([62241e8](http://github.com/s1seven/schema-tools/commit/62241e895c132b86b677aa1af3b6cf40568085ba))
+
+
+
+
+
 ## [0.1.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.1.0...@s1seven/schema-tools-extract-emails@0.1.1) (2021-07-15)
 
 
