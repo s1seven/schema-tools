@@ -12,9 +12,9 @@ This repository contains a suite of components and modules to handle certificate
 
 | Name                                                  | Version range |
 | ----------------------------------------------------- | :-----------: |
-| [EN10168](https://github.com/s1seven/EN10168-schemas) | 0.2.x - 0.3.x |
-| [E-CoC](https://github.com/s1seven/E-CoC-schemas)     |      xx       |
-| [CoA](https://github.com/s1seven/CoA-schemas)         |      xx       |
+| [EN10168](https://github.com/s1seven/EN10168-schemas) | 0.0.2 - 0.1.x |
+| [E-CoC](https://github.com/s1seven/E-CoC-schemas)     |     0.0.2     |
+| [CoA](https://github.com/s1seven/CoA-schemas)         |     0.0.2     |
 | [CDN](https://github.com/s1seven/CDN-schemas)         |      xx       |
 
 ## List of packages
