@@ -1,142 +1,154 @@
-import { ECoCSchema, EN10168Schema, JSONSchema7, Schemas, SchemaTypes } from '@s1seven/schema-tools-types';
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { formatValidationErrors, loadExternalFile } from '@s1seven/schema-tools-utils';
+import { JSONSchema7, Schemas, SchemaTypes, SupportedSchemas } from '@s1seven/schema-tools-types';
 import { CertificateModel } from '../src/index';
-import invalidECoCCertificate from '../../../fixtures/E-CoC/v0.0.2-2/invalid_cert.json';
-import invalidEN10168Certificate from '../../../fixtures/EN10168/v0.0.2/invalid_cert.json';
-import { loadExternalFile } from '@s1seven/schema-tools-utils';
-import validECoCCertificate from '../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json';
-import validEN10168Certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
-
-const mustBeObject = 'must be object';
 
 describe('CertificateModel', function () {
-  describe('EN10168', function () {
-    const schemaType = 'en10168-schemas' as SchemaTypes;
-    const version = 'v0.0.2';
-    const schemaConfig = { version, schemaType };
-    const validationErrors = [
-      {
-        root: '',
-        path: '/Certificate/ProductDescription/B02',
-        keyword: 'type',
-        schemaPath: '#/properties/B02/type',
-        expected: mustBeObject,
-      },
-      {
-        root: '',
-        path: '/Certificate/ProductDescription/B10',
-        keyword: 'type',
-        schemaPath: '#/definitions/Measurement/type',
-        expected: mustBeObject,
-      },
-      {
-        root: '',
-        path: '/Certificate/ProductDescription/B12',
-        keyword: 'type',
-        schemaPath: '#/definitions/Measurement/type',
-        expected: mustBeObject,
-      },
-    ];
+  const mustBeObject = 'must be object';
+  const testSuitesMap = [
+    {
+      version: 'v0.0.2',
+      type: SupportedSchemas.EN10168,
+      schemaType: 'en10168-schemas' as SchemaTypes,
+      schemaUrl: 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json',
+      certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.0.2/valid_cert.json`,
+      validCertificate: require('../../../fixtures/EN10168/v0.0.2/valid_cert.json') as Schemas,
+      invalidCertificate: require('../../../fixtures/EN10168/v0.0.2/invalid_cert.json') as Schemas,
+      expectedSchemaProperties: ['RefSchemaUrl', 'Certificate', 'DocumentMetadata'],
+      validationErrors: [
+        {
+          root: '',
+          path: '/Certificate/ProductDescription/B02',
+          keyword: 'type',
+          schemaPath: '#/properties/B02/type',
+          expected: mustBeObject,
+        },
+        {
+          root: '',
+          path: '/Certificate/ProductDescription/B10',
+          keyword: 'type',
+          schemaPath: '#/definitions/Measurement/type',
+          expected: mustBeObject,
+        },
+        {
+          root: '',
+          path: '/Certificate/ProductDescription/B12',
+          keyword: 'type',
+          schemaPath: '#/definitions/Measurement/type',
+          expected: mustBeObject,
+        },
+      ],
+    },
+    {
+      version: 'v0.0.2',
+      type: SupportedSchemas.ECOC,
+      schemaType: 'e-coc-schemas' as SchemaTypes,
+      schemaUrl: 'https://schemas.en10204.io/e-coc-schemas/v0.0.2/schema.json',
+      certificatePath: `${__dirname}/../../../fixtures/E-CoC/v0.0.2/valid_cert.json`,
+      validCertificate: require('../../../fixtures/E-CoC/v0.0.2/valid_cert.json') as Schemas,
+      invalidCertificate: require('../../../fixtures/E-CoC/v0.0.2/invalid_cert.json') as Schemas,
+      expectedSchemaProperties: ['RefSchemaUrl', 'EcocData', 'Declaration'],
+      validationErrors: [
+        {
+          root: '',
+          path: '/EcocData',
+          keyword: 'required',
+          schemaPath: '#/properties/EcocData/oneOf/2/required',
+          expected: "must have required property 'Results'",
+        },
+        {
+          root: '',
+          path: '/EcocData/Data/Parties/0/PartyAddress',
+          keyword: 'required',
+          schemaPath: '#/definitions/Address/required',
+          expected: "must have required property 'CountryCode'",
+        },
+        {
+          root: '',
+          path: '/EcocData/Data/Parties/1/PartyIdentifier/0/NameOfIdentifier',
+          keyword: 'enum',
+          schemaPath: '#/definitions/CompanyIdentifier/properties/NameOfIdentifier/enum',
+          expected: 'must be equal to one of the allowed values',
+        },
+        {
+          root: '',
+          path: '/EcocData/Data/Parties/1/PartyRole',
+          keyword: 'enum',
+          schemaPath: '#/definitions/PartyRole/enum',
+          expected: 'must be equal to one of the allowed values',
+        },
+      ],
+    },
+  ];
 
-    const testValidation = (cert: CertificateModel<Schemas>) => {
-      const validation = cert.validate();
-      const toJSON = cert.toJSON();
-      expect(validation.valid).toEqual(true);
-      expect(JSON.stringify(toJSON, null, 2)).toEqual(JSON.stringify(validEN10168Certificate, null, 2));
-    };
+  testSuitesMap.forEach((testSuite) => {
+    const {
+      expectedSchemaProperties,
+      invalidCertificate,
+      validCertificate,
+      validationErrors,
+      schemaType,
+      schemaUrl,
+      type,
+      version,
+    } = testSuite;
+    describe(`${type} - version ${version}`, function () {
+      const schemaConfig = { version, schemaType };
 
-    it('should build and validate instance using schemaConfig EN10168 v0.0.2  when using valid certificate', async () => {
-      const CertModel = await CertificateModel.build({ schemaConfig });
-      const cert = new CertModel<EN10168Schema>(validEN10168Certificate);
-      cert.once('ready', () => {
+      const testValidation = (cert: CertificateModel<Schemas>) => {
+        const validation = cert.validate();
+        const toJSON = cert.toJSON();
+        expect(validation.valid).toEqual(true);
+        expect(JSON.stringify(toJSON, null, 2)).toEqual(JSON.stringify(validCertificate, null, 2));
+      };
+
+      const waitReady = (cert: CertificateModel<Schemas>) =>
+        new Promise((resolve) => {
+          cert.once('ready', () => resolve(true));
+        });
+
+      it('should build and validate instance using schemaConfig when using valid certificate', async () => {
+        const CertModel = await CertificateModel.build({ schemaConfig });
+        const cert = new CertModel<Schemas>(validCertificate);
+        await waitReady(cert);
         testValidation(cert);
-      });
-    }, 6000);
+      }, 7000);
 
-    it('should build and validate instance using schema EN10168 v0.0.2 when using valid certificate', async () => {
-      const schema = (await loadExternalFile(
-        'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json',
-        'json',
-      )) as JSONSchema7;
-      const cert = await CertificateModel.buildInstance({ schema }, validEN10168Certificate);
-      cert.once('ready', () => {
+      it('should build and validate instance using schema when using valid certificate', async () => {
+        const schema = (await loadExternalFile(schemaUrl, 'json')) as JSONSchema7;
+        const cert = await CertificateModel.buildInstance({ schema }, validCertificate);
+        await waitReady(cert);
         testValidation(cert);
-      });
-    }, 6000);
+      }, 7000);
 
-    it('should return schema properties', async () => {
-      const CertModel = await CertificateModel.build({ schemaConfig });
-      const cert = new CertModel<EN10168Schema>(validEN10168Certificate);
-      await new Promise((resolve) => {
-        cert.on('ready', () => resolve(true));
-      });
-      const { schemaProperties } = cert;
-      expect(schemaProperties).toHaveProperty('RefSchemaUrl');
-      expect(schemaProperties).toHaveProperty('Certificate');
-      expect(schemaProperties).toHaveProperty('DocumentMetadata');
-    }, 8000);
+      it('should return schema properties', async () => {
+        const CertModel = await CertificateModel.build({ schemaConfig });
+        const cert = new CertModel<Schemas>(validCertificate);
+        await waitReady(cert);
+        const { schemaProperties } = cert;
+        expectedSchemaProperties.forEach((prop) => {
+          expect(schemaProperties).toHaveProperty(prop);
+        });
+      }, 8000);
 
-    it('should NOT build invalid instance using schemaConfig EN10168 v0.0.2 when using invalid certificate', async () => {
-      const expectedError = new Error(JSON.stringify(validationErrors, null, 2));
-      const CertModel = await CertificateModel.build({ schemaConfig });
-      const cert = new CertModel<EN10168Schema>(invalidEN10168Certificate);
-      cert.on('error', (error) => {
+      it('should NOT build invalid instance using schemaConfig when using invalid certificate', async () => {
+        const expectedError = new Error(JSON.stringify(validationErrors, null, 2));
+        const CertModel = await CertificateModel.build({ schemaConfig });
+        const cert = new CertModel<Schemas>(invalidCertificate, { internal: false, validate: true, throwError: true });
+        const error = await new Promise((resolve) => {
+          cert.on('error', resolve);
+        });
         expect(error).toEqual(expectedError);
-      });
-    }, 6000);
+      }, 7000);
 
-    it('should NOT set invalid instance using schemaConfig EN10168 v0.0.2 when using invalid certificate', async () => {
-      const expectedError = new Error(JSON.stringify(validationErrors, null, 2));
-      const CertModel = await CertificateModel.build({ schemaConfig });
-      const cert = new CertModel<EN10168Schema>(validEN10168Certificate);
-      await new Promise((resolve, reject) => {
-        cert.once('ready', () => resolve(true));
-        cert.once('error', reject);
-      });
-      await expect(cert.set(invalidEN10168Certificate)).rejects.toThrow(expectedError);
-    }, 6000);
-  });
-
-  describe.skip('E-CoC', function () {
-    const schemaType = 'e-coc-schemas' as SchemaTypes;
-    const version = 'v0.0.2-2';
-    const schemaConfig = { version, schemaType };
-
-    it('should build model using schema config E-CoC v0.0.2-2 when using valid certificate', async () => {
-      const CertModel = await CertificateModel.build({ schemaConfig });
-      const cert = new CertModel<ECoCSchema>(validECoCCertificate);
-      await new Promise((resolve) => {
-        cert.once('ready', () => resolve(true));
-      });
-
-      const validation = cert.validate();
-      const toJSON = cert.toJSON();
-      expect(JSON.stringify(toJSON, null, 2)).toEqual(JSON.stringify(validECoCCertificate, null, 2));
-      expect(validation.valid).toEqual(true);
-    }, 6000);
-
-    it('should NOT build model using schema config E-CoC v0.0.2-2 when using invalid certificate', async () => {
-      const CertModel = await CertificateModel.build({ schemaConfig });
-
-      const cert = new CertModel<EN10168Schema>(invalidECoCCertificate);
-      cert.on('error', (error) => {
-        expect(error).toEqual(
-          new Error(
-            JSON.stringify(
-              [
-                {
-                  root: '',
-                  path: '/EcocData/DataLevel',
-                  keyword: 'enum',
-                  schemaPath: '#/properties/DataLevel/enum',
-                  expected: 'must be equal to one of the allowed values',
-                },
-              ],
-              null,
-              2,
-            ),
-          ),
-        );
-      });
-    }, 6000);
+      it('should NOT set invalid instance using schemaConfig when using invalid certificate', async () => {
+        const CertModel = await CertificateModel.build({ schemaConfig });
+        const cert = new CertModel<Schemas>(validCertificate);
+        await waitReady(cert);
+        const { errors } = cert.validate(invalidCertificate);
+        expect(formatValidationErrors(errors)).toEqual(validationErrors);
+        await expect(cert.set(invalidCertificate, { validate: true, throwError: true })).rejects.toThrow();
+      }, 8000);
+    });
   });
 });
