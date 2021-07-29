@@ -29,7 +29,7 @@
   },
   "scripts": {
     "build": "parcel build src/generateContent.ts --no-source-maps --target=main --cache-dir=.parcel-cache && rm -rf .parcel-cache",
-    "compile": " npm run create-interfaces && npm run build",
+    "compile": "npm run create-interfaces && npm run build",
     "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
@@ -37,7 +37,7 @@
     "scan:deps": "audit-ci --config ../../audit-ci.json",
     "create-example": "node --icu-data-dir=`echo $(./node_modules/.bin/node-full-icu-path)` ./utils/create-example.js",
     "create-example:no-icu": "node ./utils/create-example.js",
-    "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.en10204.io/en10168-schemas/v0.0.3/schema.json ./src/types/schemaTypes.ts"
+    "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.en10204.io/en10168-schemas/v0.1.0/schema.json ./src/types/schemaTypes.ts"
   },
   "devDependencies": {
     "@s1seven/schema-tools-generate-interfaces": "^0.0.19",

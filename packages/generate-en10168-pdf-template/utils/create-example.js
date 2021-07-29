@@ -6,7 +6,7 @@ const Module = require('module');
 const path = require('path');
 const vm = require('vm');
 const styles = require('./styles');
-const certificate = require('../../../fixtures/EN10168/v0.0.2/valid_cert.json');
+const certificate = require('../../../fixtures/EN10168/v0.1.0/valid_cert.json');
 
 const fonts = {
   Lato: {
