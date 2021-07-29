@@ -4,122 +4,122 @@ export type CertificateLanguages = ['EN' | 'DE' | 'FR' | 'PL'] | ['EN' | 'DE' | 
  */
 export type CommercialTransaction = CommercialTransactionBase & CommercialTransactionReceivers;
 export type CommercialTransactionReceivers =
-  | {
-      /**
-       * The purchaser of the product and receiver of the certificate
-       */
-      A06: Company;
-      [k: string]: any;
-    }
-  | {
-      /**
-       * The purchaser of the product
-       */
-      'A06.1': Company;
-      /**
-       * The consignee of the product
-       */
-      'A06.2'?: Company;
-      /**
-       * The receiver/consignee of the certificate
-       */
-      'A06.3'?: Company;
-      [k: string]: any;
-    };
+    | {
+          /**
+           * The purchaser of the product and receiver of the certificate
+           */
+          A06: Company;
+          [k: string]: any;
+      }
+    | {
+          /**
+           * The purchaser of the product
+           */
+          'A06.1': Company;
+          /**
+           * The consignee of the product
+           */
+          'A06.2'?: Company;
+          /**
+           * The receiver/consignee of the certificate
+           */
+          'A06.3'?: Company;
+          [k: string]: any;
+      };
 export type ProductShape =
-  | Tube
-  | RectangularTube
-  | QuadraticTube
-  | Pipe
-  | RectangularPipe
-  | Coil
-  | RoundBar
-  | HexagonalBar
-  | FlatBar
-  | Other;
+    | Tube
+    | RectangularTube
+    | QuadraticTube
+    | Pipe
+    | RectangularPipe
+    | Coil
+    | RoundBar
+    | HexagonalBar
+    | FlatBar
+    | Other;
 
 export interface Certificate {
-  RefSchemaUrl: string;
-  DocumentMetadata?: MetaData;
-  Certificate: {
-    CertificateLanguages: CertificateLanguages;
-    CommercialTransaction: CommercialTransaction;
-    ProductDescription: ProductDescription;
-    Inspection: Inspection;
-    OtherTests: OtherTests;
-    Validation: Validation;
-  };
+    RefSchemaUrl: string;
+    DocumentMetadata?: MetaData;
+    Certificate: {
+        CertificateLanguages: CertificateLanguages;
+        CommercialTransaction: CommercialTransaction;
+        ProductDescription: ProductDescription;
+        Inspection: Inspection;
+        OtherTests: OtherTests;
+        Validation: Validation;
+    };
 }
 export interface MetaData {
-  id: string;
-  version?: number;
-  state?: 'draft' | 'valid' | 'cancelled';
-  [k: string]: any;
+    id: string;
+    version?: number;
+    state?: 'draft' | 'valid' | 'cancelled';
+    [k: string]: any;
 }
 export interface CommercialTransactionBase {
-  /**
-   * The manufacturer's works which delivers the certificate along the product
-   */
-  A01: Company;
-  /**
-   * The type of inspection document, e.g. 'EN 10204 3.1 Certificate'
-   */
-  A02: string;
-  /**
-   * The document number of the certifcate
-   */
-  A03: string;
-  /**
-   * The mark of the manufacturer as base64 png file. The maximum size is <TBD>
-   */
-  A04: string;
-  /**
-   * The originator of the document, not necessarily equal to A01
-   */
-  A05: string;
-  /**
-   * Purchase number
-   */
-  A07: string;
-  /**
-   * Manufacturer's work number
-   */
-  A08?: string;
-  /**
-   * The article number used by the purchaser
-   */
-  A09?: string;
-  SupplementaryInformation?: CommercialTransactionSupplementaryInformation;
-  /**
-   * The position number in the order
-   */
-  A97?: number;
-  /**
-   * A custom field for the delivery note number
-   */
-  A98?: string;
-  /**
-   * A custom field for the aviso document number
-   */
-  A99?: string;
-  [k: string]: any;
+    /**
+     * The manufacturer's works which delivers the certificate along the product
+     */
+    A01: Company;
+    /**
+     * The type of inspection document, e.g. 'EN 10204 3.1 Certificate'
+     */
+    A02: string;
+    /**
+     * The document number of the certifcate
+     */
+    A03: string;
+    /**
+     * The mark of the manufacturer as base64 png file. The maximum size is <TBD>
+     */
+    A04: string;
+    /**
+     * The originator of the document, not necessarily equal to A01
+     */
+    A05: string;
+    /**
+     * Purchase number
+     */
+    A07: string;
+    /**
+     * Manufacturer's work number
+     */
+    A08?: string;
+    /**
+     * The article number used by the purchaser
+     */
+    A09?: string;
+    SupplementaryInformation?: CommercialTransactionSupplementaryInformation;
+    /**
+     * The position number in the order
+     */
+    A97?: number;
+    /**
+     * A custom field for the delivery note number
+     */
+    A98?: string;
+    /**
+     * A custom field for the aviso document number
+     */
+    A99?: string;
+    [k: string]: any;
 }
 export interface Company {
-  CompanyName: string;
-  Street: string;
-  ZipCode: string;
-  City: string;
-  Country: string;
-  VAT_Id?: string;
-  Email: string;
-  /**
-   * Each entry to the array is rendered as a new line in HTML and PDF
-   */
-  AdditionalInformation?: string[];
-  [k: string]: any;
+    CompanyName: string;
+    Street: string;
+    ZipCode: string;
+    City: string;
+    Country: string;
+    VAT_Id?: string;
+    Email: string;
+    /**
+     * Each entry to the array is rendered as a new line in HTML and PDF
+     */
+    AdditionalInformation?: string[];
+    [k: string]: any;
 }
 export interface CommercialTransactionSupplementaryInformation {
-  [k: string]: KeyValueObject;
+    [k: string]: KeyValueObject;
 }
 /**
  * This interface was referenced by `CommercialTransactionSupplementaryInformation`'s JSON-Schema definition
@@ -156,526 +156,526 @@ export interface CommercialTransactionSupplementaryInformation {
  * via the `patternProperty` "^Z0[5-9]|^Z[1-9][0-9]".
  */
 export interface KeyValueObject {
-  Key: string;
-  Value?: string;
-  Unit?: string;
-  Interpretation?: string;
-  Type?: 'string' | 'number' | 'date' | 'date-time' | 'boolean';
+    Key: string;
+    Value?: string;
+    Unit?: string;
+    Interpretation?: string;
+    Type?: 'string' | 'number' | 'date' | 'date-time' | 'boolean';
 }
 export interface ProductDescription {
-  /**
-   * The product
-   */
-  B01: string;
-  B02: {
     /**
-     * The product norm designation
+     * The product
      */
-    ProductNorm?: string[];
+    B01: string;
+    B02: {
+        /**
+         * The product norm designation
+         */
+        ProductNorm?: string[];
+        /**
+         * The material norm(s)
+         */
+        MaterialNorm?: string[];
+        /**
+         * The mass norm(s)
+         */
+        MassNorm?: string[];
+        /**
+         * The steel designation(s)
+         */
+        SteelDesignation?: string[];
+    };
     /**
-     * The material norm(s)
+     * Any supplemantary requirements
      */
-    MaterialNorm?: string[];
+    B03?: string;
     /**
-     * The mass norm(s)
+     * The delivery conditions for the product
      */
-    MassNorm?: string[];
+    B04?: string;
     /**
-     * The steel designation(s)
+     * Reference heat treatment of samples
      */
-    SteelDesignation?: string[];
-  };
-  /**
-   * Any supplemantary requirements
-   */
-  B03?: string;
-  /**
-   * The delivery conditions for the product
-   */
-  B04?: string;
-  /**
-   * Reference heat treatment of samples
-   */
-  B05?: string;
-  /**
-   * Marking of the product
-   */
-  B06?: string;
-  /**
-   * Identification of the product, usually batch, charge or lot number
-   */
-  B07: string;
-  /**
-   * Number of pieces of the product.
-   */
-  B08: number;
-  /**
-   * Product type and its describing dimensional parameters
-   */
-  B09: ProductShape;
-  /**
-   * Product dimensions - length of the product
-   */
-  B10: Measurement;
-  /**
-   * Product dimensions
-   */
-  B11?: Measurement;
-  /**
-   * Theoretical mass
-   */
-  B12?: Measurement;
-  /**
-   * Actual mass
-   */
-  B13: Measurement;
-  SupplementaryInformation?: ProductDescriptionSupplementaryInformation;
+    B05?: string;
+    /**
+     * Marking of the product
+     */
+    B06?: string;
+    /**
+     * Identification of the product, usually batch, charge or lot number
+     */
+    B07: string;
+    /**
+     * Number of pieces of the product.
+     */
+    B08: number;
+    /**
+     * Product type and its describing dimensional parameters
+     */
+    B09: ProductShape;
+    /**
+     * Product dimensions - length of the product
+     */
+    B10: Measurement;
+    /**
+     * Product dimensions
+     */
+    B11?: Measurement;
+    /**
+     * Theoretical mass
+     */
+    B12?: Measurement;
+    /**
+     * Actual mass
+     */
+    B13: Measurement;
+    SupplementaryInformation?: ProductDescriptionSupplementaryInformation;
 }
 export interface Tube {
-  Form: 'Tube';
-  OuterDiameter: number;
-  WallThickness: number;
-  /**
-   * The Unit of Value.
-   */
-  Unit?: string;
+    Form: 'Tube';
+    OuterDiameter: number;
+    WallThickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface RectangularTube {
-  Form: 'RectangularTube';
-  Width: number;
-  Height: number;
-  WallThickness: number;
-  /**
-   * The Unit of Value.
-   */
-  Unit?: string;
+    Form: 'RectangularTube';
+    Width: number;
+    Height: number;
+    WallThickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface QuadraticTube {
-  Form: 'QuadraticTube';
-  SideLength: number;
-  WallThickness: number;
-  /**
-   * The Unit of Value.
-   */
-  Unit?: string;
+    Form: 'QuadraticTube';
+    SideLength: number;
+    WallThickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface Pipe {
-  Form: 'Pipe';
-  SideLength: number;
-  WallThickness: number;
-  /**
-   * The Unit of Value.
-   */
-  Unit?: string;
+    Form: 'Pipe';
+    SideLength: number;
+    WallThickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface RectangularPipe {
-  Form: 'RectangularPipe';
-  Width: number;
-  Height: number;
-  WallThickness: number;
-  /**
-   * The Unit of Value.
-   */
-  Unit?: string;
-  [k: string]: any;
+    Form: 'RectangularPipe';
+    Width: number;
+    Height: number;
+    WallThickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
+    [k: string]: any;
 }
 export interface Coil {
-  Form: 'Coil';
-  Width: number;
-  WallThickness: number;
-  /**
-   * The Unit of Value.
-   */
-  Unit?: string;
-  [k: string]: any;
+    Form: 'Coil';
+    Width: number;
+    WallThickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
+    [k: string]: any;
 }
 export interface RoundBar {
-  Form: 'RoundBar';
-  Diameter: number;
-  /**
-   * The Unit of Value.
-   */
-  Unit?: string;
+    Form: 'RoundBar';
+    Diameter: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface HexagonalBar {
-  Form: 'HexagonalBar';
-  Diameter: number;
-  /**
-   * The Unit of Value.
-   */
-  Unit?: string;
+    Form: 'HexagonalBar';
+    Diameter: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface FlatBar {
-  Form: 'FlatBar';
-  Width: number;
-  Thickness: number;
-  /**
-   * The Unit of Value.
-   */
-  Unit?: string;
+    Form: 'FlatBar';
+    Width: number;
+    Thickness: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface Other {
-  Form: 'Other';
-  Description: string;
-  /**
-   * The Unit of Value.
-   */
-  Unit?: string;
+    Form: 'Other';
+    Description: string;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 /**
  * Measured Values in a structured fashion for easy processing and rendering of data
  */
 export interface Measurement {
-  /**
-   * The property measured
-   */
-  Property?: string;
-  /**
-   * A measured or calculated Value (e.g. mean of individual measurements).
-   */
-  Value: number;
-  /**
-   * The lower limit according product specification. If not provided it is 0.
-   */
-  Minimum?: number;
-  /**
-   * The upper limit according product specification. If not provided it is ∞.
-   */
-  Maximum?: number;
-  /**
-   * The Unit of Value.
-   */
-  Unit?: string;
+    /**
+     * The property measured
+     */
+    Property?: string;
+    /**
+     * A measured or calculated Value (e.g. mean of individual measurements).
+     */
+    Value: number;
+    /**
+     * The lower limit according product specification. If not provided it is 0.
+     */
+    Minimum?: number;
+    /**
+     * The upper limit according product specification. If not provided it is ∞.
+     */
+    Maximum?: number;
+    /**
+     * The Unit of Value.
+     */
+    Unit?: string;
 }
 export interface ProductDescriptionSupplementaryInformation {
-  [k: string]: KeyValueObject;
+    [k: string]: KeyValueObject;
 }
 export interface Inspection {
-  /**
-   * Heat or melt number defining the chemical properties
-   */
-  C00: string;
-  /**
-   * Location of the sample
-   */
-  C01?: string;
-  /**
-   * Direction of the test pieces
-   */
-  C02?: string;
-  /**
-   * Test temperature
-   */
-  C03?: string;
-  SupplementaryInformation?: InspectionSupplementaryInformation;
-  TensileTest?: TensileTest;
-  HardnessTest?: HardnessTest;
-  NotchedBarImpactTest?: NotchedBarImpactTest;
-  OtherMechanicalTests?: OtherMechanicalTests;
-  ChemicalComposition: ChemicalComposition;
+    /**
+     * Heat or melt number defining the chemical properties
+     */
+    C00: string;
+    /**
+     * Location of the sample
+     */
+    C01?: string;
+    /**
+     * Direction of the test pieces
+     */
+    C02?: string;
+    /**
+     * Test temperature
+     */
+    C03?: string;
+    SupplementaryInformation?: InspectionSupplementaryInformation;
+    TensileTest?: TensileTest;
+    HardnessTest?: HardnessTest;
+    NotchedBarImpactTest?: NotchedBarImpactTest;
+    OtherMechanicalTests?: OtherMechanicalTests;
+    ChemicalComposition: ChemicalComposition;
 }
 export interface InspectionSupplementaryInformation {
-  [k: string]: KeyValueObject;
+    [k: string]: KeyValueObject;
 }
 export interface TensileTest {
-  /**
-   * Shape of the test piece
-   */
-  C10?: string;
-  /**
-   * Yield or proof strength
-   */
-  C11?: Measurement;
-  /**
-   * Tensile strength
-   */
-  C12?: Measurement;
-  /**
-   * Elongation after fracture
-   */
-  C13?: Measurement;
-  SupplementaryInformation?: TensileTestSupplementaryInformation;
+    /**
+     * Shape of the test piece
+     */
+    C10?: string;
+    /**
+     * Yield or proof strength
+     */
+    C11?: Measurement;
+    /**
+     * Tensile strength
+     */
+    C12?: Measurement;
+    /**
+     * Elongation after fracture
+     */
+    C13?: Measurement;
+    SupplementaryInformation?: TensileTestSupplementaryInformation;
 }
 export interface TensileTestSupplementaryInformation {
-  [k: string]: KeyValueObject;
+    [k: string]: KeyValueObject;
 }
 export interface HardnessTest {
-  /**
-   * Method of test
-   */
-  C30?: string;
-  /**
-   * The individual values measured
-   */
-  C31?: Measurement[];
-  /**
-   * The average value of the individual values measured
-   */
-  C32?: Measurement;
-  SupplementaryInformation?: HardnessTestSupplementaryInformation;
+    /**
+     * Method of test
+     */
+    C30?: string;
+    /**
+     * The individual values measured
+     */
+    C31?: Measurement[];
+    /**
+     * The average value of the individual values measured
+     */
+    C32?: Measurement;
+    SupplementaryInformation?: HardnessTestSupplementaryInformation;
 }
 export interface HardnessTestSupplementaryInformation {
-  [k: string]: KeyValueObject;
+    [k: string]: KeyValueObject;
 }
 export interface NotchedBarImpactTest {
-  /**
-   * Type of test piece
-   */
-  C40?: string;
-  /**
-   * Width of test piece
-   */
-  C41?: Measurement;
-  /**
-   * Individual values
-   */
-  C42?: Measurement[];
-  /**
-   * Mean value
-   */
-  C43?: Measurement;
-  SupplementaryInformation?: NotchedBarImpactTestSupplementaryInformation;
+    /**
+     * Type of test piece
+     */
+    C40?: string;
+    /**
+     * Width of test piece
+     */
+    C41?: Measurement;
+    /**
+     * Individual values
+     */
+    C42?: Measurement[];
+    /**
+     * Mean value
+     */
+    C43?: Measurement;
+    SupplementaryInformation?: NotchedBarImpactTestSupplementaryInformation;
 }
 export interface NotchedBarImpactTestSupplementaryInformation {
-  [k: string]: KeyValueObject;
+    [k: string]: KeyValueObject;
 }
 export interface OtherMechanicalTests {
-  [k: string]: KeyValueObject;
+    [k: string]: KeyValueObject;
 }
 export interface ChemicalComposition {
-  /**
-   * The metallurgic process, which is restricted to 2 types: Y = Basic oxygen process, E = Electric furnace
-   */
-  C70?: 'Y' | 'E';
-  /**
-   * Share of element
-   */
-  C71?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C72?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C73?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C74?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C75?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C76?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C77?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C78?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C79?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C80?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C81?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C82?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C83?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C84?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C85?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C86?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C87?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C88?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C89?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C90?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C91?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C92?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C93?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C94?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C95?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C96?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C97?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C98?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C99?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C100?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C101?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C102?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C103?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C104?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C105?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C106?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C107?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C108?: ChemicalElement;
-  /**
-   * Share of element
-   */
-  C109?: ChemicalElement;
-  SupplementaryInformation?: ChemicalCompositionSupplementaryInformation;
+    /**
+     * The metallurgic process, which is restricted to 2 types: Y = Basic oxygen process, E = Electric furnace
+     */
+    C70?: 'Y' | 'E';
+    /**
+     * Share of element
+     */
+    C71?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C72?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C73?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C74?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C75?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C76?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C77?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C78?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C79?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C80?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C81?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C82?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C83?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C84?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C85?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C86?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C87?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C88?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C89?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C90?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C91?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C92?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C93?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C94?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C95?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C96?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C97?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C98?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C99?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C100?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C101?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C102?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C103?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C104?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C105?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C106?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C107?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C108?: ChemicalElement;
+    /**
+     * Share of element
+     */
+    C109?: ChemicalElement;
+    SupplementaryInformation?: ChemicalCompositionSupplementaryInformation;
 }
 /**
  * The chemical elements of the product.
  */
 export interface ChemicalElement {
-  /**
-   * The symbol of the element
-   */
-  Symbol: string;
-  /**
-   * The measured part of the element as absolute number.
-   */
-  Actual: number;
-  /**
-   * The minimum if defined by the product specification, otherwise the element must not provided.
-   */
-  Minimum?: number;
-  /**
-   * The maximum as defined by the product specification.
-   */
-  Maximum?: number;
+    /**
+     * The symbol of the element
+     */
+    Symbol: string;
+    /**
+     * The measured part of the element as absolute number.
+     */
+    Actual: number;
+    /**
+     * The minimum if defined by the product specification, otherwise the element must not provided.
+     */
+    Minimum?: number;
+    /**
+     * The maximum as defined by the product specification.
+     */
+    Maximum?: number;
 }
 export interface ChemicalCompositionSupplementaryInformation {
-  [k: string]: KeyValueObject;
+    [k: string]: KeyValueObject;
 }
 export interface OtherTests {
-  /**
-   * Marking and identification, surface appearance, shape and dimensional properties
-   */
-  D01?: string;
-  NonDestructiveTests?: NonDestructiveTests;
-  OtherProductTests?: OtherProductTests;
+    /**
+     * Marking and identification, surface appearance, shape and dimensional properties
+     */
+    D01?: string;
+    NonDestructiveTests?: NonDestructiveTests;
+    OtherProductTests?: OtherProductTests;
 }
 export interface NonDestructiveTests {}
 export interface OtherProductTests {}
 export interface Validation {
-  /**
-   * Statement of compliance
-   */
-  Z01: string;
-  /**
-   * Date of issue and validation
-   */
-  Z02: string;
-  /**
-   * Stamp of the inspection representative
-   */
-  Z03?: string;
-  /**
-   * CE marking
-   */
-  Z04: {
     /**
-     * The CE image as base64 encoded png file. A default with size 90x65 is provided by example
+     * Statement of compliance
      */
-    CE_Image: string;
+    Z01: string;
     /**
-     * The identification number of the Notified body. Refer to https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=CELEX:31993L0068:en:HTML and https://ec.europa.eu/growth/tools-databases/nando/index.cfm?fuseaction=notifiedbody.main
+     * Date of issue and validation
      */
-    NotifiedBodyNumber: string;
+    Z02: string;
     /**
-     * The year when the declaration of conformance was issued
+     * Stamp of the inspection representative
      */
-    DoCYear: string;
+    Z03?: string;
     /**
-     * The declaration of conformance document number
+     * CE marking
      */
-    DoCNumber: string;
-    [k: string]: any;
-  };
-  SupplementaryInformation?: ValidationSupplementaryInformation;
+    Z04: {
+        /**
+         * The CE image as base64 encoded png file. A default with size 90x65 is provided by example
+         */
+        CE_Image: string;
+        /**
+         * The identification number of the Notified body. Refer to https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=CELEX:31993L0068:en:HTML and https://ec.europa.eu/growth/tools-databases/nando/index.cfm?fuseaction=notifiedbody.main
+         */
+        NotifiedBodyNumber: string;
+        /**
+         * The year when the declaration of conformance was issued
+         */
+        DoCYear: string;
+        /**
+         * The declaration of conformance document number
+         */
+        DoCNumber: string;
+        [k: string]: any;
+    };
+    SupplementaryInformation?: ValidationSupplementaryInformation;
 }
 export interface ValidationSupplementaryInformation {
-  [k: string]: KeyValueObject;
+    [k: string]: KeyValueObject;
 }
