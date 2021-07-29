@@ -79,6 +79,53 @@ describe('CertificateModel', function () {
         },
       ],
     },
+    {
+      version: 'v0.0.2',
+      type: SupportedSchemas.COA,
+      schemaType: 'coa-schemas' as SchemaTypes,
+      schemaUrl: 'https://schemas.en10204.io/coa-schemas/v0.0.2/schema.json',
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.2/valid_cert.json`,
+      validCertificate: require('../../../fixtures/CoA/v0.0.2/valid_cert.json') as Schemas,
+      invalidCertificate: require('../../../fixtures/CoA/v0.0.2/invalid_cert.json') as Schemas,
+      expectedSchemaProperties: ['RefSchemaUrl', 'Certificate'],
+      validationErrors: [
+        {
+          root: '',
+          path: '/Certificate/Parties/Manufacturer',
+          keyword: 'required',
+          schemaPath: '#/required',
+          expected: "must have required property 'Name'",
+        },
+        {
+          root: '',
+          path: '/Certificate/Parties/Manufacturer/Identifier',
+          keyword: 'required',
+          schemaPath: '#/definitions/Identifier/required',
+          expected: "must have required property 'VAT'",
+        },
+        {
+          root: '',
+          path: '/Certificate/BusinessTransaction/OrderConfirmation/Date',
+          keyword: 'format',
+          schemaPath: '#/definitions/BusinessTransaction/properties/OrderConfirmation/properties/Date/format',
+          expected: 'must match format "date"',
+        },
+        {
+          root: '',
+          path: '/Certificate/BusinessTransaction/Delivery/Number',
+          keyword: 'type',
+          schemaPath: '#/definitions/BusinessTransaction/properties/Delivery/properties/Number/type',
+          expected: 'must be string',
+        },
+        {
+          root: '',
+          path: '/Certificate/Analysis/Inspections/1',
+          keyword: 'required',
+          schemaPath: '#/definitions/Inspection/required',
+          expected: "must have required property 'Property'",
+        },
+      ],
+    },
   ];
 
   testSuitesMap.forEach((testSuite) => {
