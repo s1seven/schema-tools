@@ -130,7 +130,7 @@ describe('GeneratePDF', function () {
     pdfDoc.pipe(writeStream);
     pdfDoc.end();
     await waitWritableStreamEnd(writeStream, outputFilePath);
-  }, 10000);
+  }, 15000);
 
   it('should render PDF certificate using HTML certificate ', async () => {
     const certificateHtmlPath = `${__dirname}/../../../fixtures/EN10168/v0.0.2/template_hbs.html`;
