@@ -4,22 +4,21 @@ import {
   renderNotchedBarImpactTest,
   renderTensileTest,
 } from '../src/lib/createInspection';
+import { TableElement, Translations } from '../src/types';
 import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
+import { defaultSchemaUrl } from './constants';
 import { getTranslations } from './getTranslations';
-import { TableElement } from '../src/types';
 import { Translate } from '../src/lib/translate';
 
-const defaultSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
-
 describe('Rendering inspection section', () => {
-  let translations: Record<string, unknown>;
+  let translations: Translations;
 
   beforeAll(async () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
   it('correctly renders TensileTest', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
+    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
     const tensileTest = renderTensileTest(certificate.Certificate.Inspection.TensileTest, i18n);
     expect(tensileTest[2].table).toEqual({
       body: [
@@ -129,7 +128,7 @@ describe('Rendering inspection section', () => {
   });
 
   it('correctly renders HardnessTest', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
+    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
     const HardnessTest = {
       C30: 'Method',
       C31: [
@@ -243,7 +242,7 @@ describe('Rendering inspection section', () => {
   });
 
   it('correctly renders NotchedBarImpact', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
+    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
     const notchedBarImpactTest = renderNotchedBarImpactTest(
       certificate.Certificate.Inspection.NotchedBarImpactTest,
       i18n,
@@ -294,7 +293,7 @@ describe('Rendering inspection section', () => {
   });
 
   it('correctly renders ChemicalComposition', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
+    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
     const chemicalComposition = renderChemicalComposition(certificate.Certificate.Inspection.ChemicalComposition, i18n);
     // console.log(JSON.stringify(chemicalComposition[3]));
 

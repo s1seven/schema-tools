@@ -1,20 +1,19 @@
-import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
+import { certificate, defaultSchemaUrl } from './constants';
 import { createValidation } from '../src/lib/createValidation';
 import { getTranslations } from './getTranslations';
 import { Translate } from '../src/lib/translate';
-
-const defaultSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
+import { Translations } from '../src/types';
 
 describe('Rendering validation section', () => {
-  let translations: Record<string, unknown>;
+  let translations: Translations;
 
   beforeAll(async () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
   it('correctly renders Validation without suppInformation', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE });
-    const validation = createValidation(certificate.Certificate.Validation, i18n);
+    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
+    const validation = createValidation(certificate.Certificate.Validation as any, i18n);
 
     expect(validation[0]).toEqual({
       margin: [0, 0, 0, 4],
@@ -33,7 +32,7 @@ describe('Rendering validation section', () => {
           {},
           {
             style: 'p',
-            text: 'The producer guarantees that delivered goods are in accordance with the conditions of the order.',
+            text: 'We hereby certify, that the material described above has been tested and complies with the terms of the order. This certificate has been created by a data processing system and does not contain a personal signature but the name and the offical address of the appointet department.',
           },
         ],
         [
@@ -45,7 +44,7 @@ describe('Rendering validation section', () => {
           {},
           {
             style: 'p',
-            text: 'Friday, 4/26/2019',
+            text: 'Tuesday, 10/23/2018',
           },
         ],
         [
@@ -57,7 +56,7 @@ describe('Rendering validation section', () => {
           {},
           {
             style: 'p',
-            text: 'Konrad ANDRECKI',
+            text: 'Mr. Super Inspector',
           },
         ],
       ],

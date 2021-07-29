@@ -1,19 +1,19 @@
 import { renderMeasurement, renderMeasurementArray } from '../src/lib/measurement';
 import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
+import { defaultSchemaUrl } from './constants';
 import { getTranslations } from './getTranslations';
 import { Translate } from '../src/lib/translate';
-
-const defaultSchemaUrl = certificate.RefSchemaUrl || 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
+import { Translations } from '../src/types';
 
 describe('Rendering measurement', () => {
-  let translations: Record<string, unknown>;
+  let translations: Translations;
 
   beforeAll(async () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
   it('works for example certificate', async () => {
-    const i18n = new Translate(translations);
+    const i18n = new Translate(translations, ['EN', 'DE']);
     const measurements = renderMeasurement(certificate.Certificate.ProductDescription.B10, 'B10', i18n);
     const expected = [
       { text: 'B10 Length / Länge ', style: 'tableHeader' },
@@ -32,7 +32,7 @@ describe('Rendering measurement', () => {
   });
 
   it('renders correctly with Maximun, Minimum and Property', async () => {
-    const i18n = new Translate(translations);
+    const i18n = new Translate(translations, ['EN', 'DE']);
     const input = {
       Value: 200,
       Minimum: 100,
@@ -58,7 +58,7 @@ describe('Rendering measurement', () => {
   });
 
   it('renders correctly Measurement array ', async () => {
-    const i18n = new Translate(translations);
+    const i18n = new Translate(translations, ['EN', 'DE']);
     const input = [
       {
         Value: 200,
