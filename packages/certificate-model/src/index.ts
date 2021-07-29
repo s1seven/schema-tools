@@ -1,5 +1,13 @@
 import Ajv, { ErrorObject } from 'ajv';
 import {
+  BaseCertificateSchema,
+  JSONSchema7,
+  JSONSchema7Definition,
+  SchemaConfig,
+  Schemas,
+  SupportedSchemas,
+} from '@s1seven/schema-tools-types';
+import {
   castCertificate,
   formatValidationErrors,
   getRefSchemaUrl,
@@ -8,14 +16,6 @@ import {
   loadExternalFile,
 } from '@s1seven/schema-tools-utils';
 import { extractEmails, PartyEmail } from '@s1seven/schema-tools-extract-emails';
-import {
-  BaseCertificateSchema,
-  JSONSchema7,
-  JSONSchema7Definition,
-  SchemaConfig,
-  Schemas,
-  SupportedSchemas,
-} from '@s1seven/schema-tools-types';
 import { setValidator, ValidateFunction } from '@s1seven/schema-tools-validate';
 import addFormats from 'ajv-formats';
 import cloneDeepWith from 'lodash.clonedeepwith';
@@ -30,7 +30,8 @@ export type BuildCertificateModelOptions = {
 
 export type KVCertificateModelOptions = {
   validate: boolean;
-  internal: boolean;
+  internal?: boolean;
+  throwError?: boolean;
 };
 
 export type CertificateInstance = ReturnType<typeof castCertificate>['certificate'];
@@ -44,6 +45,7 @@ const defaultBuildCertificateOptions: SchemaConfig = {
 const defaultKVSchemaOptions: KVCertificateModelOptions = {
   validate: true,
   internal: false,
+  throwError: true,
 };
 
 export async function getSchema(
@@ -57,7 +59,11 @@ export async function getSchema(
       ...defaultBuildCertificateOptions,
       ...(options.schemaConfig || {}),
     } as SchemaConfig;
-    schemaConfig.version = getSemanticVersion(schemaConfig.version) as string;
+    const version = getSemanticVersion(schemaConfig.version);
+    if (!version) {
+      throw new Error(`Failed to retrieve semantic version from ${schemaConfig.version}`);
+    }
+    schemaConfig.version = version;
     refSchemaUrl = getRefSchemaUrl(schemaConfig);
     schema = (await loadExternalFile(refSchemaUrl.href, 'json')) as JSONSchema7;
   } else if (typeof options.schema === 'object') {
@@ -117,8 +123,7 @@ function getProperties(schema: JSONSchema7, validator?: Ajv) {
       strictSchema: true,
       strictNumbers: true,
       strictRequired: true,
-      // TODO: strictTypes: true,
-      strictTypes: false,
+      strictTypes: true,
       allErrors: true,
     });
     addFormats(ajv);
@@ -151,7 +156,7 @@ function getProperties(schema: JSONSchema7, validator?: Ajv) {
 export class CertificateModel<T extends Schemas> extends EventEmitter {
   static symbols: any;
 
-  _validator: ValidateFunction = new Ajv({ strict: false }).compile({});
+  _validator: ValidateFunction = new Ajv({ strict: true }).compile({});
 
   static merge(obj1: Record<string, unknown>, obj2: Record<string, unknown>) {
     return merge(obj1, obj2);
@@ -172,8 +177,7 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
     const { schema, schemaConfig } = await getSchema(options);
     const refSchemaUrl = getRefSchemaUrl(schemaConfig).href;
     const validator = await setValidator(refSchemaUrl);
-
-    return class CertificateModel1<R extends Schemas> extends CertificateModel<R> {
+    return class CertificateModelChild<R extends Schemas> extends CertificateModel<R> {
       _validator = validator;
 
       get schema() {
@@ -190,7 +194,7 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
     data: any,
   ): Promise<CertificateModel<CertificateInstance>> {
     const NewClass = await CertificateModel.build(options);
-    const certificate = CertificateModel.cast(data);
+    const { certificate } = CertificateModel.cast(data);
     return new NewClass<CertificateInstance>(certificate);
   }
 
@@ -198,8 +202,8 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
     super({ captureRejections: true });
     if (data) {
       this.set(data, options || {})
-        .then(() => this.emit('ready'))
-        .catch((error: Error) => this.emit('error', error));
+        .then(() => process.nextTick(() => this.emit('ready')))
+        .catch((error: Error) => process.nextTick(() => this.emit('error', error)));
     } else {
       process.nextTick(() => this.emit('ready'));
     }
@@ -225,13 +229,16 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
     return getProperties(this.schema);
   }
 
+  getOptions(options?: KVCertificateModelOptions): KVCertificateModelOptions {
+    return merge(defaultKVSchemaOptions, options || {});
+  }
   // get<K extends keyof T>(name: K, options?: KVCertificateModelOptions): T[K] {
   //   const opts = merge(defaultKVSchemaOptions, options || {});
   //   return get<K, T>(this, name, opts.internal);
   // }
 
   get(name: string, options?: KVCertificateModelOptions) {
-    const opts = merge(defaultKVSchemaOptions, options || {});
+    const opts = this.getOptions(options);
     return get<T>(this, name, opts.internal);
   }
 
@@ -249,21 +256,23 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
       return this.set({ [data]: value }, options);
     }
     data = data || {};
-    const opts = merge(defaultKVSchemaOptions, value || {}) as KVCertificateModelOptions;
-
+    const opts = this.getOptions(value || {});
     if (Object.keys(data).includes('RefSchemaUrl')) {
       this.validator = await setValidator((data as BaseCertificateSchema).RefSchemaUrl);
     }
     if (!opts.internal && opts.validate) {
       const dataToValidate = merge(this.toJSON(true), data);
-      const res = this.validate(dataToValidate);
-      if (!res.valid) {
-        const validationError = res.errors
-          ? formatValidationErrors(res.errors)
+      const { valid, errors } = this.validate(dataToValidate);
+      if (!valid) {
+        const validationError = errors
+          ? formatValidationErrors(errors)
           : { validationError: 'Unknown validation error' };
         const error = new Error(JSON.stringify(validationError, null, 2));
-        this.emit('error', error);
-        throw error;
+        if (opts.throwError) {
+          throw error;
+        } else {
+          this.emit('error', error);
+        }
       }
     }
     set<T>(this, data as Record<string, unknown> | T, opts.internal);

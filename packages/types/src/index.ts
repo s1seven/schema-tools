@@ -39,7 +39,7 @@ export interface SchemaConfig {
 }
 
 export class BaseCertificateSchema {
-  @IsUrl({ protocols: ['http', 'https'], require_tld: false, require_protocol: true })
+  @IsUrl({ protocols: ['http', 'https'], require_tld: false, require_valid_protocol: true })
   RefSchemaUrl: string;
 
   [key: string]: any;
@@ -57,15 +57,17 @@ export class CertificateDocumentMetadata {
   state?: CertificateDocumentMetadataState;
 }
 
-export type Languages = 'EN' | 'DE' | 'FR' | 'PL' | 'RU';
+export type Languages = 'CN' | 'DE' | 'ES' | 'EN' | 'FR' | 'PL' | 'RU';
 
 export type Translations = {
   [key in Languages]?: Record<string, any>;
 };
 
 export enum CertificateLanguages {
-  EN = 'EN',
+  CN = 'CN',
   DE = 'DE',
+  EN = 'EN',
+  ES = 'ES',
   FR = 'FR',
   PL = 'PL',
   RU = 'RU',

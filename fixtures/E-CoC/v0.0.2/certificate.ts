@@ -1,6 +1,3 @@
-export type DataLevel = {
-  [k: string]: any;
-};
 export type PartyRole =
   | 'Certifier'
   | 'Customer'
@@ -75,13 +72,27 @@ export interface ECoC {
   /**
    * Url-link to schema the json is based upon - same value as $id of schema
    */
-  RefSchemaUrl?: string;
-  EcocData?: DataLevel;
-  EcocDataOld?: DataLevelA | DataLevelB | DataLevelC;
+  RefSchemaUrl: string;
+  EcocData:
+    | {
+        DataLevel?: 'A';
+        [k: string]: any;
+      }
+    | {
+        DataLevel?: 'B';
+        Data: HigherDataLevel;
+        [k: string]: any;
+      }
+    | {
+        DataLevel?: 'C';
+        Data: HigherDataLevel;
+        Results: Results;
+        [k: string]: any;
+      };
   Declaration?: {
     DateOfIssue?: string;
     Concessions?: string[];
-    remarks?: string[];
+    Remarks?: string[];
     ConformityStatus?: 'True' | 'False' | 'WithConcessions';
     Signature?: {
       SignerName?: string;
@@ -96,13 +107,6 @@ export interface ECoC {
   };
   Attachment?: Attachment;
 }
-export interface DataLevelA {
-  DataLevel?: 'A';
-}
-export interface DataLevelB {
-  DataLevel?: 'B';
-  Data?: HigherDataLevel;
-}
 export interface HigherDataLevel {
   /**
    * Product: CoC acc. ISO17050 | Material: DIN EN 10204 | LabTest: Exchange of Lab-Certificates
@@ -115,6 +119,9 @@ export interface HigherDataLevel {
     | 'MaterialCertificate3.1'
     | 'MaterialCertificate3.2'
     | 'LabTest';
+  /**
+   * Parties and partners envolved in CoC
+   */
   Parties?: [Party, ...Party[]];
   /**
    * References to Business Case
@@ -209,6 +216,9 @@ export interface Object {
     RefUrl?: string;
     SubDocument?: Attachment;
   };
+  /**
+   * referenced to party in party-Structure
+   */
   PartyRefId?: number;
   /**
    * reference to ObjectId of related item
@@ -230,6 +240,7 @@ export interface Object {
     [k: string]: any;
   }[];
   AdditionalObjectProperties?: TechnicalProperties;
+  additionalObjects?: Object;
 }
 export interface Quantity {
   Amount?: number;
@@ -240,7 +251,7 @@ export interface Quantity {
   [k: string]: any;
 }
 export interface Dimension {
-  Direction?: string;
+  Direction?: 'Length' | 'Width' | 'Height';
   DimValue?: number;
   DimUnit?: string;
   [k: string]: any;
@@ -262,11 +273,6 @@ export interface Attachment {
   HashAlgorithm?: 'SHA1' | 'MD5';
   HashValue?: string;
   [k: string]: any;
-}
-export interface DataLevelC {
-  DataLevel?: 'C';
-  Data?: HigherDataLevel;
-  Results?: Results;
 }
 export interface Results {
   MaterialCertification?: {

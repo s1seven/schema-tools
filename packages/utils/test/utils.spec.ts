@@ -15,16 +15,16 @@ import { Stream } from 'stream';
 import { URL } from 'url';
 
 describe('Utils', function () {
-  const EN_10168_CERT_PATH = `${__dirname}/../../../fixtures/EN10168/v0.0.2/valid_cert.json`;
-  const ECOC_CERT_PATH = `${__dirname}/../../../fixtures/E-CoC/v0.0.2-2/valid_cert.json`;
-  const COA_CERT_PATH = `${__dirname}/../../../fixtures/CoA/v0.0.2-1/valid_cert.json`;
+  const EN_10168_CERT_PATH = `${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.json`;
+  const ECOC_CERT_PATH = `${__dirname}/../../../fixtures/E-CoC/v0.0.2/valid_cert.json`;
+  const COA_CERT_PATH = `${__dirname}/../../../fixtures/CoA/v0.0.2/valid_cert.json`;
   const MOCK_CERT = 'cert';
 
-  const refSchemaUrl = new URL('https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json');
+  const refSchemaUrl = new URL('https://schemas.en10204.io/en10168-schemas/v0.1.0/schema.json');
   const schemaConf: SchemaConfig = {
     baseUrl: 'https://schemas.en10204.io',
     schemaType: 'en10168-schemas',
-    version: '0.0.2',
+    version: '0.1.0',
   };
 
   it('getRefSchemaUrl() should return proper url object', () => {

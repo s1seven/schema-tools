@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "license": "Apache-2.0",
   "main": "dist/generateContent.js",
-  "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/generate-EN10168-pdf-template#readme",
+  "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/generate-en10168-pdf-template#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/s1seven/schema-tools/.git"
@@ -29,13 +29,13 @@
   },
   "scripts": {
     "build": "parcel build src/generateContent.ts --no-source-maps --target=main --cache-dir=.parcel-cache && rm -rf .parcel-cache",
-    "compile": "npm run build",
+    "compile": " npm run create-interfaces && npm run build",
     "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
     "test:staged": "jest --runInBand --onlyChanged",
-    "create-example": "node --icu-data-dir=`echo $(./node_modules/.bin/node-full-icu-path)` ./utils/create-example.js",
     "scan:deps": "audit-ci --config ../../audit-ci.json",
+    "create-example": "node --icu-data-dir=`echo $(./node_modules/.bin/node-full-icu-path)` ./utils/create-example.js",
     "create-example:no-icu": "node ./utils/create-example.js",
     "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.en10204.io/en10168-schemas/v0.0.3/schema.json ./src/types/schemaTypes.ts"
   },
@@ -43,11 +43,11 @@
     "@s1seven/schema-tools-generate-interfaces": "^0.0.19",
     "@s1seven/schema-tools-utils": "^0.0.19",
     "@types/node": "^14.14.41",
-    "@types/pdfmake": "^0.1.17",
+    "@types/pdfmake": "^0.1.18",
     "full-icu": "^1.3.4",
     "lato-font": "^3.0.0",
     "parcel": "^2.0.0-beta.3.1",
-    "pdfmake": "^0.1.71",
+    "pdfmake": "^0.2.0",
     "typescript": "^4.3.4"
   },
   "resolutions": {
