@@ -1,5 +1,6 @@
 import { generateHtml } from '../src/index';
-import { HtmlDiffer } from 'html-differ';
+import { HtmlDiffer } from '@markedjs/html-differ';
+import logger from '@markedjs/html-differ/lib/logger';
 import { readFileSync } from 'fs';
 import { SupportedSchemas } from '@s1seven/schema-tools-types';
 
@@ -50,7 +51,11 @@ describe('GenerateHTML', function () {
         const html = await generateHtml(certificatePath);
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
-        const isEqual = htmlDiffer.isEqual(expectedHtmlFromHbs, html);
+        const isEqual = await htmlDiffer.isEqual(expectedHtmlFromHbs, html);
+        if (!isEqual) {
+          const diff = await htmlDiffer.diffHtml(expectedHtmlFromHbs, html);
+          logger.logDiffText(diff, { charsAroundDiff: 40 });
+        }
         expect(isEqual).toBe(true);
       }, 8000);
 
@@ -59,7 +64,7 @@ describe('GenerateHTML', function () {
         const html = await generateHtml(certificate);
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
-        const isEqual = htmlDiffer.isEqual(expectedHtmlFromHbs, html);
+        const isEqual = await htmlDiffer.isEqual(expectedHtmlFromHbs, html);
         expect(isEqual).toBe(true);
       }, 8000);
 
@@ -69,7 +74,7 @@ describe('GenerateHTML', function () {
         const html = await generateHtml(certificate, { translations });
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
-        const isEqual = htmlDiffer.isEqual(expectedHtmlFromHbs, html);
+        const isEqual = await htmlDiffer.isEqual(expectedHtmlFromHbs, html);
         expect(isEqual).toBe(true);
       }, 5000);
 
