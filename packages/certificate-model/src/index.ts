@@ -59,7 +59,11 @@ export async function getSchema(
       ...defaultBuildCertificateOptions,
       ...(options.schemaConfig || {}),
     } as SchemaConfig;
-    schemaConfig.version = getSemanticVersion(schemaConfig.version);
+    const version = getSemanticVersion(schemaConfig.version);
+    if (!version) {
+      throw new Error(`Failed to retrieve semantic version from ${schemaConfig.version}`);
+    }
+    schemaConfig.version = version;
     refSchemaUrl = getRefSchemaUrl(schemaConfig);
     schema = (await loadExternalFile(refSchemaUrl.href, 'json')) as JSONSchema7;
   } else if (typeof options.schema === 'object') {
