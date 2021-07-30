@@ -40,6 +40,7 @@
     "test:extract-emails:browser": "lerna run --scope @s1seven/schema-tools-extract-emails test:browser",
     "test:generate-html": "lerna run --scope @s1seven/schema-tools-generate-html test",
     "test:generate-interfaces": "lerna run --scope @s1seven/schema-tools-generate-interfaces test",
+    "test:generate-coa-pdf": "lerna run --scope @s1seven/schema-tools-generate-coa-pdf-template test",
     "test:generate-en10168-pdf": "lerna run --scope @s1seven/schema-tools-generate-en10168-pdf-template test",
     "test:generate-pdf": "lerna run --scope @s1seven/schema-tools-generate-pdf test",
     "test:utils": "lerna run --scope @s1seven/schema-tools-utils test",
