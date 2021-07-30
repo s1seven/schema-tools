@@ -7,6 +7,7 @@
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fs1seven%2Fschema-tools.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fs1seven%2Fschema-tools?ref=badge_shield)
 
 This repository contains a suite of components and modules to handle certificates and schemas.
+The specification of these libraries can be found in [SEP](https://s1seven.github.io/SEP/schemas/).
 
 ## Supported Schemas
 
