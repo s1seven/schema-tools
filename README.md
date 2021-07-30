@@ -15,7 +15,7 @@ The specification of these libraries can be found in [SEP](https://s1seven.githu
 | ----------------------------------------------------- | :-----------: |
 | [EN10168](https://github.com/s1seven/EN10168-schemas) | 0.0.2 - 0.1.x |
 | [E-CoC](https://github.com/s1seven/E-CoC-schemas)     |     0.0.2     |
-| [CoA](https://github.com/s1seven/CoA-schemas)         |     0.0.2     |
+| [CoA](https://github.com/s1seven/CoA-schemas)         |     0.0.3     |
 | [CDN](https://github.com/s1seven/CDN-schemas)         |      xx       |
 
 ## List of packages

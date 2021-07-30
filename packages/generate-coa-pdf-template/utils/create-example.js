@@ -5,8 +5,8 @@ const Module = require('module');
 const path = require('path');
 const vm = require('vm');
 const styles = require('./styles');
-const certificate = require('../../../fixtures/CoA/v0.0.2/valid_cert.json');
-const translations = require('../../../fixtures/CoA/v0.0.2/translations.json');
+const certificate = require('../../../fixtures/CoA/v0.0.3/valid_cert.json');
+const translations = require('../../../fixtures/CoA/v0.0.3/translations.json');
 
 const fonts = {
   Lato: {

@@ -92,10 +92,10 @@ describe('ExtractEmails', function () {
       },
     },
     {
-      version: 'v0.0.2',
+      version: 'v0.0.3',
       type: SupportedSchemas.COA,
-      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.2/valid_cert.json`,
-      certificate: require('../../../fixtures/CoA/v0.0.2/valid_cert.json'),
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.3/valid_cert.json`,
+      certificate: require('../../../fixtures/CoA/v0.0.3/valid_cert.json'),
       expectedSenders: {
         [SenderRoles.Manufacturer]: {
           emails: ['s1seven.certificates@gmail.com'],

@@ -126,9 +126,9 @@ describe('ValidateSchema', function () {
     {
       type: SupportedSchemas.COA,
       fixturesPath: '../../../fixtures/CoA',
-      version: 'v0.0.2',
-      validCertificate: require('../../../fixtures/CoA/v0.0.2/valid_cert.json'),
-      invalidCertificate: require('../../../fixtures/CoA/v0.0.2/invalid_cert.json'),
+      version: 'v0.0.3',
+      validCertificate: require('../../../fixtures/CoA/v0.0.3/valid_cert.json'),
+      invalidCertificate: require('../../../fixtures/CoA/v0.0.3/invalid_cert.json'),
       validationErrors: (basePath: string, certVersion: string) => ({
         [certVersion]: [
           {
@@ -163,7 +163,7 @@ describe('ValidateSchema', function () {
             expected: "must have required property 'Property'",
             keyword: 'required',
             path: `${basePath}/Certificate/Analysis/Inspections/1`,
-            root: 'v0.0.2',
+            root: certVersion,
             schemaPath: '#/definitions/Inspection/required',
           },
         ],
@@ -214,7 +214,7 @@ describe('ValidateSchema', function () {
           const expectedErrors = validationErrors('invalid_cert.json', version);
           //
           const errors = await validate(`${__dirname}/${folderPath}`, {
-            ignoredExts: ['html', 'ts', 'js', 'md'],
+            ignoredExts: ['html', 'ts', 'js', 'md', 'pdf'],
             ignoredPaths: ['translations.json'],
           });
           expect(errors).toEqual(expectedErrors);
