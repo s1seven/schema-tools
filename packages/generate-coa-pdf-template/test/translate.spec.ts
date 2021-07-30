@@ -1,6 +1,6 @@
 import { defaultSchemaUrl } from './constants';
 import { getTranslations } from './getTranslations';
-import { Translate } from '../src/lib/translate';
+import { Translate } from '../src/translate';
 
 describe('Translate', () => {
   it('correctly translate Certificate into 2 languages', async () => {
