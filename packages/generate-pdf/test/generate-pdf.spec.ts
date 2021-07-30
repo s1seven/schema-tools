@@ -1,9 +1,10 @@
 import { buildModule, generateInSandbox, generatePdf } from '../src/index';
-import { createWriteStream, existsSync, readFileSync, unlinkSync } from 'fs';
-import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
-import { EN10168Schema } from '@s1seven/schema-tools-types';
+import { createWriteStream, existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
+import { EN10168Schema, Schemas, SupportedSchemas } from '@s1seven/schema-tools-types';
+import { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
+import { fromBuffer } from 'pdf2pic';
 import path from 'path';
-import { TDocumentDefinitions } from 'pdfmake/interfaces';
+import { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
 import { Writable } from 'stream';
 
 describe('GeneratePDF', function () {
@@ -16,7 +17,61 @@ describe('GeneratePDF', function () {
     },
   };
 
-  const RefSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.3-2/schema.json';
+  const testMaps: {
+    type: SupportedSchemas;
+    version: string;
+    generatorPath: string;
+    styles: StyleDictionary;
+    translationsPath: string;
+    certificateHtmlPath: string;
+    expectedPdfPath: string;
+    validCertificate: Schemas;
+    docDefinition: Partial<TDocumentDefinitions>;
+  }[] = [
+    {
+      type: SupportedSchemas.EN10168,
+      version: 'v0.1.0',
+      generatorPath: path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`),
+      styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
+      translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/translations.json`),
+      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/template_hbs.html`),
+      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.pdf`),
+      validCertificate: require('../../../fixtures/EN10168/v0.1.0/valid_cert.json'),
+      docDefinition: {
+        pageSize: 'A4',
+        pageMargins: [20, 20, 20, 40],
+        footer: function (currentPage, pageCount) {
+          return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
+        },
+        defaultStyle: {
+          font: 'Lato',
+          fontSize: 10,
+        },
+      },
+    },
+    // {
+    //   type: SupportedSchemas.COA,
+    //   version: 'v0.0.2',
+    //   generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
+    //   styles: require('../../generate-coa-pdf-template/utils/styles.js'),
+    //   translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.2/translations.json`),
+    //   certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.2/template_hbs.html`),
+    //   expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.0/valid_cert.pdf`),
+    //   validCertificate: require('../../../fixtures/CoA/v0.0.2/valid_cert.json'),
+    //   docDefinition: {
+    //     pageSize: 'A4',
+    //     pageMargins: [20, 20, 20, 40],
+    //     footer: function (currentPage, pageCount) {
+    //       return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
+    //     },
+    //     defaultStyle: {
+    //       font: 'Lato',
+    //       fontSize: 10,
+    //     },
+    //   },
+    // },
+  ];
+
   const waitWritableStreamEnd = (writeStream: Writable, outputFilePath: string) => {
     return new Promise((resolve, reject) => {
       writeStream
@@ -25,9 +80,7 @@ describe('GeneratePDF', function () {
           unlinkSync(outputFilePath);
           resolve(true);
         })
-        .on('error', (err) => {
-          reject(err);
-        });
+        .on('error', reject);
     });
   };
 
@@ -39,6 +92,9 @@ describe('GeneratePDF', function () {
 
   it('should execute in a sandbox the PDF generator script and return pdfmake content', async () => {
     const generatorPath = path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
+    const certificatePath = path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.json`);
+    const certificate = JSON.parse(readFileSync(certificatePath, 'utf-8'));
+    //
     const content = await generateInSandbox(certificate as EN10168Schema, {}, generatorPath);
     expect(content.length).toBeGreaterThan(1);
     expect(content[0]).toHaveProperty('style');
@@ -46,101 +102,82 @@ describe('GeneratePDF', function () {
     expect(content[0]).toHaveProperty('layout');
   }, 8000);
 
-  it('should render PDF certificate using certificate object and remote PDF generator script', async () => {
-    certificate.RefSchemaUrl = RefSchemaUrl;
-    const docDefinition: Partial<TDocumentDefinitions> = {
-      pageSize: 'A4',
-      pageMargins: [20, 20, 20, 40],
-      footer: function (currentPage, pageCount) {
-        return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
-      },
-      defaultStyle: {
-        font: 'Lato',
-        fontSize: 10,
-      },
-    };
-    //
-    const pdfDoc = await generatePdf(certificate, {
+  testMaps.forEach((testSuite) => {
+    const {
+      certificateHtmlPath,
       docDefinition,
-      outputType: 'stream',
-      fonts,
-    });
-    const outputFilePath = './test.pdf';
-    const writeStream = createWriteStream(outputFilePath);
-    pdfDoc.pipe(writeStream);
-    pdfDoc.end();
-    await waitWritableStreamEnd(writeStream, outputFilePath);
-  }, 25000);
-
-  it('should render PDF certificate using certificate object and local PDF generator script', async () => {
-    certificate.RefSchemaUrl = RefSchemaUrl;
-    const generatorPath = path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
-    const docDefinition: Partial<TDocumentDefinitions> = {
-      pageSize: 'A4',
-      pageMargins: [20, 20, 20, 40],
-      footer: function (currentPage, pageCount) {
-        return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
-      },
-      defaultStyle: {
-        font: 'Lato',
-        fontSize: 10,
-      },
-    };
-    //
-    const pdfDoc = await generatePdf(certificate, {
-      docDefinition,
-      outputType: 'stream',
-      fonts,
+      expectedPdfPath,
       generatorPath,
-    });
+      styles,
+      translationsPath,
+      type,
+      validCertificate,
+      version,
+    } = testSuite;
 
-    const outputFilePath = './test-2.pdf';
-    const writeStream = createWriteStream(outputFilePath);
-    pdfDoc.pipe(writeStream);
-    pdfDoc.end();
-    await waitWritableStreamEnd(writeStream, outputFilePath);
-  }, 15000);
+    describe(`${type} - version ${version}`, () => {
+      it('should render PDF certificate using certificate object and remote PDF generator script', async () => {
+        const outputFilePath = `./${type}-${version}-test.pdf`;
+        //
+        const pdfDoc = await generatePdf(validCertificate, {
+          outputType: 'stream',
+          fonts,
+        });
+        const writeStream = createWriteStream(outputFilePath);
+        pdfDoc.pipe(writeStream);
+        pdfDoc.end();
+        await waitWritableStreamEnd(writeStream, outputFilePath);
+      }, 25000);
 
-  it('should render PDF certificate using certificate object, local PDF generator script and translations', async () => {
-    certificate.RefSchemaUrl = RefSchemaUrl;
-    const generatorPath = path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
-    const schemaTranslationsPath = path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.0.2/translations.json`);
-    const translations = JSON.parse(readFileSync(schemaTranslationsPath, 'utf8'));
-    const docDefinition: Partial<TDocumentDefinitions> = {
-      pageSize: 'A4',
-      pageMargins: [20, 20, 20, 40],
-      footer: function (currentPage, pageCount) {
-        return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
-      },
-      defaultStyle: {
-        font: 'Lato',
-        fontSize: 10,
-      },
-    };
-    //
-    const pdfDoc = await generatePdf(certificate, {
-      docDefinition,
-      outputType: 'stream',
-      fonts,
-      generatorPath,
-      translations,
-    });
-    const outputFilePath = './test-2.pdf';
-    const writeStream = createWriteStream(outputFilePath);
-    pdfDoc.pipe(writeStream);
-    pdfDoc.end();
-    await waitWritableStreamEnd(writeStream, outputFilePath);
-  }, 15000);
+      it('should render PDF certificate using certificate object and local PDF generator script', async () => {
+        const outputFilePath = `./${type}-${version}-test2.pdf`;
+        //
+        const pdfDoc = await generatePdf(validCertificate, {
+          docDefinition,
+          outputType: 'stream',
+          fonts,
+          generatorPath,
+        });
+        const writeStream = createWriteStream(outputFilePath);
+        pdfDoc.pipe(writeStream);
+        pdfDoc.end();
+        await waitWritableStreamEnd(writeStream, outputFilePath);
+      }, 15000);
 
-  it('should render PDF certificate using HTML certificate ', async () => {
-    const certificateHtmlPath = `${__dirname}/../../../fixtures/EN10168/v0.0.2/template_hbs.html`;
-    const certificateHtml = readFileSync(certificateHtmlPath, 'utf8');
-    //
-    const buffer = await generatePdf(certificateHtml, {
-      inputType: 'html',
-      outputType: 'buffer',
-      fonts,
+      it('should render PDF certificate using certificate object, local PDF generator script, styles and translations', async () => {
+        const outputFilePath = `./${type}-${version}-test3.pdf`;
+        const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
+        const options = {
+          density: 100,
+          width: 600,
+          height: 600,
+        };
+        const expectedPDFBuffer = readFileSync(expectedPdfPath);
+        //
+        const pdfDoc = await generatePdf(validCertificate, {
+          docDefinition: { ...docDefinition, styles },
+          outputType: 'buffer',
+          fonts,
+          generatorPath,
+          translations,
+        });
+        writeFileSync(outputFilePath, pdfDoc);
+        const expectedPDF: ToBase64Response = await fromBuffer(expectedPDFBuffer, options)(1, true);
+        const result: ToBase64Response = await fromBuffer(pdfDoc, options)(1, true);
+        expect(pdfDoc instanceof Buffer).toEqual(true);
+        expect(result.base64).toEqual(expectedPDF.base64);
+      }, 15000);
+
+      it.skip('should render PDF certificate using HTML certificate ', async () => {
+        const certificateHtml = readFileSync(certificateHtmlPath, 'utf8');
+        //
+        const buffer = await generatePdf(certificateHtml, {
+          inputType: 'html',
+          outputType: 'buffer',
+          fonts,
+        });
+        expect(buffer instanceof Buffer).toEqual(true);
+      }, 10000);
     });
-    expect(buffer instanceof Buffer).toEqual(true);
-  }, 10000);
+  });
 });

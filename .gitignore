@@ -113,8 +113,8 @@ dist
 dist.browser
 build
 
-# output from generate-pdf
-*.pdf
+# output from generate-pdf packages
+generating.pdf
 
 # Output of 'sonarqube scanner'
 .scannerwork
