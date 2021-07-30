@@ -202,9 +202,7 @@ export async function generatePdf(
   return new Promise((resolve, reject) => {
     let buffer: Buffer = Buffer.alloc(0);
     pdfDoc.on('data', (data) => {
-      if (data) {
-        buffer = Buffer.concat([buffer, data], buffer.length + data.length);
-      }
+      buffer = Buffer.concat([buffer, data], buffer.length + data.length);
     });
     pdfDoc.on('end', () => resolve(buffer));
     pdfDoc.on('error', reject);

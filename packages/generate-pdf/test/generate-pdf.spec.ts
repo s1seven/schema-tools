@@ -51,13 +51,13 @@ describe('GeneratePDF', function () {
     },
     // {
     //   type: SupportedSchemas.COA,
-    //   version: 'v0.0.2',
+    //   version: 'v0.0.3',
     //   generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
     //   styles: require('../../generate-coa-pdf-template/utils/styles.js'),
-    //   translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.2/translations.json`),
-    //   certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.2/template_hbs.html`),
+    //   translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.3/translations.json`),
+    //   certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.3/template_hbs.html`),
     //   expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.0/valid_cert.pdf`),
-    //   validCertificate: require('../../../fixtures/CoA/v0.0.2/valid_cert.json'),
+    //   validCertificate: require('../../../fixtures/CoA/v0.0.3/valid_cert.json'),
     //   docDefinition: {
     //     pageSize: 'A4',
     //     pageMargins: [20, 20, 20, 40],
@@ -145,7 +145,6 @@ describe('GeneratePDF', function () {
       }, 15000);
 
       it('should render PDF certificate using certificate object, local PDF generator script, styles and translations', async () => {
-        const outputFilePath = `./${type}-${version}-test3.pdf`;
         const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
         const options = {
           density: 100,
@@ -161,13 +160,13 @@ describe('GeneratePDF', function () {
           generatorPath,
           translations,
         });
-        writeFileSync(outputFilePath, pdfDoc);
         const expectedPDF: ToBase64Response = await fromBuffer(expectedPDFBuffer, options)(1, true);
         const result: ToBase64Response = await fromBuffer(pdfDoc, options)(1, true);
         expect(pdfDoc instanceof Buffer).toEqual(true);
         expect(result.base64).toEqual(expectedPDF.base64);
       }, 15000);
 
+      // TODO: skipped due to issues between v0.0.2 and v0.1.0 EN10168 html => investigate
       it.skip('should render PDF certificate using HTML certificate ', async () => {
         const certificateHtml = readFileSync(certificateHtmlPath, 'utf8');
         //
@@ -176,6 +175,7 @@ describe('GeneratePDF', function () {
           outputType: 'buffer',
           fonts,
         });
+        writeFileSync('./test.pdf', buffer);
         expect(buffer instanceof Buffer).toEqual(true);
       }, 10000);
     });
