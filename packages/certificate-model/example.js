@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { CertificateModel } = require('./dist/index');
 const validEn10168Certificate = require('../../fixtures/EN10168/v0.0.2/valid_cert.json');
 const validECoCCertificate = require('../../fixtures/E-CoC/v0.0.2-2/valid_cert.json');
@@ -53,7 +54,6 @@ async function eCoCCertificate(CertModel) {
 
     const validation = cert.validate();
     console.log({ isValid: validation.valid });
-
   });
 }
 
