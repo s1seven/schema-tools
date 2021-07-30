@@ -1,4 +1,4 @@
-import { TranslationGroups, Translations } from '../types';
+import { TranslationGroups, Translations } from './types';
 
 export class Translate {
   constructor(readonly translations: Translations, readonly languages: string[] = ['EN']) {}

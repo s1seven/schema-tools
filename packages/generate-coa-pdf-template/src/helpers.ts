@@ -1,5 +1,7 @@
+import { TableElement } from './types';
 import { TableLayout } from 'pdfmake/interfaces';
 
+// TODO: create lib to share with generate-en10168-pdf-template
 export const createEmptyColumns = (amount: number) => Array(amount).fill({});
 
 export const tableLayout: TableLayout = {
@@ -10,6 +12,21 @@ export const tableLayout: TableLayout = {
     return 0;
   },
 };
+
+export function computeTextStyle(
+  value: string | string[],
+  format?: 'Date' | 'Array' | 'Number',
+  locales?: string | string[],
+) {
+  if (format === 'Date') {
+    return localizeDate(value as string, locales);
+  } else if (format === 'Array' && Array.isArray(value)) {
+    return value.join(', ');
+  } else if (format === 'Number' && typeof value === 'number') {
+    return localizeNumber(value, locales);
+  }
+  return value;
+}
 
 export function localizeValue(value: string, type: string, locales: string | string[] = 'EN') {
   let result: any;
@@ -53,4 +70,37 @@ export function localizeDate(lvalue: string | number | Date, locales: string | s
 
 export function localizeNumber(lvalue: number, locales: string | string[] = 'EN') {
   return new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(lvalue);
+}
+
+export function createFooter(RefSchemaUrl: string): TableElement {
+  return {
+    style: 'table',
+    margin: [0, 50, 0, 0],
+    table: {
+      widths: [280, 250],
+      body: [
+        [
+          {
+            text: [
+              {
+                text: 'Powered by ',
+                style: 'small',
+                margin: [0, 0, 0, 0],
+              },
+              {
+                text: 'en10204.io',
+                style: 'small',
+                color: 'blue',
+                margin: [0, 0, 0, 0],
+                decoration: 'underline',
+                link: 'https://en10204.io',
+              },
+            ],
+          },
+          { text: RefSchemaUrl, style: 'small', color: '#D3D3D3', margin: [0, 0, 0, 0], alignment: 'right' },
+        ],
+      ],
+    },
+    layout: tableLayout,
+  };
 }
