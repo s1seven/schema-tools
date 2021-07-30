@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { loadExternalFile } = require('@s1seven/schema-tools-utils');
 const PdfPrinter = require('pdfmake');
 const fs = require('fs');
 const Module = require('module');
@@ -7,6 +6,7 @@ const path = require('path');
 const vm = require('vm');
 const styles = require('./styles');
 const certificate = require('../../../fixtures/CoA/v0.0.2/valid_cert.json');
+const translations = require('../../../fixtures/CoA/v0.0.2/translations.json');
 
 const fonts = {
   Lato: {
@@ -72,22 +72,6 @@ async function generateExample(certificate, translations) {
   pdfDoc.end();
 }
 
-async function getTranslations(certificateLanguages, refSchemaUrl) {
-  const translationsArray = await Promise.all(
-    certificateLanguages.map(async (lang) => {
-      const filePath = refSchemaUrl.replace('schema.json', `${lang}.json`);
-      return { [lang]: await loadExternalFile(filePath, 'json') };
-    }),
-  );
-
-  return translationsArray.reduce((acc, translation) => {
-    const [key] = Object.keys(translation);
-    acc[key] = translation[key];
-    return acc;
-  }, {});
-}
-
 (async function () {
-  const translations = await getTranslations(certificate.Certificate.CertificateLanguages, certificate.RefSchemaUrl);
   await generateExample(certificate, translations);
 })();
