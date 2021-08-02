@@ -1,8 +1,7 @@
+import { Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { defaultSchemaUrl } from './constants';
 import { getTranslations } from './getTranslations';
 import { supplementaryInformation } from '../src/lib/supplementaryInformation';
-import { Translate } from '../src/lib/translate';
-import { Translations } from '../src/types';
 
 /* eslint-disable sonarjs/no-duplicate-string */
 describe('Rendering supplementary information', () => {

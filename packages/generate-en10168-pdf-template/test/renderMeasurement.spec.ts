@@ -1,9 +1,7 @@
+import { certificate, defaultSchemaUrl } from './constants';
 import { renderMeasurement, renderMeasurementArray } from '../src/lib/measurement';
-import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
-import { defaultSchemaUrl } from './constants';
+import { Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { getTranslations } from './getTranslations';
-import { Translate } from '../src/lib/translate';
-import { Translations } from '../src/types';
 
 describe('Rendering measurement', () => {
   let translations: Translations;
@@ -16,13 +14,13 @@ describe('Rendering measurement', () => {
     const i18n = new Translate(translations, ['EN', 'DE']);
     const measurements = renderMeasurement(certificate.Certificate.ProductDescription.B10, 'B10', i18n);
     const expected = [
-      { text: 'B10 Length / Länge ', style: 'tableHeader' },
+      { text: 'B10 Length / Länge Length', style: 'tableHeader' },
       {},
       {},
       {
         alignment: 'justify',
         columns: [
-          { text: '1,200 mm', style: 'p' },
+          { text: '12,000 mm', style: 'p' },
           { text: '', style: 'p' },
           { text: '', style: 'p' },
         ],

@@ -1,14 +1,13 @@
+/* eslint-disable sonarjs/no-duplicate-string */
+import { certificate, defaultSchemaUrl } from './constants';
 import {
   renderChemicalComposition,
   renderHardnessTest,
   renderNotchedBarImpactTest,
   renderTensileTest,
 } from '../src/lib/createInspection';
-import { TableElement, Translations } from '../src/types';
-import certificate from '../../../fixtures/EN10168/v0.0.2/valid_cert.json';
-import { defaultSchemaUrl } from './constants';
+import { TableElement, Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { getTranslations } from './getTranslations';
-import { Translate } from '../src/lib/translate';
 
 describe('Rendering inspection section', () => {
   let translations: Translations;
@@ -19,14 +18,14 @@ describe('Rendering inspection section', () => {
 
   it('correctly renders TensileTest', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
-    const tensileTest = renderTensileTest(certificate.Certificate.Inspection.TensileTest, i18n);
+    const tensileTest = renderTensileTest(certificate.Certificate.Inspection.TensileTest as any, i18n);
     expect(tensileTest[2].table).toEqual({
       body: [
         [{}, {}, {}, {}],
         [
           {
             style: 'tableHeader',
-            text: 'C11 Yield or proof strength / Streck- oder Dehngrenze Re',
+            text: 'C11 Yield or proof strength / Streck- oder Dehngrenze Streckgrenze ReH/RP0,2',
           },
           {},
           {},
@@ -35,7 +34,7 @@ describe('Rendering inspection section', () => {
             columns: [
               {
                 style: 'p',
-                text: '431.86 MPa',
+                text: '377.12 MPa',
               },
               {
                 style: 'p',
@@ -51,7 +50,7 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C12 Tensile strength / Zugfestigkeit Rm',
+            text: 'C12 Tensile strength / Zugfestigkeit Zugfestigkeit Rm',
           },
           {},
           {},
@@ -60,7 +59,7 @@ describe('Rendering inspection section', () => {
             columns: [
               {
                 style: 'p',
-                text: '507.73 MPa',
+                text: '456.18 MPa',
               },
               {
                 style: 'p',
@@ -76,7 +75,7 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C13 Elongation after fracture / Bruchdehnung A',
+            text: 'C13 Elongation after fracture / Bruchdehnung Bruchdehnung A5/A80',
           },
           {},
           {},
@@ -85,7 +84,7 @@ describe('Rendering inspection section', () => {
             columns: [
               {
                 style: 'p',
-                text: '28.4 %',
+                text: '29.7 %',
               },
               {
                 style: 'p',
@@ -112,14 +111,28 @@ describe('Rendering inspection section', () => {
           {
             colSpan: 3,
             style: 'tableHeader',
-            text: 'C14 Test no.',
+            text: 'C14 Re/Rm',
           },
           {},
           {},
           {
             colSpan: 1,
             style: 'p',
-            text: '1076 ',
+            text: '0.83 ',
+          },
+        ],
+        [
+          {
+            colSpan: 3,
+            style: 'tableHeader',
+            text: 'C15 Sample Identifier',
+          },
+          {},
+          {},
+          {
+            colSpan: 1,
+            style: 'p',
+            text: '10001011/175508 ',
           },
         ],
       ],
@@ -244,12 +257,48 @@ describe('Rendering inspection section', () => {
   it('correctly renders NotchedBarImpact', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
     const notchedBarImpactTest = renderNotchedBarImpactTest(
-      certificate.Certificate.Inspection.NotchedBarImpactTest,
+      certificate.Certificate.Inspection.NotchedBarImpactTest as any,
       i18n,
     );
     expect(notchedBarImpactTest[2].table).toEqual({
       body: [
-        [{}, {}, {}, {}],
+        [
+          {
+            style: 'tableHeader',
+            text: 'C40 Type of test piece / Probenform',
+          },
+          {},
+          {},
+          {
+            style: 'p',
+            text: '0001 längs',
+          },
+        ],
+        [
+          {
+            style: 'tableHeader',
+            text: 'C41 Width of test piece / Probenbreite Width',
+          },
+          {},
+          {},
+          {
+            alignment: 'justify',
+            columns: [
+              {
+                style: 'p',
+                text: '5 mm',
+              },
+              {
+                style: 'p',
+                text: '',
+              },
+              {
+                style: 'p',
+                text: '',
+              },
+            ],
+          },
+        ],
         [
           {
             style: 'tableHeader',
@@ -259,7 +308,7 @@ describe('Rendering inspection section', () => {
           {},
           {
             style: 'p',
-            text: '42, 39, 40 ',
+            text: '71.2, 84.2, 85.2 J',
           },
         ],
         [
@@ -274,17 +323,41 @@ describe('Rendering inspection section', () => {
             columns: [
               {
                 style: 'p',
-                text: '40 ',
+                text: '80.3 J',
               },
               {
                 style: 'p',
-                text: '',
+                text: 'min 78.5 J',
               },
               {
                 style: 'p',
-                text: '',
+                text: 'max 90.6 J',
               },
             ],
+          },
+        ],
+        [
+          {
+            colSpan: 4,
+            style: 'h5',
+            text: 'Supplementary information / Ergänzende Angaben',
+          },
+          {},
+          {},
+          {},
+        ],
+        [
+          {
+            colSpan: 3,
+            style: 'tableHeader',
+            text: 'C44 Sample Identifier',
+          },
+          {},
+          {},
+          {
+            colSpan: 1,
+            style: 'p',
+            text: '10001011/175508 ',
           },
         ],
       ],
@@ -314,45 +387,45 @@ describe('Rendering inspection section', () => {
           { text: 'C80', style: 'p', margin: [-2, 2, -2, 2] },
           { text: 'C81', style: 'p', margin: [-2, 2, -2, 2] },
           { text: 'C82', style: 'p', margin: [-2, 2, -2, 2] },
-          { text: 'C83', style: 'p', margin: [-2, 2, -2, 2] },
           { text: 'C85', style: 'p', margin: [-2, 2, -2, 2] },
           { text: 'C86', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'C92', style: 'p', margin: [-2, 2, -2, 2] },
         ],
         [
           { text: 'Symbol', style: 'p' },
           { text: 'C', style: 'p', margin: [-2, 2, -2, 2] },
-          { text: 'Mn', style: 'p', margin: [-2, 2, -2, 2] },
           { text: 'Si', style: 'p', margin: [-2, 2, -2, 2] },
-          { text: 'S', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'Mn', style: 'p', margin: [-2, 2, -2, 2] },
           { text: 'P', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'S', style: 'p', margin: [-2, 2, -2, 2] },
           { text: 'Al', style: 'p', margin: [-2, 2, -2, 2] },
           { text: 'Cr', style: 'p', margin: [-2, 2, -2, 2] },
           { text: 'Ni', style: 'p', margin: [-2, 2, -2, 2] },
-          { text: 'Cu', style: 'p', margin: [-2, 2, -2, 2] },
           { text: 'Mo', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'Cu', style: 'p', margin: [-2, 2, -2, 2] },
           { text: 'V', style: 'p', margin: [-2, 2, -2, 2] },
-          { text: 'Nb', style: 'p', margin: [-2, 2, -2, 2] },
-          { text: 'B', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'Ti', style: 'p', margin: [-2, 2, -2, 2] },
           { text: 'N', style: 'p', margin: [-2, 2, -2, 2] },
-          { text: 'As', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'B', style: 'p', margin: [-2, 2, -2, 2] },
+          { text: 'CEV', style: 'p', margin: [-2, 2, -2, 2] },
         ],
         [
           { text: 'Actual [%]', style: 'p' },
-          { text: '1.7', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '1.06', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.03', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.15', style: 'caption', margin: [-2, 2, -2, 2] },
           { text: '0.005', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.012', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.022', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.06', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.04', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.14', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.01', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.001', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.001', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.0003', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '1', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.014', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.007', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.041', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.02', style: 'caption', margin: [-2, 2, -2, 2] },
           { text: '0.009', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.005', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.002', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.01', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.002', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.001', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.0047', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.00001', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.3227', style: 'caption', margin: [-2, 2, -2, 2] },
         ],
       ],
     });
