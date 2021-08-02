@@ -1,7 +1,11 @@
-import { CommercialTransaction, TableElement } from '../types';
-import { fillTableRow, tableLayout } from './helpers';
+import {
+  fillTableRow,
+  TableElement,
+  tableLayout,
+  Translate,
+} from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { CommercialTransaction } from '../types';
 import { TRANSACTION_COLUMNS_COUNT } from './constants';
-import { Translate } from './translate';
 
 function separateCommercialParties(commercialTransaction: CommercialTransaction, i18n: Translate) {
   const initKeys = commercialTransaction['A04']

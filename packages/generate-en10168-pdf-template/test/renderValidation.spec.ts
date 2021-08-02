@@ -1,8 +1,7 @@
 import { certificate, defaultSchemaUrl } from './constants';
+import { Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { createValidation } from '../src/lib/createValidation';
 import { getTranslations } from './getTranslations';
-import { Translate } from '../src/lib/translate';
-import { Translations } from '../src/types';
 
 describe('Rendering validation section', () => {
   let translations: Translations;

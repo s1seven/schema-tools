@@ -25,9 +25,9 @@ describe('GenerateInterfaces', function () {
     },
     {
       type: SupportedSchemas.COA,
-      schemaPath: 'https://schemas.en10204.io/coa-schemas/v0.0.2/schema.json',
-      version: 'v0.0.2',
-      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.2/certificate.ts`, 'utf-8'),
+      schemaPath: 'https://schemas.en10204.io/coa-schemas/v0.0.3/schema.json',
+      version: 'v0.0.3',
+      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.3/certificate.ts`, 'utf-8'),
     },
   ];
 

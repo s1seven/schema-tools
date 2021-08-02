@@ -26,11 +26,11 @@ describe('GenerateHTML', function () {
     },
     {
       type: SupportedSchemas.COA,
-      version: 'v0.0.2',
-      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.2/valid_cert.json`,
-      schemaTranslationsPath: `${__dirname}/../../../fixtures/CoA/v0.0.2/translations.json`,
-      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.2/certificate.ts`, 'utf-8'),
-      expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.2/template_hbs.html`, 'utf-8'),
+      version: 'v0.0.3',
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.3/valid_cert.json`,
+      schemaTranslationsPath: `${__dirname}/../../../fixtures/CoA/v0.0.3/translations.json`,
+      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.3/certificate.ts`, 'utf-8'),
+      expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.3/template_hbs.html`, 'utf-8'),
       expectedHtmlFromMjml: '',
     },
   ];

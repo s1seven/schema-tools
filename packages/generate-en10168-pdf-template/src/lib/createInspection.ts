@@ -5,15 +5,19 @@ import {
   Inspection,
   NotchedBarImpactTest,
   OtherMechanicalTests,
-  TableElement,
   TensileTest,
 } from '../types';
 import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
-import { createEmptyColumns, localizeNumber, tableLayout } from './helpers';
+import {
+  createEmptyColumns,
+  localizeNumber,
+  TableElement,
+  tableLayout,
+  Translate,
+} from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { supplementaryInformation } from './supplementaryInformation';
-import { Translate } from './translate';
 
 export function createInspection(
   inspection: Inspection,

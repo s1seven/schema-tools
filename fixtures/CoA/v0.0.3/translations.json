@@ -28,7 +28,7 @@
       "CountryOfOrigin": "Country of origin",
       "PlaceOfOrigin": "Place of origin",
       "ChargeNumber": "Charge number",
-      "ProduktionDate": "Production date",
+      "ProductionDate": "Production date",
       "Standards": "Standards",
       "AdditionalInformation": "Additional Information",
       "Inspections": "Inspections",
@@ -45,6 +45,12 @@
       "Weight": "Weight",
       "DeclarationOfConformity": "Declaration",
       "Contacts": "Contacts",
+      "ContactName": "Name",
+      "ContactRole": "Role",
+      "ContactDepartment": "Department",
+      "ContactEmail": "Email",
+      "ContactPhone": "Phone",
+      "ContactFax": "Fax",
       "Attachments": "Attachments"
     }
   },
@@ -77,7 +83,7 @@
       "CountryOfOrigin": "Herkunftsland",
       "PlaceOfOrigin": "Herkunftsort",
       "ChargeNumber": "Chargennummer",
-      "ProduktionDate": "Herstellungsdatum",
+      "ProductionDate": "Herstellungsdatum",
       "Standards": "Normen",
       "AdditionalInformation": "Zusätzliche Informationen",
       "Inspections": "Prüfungen",
@@ -94,6 +100,12 @@
       "Weight": "Gewicht",
       "DeclarationOfConformity": "Erklärung",
       "Contacts": "Ansprechpartner",
+      "ContactName": "Name",
+      "ContactRole": "Rolle",
+      "ContactDepartment": "Abteilung",
+      "ContactEmail": "Email",
+      "ContactPhone": "Telefon",
+      "ContactFax": "Fax",
       "Attachments": "Anlagen"
     }
   }

@@ -6,6 +6,7 @@ import {
   loadExternalFile,
 } from '@s1seven/schema-tools-utils';
 import { Schemas, Translations } from '@s1seven/schema-tools-types';
+import clone from 'lodash.clone';
 import htmlToPdfmake from 'html-to-pdfmake';
 import jsdom from 'jsdom';
 import merge from 'lodash.merge';
@@ -37,6 +38,7 @@ const fonts = {
 const generatePdfOptions: GeneratePdfOptions = {
   inputType: 'json',
   outputType: 'buffer',
+  fonts,
 };
 
 const baseDocDefinition = (content: TDocumentDefinitions['content']): TDocumentDefinitions => ({
@@ -141,8 +143,13 @@ async function buildPdfContent(
       throw new Error(`Invalid certificate type : ${typeof certificateInput}`);
     }
     pdfMakeContent = await getPdfMakeContentFromObject(rawCert, options.generatorPath, options.translations);
-    if (options.docDefinition && !options.docDefinition.styles) {
-      options.docDefinition.styles = await getPdfMakeStyles(rawCert);
+    if (!options.docDefinition?.styles) {
+      const styles = await getPdfMakeStyles(rawCert);
+      if (!options.docDefinition) {
+        options.docDefinition = { styles };
+      } else {
+        options.docDefinition.styles = styles;
+      }
     }
   } else {
     throw new Error('Invalid inputType');
@@ -176,30 +183,29 @@ export async function generatePdf(
 
 export async function generatePdf(
   certificateInput: Record<string, unknown> | string,
-  options?: GeneratePdfOptions,
+  options: GeneratePdfOptions = {},
 ): Promise<Buffer | PDFKit.PDFDocument> {
-  const opts = options ? merge(generatePdfOptions, options || {}) : generatePdfOptions;
+  const opts: GeneratePdfOptions = options ? { ...generatePdfOptions, ...options } : generatePdfOptions;
+  if (opts.outputType !== 'stream' && opts.outputType !== 'buffer') {
+    throw new Error('Invalid outputType, should be one of buffer | stream');
+  }
   const pdfMakeContent = await buildPdfContent(certificateInput, opts);
-
   const docDefinition: TDocumentDefinitions = opts.docDefinition
-    ? merge(JSON.parse(JSON.stringify(opts.docDefinition)), baseDocDefinition(pdfMakeContent))
+    ? merge(baseDocDefinition(pdfMakeContent), clone(opts.docDefinition))
     : baseDocDefinition(pdfMakeContent);
 
-  const printer = new PdfPrinter(opts.fonts || fonts);
+  const printer = new PdfPrinter(opts.fonts);
   const pdfDoc = printer.createPdfKitDocument(docDefinition);
   if (opts.outputType === 'stream') {
     return pdfDoc;
-  } else if (opts.outputType === 'buffer') {
-    return new Promise((resolve, reject) => {
-      let buffer: Buffer = Buffer.alloc(0);
-      pdfDoc.on('data', (data) => {
-        buffer = Buffer.concat([buffer, data], buffer.length + data.length);
-      });
-      pdfDoc.on('end', () => resolve(buffer));
-      pdfDoc.on('error', reject);
-      pdfDoc.end();
-    });
   }
-
-  throw new Error('Invalid outputType');
+  return new Promise((resolve, reject) => {
+    let buffer: Buffer = Buffer.alloc(0);
+    pdfDoc.on('data', (data) => {
+      buffer = Buffer.concat([buffer, data], buffer.length + data.length);
+    });
+    pdfDoc.on('end', () => resolve(buffer));
+    pdfDoc.on('error', reject);
+    pdfDoc.end();
+  });
 }

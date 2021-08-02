@@ -1,8 +1,13 @@
 import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
-import { createEmptyColumns, localizeValue, tableLayout } from './helpers';
-import { NonDestructiveTests, OtherProductTests, OtherTests, TableElement } from '../types';
+import {
+  createEmptyColumns,
+  localizeValue,
+  TableElement,
+  tableLayout,
+  Translate,
+} from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { NonDestructiveTests, OtherProductTests, OtherTests } from '../types';
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
-import { Translate } from './translate';
 
 export function createOtherTests(
   otherTests: OtherTests,

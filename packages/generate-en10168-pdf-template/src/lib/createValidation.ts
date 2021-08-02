@@ -1,8 +1,12 @@
 import { ContentCanvas, ContentColumns, ContentText } from 'pdfmake/interfaces';
-import { localizeDate, tableLayout } from './helpers';
-import { TableElement, Validation } from '../types';
+import {
+  localizeDate,
+  TableElement,
+  tableLayout,
+  Translate,
+} from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { supplementaryInformation } from './supplementaryInformation';
-import { Translate } from './translate';
+import { Validation } from '../types';
 
 export function createValidation(
   validation: Validation,
