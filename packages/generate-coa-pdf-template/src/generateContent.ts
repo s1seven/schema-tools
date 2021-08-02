@@ -11,7 +11,14 @@ import {
   TableElement,
   Translations,
 } from './types';
-import { computeTextStyle, createEmptyColumns, createFooter, localizeDate, tableLayout } from './helpers';
+import {
+  computeTextStyle,
+  createEmptyColumns,
+  createFooter,
+  localizeDate,
+  localizeNumber,
+  tableLayout,
+} from './helpers';
 import { Content, ContentCanvas, ContentText, TableCell } from 'pdfmake/interfaces';
 import { Translate } from './translate';
 
@@ -81,9 +88,9 @@ export function createGeneralInfo(
   i18n: Translate,
 ): [ContentText, ContentCanvas, TableElement] {
   const contentBody: TableCell[] = [
-    { text: i18n.translate('Id', 'Certificate'), style: 'tableHeader' },
+    { text: i18n.translate('Id', 'Certificate'), style: 'h5' },
     { text: certificate.Certificate.Id, style: 'p' },
-    { text: i18n.translate('Date', 'Certificate'), style: 'tableHeader' },
+    { text: i18n.translate('Date', 'Certificate'), style: 'h5' },
     { text: localizeDate(certificate.Certificate.Date, i18n.languages), style: 'p' },
   ];
 
@@ -132,9 +139,9 @@ export function createBusinessReferences(
 
   const quantityRow: TableCell[] = [
     { text: i18n.translate('OrderQuantity', 'Certificate'), style: 'tableHeader' },
-    { text: Order.QuantityUnit, style: 'p' },
+    { text: `${localizeNumber(Order.Quantity, i18n.languages)} ${Order.QuantityUnit}`, style: 'p' },
     { text: i18n.translate('DeliveryQuantity', 'Certificate'), style: 'tableHeader' },
-    { text: Delivery.QuantityUnit, style: 'p' },
+    { text: `${localizeNumber(Delivery.Quantity, i18n.languages)} ${Delivery.QuantityUnit}`, style: 'p' },
   ];
 
   const dateRow: TableCell[] = [
