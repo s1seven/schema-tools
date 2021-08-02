@@ -36,28 +36,22 @@ export function computeTextStyle(
   return value;
 }
 
-export function localizeValue(value: string, type: string, locales: string | string[] = 'EN') {
+export function localizeValue(
+  value: string,
+  type: 'number' | 'date' | 'date-time' | string,
+  locales: string | string[] = 'EN',
+) {
   let result: any;
-
-  const getLocalizeDate = () => {
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-    };
-    return new Intl.DateTimeFormat(locales, options).format(new Date(value));
-  };
 
   switch (type) {
     case 'number':
-      result = new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(Number(value));
+      result = localizeNumber(Number(value));
       break;
     case 'date':
-      result = getLocalizeDate();
+      result = localizeDate(value, locales);
       break;
     case 'date-time':
-      result = getLocalizeDate();
+      result = localizeDate(value, locales);
       break;
     default:
       result = value;

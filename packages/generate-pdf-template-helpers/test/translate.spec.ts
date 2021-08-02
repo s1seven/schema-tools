@@ -1,5 +1,5 @@
 import { getTranslations } from './getTranslations';
-import { Translate } from '../src/translate';
+import { Translate } from '../src';
 
 describe('Translate', () => {
   describe('EN10168 certificate', () => {
