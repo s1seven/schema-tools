@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.1.2...@s1seven/schema-tools-generate-en10168-pdf-template@0.2.0) (2021-08-02)
+
+
+### Bug Fixes
+
+* regenerate EN10168 TS interface ([32b6aab](http://github.com/s1seven/schema-tools/commit/32b6aabe035c46dc58b005411965e6207336a53f))
+* regenerate TS interface ([ab6accb](http://github.com/s1seven/schema-tools/commit/ab6accbf1742dbb20a359475d3f1b48f1ca8909d))
+* update default version for example pdf and TS interfaces generation ([e5b2f02](http://github.com/s1seven/schema-tools/commit/e5b2f0280f1f8a55ab8745f96330ef8df125bb8f))
+* update h5 style ([c14c3f1](http://github.com/s1seven/schema-tools/commit/c14c3f103ca3247bba4e9857890080d58834c8a2))
+* use local translations for example ([5e22b70](http://github.com/s1seven/schema-tools/commit/5e22b70f9f0d6839aa3685025c4fbaa0483ffd68))
+
+
+### Features
+
+* improve translations typing and loading ([4fc3dd7](http://github.com/s1seven/schema-tools/commit/4fc3dd74d2d96aa7a4731b5daa4479463fec1c12))
+* integrate shared helpers ([e20c742](http://github.com/s1seven/schema-tools/commit/e20c74207595a47850e79fde410c62ec510aa92a))
+
+
+
+
+
 ## [0.1.2](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.1.1...@s1seven/schema-tools-generate-en10168-pdf-template@0.1.2) (2021-07-28)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-en10168-pdf-template

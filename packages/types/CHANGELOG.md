@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.3](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.1.2...@s1seven/schema-tools-types@0.1.3) (2021-08-02)
+
+
+### Bug Fixes
+
+* update Certificate Languages and url validation ([f2ed501](http://github.com/s1seven/schema-tools/commit/f2ed501a93dde126a2eafad59d17b6859608ef28))
+
+
+
+
+
 ## [0.1.2](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.1.1...@s1seven/schema-tools-types@0.1.2) (2021-07-28)
 
 

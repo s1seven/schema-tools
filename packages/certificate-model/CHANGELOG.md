@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.2.1...@s1seven/schema-tools-certificate-model@0.2.2) (2021-08-02)
+
+
+### Bug Fixes
+
+* ignore lint rule for example ([a05a517](http://github.com/s1seven/schema-tools/commit/a05a517f02d456d8ba8b1226395cc5af428c06d1))
+* improve class construction and events/errors handling ([7eb5a5d](http://github.com/s1seven/schema-tools/commit/7eb5a5d1e2e53da667816e5df9847627625c56cc))
+* solve returnv type issue ([d888264](http://github.com/s1seven/schema-tools/commit/d888264171f37e99530cae376727431f46599027))
+
+
+
+
+
 ## [0.2.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.2.0...@s1seven/schema-tools-certificate-model@0.2.1) (2021-07-28)
 
 **Note:** Version bump only for package @s1seven/schema-tools-certificate-model
