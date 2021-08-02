@@ -118,9 +118,9 @@ export function createBusinessReferences(
 ): [ContentText, ContentCanvas, TableElement] {
   const { Delivery, Order } = reference;
   const firstRow: TableCell[] = [
-    { text: i18n.translate('Order', 'Certificate'), colSpan: 2, style: 'tableHeader' },
+    { text: i18n.translate('Order', 'Certificate'), colSpan: 2, style: 'h5' },
     {},
-    { text: i18n.translate('Delivery', 'Certificate'), colSpan: 2, style: 'tableHeader' },
+    { text: i18n.translate('Delivery', 'Certificate'), colSpan: 2, style: 'h5' },
     {},
   ];
   const numberRow: TableCell[] = [

@@ -29,7 +29,7 @@ module.exports = {
   },
   h5: {
     bold: true,
-    fontSize: 12,
+    fontSize: 10,
     margin: [0, 4, 0, 4],
   },
   p: {
