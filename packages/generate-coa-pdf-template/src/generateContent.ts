@@ -8,8 +8,6 @@ import {
   Parties,
   Person,
   Product,
-  TableElement,
-  Translations,
 } from './types';
 import {
   computeTextStyle,
@@ -17,10 +15,12 @@ import {
   createFooter,
   localizeDate,
   localizeNumber,
+  TableElement,
   tableLayout,
-} from './helpers';
+  Translate,
+  Translations,
+} from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { Content, ContentCanvas, ContentText, TableCell } from 'pdfmake/interfaces';
-import { Translate } from './translate';
 
 function createManufacturerHeader(parties: Parties, logo: string): TableCell[][] {
   const manufacturerLogo: TableCell[] = logo ? [{ image: logo, width: 150 }] : [];
