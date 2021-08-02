@@ -6,7 +6,11 @@
     "allowJs": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "~*": ["./*"]
+    }
   },
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
