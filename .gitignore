@@ -118,3 +118,5 @@ generating.pdf
 
 # Output of 'sonarqube scanner'
 .scannerwork
+
+.parcel-cache
