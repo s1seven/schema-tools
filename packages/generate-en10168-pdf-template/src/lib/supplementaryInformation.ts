@@ -1,7 +1,6 @@
-import { createEmptyColumns, localizeValue } from './helpers';
+import { createEmptyColumns, localizeValue, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { CommercialTransactionSupplementaryInformation } from '../types';
 import { TableCell } from 'pdfmake/interfaces';
-import { Translate } from './translate';
 
 export const supplementaryInformation = (
   data: CommercialTransactionSupplementaryInformation,

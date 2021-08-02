@@ -1,9 +1,8 @@
-import { CommercialTransaction, TableElement } from '../types';
 import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
+import { TableElement, tableLayout, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { CommercialTransaction } from '../types';
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { supplementaryInformation } from './supplementaryInformation';
-import { tableLayout } from './helpers';
-import { Translate } from './translate';
 
 export function createCommercialTransaction(
   commercialTransaction: CommercialTransaction,
