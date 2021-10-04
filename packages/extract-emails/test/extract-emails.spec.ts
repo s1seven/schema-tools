@@ -12,6 +12,7 @@ import {
 import { SupportedSchemas } from '@s1seven/schema-tools-types';
 
 describe('ExtractEmails', function () {
+  const certificateEmail = 's1seven.certificates@gmail.com';
   const testSuitesMap = [
     {
       version: 'v0.0.2',
@@ -92,13 +93,39 @@ describe('ExtractEmails', function () {
       },
     },
     {
+      version: 'v0.0.2',
+      type: SupportedSchemas.ECOC,
+      certificatePath: `${__dirname}/../../../fixtures/E-CoC/v0.0.2/valid_cert_with_email.json`,
+      certificate: require('../../../fixtures/E-CoC/v0.0.2/valid_cert_with_email.json'),
+      expectedSenders: {
+        [SenderRoles.Manufacturer]: {
+          emails: [certificateEmail],
+          name: 'Material Manufacturing SE',
+          purchaseOrderNumber: undefined,
+          purchaseOrderPosition: undefined,
+          role: 'Manufacturer',
+          vatId: 'AT123456789',
+        },
+      },
+      expectedReceivers: {
+        [ReceiverRoles.Recipient]: {
+          emails: [certificateEmail],
+          name: 'Material Trading AG',
+          purchaseOrderNumber: undefined,
+          purchaseOrderPosition: undefined,
+          role: 'Recipient',
+          vatId: 'DE12234567890',
+        },
+      },
+    },
+    {
       version: 'v0.0.3',
       type: SupportedSchemas.COA,
       certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.3/valid_cert.json`,
       certificate: require('../../../fixtures/CoA/v0.0.3/valid_cert.json'),
       expectedSenders: {
         [SenderRoles.Manufacturer]: {
-          emails: ['s1seven.certificates@gmail.com'],
+          emails: [certificateEmail],
           name: 'Green Plastics AG',
           purchaseOrderNumber: '1',
           purchaseOrderPosition: '1',
@@ -108,7 +135,7 @@ describe('ExtractEmails', function () {
       },
       expectedReceivers: {
         [ReceiverRoles.Customer]: {
-          emails: ['s1seven.certificates@gmail.com'],
+          emails: [certificateEmail],
           name: 'Plastic Processor SE',
           purchaseOrderNumber: '1',
           purchaseOrderPosition: '1',
