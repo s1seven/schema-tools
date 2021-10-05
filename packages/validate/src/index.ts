@@ -58,8 +58,8 @@ async function* loadLocalCertificates(
     let data = {} as BaseCertificateSchema;
     try {
       data = JSON.parse(await fs.readFile(filePath, 'utf8'));
-    } catch (error) {
-      console.warn(`loadLocalCertificates error for : ${filePath} `, error.message);
+    } catch (error: any) {
+      console.warn(`loadLocalCertificates error for : ${filePath} `, error?.message);
     }
     yield { data, filePath };
     index += 1;

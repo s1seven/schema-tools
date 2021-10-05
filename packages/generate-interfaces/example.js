@@ -2,7 +2,7 @@
 
 const { generate } = require('./dist/index');
 
-const defaultExternalSchemaPath = 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json';
+const defaultExternalSchemaPath = 'https://schemas.s1seven.com/en10168-schemas/v0.0.2/schema.json';
 const defaultInterfacesPath = `${__dirname}/certificate.ts`;
 
 (async function (argv) {

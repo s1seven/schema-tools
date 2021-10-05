@@ -3,7 +3,7 @@ import { Translate } from '../src';
 
 describe('Translate', () => {
   describe('EN10168 certificate', () => {
-    const defaultSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.1.0/schema.json';
+    const defaultSchemaUrl = 'https://schemas.s1seven.com/en10168-schemas/v0.1.0/schema.json';
 
     it('correctly translate certificateFields into 2 languages', async () => {
       const translations = await getTranslations(['DE', 'EN'], defaultSchemaUrl);
@@ -28,7 +28,7 @@ describe('Translate', () => {
   });
 
   describe('CoA certificate', () => {
-    const defaultSchemaUrl = 'https://schemas.en10204.io/coa-schemas/v0.0.3/schema.json';
+    const defaultSchemaUrl = 'https://schemas.s1seven.com/coa-schemas/v0.0.4/schema.json';
 
     it('correctly translate Certificate into 2 languages', async () => {
       const translations = await getTranslations(['DE', 'EN'], defaultSchemaUrl);

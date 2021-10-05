@@ -7,27 +7,27 @@ describe('GenerateInterfaces', function () {
   const testsMap = [
     {
       type: SupportedSchemas.EN10168,
-      schemaPath: 'https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json',
+      schemaPath: 'https://schemas.s1seven.com/en10168-schemas/v0.0.2/schema.json',
       version: 'v0.0.2',
       schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.0.2/certificate.ts`, 'utf-8'),
     },
     {
       type: SupportedSchemas.EN10168,
-      schemaPath: 'https://schemas.en10204.io/en10168-schemas/v0.1.0/schema.json',
+      schemaPath: 'https://schemas.s1seven.com/en10168-schemas/v0.1.0/schema.json',
       version: 'v0.1.0',
       schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.1.0/certificate.ts`, 'utf-8'),
     },
     {
       type: SupportedSchemas.ECOC,
-      schemaPath: 'https://schemas.en10204.io/e-coc-schemas/v0.0.2/schema.json',
+      schemaPath: 'https://schemas.s1seven.com/e-coc-schemas/v0.0.2/schema.json',
       version: 'v0.0.2',
       schemaInterface: readFileSync(`${__dirname}/../../../fixtures/E-CoC/v0.0.2/certificate.ts`, 'utf-8'),
     },
     {
       type: SupportedSchemas.COA,
-      schemaPath: 'https://schemas.en10204.io/coa-schemas/v0.0.3/schema.json',
-      version: 'v0.0.3',
-      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.3/certificate.ts`, 'utf-8'),
+      schemaPath: 'https://schemas.s1seven.com/coa-schemas/v0.0.4/schema.json',
+      version: 'v0.0.4',
+      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.4/certificate.ts`, 'utf-8'),
     },
   ];
 
