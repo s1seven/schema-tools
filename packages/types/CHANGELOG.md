@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.1.3...@s1seven/schema-tools-types@0.1.4) (2021-10-05)
+
+
+### Bug Fixes
+
+* replace invalid validators for DocumentMetadata ([7c4c08e](http://github.com/s1seven/schema-tools/commit/7c4c08e3ae14ca5dd092c17c2b10fe88cbdaba74))
+
+
+
+
+
 ## [0.1.3](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.1.2...@s1seven/schema-tools-types@0.1.3) (2021-08-02)
 
 

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.21](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.0.20...@s1seven/schema-tools-utils@0.0.21) (2021-10-05)
+
+
+### Bug Fixes
+
+* improve error handling ([d75787c](http://github.com/s1seven/schema-tools/commit/d75787c6f54100c539a001108debd9aa59b4d261))
+* use schemas server located under s1seven subdomain ([9299c33](http://github.com/s1seven/schema-tools/commit/9299c33ecbe2bc414ec76b893f4c222ace6305e0))
+
+
+
+
+
 ## [0.0.20](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.0.19...@s1seven/schema-tools-utils@0.0.20) (2021-08-02)
 
 **Note:** Version bump only for package @s1seven/schema-tools-utils
