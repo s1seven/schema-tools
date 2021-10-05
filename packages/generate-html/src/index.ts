@@ -168,7 +168,7 @@ async function parseMjmlTemplate(certificate: any, options: GenerateHtmlOptions)
   options.mjml = merge(options.mjml || {}, mjmlBaseOptions(certificate, options.handlebars));
   const result = mjml2html(templateFile, options.mjml);
   if (result.errors) {
-    console.log('MJML errors :', result.errors);
+    console.warn('MJML errors :', result.errors);
   }
   return result.html;
 }
