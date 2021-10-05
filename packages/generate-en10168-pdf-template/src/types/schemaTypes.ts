@@ -46,7 +46,7 @@ export interface Certificate {
     CommercialTransaction: CommercialTransaction;
     ProductDescription: ProductDescription;
     Inspection: Inspection;
-    OtherTests: OtherTests;
+    OtherTests?: OtherTests;
     Validation: Validation;
   };
 }
@@ -91,7 +91,7 @@ export interface CommercialTransactionBase {
   A09?: string;
   SupplementaryInformation?: CommercialTransactionSupplementaryInformation;
   /**
-   * The position number in the order
+   * A custom field for the position number in the order
    */
   A97?: number;
   /**
@@ -110,7 +110,7 @@ export interface Company {
   ZipCode: string;
   City: string;
   Country: string;
-  VAT_Id?: string;
+  VAT_Id: string;
   Email: string;
   /**
    * Each entry to the array is rendered as a new line in HTML and PDF
@@ -123,7 +123,7 @@ export interface CommercialTransactionSupplementaryInformation {
 }
 /**
  * This interface was referenced by `CommercialTransactionSupplementaryInformation`'s JSON-Schema definition
- * via the `patternProperty` "A1[0-9]|A[2-8][0-9]|A[2-9][0-7]".
+ * via the `patternProperty` "A1[0-9]|A[2-8][0-9]|A[2-9][0-6]".
  *
  * This interface was referenced by `ProductDescriptionSupplementaryInformation`'s JSON-Schema definition
  * via the `patternProperty` "^B1[4-9]|^B[2-9][0-9]".
@@ -232,8 +232,17 @@ export interface ProductDescription {
   SupplementaryInformation?: ProductDescriptionSupplementaryInformation;
 }
 export interface Tube {
+  /**
+   * Constant describing tube
+   */
   Form: 'Tube';
+  /**
+   * Outer diameter of tube
+   */
   OuterDiameter: number;
+  /**
+   * Wall thickness of tube
+   */
   WallThickness: number;
   /**
    * The Unit of Value.
@@ -241,9 +250,21 @@ export interface Tube {
   Unit?: string;
 }
 export interface RectangularTube {
+  /**
+   * Constant describing rectangular tube
+   */
   Form: 'RectangularTube';
+  /**
+   * Width of rectangular tube
+   */
   Width: number;
+  /**
+   * Height of rectangular tube
+   */
   Height: number;
+  /**
+   * Wall thickness of rectangular tube
+   */
   WallThickness: number;
   /**
    * The Unit of Value.
@@ -251,8 +272,17 @@ export interface RectangularTube {
   Unit?: string;
 }
 export interface QuadraticTube {
+  /**
+   * Constant describing quadratic tube
+   */
   Form: 'QuadraticTube';
+  /**
+   * Side length of quadratic tube
+   */
   SideLength: number;
+  /**
+   * Wall thickness of quadratic tube
+   */
   WallThickness: number;
   /**
    * The Unit of Value.
@@ -260,8 +290,17 @@ export interface QuadraticTube {
   Unit?: string;
 }
 export interface Pipe {
+  /**
+   * Form of product
+   */
   Form: 'Pipe';
+  /**
+   * Side length of pipe
+   */
   SideLength: number;
+  /**
+   * Wall thickness of pipe
+   */
   WallThickness: number;
   /**
    * The Unit of Value.
@@ -269,9 +308,21 @@ export interface Pipe {
   Unit?: string;
 }
 export interface RectangularPipe {
+  /**
+   * Constant defining rectangular pipe
+   */
   Form: 'RectangularPipe';
+  /**
+   * Width of rectangular pipe
+   */
   Width: number;
+  /**
+   * Height of rectangular pipe
+   */
   Height: number;
+  /**
+   * Wall thickness of rectangular pipe
+   */
   WallThickness: number;
   /**
    * The Unit of Value.
@@ -280,8 +331,17 @@ export interface RectangularPipe {
   [k: string]: any;
 }
 export interface Coil {
+  /**
+   * Constant defining coil
+   */
   Form: 'Coil';
+  /**
+   * Width of coil
+   */
   Width: number;
+  /**
+   * Wall thickness of coil
+   */
   WallThickness: number;
   /**
    * The Unit of Value.
@@ -290,7 +350,13 @@ export interface Coil {
   [k: string]: any;
 }
 export interface RoundBar {
+  /**
+   * Constant defining roound bar
+   */
   Form: 'RoundBar';
+  /**
+   * Diameter of round bar
+   */
   Diameter: number;
   /**
    * The Unit of Value.
@@ -298,7 +364,13 @@ export interface RoundBar {
   Unit?: string;
 }
 export interface HexagonalBar {
+  /**
+   * Constant defining hexagonal bar
+   */
   Form: 'HexagonalBar';
+  /**
+   * Diamater of hexagonal bar
+   */
   Diameter: number;
   /**
    * The Unit of Value.
@@ -306,8 +378,17 @@ export interface HexagonalBar {
   Unit?: string;
 }
 export interface FlatBar {
+  /**
+   * Form of product
+   */
   Form: 'FlatBar';
+  /**
+   * Width of flat bar
+   */
   Width: number;
+  /**
+   * Thickness of flat bar
+   */
   Thickness: number;
   /**
    * The Unit of Value.
@@ -315,7 +396,13 @@ export interface FlatBar {
   Unit?: string;
 }
 export interface Other {
+  /**
+   * Form of product
+   */
   Form: 'Other';
+  /**
+   * Free text describing the form
+   */
   Description: string;
   /**
    * The Unit of Value.
@@ -614,7 +701,7 @@ export interface ChemicalElement {
    */
   Symbol: string;
   /**
-   * The measured part of the element as absolute number.
+   * The measured part of the element in percentage.
    */
   Actual: number;
   /**
