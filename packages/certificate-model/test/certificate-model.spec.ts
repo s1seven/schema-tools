@@ -80,13 +80,13 @@ describe('CertificateModel', function () {
       ],
     },
     {
-      version: 'v0.0.3',
+      version: 'v0.0.4',
       type: SupportedSchemas.COA,
       schemaType: 'coa-schemas' as SchemaTypes,
-      schemaUrl: 'https://schemas.en10204.io/coa-schemas/v0.0.3/schema.json',
-      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.3/valid_cert.json`,
-      validCertificate: require('../../../fixtures/CoA/v0.0.3/valid_cert.json') as Schemas,
-      invalidCertificate: require('../../../fixtures/CoA/v0.0.3/invalid_cert.json') as Schemas,
+      schemaUrl: 'https://schemas.en10204.io/coa-schemas/v0.0.4/schema.json',
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.4/valid_cert.json`,
+      validCertificate: require('../../../fixtures/CoA/v0.0.4/valid_cert.json') as Schemas,
+      invalidCertificate: require('../../../fixtures/CoA/v0.0.4/invalid_cert.json') as Schemas,
       expectedSchemaProperties: ['RefSchemaUrl', 'Certificate'],
       validationErrors: [
         {

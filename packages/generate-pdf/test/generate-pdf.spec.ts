@@ -49,27 +49,27 @@ describe('GeneratePDF', function () {
         },
       },
     },
-    // {
-    //   type: SupportedSchemas.COA,
-    //   version: 'v0.0.3',
-    //   generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
-    //   styles: require('../../generate-coa-pdf-template/utils/styles.js'),
-    //   translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.3/translations.json`),
-    //   certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.3/template_hbs.html`),
-    //   expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.0/valid_cert.pdf`),
-    //   validCertificate: require('../../../fixtures/CoA/v0.0.3/valid_cert.json'),
-    //   docDefinition: {
-    //     pageSize: 'A4',
-    //     pageMargins: [20, 20, 20, 40],
-    //     footer: function (currentPage, pageCount) {
-    //       return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
-    //     },
-    //     defaultStyle: {
-    //       font: 'Lato',
-    //       fontSize: 10,
-    //     },
-    //   },
-    // },
+    {
+      type: SupportedSchemas.COA,
+      version: 'v0.0.4',
+      generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
+      styles: require('../../generate-coa-pdf-template/utils/styles.js'),
+      translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.4/translations.json`),
+      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.4/template_hbs.html`),
+      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.4/valid_cert.pdf`),
+      validCertificate: require('../../../fixtures/CoA/v0.0.4/valid_cert.json'),
+      docDefinition: {
+        pageSize: 'A4',
+        pageMargins: [20, 20, 20, 40],
+        footer: function (currentPage, pageCount) {
+          return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
+        },
+        defaultStyle: {
+          font: 'Lato',
+          fontSize: 10,
+        },
+      },
+    },
   ];
 
   const waitWritableStreamEnd = (writeStream: Writable, outputFilePath: string) => {

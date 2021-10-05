@@ -38,10 +38,12 @@
     "test:staged": "jest --runInBand --onlyChanged",
     "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
+  "dependencies": {
+    "pdfmake": "^0.2.2"
+  },
   "devDependencies": {
     "@s1seven/schema-tools-utils": "^0.0.20",
     "@types/pdfmake": "^0.1.19",
-    "pdfmake": "^0.2.2",
     "typescript": "^4.4.3"
   }
 }

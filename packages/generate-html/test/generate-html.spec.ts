@@ -26,17 +26,17 @@ describe('GenerateHTML', function () {
     },
     {
       type: SupportedSchemas.COA,
-      version: 'v0.0.3',
-      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.3/valid_cert.json`,
-      schemaTranslationsPath: `${__dirname}/../../../fixtures/CoA/v0.0.3/translations.json`,
-      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.3/certificate.ts`, 'utf-8'),
-      expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.3/template_hbs.html`, 'utf-8'),
+      version: 'v0.0.4',
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.4/valid_cert.json`,
+      schemaTranslationsPath: `${__dirname}/../../../fixtures/CoA/v0.0.4/translations.json`,
+      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.4/certificate.ts`, 'utf-8'),
+      expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.4/template_hbs.html`, 'utf-8'),
       expectedHtmlFromMjml: '',
     },
   ];
 
   const htmlDifferOptions = {
-    ignoreAttributes: [],
+    ignoreAttributes: ['src'],
     ignoreWhitespaces: true,
     ignoreComments: true,
     ignoreEndTags: true,
@@ -65,6 +65,10 @@ describe('GenerateHTML', function () {
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
         const isEqual = await htmlDiffer.isEqual(expectedHtmlFromHbs, html);
+        if (!isEqual) {
+          const diff = await htmlDiffer.diffHtml(expectedHtmlFromHbs, html);
+          logger.logDiffText(diff, { charsAroundDiff: 40 });
+        }
         expect(isEqual).toBe(true);
       }, 8000);
 
@@ -75,6 +79,10 @@ describe('GenerateHTML', function () {
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
         const isEqual = await htmlDiffer.isEqual(expectedHtmlFromHbs, html);
+        if (!isEqual) {
+          const diff = await htmlDiffer.diffHtml(expectedHtmlFromHbs, html);
+          logger.logDiffText(diff, { charsAroundDiff: 40 });
+        }
         expect(isEqual).toBe(true);
       }, 5000);
 

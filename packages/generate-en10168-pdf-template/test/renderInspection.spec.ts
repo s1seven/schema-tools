@@ -368,7 +368,6 @@ describe('Rendering inspection section', () => {
   it('correctly renders ChemicalComposition', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
     const chemicalComposition = renderChemicalComposition(certificate.Certificate.Inspection.ChemicalComposition, i18n);
-    // console.log(JSON.stringify(chemicalComposition[3]));
 
     expect((chemicalComposition[3] as TableElement).table).toEqual({
       widths: [45, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25],
