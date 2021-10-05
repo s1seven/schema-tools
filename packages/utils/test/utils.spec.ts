@@ -20,9 +20,9 @@ describe('Utils', function () {
   const COA_CERT_PATH = `${__dirname}/../../../fixtures/CoA/v0.0.4/valid_cert.json`;
   const MOCK_CERT = 'cert';
 
-  const refSchemaUrl = new URL('https://schemas.en10204.io/en10168-schemas/v0.1.0/schema.json');
+  const refSchemaUrl = new URL('https://schemas.s1seven.com/en10168-schemas/v0.1.0/schema.json');
   const schemaConf: SchemaConfig = {
-    baseUrl: 'https://schemas.en10204.io',
+    baseUrl: 'https://schemas.s1seven.com',
     schemaType: 'en10168-schemas',
     version: '0.1.0',
   };

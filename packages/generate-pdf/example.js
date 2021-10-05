@@ -14,7 +14,7 @@ const en10168Certificate = require('../../fixtures/EN10168/v0.0.2/valid_cert.jso
       },
     };
 
-    en10168Certificate.RefSchemaUrl = 'https://schemas.en10204.io/en10168-schemas/v0.0.3-2/schema.json';
+    en10168Certificate.RefSchemaUrl = 'https://schemas.s1seven.com/en10168-schemas/v0.0.3-2/schema.json';
     const docDefinition = {
       pageSize: 'A4',
       pageMargins: [20, 20, 20, 40],

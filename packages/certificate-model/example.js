@@ -14,7 +14,7 @@ async function en10168Certificate(CertModel) {
     let RefSchemaUrl = cert.get('RefSchemaUrl');
     console.log({ RefSchemaUrl });
     await cert.set({
-      RefSchemaUrl: 'https://schemas.en10204.io/en10168-schemas/v0.0.2-3/schema.json',
+      RefSchemaUrl: 'https://schemas.s1seven.com/en10168-schemas/v0.0.2-3/schema.json',
     });
     RefSchemaUrl = cert.get('RefSchemaUrl');
     console.log({ RefSchemaUrl });
@@ -30,7 +30,7 @@ async function en10168Certificate(CertModel) {
     // this assignement should fire error event due to conflict with new schema loaded
     await cert
       .set({
-        RefSchemaUrl: 'https://schemas.en10204.io/en10168-schemas/v0.0.2-2/schema.json',
+        RefSchemaUrl: 'https://schemas.s1seven.com/en10168-schemas/v0.0.2-2/schema.json',
       })
       .catch((e) => e);
   });

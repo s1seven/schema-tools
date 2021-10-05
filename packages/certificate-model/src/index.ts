@@ -39,7 +39,7 @@ export type CertificateInstance = ReturnType<typeof castCertificate>['certificat
 const defaultBuildCertificateOptions: SchemaConfig = {
   schemaType: 'en10168-schemas',
   version: 'v0.0.2',
-  baseUrl: 'https://schemas.en10204.io/',
+  baseUrl: 'https://schemas.s1seven.com/',
 };
 
 const defaultKVSchemaOptions: KVCertificateModelOptions = {

@@ -7,7 +7,7 @@
 
 This repository contains tools to validate certificate(s).
 
-The `validate` module is using [AJV] to validate your certificate(s), it takes as input a certificate path | url | object | object[] from which the `RefSchemaUrl` property will be resolved to fetch dependencies located `https://schemas.en10204.io/` such as schema reference, translations, templates ...
+The `validate` module is using [AJV] to validate your certificate(s), it takes as input a certificate path | url | object | object[] from which the `RefSchemaUrl` property will be resolved to fetch dependencies located `https://schemas.s1seven.com/` such as schema reference, translations, templates ...
 
 ## Install
 
