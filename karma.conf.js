@@ -27,7 +27,7 @@ module.exports = function (config) {
         path: path.resolve(process.cwd(), './build'),
       },
       module: {
-        rules: [{ test: /\.tsx?$/, loader: 'ts-loader', exclude: /node_modules|dist/ }],
+        rules: [{ test: /\.tsx?$/, loader: 'ts-loader', exclude: /node_modules|dist|fixtures/ }],
       },
       plugins: [
         new NodePolyfillPlugin({
