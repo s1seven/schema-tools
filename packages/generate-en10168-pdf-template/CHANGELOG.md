@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.2.0...@s1seven/schema-tools-generate-en10168-pdf-template@0.2.1) (2021-10-05)
+
+
+### Bug Fixes
+
+* regenerate TS interface ([938097e](http://github.com/s1seven/schema-tools/commit/938097ec0c1caa0c29513ccd5ac419b49bbe974b))
+* use schemas server located under s1seven subdomain ([9299c33](http://github.com/s1seven/schema-tools/commit/9299c33ecbe2bc414ec76b893f4c222ace6305e0))
+
+
+
+
+
 # [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.1.2...@s1seven/schema-tools-generate-en10168-pdf-template@0.2.0) (2021-08-02)
 
 

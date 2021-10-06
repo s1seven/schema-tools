@@ -42,7 +42,7 @@ export function readDir(path: string): Promise<string[]> {
   return promisify(fs.readdir)(path);
 }
 
-export function readFile(path: string, encoding: string | null): Promise<string | Buffer> {
+export function readFile(path: string, encoding: BufferEncoding): Promise<string | Buffer> {
   return promisify(fs.readFile)(path, encoding);
 }
 
@@ -89,7 +89,13 @@ export function formatValidationErrors(
 }
 
 export function getSemanticVersion(rawVersion: string): string | null {
-  return semver.instance(rawVersion).version;
+  try {
+    const { version } = semver.instance(rawVersion);
+    return version;
+  } catch (error) {
+    console.warn(`getSemanticVersion error: ${rawVersion} is invalid`);
+    return null;
+  }
 }
 
 export function getRefSchemaUrl(opts: SchemaConfig, filename = 'schema.json'): URL {
@@ -166,6 +172,7 @@ export async function loadExternalFile(
   if (filePath.startsWith('http')) {
     const options: AxiosRequestConfig = {
       responseType: type,
+      // TODO: allow custom timeout
     };
     const { data } = await axiosInstance.get(filePath, options);
     result = data;
@@ -195,7 +202,11 @@ export async function loadExternalFile(
 }
 
 function preValidateCertificate<T extends Schemas>(certificate: T, throwError?: boolean): T {
-  const errors = validateSync(certificate, {});
+  const errors = validateSync(certificate, {
+    validationError: {
+      target: false,
+    },
+  });
   if (errors?.length) {
     if (throwError) {
       throw new Error(JSON.stringify(errors, null, 2));

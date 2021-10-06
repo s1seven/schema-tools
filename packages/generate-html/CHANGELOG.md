@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.24](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.23...@s1seven/schema-tools-generate-html@0.0.24) (2021-10-05)
+
+
+### Bug Fixes
+
+* replace log by warn ([362643f](http://github.com/s1seven/schema-tools/commit/362643f098d9fc9e1c28385b7ff24f5662bc6bcb))
+
+
+
+
+
 ## [0.0.23](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.22...@s1seven/schema-tools-generate-html@0.0.23) (2021-08-02)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-html

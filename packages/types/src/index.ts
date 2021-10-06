@@ -4,6 +4,7 @@ import {
   IsDateString,
   IsEnum,
   IsNotEmptyObject,
+  IsNumber,
   IsOptional,
   IsString,
   IsUrl,
@@ -52,8 +53,15 @@ export enum CertificateDocumentMetadataState {
 }
 
 export class CertificateDocumentMetadata {
+  @IsString()
   id: string;
+
+  @IsOptional()
+  @IsNumber()
   version?: number;
+
+  @IsOptional()
+  @IsEnum(CertificateDocumentMetadataState)
   state?: CertificateDocumentMetadataState;
 }
 
@@ -95,7 +103,9 @@ export class EN10168SchemaCertificate {
 
 export class EN10168Schema extends BaseCertificateSchema {
   @IsOptional()
-  @IsEnum(CertificateDocumentMetadata)
+  @Type(() => CertificateDocumentMetadata)
+  @IsNotEmptyObject()
+  @ValidateNested()
   DocumentMetadata?: CertificateDocumentMetadata;
 
   @IsNotEmptyObject()
@@ -169,7 +179,9 @@ export class CoASchemaCertificate {
 
 export class CoASchema extends BaseCertificateSchema {
   @IsOptional()
-  @IsEnum(CertificateDocumentMetadata)
+  @Type(() => CertificateDocumentMetadata)
+  @IsNotEmptyObject()
+  @ValidateNested()
   DocumentMetadata?: CertificateDocumentMetadata;
 
   @IsNotEmptyObject()
@@ -202,7 +214,9 @@ export class CDNSchemaCertificate {
 
 export class CDNSchema extends BaseCertificateSchema {
   @IsOptional()
-  @IsEnum(CertificateDocumentMetadata)
+  @Type(() => CertificateDocumentMetadata)
+  @IsNotEmptyObject()
+  @ValidateNested()
   DocumentMetadata?: CertificateDocumentMetadata;
 
   @IsNotEmptyObject()

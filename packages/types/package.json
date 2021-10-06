@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-types",
   "description": "Types used in @s1seven/schema-tools packages",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/types#readme",
@@ -37,14 +37,14 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@types/json-schema": "^7.0.7",
+    "@types/json-schema": "^7.0.9",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
-    "typescript": "4.2.4"
+    "typescript": "^4.4.3"
   },
   "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
 }

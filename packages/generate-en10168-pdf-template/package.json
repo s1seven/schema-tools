@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools-generate-en10168-pdf-template",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "Apache-2.0",
   "main": "dist/generateContent.js",
   "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/generate-en10168-pdf-template#readme",
@@ -44,21 +44,20 @@
     "scan:deps": "audit-ci --config ../../audit-ci.json",
     "create-example": "node --icu-data-dir=`echo $(./node_modules/.bin/node-full-icu-path)` ./utils/create-example.js",
     "create-example:no-icu": "node ./utils/create-example.js",
-    "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.en10204.io/en10168-schemas/v0.1.0/schema.json ./src/types/schemaTypes.ts"
+    "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.s1seven.com/en10168-schemas/v0.1.0/schema.json ./src/types/schemaTypes.ts"
   },
   "dependencies": {
-    "@s1seven/schema-tools-generate-pdf-template-helpers": "^0.1.0",
-    "@types/pdfmake": "^0.1.18",
-    "pdfmake": "^0.2.0"
+    "@s1seven/schema-tools-generate-pdf-template-helpers": "^0.1.1",
+    "pdfmake": "^0.2.2"
   },
   "devDependencies": {
-    "@s1seven/schema-tools-generate-interfaces": "^0.0.20",
-    "@s1seven/schema-tools-utils": "^0.0.20",
-    "@types/node": "^14.14.41",
-    "full-icu": "^1.3.4",
+    "@s1seven/schema-tools-generate-interfaces": "^0.0.21",
+    "@s1seven/schema-tools-utils": "^0.0.21",
+    "@types/pdfmake": "^0.1.19",
+    "full-icu": "^1.4.0",
     "lato-font": "^3.0.0",
-    "parcel": "^2.0.0-beta.2",
-    "typescript": "^4.3.4"
+    "parcel": "^2.0.0-rc.0",
+    "typescript": "^4.4.3"
   },
   "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
 }

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.2.2...@s1seven/schema-tools-certificate-model@0.2.3) (2021-10-05)
+
+
+### Bug Fixes
+
+* use schemas server located under s1seven subdomain ([9299c33](http://github.com/s1seven/schema-tools/commit/9299c33ecbe2bc414ec76b893f4c222ace6305e0))
+
+
+
+
+
 ## [0.2.2](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.2.1...@s1seven/schema-tools-certificate-model@0.2.2) (2021-08-02)
 
 

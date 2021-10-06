@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-certificate-model",
   "description": "Tool to create class / instances specific to a schema",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/certificate-model#readme",
@@ -44,21 +44,20 @@
     "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
   "dependencies": {
-    "@s1seven/schema-tools-extract-emails": "^0.1.3",
-    "@s1seven/schema-tools-types": "^0.1.3",
-    "@s1seven/schema-tools-utils": "^0.0.20",
-    "@s1seven/schema-tools-validate": "^0.2.2",
-    "@types/lodash.clonedeepwith": "^4.5.6",
-    "@types/lodash.merge": "^4.6.6",
-    "@types/node": "^14.14.16",
-    "ajv": "^8.1.0",
-    "ajv-formats": "^2.0.2",
+    "@s1seven/schema-tools-extract-emails": "^0.1.4",
+    "@s1seven/schema-tools-types": "^0.1.4",
+    "@s1seven/schema-tools-utils": "^0.0.21",
+    "@s1seven/schema-tools-validate": "^0.2.3",
+    "ajv": "^8.6.3",
+    "ajv-formats": "^2.1.1",
     "lodash.clonedeepwith": "^4.5.0",
     "lodash.merge": "^4.6.2"
   },
   "devDependencies": {
+    "@types/lodash.clonedeepwith": "^4.5.6",
+    "@types/lodash.merge": "^4.6.6",
     "rimraf": "~3.0.2",
-    "typescript": "4.2.4"
+    "typescript": "^4.4.3"
   },
   "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
 }

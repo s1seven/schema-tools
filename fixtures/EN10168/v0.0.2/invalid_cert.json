@@ -1,5 +1,5 @@
 {
-  "RefSchemaUrl": "https://schemas.en10204.io/en10168-schemas/v0.0.2/schema.json",
+  "RefSchemaUrl": "https://schemas.s1seven.com/en10168-schemas/v0.0.2/schema.json",
   "Certificate": {
     "CertificateLanguages": ["EN"],
     "CommercialTransaction": {

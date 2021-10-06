@@ -4,6 +4,7 @@ import { validate } from '../src/index';
 
 const typeLiteral = 'type';
 const mustBeObjectLiteral = 'must be object';
+const mustBeEnum = 'must be equal to one of the allowed values';
 const measurmentSchemaPath = '#/definitions/Measurement/type';
 
 describe('ValidateSchema', function () {
@@ -53,6 +54,13 @@ describe('ValidateSchema', function () {
       invalidCertificate: require('../../../fixtures/EN10168/v0.1.0/invalid_cert.json'),
       validationErrors: (basePath: string, certVersion: string) => ({
         [certVersion]: [
+          {
+            expected: mustBeEnum,
+            keyword: 'enum',
+            path: `${basePath}/DocumentMetadata/state`,
+            root: 'v0.1.0',
+            schemaPath: '#/properties/DocumentMetadata/properties/state/enum',
+          },
           {
             expected: "must have required property 'CertificateLanguages'",
             keyword: 'required',
@@ -107,14 +115,14 @@ describe('ValidateSchema', function () {
             schemaPath: '#/definitions/Address/required',
           },
           {
-            expected: 'must be equal to one of the allowed values',
+            expected: mustBeEnum,
             keyword: 'enum',
             path: `${basePath}/EcocData/Data/Parties/1/PartyIdentifier/0/NameOfIdentifier`,
             root: certVersion,
             schemaPath: '#/definitions/CompanyIdentifier/properties/NameOfIdentifier/enum',
           },
           {
-            expected: 'must be equal to one of the allowed values',
+            expected: mustBeEnum,
             keyword: 'enum',
             path: `${basePath}/EcocData/Data/Parties/1/PartyRole`,
             root: certVersion,
@@ -126,9 +134,9 @@ describe('ValidateSchema', function () {
     {
       type: SupportedSchemas.COA,
       fixturesPath: '../../../fixtures/CoA',
-      version: 'v0.0.3',
-      validCertificate: require('../../../fixtures/CoA/v0.0.3/valid_cert.json'),
-      invalidCertificate: require('../../../fixtures/CoA/v0.0.3/invalid_cert.json'),
+      version: 'v0.0.4',
+      validCertificate: require('../../../fixtures/CoA/v0.0.4/valid_cert.json'),
+      invalidCertificate: require('../../../fixtures/CoA/v0.0.4/invalid_cert.json'),
       validationErrors: (basePath: string, certVersion: string) => ({
         [certVersion]: [
           {

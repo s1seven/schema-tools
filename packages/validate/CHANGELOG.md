@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-validate@0.2.2...@s1seven/schema-tools-validate@0.2.3) (2021-10-05)
+
+
+### Bug Fixes
+
+* solve error type issue ([3717b5e](http://github.com/s1seven/schema-tools/commit/3717b5eadbf2fe16d787f927c0c2b3a09125739b))
+* use schemas server located under s1seven subdomain ([9299c33](http://github.com/s1seven/schema-tools/commit/9299c33ecbe2bc414ec76b893f4c222ace6305e0))
+
+
+
+
+
 ## [0.2.2](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-validate@0.2.1...@s1seven/schema-tools-validate@0.2.2) (2021-08-02)
 
 **Note:** Version bump only for package @s1seven/schema-tools-validate
