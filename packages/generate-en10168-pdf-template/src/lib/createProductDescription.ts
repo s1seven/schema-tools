@@ -97,7 +97,7 @@ export function createProductDescription(
       style: 'table',
       id: 'ProductDescription',
       table: {
-        widths: [160, '*', 200, 100],
+        widths: [160, '*', 160, 130],
         body: suppInformation,
       },
       layout: tableLayout,

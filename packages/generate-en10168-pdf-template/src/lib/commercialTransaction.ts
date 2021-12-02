@@ -37,7 +37,7 @@ export function createCommercialTransaction(
     {
       style: 'table',
       table: {
-        widths: [160, '*', 200, 100],
+        widths: [160, '*', 160, 130],
         body: suppInformation,
       },
       layout: tableLayout,

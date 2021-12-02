@@ -97,7 +97,7 @@ const renderKVObjectTests = (
         {
           style: 'table',
           table: {
-            widths: [160, '*', '*', 300],
+            widths: [160, '*', 160, 130],
             body: dataMapped,
           },
           layout: tableLayout,

@@ -65,7 +65,7 @@ export function createInspection(
     {
       style: 'table',
       table: {
-        widths: [160, '*', 200, 100],
+        widths: [160, '*', 160, 130],
         body: suppInformation,
       },
       layout: tableLayout,
@@ -117,7 +117,7 @@ export function renderTensileTest(
       style: 'table',
       id: 'TensileTest',
       table: {
-        widths: [160, '*', 200, 100],
+        widths: [160, '*', 160, 130],
         body: suppInformation,
       },
       layout: tableLayout,
@@ -157,7 +157,7 @@ export function renderHardnessTest(
     {
       style: 'table',
       table: {
-        widths: [160, '*', 200, 100],
+        widths: [160, '*', 160, 130],
         body: suppInformation,
       },
       layout: tableLayout,
@@ -199,7 +199,7 @@ export function renderNotchedBarImpactTest(
     {
       style: 'table',
       table: {
-        widths: [160, '*', 200, 100],
+        widths: [160, '*', 160, 130],
         body: suppInformation,
       },
       layout: tableLayout,
@@ -348,7 +348,7 @@ export function renderChemicalComposition(
     {
       style: 'table',
       table: {
-        widths: [160, '*', 200, 100],
+        widths: [160, '*', 160, 130],
         body: suppInformation,
       },
       layout: tableLayout,
