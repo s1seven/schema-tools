@@ -68,7 +68,7 @@ describe('Rendering inspection section', () => {
           },
         ],
       ],
-      widths: [160, '*', 200, 100],
+      widths: [160, '*', 160, 130],
     });
     expect(tensileTest[2].table).toEqual({
       body: [
@@ -219,7 +219,7 @@ describe('Rendering inspection section', () => {
           },
         ],
       ],
-      widths: [160, '*', 200, 100],
+      widths: [160, '*', 160, 130],
     });
     expect(hardnessTest[2].table).toEqual({
       body: [
@@ -314,7 +314,7 @@ describe('Rendering inspection section', () => {
           },
         ],
       ],
-      widths: [160, '*', 200, 100],
+      widths: [160, '*', 160, 130],
     });
 
     expect(notchedBarImpactTest[2].table).toEqual({
