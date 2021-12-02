@@ -29,6 +29,10 @@ The specification of these libraries can be found in [SEP](https://s1seven.githu
 - [Utils](https://github.com/s1seven/schema-tools/tree/master/packages/utils#readme)
 - [Validate](https://github.com/s1seven/schema-tools/tree/master/packages/validate#readme)
 
+## Dependency graph
+
+![dependency graph](./graph.png)
+
 ## License
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fs1seven%2Fschema-tools.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fs1seven%2Fschema-tools?ref=badge_large)
