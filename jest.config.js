@@ -14,6 +14,6 @@ module.exports = {
     },
   },
   coverageDirectory: '<rootDir>/coverage/',
-  reporters: ['default', 'jest-sonar'],
+  reporters: ['default'],
   moduleDirectories: ['node_modules'],
 };
