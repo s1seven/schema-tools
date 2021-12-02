@@ -63,22 +63,22 @@ describe('Rendering supplementary information', () => {
     };
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
 
-    const supplementarInforamtion = supplementaryInformation(suppInfo, i18n);
-    expect(supplementarInforamtion.length).toEqual(3);
-    expect(supplementarInforamtion[0]).toEqual([
+    const supplementaryInfo = supplementaryInformation(suppInfo, i18n);
+    expect(supplementaryInfo.length).toEqual(3);
+    expect(supplementaryInfo[0]).toEqual([
       { text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 3 },
       {},
       {},
     ]);
-    expect(supplementarInforamtion[1]).toEqual([
-      { text: 'A11 First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 2 },
-      {},
+    expect(supplementaryInfo[1]).toEqual([
+      { text: 'A11 First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 1 },
       { text: '1.0 Apples', style: 'p', colSpan: 1 },
+      { text: '', style: 'p', colSpan: 1 },
     ]);
-    expect(supplementarInforamtion[2]).toEqual([
-      { text: 'A96 Last Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 2 },
-      {},
+    expect(supplementaryInfo[2]).toEqual([
+      { text: 'A96 Last Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 1 },
       { text: 'A96 ', style: 'p', colSpan: 1 },
+      { text: '', style: 'p', colSpan: 1 },
     ]);
   });
 
@@ -92,19 +92,19 @@ describe('Rendering supplementary information', () => {
     };
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
 
-    const supplementarInforamtion = supplementaryInformation(suppInfo, i18n, 4);
-    expect(supplementarInforamtion.length).toEqual(2);
-    expect(supplementarInforamtion[0]).toEqual([
+    const supplementaryInfo = supplementaryInformation(suppInfo, i18n, 4);
+    expect(supplementaryInfo.length).toEqual(2);
+    expect(supplementaryInfo[0]).toEqual([
       { text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 4 },
       {},
       {},
       {},
     ]);
-    expect(supplementarInforamtion[1]).toEqual([
-      { text: 'A11 First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 3 },
-      {},
+    expect(supplementaryInfo[1]).toEqual([
+      { text: 'A11 First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 2 },
       {},
       { text: '1.0 Apples', style: 'p', colSpan: 1 },
+      { text: '', style: 'p', colSpan: 1 },
     ]);
   });
 });

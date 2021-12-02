@@ -19,6 +19,57 @@ describe('Rendering inspection section', () => {
   it('correctly renders TensileTest', () => {
     const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
     const tensileTest = renderTensileTest(certificate.Certificate.Inspection.TensileTest as any, i18n);
+    expect(tensileTest[3].table).toEqual({
+      body: [
+        [
+          {
+            colSpan: 4,
+            style: 'h5',
+            text: 'Supplementary information / Ergänzende Angaben',
+          },
+          {},
+          {},
+          {},
+        ],
+        [
+          {
+            colSpan: 2,
+            style: 'tableHeader',
+            text: 'C14 Re/Rm',
+          },
+          {},
+          {
+            colSpan: 1,
+            style: 'p',
+            text: '0.83 ',
+          },
+          {
+            colSpan: 1,
+            style: 'p',
+            text: '',
+          },
+        ],
+        [
+          {
+            colSpan: 2,
+            style: 'tableHeader',
+            text: 'C15 Sample Identifier',
+          },
+          {},
+          {
+            colSpan: 1,
+            style: 'p',
+            text: '10001011/175508 ',
+          },
+          {
+            colSpan: 1,
+            style: 'p',
+            text: '',
+          },
+        ],
+      ],
+      widths: [160, '*', 200, 100],
+    });
     expect(tensileTest[2].table).toEqual({
       body: [
         [{}, {}, {}, {}],
@@ -97,44 +148,6 @@ describe('Rendering inspection section', () => {
             ],
           },
         ],
-        [
-          {
-            colSpan: 4,
-            style: 'h5',
-            text: 'Supplementary information / Ergänzende Angaben',
-          },
-          {},
-          {},
-          {},
-        ],
-        [
-          {
-            colSpan: 3,
-            style: 'tableHeader',
-            text: 'C14 Re/Rm',
-          },
-          {},
-          {},
-          {
-            colSpan: 1,
-            style: 'p',
-            text: '0.83 ',
-          },
-        ],
-        [
-          {
-            colSpan: 3,
-            style: 'tableHeader',
-            text: 'C15 Sample Identifier',
-          },
-          {},
-          {},
-          {
-            colSpan: 1,
-            style: 'p',
-            text: '10001011/175508 ',
-          },
-        ],
       ],
       widths: [160, '*', '*', 300],
     });
@@ -173,7 +186,41 @@ describe('Rendering inspection section', () => {
         },
       },
     };
+    //
     const hardnessTest = renderHardnessTest(HardnessTest, i18n);
+    expect(hardnessTest[3].table).toEqual({
+      body: [
+        [
+          {
+            colSpan: 4,
+            style: 'h5',
+            text: 'Supplementary information / Ergänzende Angaben',
+          },
+          {},
+          {},
+          {},
+        ],
+        [
+          {
+            colSpan: 2,
+            style: 'tableHeader',
+            text: 'C33 key',
+          },
+          {},
+          {
+            colSpan: 1,
+            style: 'p',
+            text: 'C33 Value ',
+          },
+          {
+            colSpan: 1,
+            style: 'p',
+            text: '',
+          },
+        ],
+      ],
+      widths: [160, '*', 200, 100],
+    });
     expect(hardnessTest[2].table).toEqual({
       body: [
         [
@@ -225,6 +272,19 @@ describe('Rendering inspection section', () => {
             ],
           },
         ],
+      ],
+      widths: [160, '*', '*', 300],
+    });
+  });
+
+  it('correctly renders NotchedBarImpact', () => {
+    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
+    const notchedBarImpactTest = renderNotchedBarImpactTest(
+      certificate.Certificate.Inspection.NotchedBarImpactTest as any,
+      i18n,
+    );
+    expect(notchedBarImpactTest[3].table).toEqual({
+      body: [
         [
           {
             colSpan: 4,
@@ -237,29 +297,26 @@ describe('Rendering inspection section', () => {
         ],
         [
           {
-            colSpan: 3,
+            colSpan: 2,
             style: 'tableHeader',
-            text: 'C33 key',
+            text: 'C44 Sample Identifier',
           },
-          {},
           {},
           {
             colSpan: 1,
             style: 'p',
-            text: 'C33 Value ',
+            text: '10001011/175508 ',
+          },
+          {
+            colSpan: 1,
+            style: 'p',
+            text: '',
           },
         ],
       ],
-      widths: [160, '*', '*', 300],
+      widths: [160, '*', 200, 100],
     });
-  });
 
-  it('correctly renders NotchedBarImpact', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
-    const notchedBarImpactTest = renderNotchedBarImpactTest(
-      certificate.Certificate.Inspection.NotchedBarImpactTest as any,
-      i18n,
-    );
     expect(notchedBarImpactTest[2].table).toEqual({
       body: [
         [
@@ -334,30 +391,6 @@ describe('Rendering inspection section', () => {
                 text: 'max 90.6 J',
               },
             ],
-          },
-        ],
-        [
-          {
-            colSpan: 4,
-            style: 'h5',
-            text: 'Supplementary information / Ergänzende Angaben',
-          },
-          {},
-          {},
-          {},
-        ],
-        [
-          {
-            colSpan: 3,
-            style: 'tableHeader',
-            text: 'C44 Sample Identifier',
-          },
-          {},
-          {},
-          {
-            colSpan: 1,
-            style: 'p',
-            text: '10001011/175508 ',
           },
         ],
       ],
