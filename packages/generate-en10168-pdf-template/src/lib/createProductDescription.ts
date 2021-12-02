@@ -14,21 +14,18 @@ interface ProductNorms {
 
 export function productNorms(productNorms: ProductNorms, i18n: Translate): TableCell[][] {
   const header = [{ text: i18n.translate('B02', 'certificateFields'), colSpan: 4, style: 'tableHeader' }, {}, {}, {}];
-
   const content = Object.keys(productNorms).map((norm) => [
     { text: i18n.translate(norm, 'otherFields'), style: 'caption', colSpan: 3 },
     {},
     {},
     { text: productNorms[norm].join(', '), style: 'p' },
   ]);
-
   return [header, ...content];
 }
 
 export function productShape(productShape: ProductShape, i18n: Translate): TableCell[][] {
-  if (productShape === undefined) return [];
+  if (!productShape) return [];
   const header = [{ text: i18n.translate('B09', 'certificateFields'), style: 'tableHeader', colSpan: 4 }, {}, {}, {}];
-
   const content = Object.keys(productShape)
     .filter((key) => key.toLowerCase() !== 'unit')
     .map((key) => [
@@ -49,9 +46,8 @@ export function productShape(productShape: ProductShape, i18n: Translate): Table
 export function createProductDescription(
   productDescription: ProductDescription,
   i18n: Translate,
-): [ContentText, ContentCanvas, TableElement] {
+): [ContentText, ContentCanvas, TableElement, TableElement] {
   const B02ProductNorms = productNorms(productDescription.B02, i18n);
-
   const contentToOmit = ['B01', 'B02', 'B09', 'B10', 'B11', 'B12', 'B12', 'B13', 'SupplementaryInformation'];
   const content = Object.keys(productDescription)
     .filter((element) => !contentToOmit.includes(element))
@@ -67,7 +63,6 @@ export function createProductDescription(
   const B11measurement = renderMeasurement(productDescription.B11, 'B11', i18n);
   const B12measurement = renderMeasurement(productDescription.B12, 'B12', i18n);
   const B13measurement = renderMeasurement(productDescription.B13, 'B13', i18n);
-
   const suppInformation = productDescription.SupplementaryInformation
     ? supplementaryInformation(productDescription.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
     : [];
@@ -94,8 +89,16 @@ export function createProductDescription(
           ...B11measurement,
           ...B12measurement,
           ...B13measurement,
-          ...suppInformation,
         ],
+      },
+      layout: tableLayout,
+    },
+    {
+      style: 'table',
+      id: 'ProductDescription',
+      table: {
+        widths: [160, '*', 200, 100],
+        body: suppInformation,
       },
       layout: tableLayout,
     },
