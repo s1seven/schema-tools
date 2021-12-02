@@ -38,8 +38,8 @@
   },
   "dependencies": {
     "@types/json-schema": "^7.0.9",
-    "class-transformer": "^0.4.0",
-    "class-validator": "^0.13.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
