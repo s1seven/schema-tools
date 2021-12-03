@@ -1,4 +1,4 @@
-import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
+import { ContentCanvas, ContentText, TableCell } from 'pdfmake/interfaces';
 import {
   createEmptyColumns,
   localizeValue,
@@ -72,16 +72,23 @@ const renderKVObjectTests = (
   testName: 'OtherProductTests' | 'NonDestructiveTests',
   colSpan = 4,
 ): (ContentText | ContentCanvas | TableElement)[] => {
-  const dataMapped = Object.keys(data).map((element) => [
-    { text: `${element} ${data[element].Key}`, style: 'tableHeader', colSpan: colSpan - 1 },
-    ...createEmptyColumns(colSpan - 2),
-    {
-      text: `${localizeValue(data[element].Value || '', data[element]?.Type || 'string', i18n.languages[0])} ${
-        data[element]?.Unit || ''
-      }`,
-      style: 'p',
-    },
-  ]);
+  const dataMapped: TableCell[][] = Object.keys(data).map((element) => {
+    const { Interpretation, Key, Value, Type, Unit } = data[element];
+    return [
+      { text: `${element} ${Key}`, style: 'tableHeader', colSpan: colSpan - 2 },
+      ...createEmptyColumns(colSpan - 3),
+      {
+        text: `${localizeValue(Value, Type, i18n.languages[0])} ${Unit || ''}`,
+        style: 'p',
+        colSpan: 1,
+      },
+      {
+        text: Interpretation || '',
+        style: 'p',
+        colSpan: 1,
+      },
+    ];
+  });
 
   return dataMapped?.length
     ? [
@@ -90,7 +97,7 @@ const renderKVObjectTests = (
         {
           style: 'table',
           table: {
-            widths: [160, '*', '*', 300],
+            widths: [160, '*', 160, 130],
             body: dataMapped,
           },
           layout: tableLayout,

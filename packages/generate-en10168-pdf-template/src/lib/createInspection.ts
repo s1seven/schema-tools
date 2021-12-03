@@ -58,7 +58,15 @@ export function createInspection(
       style: 'table',
       table: {
         widths: [160, '*', '*', 300],
-        body: [...content, ...suppInformation],
+        body: content,
+      },
+      layout: tableLayout,
+    },
+    {
+      style: 'table',
+      table: {
+        widths: [160, '*', 160, 130],
+        body: suppInformation,
       },
       layout: tableLayout,
     },
@@ -73,7 +81,7 @@ export function createInspection(
 export function renderTensileTest(
   tensileTest: TensileTest,
   i18n: Translate,
-): [ContentText, ContentCanvas, TableElement] {
+): [ContentText, ContentCanvas, TableElement, TableElement] {
   const C10 = tensileTest.C10
     ? [
         { text: i18n.translate('C10', 'certificateFields'), style: 'tableHeader' },
@@ -101,7 +109,16 @@ export function renderTensileTest(
       id: 'TensileTest',
       table: {
         widths: [160, '*', '*', 300],
-        body: [C10, ...tableBody, ...suppInformation],
+        body: [C10, ...tableBody],
+      },
+      layout: tableLayout,
+    },
+    {
+      style: 'table',
+      id: 'TensileTest',
+      table: {
+        widths: [160, '*', 160, 130],
+        body: suppInformation,
       },
       layout: tableLayout,
     },
@@ -111,7 +128,7 @@ export function renderTensileTest(
 export function renderHardnessTest(
   hardnessTest: HardnessTest,
   i18n: Translate,
-): [ContentText, ContentCanvas, TableElement] {
+): [ContentText, ContentCanvas, TableElement, TableElement] {
   const C30 = hardnessTest.C30
     ? [
         { text: i18n.translate('C30', 'certificateFields'), style: 'tableHeader' },
@@ -133,7 +150,15 @@ export function renderHardnessTest(
       style: 'table',
       table: {
         widths: [160, '*', '*', 300],
-        body: [C30, ...C31, ...C32, ...suppInformation],
+        body: [C30, ...C31, ...C32],
+      },
+      layout: tableLayout,
+    },
+    {
+      style: 'table',
+      table: {
+        widths: [160, '*', 160, 130],
+        body: suppInformation,
       },
       layout: tableLayout,
     },
@@ -143,7 +168,7 @@ export function renderHardnessTest(
 export function renderNotchedBarImpactTest(
   notchedBarImpactTest: NotchedBarImpactTest,
   i18n: Translate,
-): [ContentText, ContentCanvas, TableElement] {
+): [ContentText, ContentCanvas, TableElement, TableElement] {
   const C40 = notchedBarImpactTest.C40
     ? [
         { text: i18n.translate('C40', 'certificateFields'), style: 'tableHeader' },
@@ -167,7 +192,15 @@ export function renderNotchedBarImpactTest(
       style: 'table',
       table: {
         widths: [160, '*', '*', 300],
-        body: [C40, ...C41, ...C42, ...C43, ...suppInformation],
+        body: [C40, ...C41, ...C42, ...C43],
+      },
+      layout: tableLayout,
+    },
+    {
+      style: 'table',
+      table: {
+        widths: [160, '*', 160, 130],
+        body: suppInformation,
       },
       layout: tableLayout,
     },
@@ -315,7 +348,7 @@ export function renderChemicalComposition(
     {
       style: 'table',
       table: {
-        widths: [160, '*', '*', 300],
+        widths: [160, '*', 160, 130],
         body: suppInformation,
       },
       layout: tableLayout,

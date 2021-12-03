@@ -1,21 +1,36 @@
 import { createEmptyColumns, localizeValue, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { CommercialTransactionSupplementaryInformation } from '../types';
+import { KeyValueObject } from '../types';
 import { TableCell } from 'pdfmake/interfaces';
 
 export const supplementaryInformation = (
-  data: CommercialTransactionSupplementaryInformation,
+  data: { [k: string]: KeyValueObject },
   i18n: Translate,
   colSpan = 3,
 ): TableCell[][] => {
-  const dataMapped = Object.keys(data).map((element) => [
-    { text: `${element} ${data[element].Key}`, style: 'tableHeader', colSpan: colSpan - 1 },
-    ...createEmptyColumns(colSpan - 2),
-    {
-      text: `${localizeValue(data[element].Value, data[element].Type, i18n.languages[0])} ${data[element].Unit || ''}`,
-      style: 'p',
-      colSpan: 1,
-    },
-  ]);
+  const dataMapped: TableCell[][] = Object.keys(data).map((element) => {
+    const { Interpretation, Key, Value, Type, Unit } = data[element];
+    const emptyColumnsCount = colSpan - 3;
+    const tableCells: TableCell[] = [
+      { text: `${element} ${Key}`, style: 'tableHeader', colSpan: colSpan - 2 },
+      {
+        text: `${localizeValue(Value, Type, i18n.languages[0])} ${Unit || ''}`,
+        style: 'p',
+        colSpan: 1,
+      },
+      {
+        text: Interpretation || '',
+        style: 'p',
+        colSpan: 1,
+      },
+    ];
+
+    if (emptyColumnsCount > 0) {
+      createEmptyColumns(emptyColumnsCount).forEach((col, i) => {
+        tableCells.splice(1 + i, 0, col);
+      });
+    }
+    return tableCells;
+  });
 
   if (!dataMapped?.length) return [];
   return [

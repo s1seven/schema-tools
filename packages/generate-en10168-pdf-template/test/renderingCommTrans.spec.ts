@@ -20,7 +20,7 @@ describe('Rendering commercial transaction', () => {
     );
     const tableBody = commercialTransaction[2].table.body;
 
-    expect(tableBody.length).toEqual(12);
+    expect(tableBody.length).toEqual(9);
     expect(tableBody[0]).toEqual([
       {
         text: 'A02 Type of inspection document / Art der Prüfbescheinigung',

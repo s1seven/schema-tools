@@ -7,7 +7,7 @@ import { supplementaryInformation } from './supplementaryInformation';
 export function createCommercialTransaction(
   commercialTransaction: CommercialTransaction,
   i18n: Translate,
-): [ContentText, ContentCanvas, TableElement] {
+): [ContentText, ContentCanvas, TableElement, TableElement] {
   const contentToOmit = ['A01', 'A04', 'A06', 'A06.1', 'A06.2', 'A06.3', 'SupplementaryInformation'];
   const content = Object.keys(commercialTransaction)
     .filter((element) => !contentToOmit.includes(element))
@@ -30,7 +30,15 @@ export function createCommercialTransaction(
       id: 'CommercialTransaction',
       table: {
         widths: [160, '*', '*', 300],
-        body: [...content, ...suppInformation],
+        body: content,
+      },
+      layout: tableLayout,
+    },
+    {
+      style: 'table',
+      table: {
+        widths: [160, '*', 160, 130],
+        body: suppInformation,
       },
       layout: tableLayout,
     },
