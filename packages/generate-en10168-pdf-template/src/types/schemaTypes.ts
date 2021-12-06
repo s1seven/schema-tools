@@ -742,7 +742,7 @@ export interface Validation {
   /**
    * CE marking
    */
-  Z04: {
+  Z04?: {
     /**
      * The CE image as base64 encoded png file. A default with size 90x65 is provided by example
      */
