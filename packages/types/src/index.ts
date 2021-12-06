@@ -94,8 +94,9 @@ export class EN10168SchemaCertificate {
   @IsNotEmptyObject()
   Inspection: Record<string, any>;
 
+  @IsOptional()
   @IsNotEmptyObject()
-  OtherTests: Record<string, any>;
+  OtherTests?: Record<string, any>;
 
   @IsNotEmptyObject()
   Validation: Record<string, any>;
