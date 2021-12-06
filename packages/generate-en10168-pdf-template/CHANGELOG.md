@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.2.1...@s1seven/schema-tools-generate-en10168-pdf-template@0.3.0) (2021-12-06)
+
+
+### Bug Fixes
+
+* **generate-en10168-pdf-template:** adjust layout ([3d49613](http://github.com/s1seven/schema-tools/commit/3d496136c1d4f31be61c71c2efaa785709bf637c))
+
+
+### Features
+
+* allow displaying `Interpretation` in any supplementaryInformation ([4cdb0cd](http://github.com/s1seven/schema-tools/commit/4cdb0cd8a555375e148674862cae534d2f77c131))
+* display `Interpretation` for other tests ([993d34c](http://github.com/s1seven/schema-tools/commit/993d34c629e264417b55a92494337b7b1485ee66))
+* make Z04 optional for en10168 PDF certificate ([5b1e2c3](http://github.com/s1seven/schema-tools/commit/5b1e2c32d0d9e43e3c5f4db917887dccdcdbe486))
+
+
+
+
+
 ## [0.2.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.2.0...@s1seven/schema-tools-generate-en10168-pdf-template@0.2.1) (2021-10-05)
 
 
