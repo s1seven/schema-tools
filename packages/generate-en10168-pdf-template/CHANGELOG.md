@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.3.0...@s1seven/schema-tools-generate-en10168-pdf-template@0.4.0) (2021-12-07)
+
+
+### Features
+
+* generate TS interfaces for en10168 v.02 ([a0ecdcd](http://github.com/s1seven/schema-tools/commit/a0ecdcdc3b87a0a03ffe89e28e4907e815917939))
+
+
+
+
+
 # [0.3.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.2.1...@s1seven/schema-tools-generate-en10168-pdf-template@0.3.0) (2021-12-06)
 
 

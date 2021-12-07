@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-generate-interfaces",
   "description": "Tool to generate TS interfaces from schema",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/generate-interfaces#readme",
@@ -41,8 +41,8 @@
     "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
   "dependencies": {
-    "@s1seven/schema-tools-types": "^0.1.5",
-    "@s1seven/schema-tools-utils": "^0.0.22",
+    "@s1seven/schema-tools-types": "^0.1.6",
+    "@s1seven/schema-tools-utils": "^0.0.23",
     "json-schema-to-typescript": "^10.1.5",
     "lodash.merge": "^4.6.2"
   },

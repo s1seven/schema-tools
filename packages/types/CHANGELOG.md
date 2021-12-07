@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.6](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.1.5...@s1seven/schema-tools-types@0.1.6) (2021-12-07)
+
+
+### Bug Fixes
+
+* make OtherTests field optional ([706b029](http://github.com/s1seven/schema-tools/commit/706b0296d53fd64cc3a7cac31c5e9cfa6106581a))
+
+
+
+
+
 ## [0.1.5](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.1.4...@s1seven/schema-tools-types@0.1.5) (2021-12-06)
 
 **Note:** Version bump only for package @s1seven/schema-tools-types
