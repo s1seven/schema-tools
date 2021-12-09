@@ -21,11 +21,28 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:sonarjs/recommended',
   ],
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports', 'import', 'simple-import-sort'],
   rules: {
     quotes: ['warn', 'single', { avoidEscape: true }],
     'member-access': 'off',
-    'sort-imports': ['warn', { ignoreCase: true, memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'] }],
+    'simple-import-sort/imports': [
+      'error',
+      {
+        groups: [
+          // Side effects.
+          ['^\\u0000'],
+          // 3rd party.
+          ['^@?\\w'],
+          // Internal packages.
+          ['^(@s1s|@s1seven)(/.*|$)'],
+          // Anything not fitting group above.
+          ['^'],
+          // Relative imports.
+          ['^\\.'],
+        ],
+      },
+    ],
+    'simple-import-sort/exports': 'error',
     'interface-name': 'off',
     'arrow-parens': 'off',
     'object-literal-sort-keys': 'off',
