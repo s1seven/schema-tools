@@ -1,19 +1,20 @@
+import htmlToPdfmake from 'html-to-pdfmake';
+import jsdom from 'jsdom';
+import clone from 'lodash.clone';
+import merge from 'lodash.merge';
+import Module from 'module';
+import PdfPrinter from 'pdfmake';
 import { Content, StyleDictionary, TDocumentDefinitions, TFontDictionary } from 'pdfmake/interfaces';
+import { URL } from 'url';
+import vm from 'vm';
+
+import { Schemas, Translations } from '@s1seven/schema-tools-types';
 import {
   getCertificateLanguages,
   getSchemaConfig,
   getTranslations,
   loadExternalFile,
 } from '@s1seven/schema-tools-utils';
-import { Schemas, Translations } from '@s1seven/schema-tools-types';
-import clone from 'lodash.clone';
-import htmlToPdfmake from 'html-to-pdfmake';
-import jsdom from 'jsdom';
-import merge from 'lodash.merge';
-import Module from 'module';
-import PdfPrinter from 'pdfmake';
-import { URL } from 'url';
-import vm from 'vm';
 
 export { Content, StyleDictionary, TDocumentDefinitions, TFontDictionary } from 'pdfmake/interfaces';
 

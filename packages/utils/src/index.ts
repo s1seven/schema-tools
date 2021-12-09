@@ -1,5 +1,16 @@
-import * as fs from 'fs';
+import type { ErrorObject } from 'ajv';
 import axios, { AxiosRequestConfig } from 'axios';
+import { plainToClass } from 'class-transformer';
+import { validateSync } from 'class-validator';
+import * as fs from 'fs';
+import { Agent as HttpAgent } from 'http';
+import { Agent as HttpsAgent } from 'https';
+import NodeCache from 'node-cache';
+import semver from 'semver-lite';
+import { Readable } from 'stream';
+import { URL } from 'url';
+import { promisify } from 'util';
+
 import {
   CDNSchema,
   CertificateLanguages,
@@ -13,16 +24,6 @@ import {
   Translations,
   ValidationError,
 } from '@s1seven/schema-tools-types';
-import type { ErrorObject } from 'ajv';
-import { Agent as HttpAgent } from 'http';
-import { Agent as HttpsAgent } from 'https';
-import NodeCache from 'node-cache';
-import { plainToClass } from 'class-transformer';
-import { promisify } from 'util';
-import { Readable } from 'stream';
-import semver from 'semver-lite';
-import { URL } from 'url';
-import { validateSync } from 'class-validator';
 
 export const cache = new NodeCache({
   stdTTL: 60 * 60,
@@ -130,8 +131,9 @@ export async function getTranslations(
       const filePath = getRefSchemaUrl(schemaConfig, `${lang}.json`).href;
       try {
         return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
-      } catch (error) {
+      } catch (error: any) {
         errors.push(lang);
+        // errors.push({ [lang]: error?.message });
         return null;
       }
     }),
@@ -139,6 +141,7 @@ export async function getTranslations(
 
   if (errors.length) {
     throw new Error(`these languages have errors: ${errors.join(', ')}`);
+    // throw new Error(`these languages have errors: ${JSON.stringify(errors, null, 2)}`);
   }
 
   return translationsArray.reduce((acc, translation) => {
@@ -172,7 +175,7 @@ export async function loadExternalFile(
   if (filePath.startsWith('http')) {
     const options: AxiosRequestConfig = {
       responseType: type,
-      // TODO: allow custom timeout
+      // TODO: allow custom request timeout
     };
     const { data } = await axiosInstance.get(filePath, options);
     result = data;

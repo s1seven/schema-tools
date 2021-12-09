@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { extractEmails } = require('./dist/index');
 const en10168Certificate = require('../../fixtures/EN10168/v0.0.2/valid_cert.json');
 const eCoCCertificate = require('../../fixtures/E-CoC/v0.0.2-2/valid_cert.json');
@@ -13,7 +14,7 @@ const eCoCCertificate = require('../../fixtures/E-CoC/v0.0.2-2/valid_cert.json')
       mails = await extractEmails(eCoCCertificate);
     }
 
-    console.log({ mails })
+    console.log({ mails });
   } catch (error) {
     console.error(error.message);
   }

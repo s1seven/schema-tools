@@ -1,6 +1,8 @@
-import { localizeNumber, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { Measurement } from '../types';
 import { TableCell } from 'pdfmake/interfaces';
+
+import { localizeNumber, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+
+import { Measurement } from '../types';
 
 export function renderMeasurement(measurement: Measurement, name: string, i18n: Translate): TableCell[][] {
   if (!measurement) return [];

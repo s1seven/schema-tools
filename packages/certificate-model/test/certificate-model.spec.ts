@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { formatValidationErrors, loadExternalFile } from '@s1seven/schema-tools-utils';
 import { JSONSchema7, Schemas, SchemaTypes, SupportedSchemas } from '@s1seven/schema-tools-types';
+import { formatValidationErrors, loadExternalFile } from '@s1seven/schema-tools-utils';
+
 import { CertificateModel } from '../src/index';
 
 describe('CertificateModel', function () {

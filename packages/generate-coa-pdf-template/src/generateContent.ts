@@ -1,14 +1,5 @@
-import {
-  Attachment,
-  BusinessTransaction,
-  Certificate,
-  Company,
-  DeclarationOfConformity,
-  Inspection,
-  Parties,
-  Person,
-  Product,
-} from './types';
+import { Content, ContentCanvas, ContentText, TableCell } from 'pdfmake/interfaces';
+
 import {
   computeTextStyle,
   createEmptyColumns,
@@ -20,7 +11,18 @@ import {
   Translate,
   Translations,
 } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { Content, ContentCanvas, ContentText, TableCell } from 'pdfmake/interfaces';
+
+import {
+  Attachment,
+  BusinessTransaction,
+  Certificate,
+  Company,
+  DeclarationOfConformity,
+  Inspection,
+  Parties,
+  Person,
+  Product,
+} from './types';
 
 function createManufacturerHeader(parties: Parties, logo: string): TableCell[][] {
   const manufacturerLogo: TableCell[] = logo ? [{ image: logo, width: 150 }] : [];

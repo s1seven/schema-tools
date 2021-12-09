@@ -1,8 +1,10 @@
-import { generateHtml } from '../src/index';
 import { HtmlDiffer } from '@markedjs/html-differ';
 import logger from '@markedjs/html-differ/lib/logger';
 import { readFileSync } from 'fs';
+
 import { SupportedSchemas } from '@s1seven/schema-tools-types';
+
+import { generateHtml } from '../src/index';
 
 describe('GenerateHTML', function () {
   const testsMap = [

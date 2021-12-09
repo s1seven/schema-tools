@@ -1,12 +1,14 @@
-import { createFooter, Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { Certificate } from './types';
 import { Content } from 'pdfmake/interfaces';
+
+import { createFooter, Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+
 import { createCommercialTransaction } from './lib/commercialTransaction';
 import { createInspection } from './lib/createInspection';
 import { createOtherTests } from './lib/createOtherTests';
 import { createProductDescription } from './lib/createProductDescription';
 import { createTransactionParties } from './lib/createTransactionParties';
 import { createValidation } from './lib/createValidation';
+import { Certificate } from './types';
 
 export function generateContent(certificate: Certificate, translations: Translations): Content {
   const i18n = new Translate(translations, certificate.Certificate.CertificateLanguages);

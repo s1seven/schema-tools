@@ -1,5 +1,6 @@
-import { TableElement } from './types';
 import { TableLayout } from 'pdfmake/interfaces';
+
+import { TableElement } from './types';
 
 export function fillTableRow(arr: any[], colCounts: number, fill = {}) {
   if (arr.length === colCounts) {

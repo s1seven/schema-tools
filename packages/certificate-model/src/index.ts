@@ -1,4 +1,11 @@
 import Ajv, { ErrorObject } from 'ajv';
+import addFormats from 'ajv-formats';
+import { EventEmitter } from 'events';
+import cloneDeepWith from 'lodash.clonedeepwith';
+import merge from 'lodash.merge';
+import { URL } from 'url';
+
+import { extractEmails, PartyEmail } from '@s1seven/schema-tools-extract-emails';
 import {
   BaseCertificateSchema,
   JSONSchema7,
@@ -15,13 +22,7 @@ import {
   getSemanticVersion,
   loadExternalFile,
 } from '@s1seven/schema-tools-utils';
-import { extractEmails, PartyEmail } from '@s1seven/schema-tools-extract-emails';
 import { setValidator, ValidateFunction } from '@s1seven/schema-tools-validate';
-import addFormats from 'ajv-formats';
-import cloneDeepWith from 'lodash.clonedeepwith';
-import { EventEmitter } from 'events';
-import merge from 'lodash.merge';
-import { URL } from 'url';
 
 export type BuildCertificateModelOptions = {
   schema?: JSONSchema7;

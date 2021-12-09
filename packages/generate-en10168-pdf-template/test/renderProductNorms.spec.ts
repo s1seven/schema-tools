@@ -1,7 +1,8 @@
-import { certificate, defaultSchemaUrl } from './constants';
 import { Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { getTranslations } from './getTranslations';
+
 import { productNorms } from '../src/lib/createProductDescription';
+import { certificate, defaultSchemaUrl } from './constants';
+import { getTranslations } from './getTranslations';
 
 describe('Product norms', () => {
   let translations: Translations;

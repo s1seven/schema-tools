@@ -1,4 +1,5 @@
 import { ContentCanvas, ContentText, TableCell } from 'pdfmake/interfaces';
+
 import {
   createEmptyColumns,
   localizeValue,
@@ -6,6 +7,7 @@ import {
   tableLayout,
   Translate,
 } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+
 import { NonDestructiveTests, OtherProductTests, OtherTests } from '../types';
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 

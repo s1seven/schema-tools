@@ -1,6 +1,7 @@
-import { certificate, defaultSchemaUrl } from './constants';
-import { renderMeasurement, renderMeasurementArray } from '../src/lib/measurement';
 import { Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+
+import { renderMeasurement, renderMeasurementArray } from '../src/lib/measurement';
+import { certificate, defaultSchemaUrl } from './constants';
 import { getTranslations } from './getTranslations';
 
 describe('Rendering measurement', () => {

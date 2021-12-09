@@ -1,5 +1,12 @@
 import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
-import { TableElement, tableLayout, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+
+import {
+  createEmptyColumns,
+  TableElement,
+  tableLayout,
+  Translate,
+} from '@s1seven/schema-tools-generate-pdf-template-helpers';
+
 import { CommercialTransaction } from '../types';
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { supplementaryInformation } from './supplementaryInformation';
@@ -20,7 +27,7 @@ export function createCommercialTransaction(
 
   const suppInformation = commercialTransaction.SupplementaryInformation
     ? supplementaryInformation(commercialTransaction.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
-    : [];
+    : createEmptyColumns(PRODUCT_DESCRIPTION_COLUMNS_COUNT);
 
   return [
     { text: `${i18n.translate('CommercialTransaction', 'certificateGroups')}`, style: 'h2', margin: [0, 0, 0, 4] },

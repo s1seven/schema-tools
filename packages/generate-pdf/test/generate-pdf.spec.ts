@@ -1,11 +1,13 @@
-import { buildModule, generateInSandbox, generatePdf } from '../src/index';
 import { createWriteStream, existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
-import { EN10168Schema, Schemas, SupportedSchemas } from '@s1seven/schema-tools-types';
-import { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
-import { fromBuffer } from 'pdf2pic';
 import path from 'path';
+import { fromBuffer } from 'pdf2pic';
 import { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
+import { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
 import { Writable } from 'stream';
+
+import { EN10168Schema, Schemas, SupportedSchemas } from '@s1seven/schema-tools-types';
+
+import { buildModule, generateInSandbox, generatePdf } from '../src/index';
 
 describe('GeneratePDF', function () {
   const fonts = {

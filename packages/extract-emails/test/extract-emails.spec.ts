@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+import { SupportedSchemas } from '@s1seven/schema-tools-types';
+
 import {
   extractEmails,
   getReceiver,
@@ -9,7 +11,6 @@ import {
   ReceiverRoles,
   SenderRoles,
 } from '../src/index';
-import { SupportedSchemas } from '@s1seven/schema-tools-types';
 
 describe('ExtractEmails', function () {
   const testSuitesMap = [

@@ -4,6 +4,7 @@ import {
   tableLayout,
   Translate,
 } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+
 import { CommercialTransaction } from '../types';
 import { TRANSACTION_COLUMNS_COUNT } from './constants';
 
@@ -46,7 +47,7 @@ function splitIfTooLong<T>(arr: T[]): T[][] | (T | string)[][][] {
 
 export function createTransactionParties(commercialTransaction: CommercialTransaction, i18n: Translate): TableElement {
   const [keys, values] = separateCommercialParties(commercialTransaction, i18n);
-  if (keys.length <= TRANSACTION_COLUMNS_COUNT) {
+  if (keys?.length <= TRANSACTION_COLUMNS_COUNT) {
     const contentBody = [
       fillTableRow(keys, TRANSACTION_COLUMNS_COUNT, ''),
       fillTableRow(values, TRANSACTION_COLUMNS_COUNT, ''),
