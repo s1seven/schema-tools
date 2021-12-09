@@ -1,11 +1,12 @@
 import Ajv, { ValidateFunction } from 'ajv';
-import { BaseCertificateSchema, ValidationError } from '@s1seven/schema-tools-types';
-import { cache, formatValidationErrors, getErrorPaths, loadExternalFile } from '@s1seven/schema-tools-utils';
 import addFormats from 'ajv-formats';
-import flatten from 'lodash.flatten';
 import { promises as fs } from 'fs';
+import flatten from 'lodash.flatten';
 import groupBy from 'lodash.groupby';
 import path from 'path';
+
+import { BaseCertificateSchema, ValidationError } from '@s1seven/schema-tools-types';
+import { cache, formatValidationErrors, getErrorPaths, loadExternalFile } from '@s1seven/schema-tools-utils';
 
 export type ValidateOptions = {
   ignoredPaths?: string[];

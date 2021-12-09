@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { SupportedSchemas } from '@s1seven/schema-tools-types';
+
 import { validate } from '../src/index';
 
 const typeLiteral = 'type';

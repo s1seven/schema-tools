@@ -1,5 +1,5 @@
-import { castCertificate, loadExternalFile } from '@s1seven/schema-tools-utils';
 import { CoASchema, ECoCSchema, EN10168Schema, SupportedSchemas } from '@s1seven/schema-tools-types';
+import { castCertificate, loadExternalFile } from '@s1seven/schema-tools-utils';
 
 export interface PartyEmail {
   emails: string[];

@@ -1,3 +1,10 @@
+import { compile, RuntimeOptions, SafeString } from 'handlebars';
+import get from 'lodash.get';
+import merge from 'lodash.merge';
+import mjml2html from 'mjml';
+import { URL } from 'url';
+
+import { SchemaConfig, Schemas, Translations } from '@s1seven/schema-tools-types';
 import {
   castCertificate,
   getCertificateLanguages,
@@ -6,12 +13,6 @@ import {
   getTranslations,
   loadExternalFile,
 } from '@s1seven/schema-tools-utils';
-import { compile, RuntimeOptions, SafeString } from 'handlebars';
-import { SchemaConfig, Schemas, Translations } from '@s1seven/schema-tools-types';
-import get from 'lodash.get';
-import merge from 'lodash.merge';
-import mjml2html from 'mjml';
-import { URL } from 'url';
 
 interface MJMLParsingOpts {
   fonts?: { [key: string]: string };

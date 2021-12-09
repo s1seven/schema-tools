@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { generate } from '../src/index';
 import { readFileSync } from 'fs';
+
 import { SupportedSchemas } from '@s1seven/schema-tools-types';
+
+import { generate } from '../src/index';
 
 describe('GenerateInterfaces', function () {
   const testsMap = [
