@@ -1,6 +1,13 @@
 import { ContentCanvas, ContentText, TableCell } from 'pdfmake/interfaces';
+
+import {
+  createEmptyColumns,
+  TableElement,
+  tableLayout,
+  Translate,
+} from '@s1seven/schema-tools-generate-pdf-template-helpers';
+
 import { ProductDescription, ProductShape } from '../types';
-import { TableElement, tableLayout, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { renderMeasurement } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
@@ -65,7 +72,7 @@ export function createProductDescription(
   const B13measurement = renderMeasurement(productDescription.B13, 'B13', i18n);
   const suppInformation = productDescription.SupplementaryInformation
     ? supplementaryInformation(productDescription.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
-    : [];
+    : createEmptyColumns(PRODUCT_DESCRIPTION_COLUMNS_COUNT);
 
   return [
     { text: `${i18n.translate('ProductDescription', 'certificateGroups')}`, style: 'h2', margin: [0, 0, 0, 4] },

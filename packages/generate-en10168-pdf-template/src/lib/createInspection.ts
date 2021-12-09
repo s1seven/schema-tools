@@ -1,3 +1,13 @@
+import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
+
+import {
+  createEmptyColumns,
+  localizeNumber,
+  TableElement,
+  tableLayout,
+  Translate,
+} from '@s1seven/schema-tools-generate-pdf-template-helpers';
+
 import {
   ChemicalComposition,
   ChemicalElement,
@@ -7,16 +17,8 @@ import {
   OtherMechanicalTests,
   TensileTest,
 } from '../types';
-import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
-import {
-  createEmptyColumns,
-  localizeNumber,
-  TableElement,
-  tableLayout,
-  Translate,
-} from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
+import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
 
 export function createInspection(
@@ -35,7 +37,7 @@ export function createInspection(
 
   const suppInformation = inspection.SupplementaryInformation
     ? supplementaryInformation(inspection.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
-    : [];
+    : createEmptyColumns(PRODUCT_DESCRIPTION_COLUMNS_COUNT);
 
   const tensileTest = inspection.TensileTest ? renderTensileTest(inspection.TensileTest, i18n) : [];
   const hardnessTest = inspection.HardnessTest ? renderHardnessTest(inspection.HardnessTest, i18n) : [];
