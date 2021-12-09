@@ -49,13 +49,13 @@
     "lato-font": "^3.0.0",
     "lodash.clone": "^4.5.0",
     "lodash.merge": "^4.6.2",
-    "pdfmake": "^0.2.2"
+    "pdfmake": "^0.2.4"
   },
   "devDependencies": {
     "@types/jsdom": "^16.2.13",
     "@types/lodash.clone": "^4.5.6",
     "@types/lodash.merge": "^4.6.6",
-    "@types/pdfmake": "^0.1.18",
+    "@types/pdfmake": "^0.1.19",
     "pdf2pic": "^2.1.4",
     "rimraf": "~3.0.2",
     "typescript": "^4.4.3"
