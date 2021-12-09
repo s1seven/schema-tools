@@ -13,6 +13,7 @@ import {
 } from '../src/index';
 
 describe('ExtractEmails', function () {
+  const certificateEmail = 's1seven.certificates@gmail.com';
   const testSuitesMap = [
     {
       version: 'v0.0.2',
@@ -73,7 +74,7 @@ describe('ExtractEmails', function () {
       certificate: require('../../../fixtures/E-CoC/v0.0.2/valid_cert.json'),
       expectedSenders: {
         [SenderRoles.Manufacturer]: {
-          emails: null,
+          emails: [certificateEmail],
           name: 'Material Manufacturing SE',
           purchaseOrderNumber: undefined,
           purchaseOrderPosition: undefined,
@@ -83,7 +84,7 @@ describe('ExtractEmails', function () {
       },
       expectedReceivers: {
         [ReceiverRoles.Recipient]: {
-          emails: null,
+          emails: [certificateEmail],
           name: 'Material Trading AG',
           purchaseOrderNumber: undefined,
           purchaseOrderPosition: undefined,
@@ -99,7 +100,7 @@ describe('ExtractEmails', function () {
       certificate: require('../../../fixtures/CoA/v0.0.4/valid_cert.json'),
       expectedSenders: {
         [SenderRoles.Manufacturer]: {
-          emails: ['s1seven.certificates@gmail.com'],
+          emails: [certificateEmail],
           name: 'Green Plastics AG',
           purchaseOrderNumber: '1',
           purchaseOrderPosition: '1',
@@ -109,7 +110,7 @@ describe('ExtractEmails', function () {
       },
       expectedReceivers: {
         [ReceiverRoles.Customer]: {
-          emails: ['s1seven.certificates@gmail.com'],
+          emails: [certificateEmail],
           name: 'Plastic Processor SE',
           purchaseOrderNumber: '1',
           purchaseOrderPosition: '1',

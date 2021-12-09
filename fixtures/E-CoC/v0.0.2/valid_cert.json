@@ -26,7 +26,10 @@
             "AddAddressLine": ""
           },
           "PartyRole": "Recipient",
-          "AdditionalPartyProperties": []
+          "AdditionalPartyProperties": [{
+            "Name": "email",
+            "Value": ["s1seven.certificates@gmail.com"]}
+          ]
         },
         {
           "PartyNo": 2,
@@ -49,7 +52,11 @@
             "State": "",
             "AddAddressLine": ""
           },
-          "PartyRole": "Manufacturer"
+          "PartyRole": "Manufacturer",
+          "AdditionalPartyProperties": [{
+            "Name": "email",
+            "Value": ["s1seven.certificates@gmail.com"]}
+          ]
         }
       ],
       "BusinessRef": {
