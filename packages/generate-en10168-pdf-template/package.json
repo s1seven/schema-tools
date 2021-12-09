@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@s1seven/schema-tools-generate-pdf-template-helpers": "^0.2.1",
-    "pdfmake": "^0.2.2"
+    "pdfmake": "^0.2.4"
   },
   "devDependencies": {
     "@s1seven/schema-tools-generate-interfaces": "^0.0.23",

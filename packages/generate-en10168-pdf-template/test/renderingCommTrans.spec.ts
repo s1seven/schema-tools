@@ -1,8 +1,9 @@
-import { certificate, defaultSchemaUrl } from './constants';
 import { Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { CommercialTransaction } from '../src/types';
+
 import { createCommercialTransaction } from '../src/lib/commercialTransaction';
 import { createTransactionParties } from '../src/lib/createTransactionParties';
+import { CommercialTransaction } from '../src/types';
+import { certificate, defaultSchemaUrl } from './constants';
 import { getTranslations } from './getTranslations';
 
 describe('Rendering commercial transaction', () => {

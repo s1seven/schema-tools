@@ -1,12 +1,13 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { certificate, defaultSchemaUrl } from './constants';
+import { TableElement, Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+
 import {
   renderChemicalComposition,
   renderHardnessTest,
   renderNotchedBarImpactTest,
   renderTensileTest,
 } from '../src/lib/createInspection';
-import { TableElement, Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { certificate, defaultSchemaUrl } from './constants';
 import { getTranslations } from './getTranslations';
 
 describe('Rendering inspection section', () => {

@@ -1,6 +1,8 @@
-import { createEmptyColumns, localizeValue, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { KeyValueObject } from '../types';
 import { TableCell } from 'pdfmake/interfaces';
+
+import { createEmptyColumns, localizeValue, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+
+import { KeyValueObject } from '../types';
 
 export const supplementaryInformation = (
   data: { [k: string]: KeyValueObject },
