@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { certificate, defaultSchemaUrl } from './constants';
+import {
+  localizeDate,
+  localizeNumber,
+  Translate,
+  Translations,
+} from '@s1seven/schema-tools-generate-pdf-template-helpers';
+
 import {
   createAnalysis,
   createAttachments,
@@ -10,12 +16,7 @@ import {
   createProductDescription,
   createReceivers,
 } from '../src/generateContent';
-import {
-  localizeDate,
-  localizeNumber,
-  Translate,
-  Translations,
-} from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { certificate, defaultSchemaUrl } from './constants';
 import { getTranslations } from './getTranslations';
 
 describe('Rendering', () => {
