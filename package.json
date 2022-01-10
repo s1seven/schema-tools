@@ -36,6 +36,7 @@
     "test:staged": "lerna run test:staged",
     "test:browser": "rimraf -rf ./dist && npm run test:validate:browser && npm run test:extract-emails:browser",
     "test:certificate-model": "lerna run --scope @s1seven/schema-tools-certificate-model test",
+    "test:certificate-summary": "lerna run --scope @s1seven/schema-tools-certificate-summary test",
     "test:extract-emails": "lerna run --scope @s1seven/schema-tools-extract-emails test",
     "test:extract-emails:browser": "lerna run --scope @s1seven/schema-tools-extract-emails test:browser",
     "test:generate-html": "lerna run --scope @s1seven/schema-tools-generate-html test",
