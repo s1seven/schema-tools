@@ -2,7 +2,7 @@
 import { SupportedSchemas } from '@s1seven/schema-tools-types';
 
 import {
-  extractEmails,
+  extractParties,
   getReceiver,
   getReceivers,
   getSender,
@@ -25,8 +25,6 @@ describe('ExtractEmails', function () {
           vatId: 'IT00504870015',
           name: 'ALESSIO TUBI S.p.A.',
           role: 'Seller',
-          purchaseOrderNumber: '3100-L-42006554',
-          purchaseOrderPosition: '',
         },
       },
       expectedReceivers: {
@@ -35,8 +33,6 @@ describe('ExtractEmails', function () {
           vatId: 'CZ49356704',
           name: 'KOENIGFRANKSTAHL S.R.O.',
           role: 'Buyer',
-          purchaseOrderNumber: '3100-L-42006554',
-          purchaseOrderPosition: '',
         },
       },
     },
@@ -49,8 +45,6 @@ describe('ExtractEmails', function () {
         [SenderRoles.Seller]: {
           emails: ['sbs.steelfactory@gmail.com'],
           name: 'Steel Mill SE',
-          purchaseOrderNumber: '0334/2019/ZZS',
-          purchaseOrderPosition: '1',
           role: 'Seller',
           vatId: 'AT123456789',
         },
@@ -59,8 +53,6 @@ describe('ExtractEmails', function () {
         [ReceiverRoles.Buyer]: {
           emails: ['sbs.steeltrader@gmail.com'],
           name: 'Steel Trading AG',
-          purchaseOrderNumber: '0334/2019/ZZS',
-          purchaseOrderPosition: '1',
           role: 'Buyer',
           vatId: 'DE12234567890',
         },
@@ -75,8 +67,6 @@ describe('ExtractEmails', function () {
         [SenderRoles.Manufacturer]: {
           emails: null,
           name: 'Material Manufacturing SE',
-          purchaseOrderNumber: undefined,
-          purchaseOrderPosition: undefined,
           role: 'Manufacturer',
           vatId: 'AT123456789',
         },
@@ -85,8 +75,6 @@ describe('ExtractEmails', function () {
         [ReceiverRoles.Recipient]: {
           emails: null,
           name: 'Material Trading AG',
-          purchaseOrderNumber: undefined,
-          purchaseOrderPosition: undefined,
           role: 'Recipient',
           vatId: 'DE12234567890',
         },
@@ -101,8 +89,6 @@ describe('ExtractEmails', function () {
         [SenderRoles.Manufacturer]: {
           emails: ['s1seven.certificates@gmail.com'],
           name: 'Green Plastics AG',
-          purchaseOrderNumber: '1',
-          purchaseOrderPosition: '1',
           role: 'Manufacturer',
           vatId: '',
         },
@@ -111,8 +97,6 @@ describe('ExtractEmails', function () {
         [ReceiverRoles.Customer]: {
           emails: ['s1seven.certificates@gmail.com'],
           name: 'Plastic Processor SE',
-          purchaseOrderNumber: '1',
-          purchaseOrderPosition: '1',
           role: 'Customer',
           vatId: '',
         },
@@ -121,7 +105,14 @@ describe('ExtractEmails', function () {
   ];
 
   testSuitesMap.forEach((testSuite) => {
-    const { certificate, expectedReceivers: receivers, expectedSenders: senders, type, version } = testSuite;
+    const {
+      certificate,
+      certificatePath,
+      expectedReceivers: receivers,
+      expectedSenders: senders,
+      type,
+      version,
+    } = testSuite;
     describe(`${type} - version ${version}`, function () {
       describe('from certificate by passing it as an object', () => {
         let emailsList: PartyEmail[];
@@ -129,7 +120,7 @@ describe('ExtractEmails', function () {
         const expectedSenders = Object.values(senders);
 
         beforeAll(async () => {
-          emailsList = await extractEmails(certificate);
+          emailsList = await extractParties(certificate);
         });
 
         it('should extract emails', () => {
@@ -173,7 +164,7 @@ describe('ExtractEmails', function () {
           const expectedSenders = Object.values(senders);
 
           beforeAll(async () => {
-            emailsList = await extractEmails(certificate);
+            emailsList = await extractParties(certificatePath);
           });
 
           it('should extract emails', () => {
