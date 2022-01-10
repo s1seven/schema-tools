@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.4.0...@s1seven/schema-tools-generate-en10168-pdf-template@0.4.1) (2022-01-10)
+
+
+### Bug Fixes
+
+* **generate-en10168-pdf-template:** lint ([a91eb12](http://github.com/s1seven/schema-tools/commit/a91eb129f5a817cf59a4d0f6f21da0354deaab8c))
+* create empty columns for supplementary informations ([26938df](http://github.com/s1seven/schema-tools/commit/26938dffc0b04f0169da7a3d87daff4e1316db07))
+
+
+
+
+
 # [0.4.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.3.0...@s1seven/schema-tools-generate-en10168-pdf-template@0.4.0) (2021-12-07)
 
 

@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.1.6...@s1seven/schema-tools-extract-emails@0.2.0) (2022-01-10)
+
+
+### Bug Fixes
+
+* lint ([2178236](http://github.com/s1seven/schema-tools/commit/21782368cf46d6fa793f2de713a3a20b8dd1d86a))
+* lint example ([aa04ec2](http://github.com/s1seven/schema-tools/commit/aa04ec25fbb1abc46902c2bec7e54d4f4faceec9))
+
+
+### Code Refactoring
+
+* **extract-emails:** remove order info from parties ([c588e12](http://github.com/s1seven/schema-tools/commit/c588e12e30a571594f5c9b6369f40081a6da72bf))
+
+
+### BREAKING CHANGES
+
+* **extract-emails:** `purchaseOrderNumber` and `purchaseOrderPosition` will be extracted in certificate-summary
+
+
+
+
+
 ## [0.1.6](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.1.5...@s1seven/schema-tools-extract-emails@0.1.6) (2021-12-07)
 
 **Note:** Version bump only for package @s1seven/schema-tools-extract-emails

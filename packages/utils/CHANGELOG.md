@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.24](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.0.23...@s1seven/schema-tools-utils@0.0.24) (2022-01-10)
+
+
+### Bug Fixes
+
+* lint ([2178236](http://github.com/s1seven/schema-tools/commit/21782368cf46d6fa793f2de713a3a20b8dd1d86a))
+
+
+
+
+
 ## [0.0.23](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.0.22...@s1seven/schema-tools-utils@0.0.23) (2021-12-07)
 
 **Note:** Version bump only for package @s1seven/schema-tools-utils

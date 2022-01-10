@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools-generate-coa-pdf-template",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "license": "Apache-2.0",
   "main": "dist/generateContent.js",
   "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/generate-coa-pdf-template#readme",
@@ -47,12 +47,12 @@
     "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.s1seven.com/coa-schemas/v0.0.4/schema.json ./src/types/schemaTypes.ts"
   },
   "dependencies": {
-    "@s1seven/schema-tools-generate-pdf-template-helpers": "^0.2.1",
+    "@s1seven/schema-tools-generate-pdf-template-helpers": "^0.2.2",
     "pdfmake": "^0.2.4"
   },
   "devDependencies": {
-    "@s1seven/schema-tools-generate-interfaces": "^0.0.23",
-    "@s1seven/schema-tools-utils": "^0.0.23",
+    "@s1seven/schema-tools-generate-interfaces": "^0.0.24",
+    "@s1seven/schema-tools-utils": "^0.0.24",
     "@types/pdfmake": "^0.1.19",
     "full-icu": "^1.4.0",
     "lato-font": "^3.0.0",

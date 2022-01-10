@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.1.3...@s1seven/schema-tools-generate-coa-pdf-template@0.1.4) (2022-01-10)
+
+
+### Bug Fixes
+
+* **generate-coa-pdf-template:** lint ([67d0725](http://github.com/s1seven/schema-tools/commit/67d07253904a7ea20c955c9a4772dd44b3b03843))
+
+
+
+
+
 ## [0.1.3](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.1.2...@s1seven/schema-tools-generate-coa-pdf-template@0.1.3) (2021-12-07)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-coa-pdf-template

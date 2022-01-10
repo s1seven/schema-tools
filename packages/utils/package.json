@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-utils",
   "description": "Utils used in @s1seven/schema-tools packages",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/utils#readme",
@@ -41,7 +41,7 @@
     "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
   "dependencies": {
-    "@s1seven/schema-tools-types": "^0.1.6",
+    "@s1seven/schema-tools-types": "^0.1.7",
     "ajv": "^8.8.2",
     "axios": "^0.24.0",
     "class-transformer": "^0.5.1",

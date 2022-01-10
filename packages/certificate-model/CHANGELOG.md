@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.6](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.2.5...@s1seven/schema-tools-certificate-model@0.2.6) (2022-01-10)
+
+
+### Bug Fixes
+
+* lint ([2178236](http://github.com/s1seven/schema-tools/commit/21782368cf46d6fa793f2de713a3a20b8dd1d86a))
+
+
+
+
+
 ## [0.2.5](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.2.4...@s1seven/schema-tools-certificate-model@0.2.5) (2021-12-07)
 
 **Note:** Version bump only for package @s1seven/schema-tools-certificate-model
