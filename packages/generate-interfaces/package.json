@@ -49,7 +49,7 @@
   "devDependencies": {
     "@types/ajv": "^1.0.0",
     "@types/lodash.merge": "^4.6.6",
-    "axios": "^0.24.0",
+    "axios": "^0.26.0",
     "rimraf": "~3.0.2",
     "typescript": "^4.4.3"
   },
