@@ -42,17 +42,13 @@
   },
   "dependencies": {
     "@s1seven/schema-tools-types": "^0.1.7",
-    "ajv": "^8.8.2",
-    "axios": "^0.24.0",
+    "ajv": "^8.10.0",
+    "axios": "^0.26.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "node-cache": "^5.1.2",
     "reflect-metadata": "^0.1.13",
     "semver-lite": "0.0.6"
-  },
-  "devDependencies": {
-    "rimraf": "^3.0.2",
-    "typescript": "^4.4.3"
   },
   "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
 }
