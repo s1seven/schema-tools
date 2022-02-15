@@ -36,7 +36,7 @@
     }
   },
   "scripts": {
-    "build": "parcel build --no-cache --target=main",
+    "build": "PARCEL_WORKER_BACKEND=process parcel build --no-cache --target=main",
     "compile": "npm run create-interfaces && npm run build",
     "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
@@ -56,6 +56,6 @@
     "@types/pdfmake": "^0.1.19",
     "full-icu": "^1.4.0",
     "lato-font": "^3.0.0",
-    "parcel": "^2.0.0-rc.0"
+    "parcel": "^2.3.1"
   }
 }
