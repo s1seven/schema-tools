@@ -9,7 +9,7 @@ export interface TableElement {
 }
 
 export interface Translation {
-  [group: string]: Record<string, string>;
+  [group: string]: string | Record<string, string>;
 }
 
 export interface Translations {
