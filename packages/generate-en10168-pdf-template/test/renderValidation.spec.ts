@@ -1,18 +1,17 @@
-import { Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-
 import { createValidation } from '../src/lib/createValidation';
+import { EN10168Translations } from '../src/types';
 import { certificate, defaultSchemaUrl } from './constants';
-import { getTranslations } from './getTranslations';
+import { getI18N, getTranslations } from './getTranslations';
 
 describe('Rendering validation section', () => {
-  let translations: Translations;
+  let translations: EN10168Translations;
 
   beforeAll(async () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
   it('correctly renders Validation without suppInformation', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const validation = createValidation(certificate.Certificate.Validation as any, i18n);
 
     expect(validation[0]).toEqual({

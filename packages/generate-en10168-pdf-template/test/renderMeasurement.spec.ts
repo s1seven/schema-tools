@@ -1,18 +1,17 @@
-import { Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-
 import { renderMeasurement, renderMeasurementArray } from '../src/lib/measurement';
+import { EN10168Translations } from '../src/types';
 import { certificate, defaultSchemaUrl } from './constants';
-import { getTranslations } from './getTranslations';
+import { getI18N, getTranslations } from './getTranslations';
 
 describe('Rendering measurement', () => {
-  let translations: Translations;
+  let translations: EN10168Translations;
 
   beforeAll(async () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
   it('works for example certificate', async () => {
-    const i18n = new Translate(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const measurements = renderMeasurement(certificate.Certificate.ProductDescription.B10, 'B10', i18n);
     const expected = [
       { text: 'B10 Length / Länge Length', style: 'tableHeader' },
@@ -31,7 +30,7 @@ describe('Rendering measurement', () => {
   });
 
   it('renders correctly with Maximun, Minimum and Property', async () => {
-    const i18n = new Translate(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const input = {
       Value: 200,
       Minimum: 100,
@@ -57,7 +56,7 @@ describe('Rendering measurement', () => {
   });
 
   it('renders correctly Measurement array ', async () => {
-    const i18n = new Translate(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const input = [
       {
         Value: 200,
