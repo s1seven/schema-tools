@@ -82,9 +82,9 @@ function extractSummaryFromCoA(certificate: CoASchema): CertificateSummary | nul
   const Order = certificate.Certificate.BusinessTransaction?.Order || certificate.Certificate.BusinessReferences?.Order;
   const Delivery =
     certificate.Certificate.BusinessTransaction?.Delivery || certificate.Certificate.BusinessReferences?.Delivery;
-  const purchaseOrderNumber = Order?.Number;
+  const purchaseOrderNumber = Order?.Number || Order?.Id;
   const purchaseOrderPosition = Order?.Position;
-  const purchaseDeliveryNumber = Delivery?.Number;
+  const purchaseDeliveryNumber = Delivery?.Number || Delivery?.Id;
   const purchaseDeliveryPosition = Delivery?.Position;
   return {
     certificateIdentifier: certificate.Certificate.Id,
