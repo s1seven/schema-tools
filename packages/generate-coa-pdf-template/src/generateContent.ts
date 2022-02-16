@@ -102,7 +102,7 @@ export function createGeneralInfo(certificate: Certificate, i18n: I18N): [Conten
 
   return [
     {
-      text: `${i18n.translate('Certificate', 'Certificate')}  ${Standard.Norm} ${Standard.Type}`,
+      text: `${i18n.translate('Certificate', 'Certificate')}  ${Standard.Norm} ${Standard.Type || ''}`,
       style: 'h2',
       margin: [0, 0, 0, 4],
     },
