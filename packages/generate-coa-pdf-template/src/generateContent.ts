@@ -15,6 +15,7 @@ import {
   Attachment,
   BusinessTransaction,
   Certificate,
+  CoACertificateTranslations,
   CoATranslations,
   Company,
   DeclarationOfConformity,
@@ -24,7 +25,7 @@ import {
   Product,
 } from './types';
 
-type I18N = Translate<CoATranslations>;
+type I18N = Translate<CoATranslations, CoACertificateTranslations>;
 
 function createManufacturerHeader(parties: Parties, logo: string): TableCell[][] {
   const manufacturerLogo: TableCell[] = logo ? [{ image: logo, width: 150 }] : [];
