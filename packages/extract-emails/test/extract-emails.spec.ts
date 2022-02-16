@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { SupportedSchemas } from '@s1seven/schema-tools-types';
 
@@ -98,6 +99,34 @@ describe('ExtractEmails', function () {
           emails: ['s1seven.certificates@gmail.com'],
           name: 'Plastic Processor SE',
           role: 'Customer',
+          vatId: '',
+        },
+      },
+    },
+    {
+      version: 'v0.1.0',
+      type: SupportedSchemas.COA,
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.1.0/valid_cert.json`,
+      certificate: require('../../../fixtures/CoA/v0.1.0/valid_cert.json'),
+      expectedSenders: {
+        [SenderRoles.Manufacturer]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Green Plastics AG',
+          role: 'Manufacturer',
+          vatId: '',
+        },
+      },
+      expectedReceivers: {
+        [ReceiverRoles.Customer]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Plastic Processor SE',
+          role: 'Customer',
+          vatId: '',
+        },
+        [ReceiverRoles.Receiver]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Plastic Processor SE',
+          role: 'Receiver',
           vatId: '',
         },
       },
