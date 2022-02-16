@@ -1,13 +1,9 @@
 /**
- * The
+ * The languages in which the certificate should be rendered in HTML and PDF.
  */
 export type CertificateLanguages =
-  | ['EN' | 'DE' | 'FR' | 'ES' | 'PL' | 'CN']
-  | ['EN' | 'DE' | 'FR' | 'ES' | 'PL' | 'CN', 'EN' | 'DE' | 'FR' | 'ES' | 'PL' | 'CN'];
-/**
- * The type of EN 10204 certificate
- */
-export type Types = '2.1' | '2.2' | '3.1' | '3.2';
+  | ['EN' | 'DE' | 'FR' | 'ES' | 'PL' | 'CN' | 'TR' | 'IT']
+  | ['EN' | 'DE' | 'FR' | 'ES' | 'PL' | 'CN' | 'TR' | 'IT', 'EN' | 'DE' | 'FR' | 'ES' | 'PL' | 'CN' | 'TR' | 'IT'];
 
 /**
  * Certificates of Analysis for plastics and other materials.
@@ -17,6 +13,9 @@ export interface Certificate {
    * The URL linking to the JSON schema version the certificate JSON is based on.
    */
   RefSchemaUrl: string;
+  /**
+   * The certificate itself.
+   */
   Certificate: {
     CertificateLanguages: CertificateLanguages;
     /**
@@ -24,10 +23,10 @@ export interface Certificate {
      */
     Id: string;
     /**
-     * The issuing date
+     * The certificate issuing date.
      */
     Date: string;
-    Type?: Types;
+    Standard: CertificateType;
     /**
      * Contact persons
      */
@@ -36,59 +35,80 @@ export interface Certificate {
     BusinessTransaction: BusinessTransaction;
     Product: Product;
     /**
-     * An array with all inspections of the product.
+     * All inspections of the product.
      */
     Analysis: {
+      /**
+       * The lot identifier of the inspection example.
+       */
+      LotId?: string;
+      /**
+       * The inspection properties of the certificate according to a standard. Not rendered on the certificate.
+       */
+      PropertiesStandard?: 'CAMPUS';
       Inspections?: [Inspection, ...Inspection[]];
       /**
        * An array of additional free text information.
        */
-      AdditionalInformation?: string[];
+      AdditionalInformation?: [string, ...string[]];
       [k: string]: any;
     };
     DeclarationOfConformity: DeclarationOfConformity;
     /**
      * An optional array with data attached to the certificate in encoded form.
      */
-    Attachments?: Attachment[];
+    Attachments?: [Attachment, ...Attachment[]];
     /**
-     * The logo of the manufacturer as base64 png file. The maximum size is <TBD>
+     * The logo of the manufacturer as base64 png file.
      */
-    Logo?: string;
+    Logo: string;
   };
+}
+/**
+ * The type of the certificate.
+ */
+export interface CertificateType {
+  /**
+   * The standard on which the certificate is based. Not rendered on the certificate.
+   */
+  Norm: string;
+  /**
+   * In case the standard defines categories of certificates e.g. EN 10204 3.1
+   */
+  Type?: string;
+  [k: string]: any;
 }
 /**
  * A brief description of a natural person.
  */
 export interface Person {
-  Name?: string;
+  Name: string;
   /**
    * The role of the person in the business process, e.g. 'Quality Manager' or 'Acceptance Office'
    */
-  Role?: string;
+  Role: string;
   /**
    * The department the person is associated with, eg. 'Factory Production Control'
    */
-  Department?: string;
-  Email?: string;
-  Phone?: string;
-  Fax?: string;
+  Department: string;
+  Email: string;
+  Phone: string;
 }
 /**
- * The companies involved in the transaction
+ * The companies involved in the transaction.
  */
 export interface Parties {
   Manufacturer: Company;
   Customer: Company1;
-  ConsigneeOfGoods?: Company2;
-  ConsigneeOfCertificate?: Company3;
+  Receiver?: Company2;
 }
 /**
  * The party manufacturing the goods and selling them to the customer.
  */
 export interface Company {
   Name: string;
-  Street: string;
+  AddressLine1: string;
+  AddressLine2?: string;
   ZipCode: string;
   City: string;
   /**
@@ -100,7 +120,7 @@ export interface Company {
   /**
    * An array of additional free text information on the company.
    */
-  AdditionalInformation?: string[];
+  AdditionalInformation?: [string, ...string[]];
   [k: string]: any;
 }
 /**
@@ -112,7 +132,7 @@ export interface Identifier {
    */
   VAT: string;
   /**
-   * The Dun & Bradstreet D‑U‑N‑S Number is a unique nine-digit identifier for businesses, https://www.dnb.com/duns-number.html
+   * The Dun & Bradstreet D-U-N-S Number is a unique nine-digit identifier for businesses, https://www.dnb.com/duns-number.html
    */
   DUNS?: string;
   /**
@@ -125,7 +145,8 @@ export interface Identifier {
  */
 export interface Company1 {
   Name: string;
-  Street: string;
+  AddressLine1: string;
+  AddressLine2?: string;
   ZipCode: string;
   City: string;
   /**
@@ -137,15 +158,16 @@ export interface Company1 {
   /**
    * An array of additional free text information on the company.
    */
-  AdditionalInformation?: string[];
+  AdditionalInformation?: [string, ...string[]];
   [k: string]: any;
 }
 /**
- * The party receiving the goods for the customer, e.g. freight fowarding agent.
+ * The party receiving the goods for the customer, e.g. a freight fowarding agent or a subsisduary of the customer.
  */
 export interface Company2 {
   Name: string;
-  Street: string;
+  AddressLine1: string;
+  AddressLine2?: string;
   ZipCode: string;
   City: string;
   /**
@@ -157,31 +179,11 @@ export interface Company2 {
   /**
    * An array of additional free text information on the company.
    */
-  AdditionalInformation?: string[];
+  AdditionalInformation?: [string, ...string[]];
   [k: string]: any;
 }
 /**
- * The party receiving the certificates for the customer, e.g. a third party inspection service.
- */
-export interface Company3 {
-  Name: string;
-  Street: string;
-  ZipCode: string;
-  City: string;
-  /**
-   * The two-letter ISO country code according https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2.
-   */
-  Country: string;
-  Email: string;
-  Identifier: Identifier;
-  /**
-   * An array of additional free text information on the company.
-   */
-  AdditionalInformation?: string[];
-  [k: string]: any;
-}
-/**
- * References to order and delivery
+ * References to order and delivery.
  */
 export interface BusinessTransaction {
   Order: Order;
@@ -193,9 +195,9 @@ export interface BusinessTransaction {
  */
 export interface Order {
   /**
-   * The order number.
+   * The order identification.
    */
-  Number: string;
+  Id: string;
   /**
    * The order position number.
    */
@@ -207,28 +209,32 @@ export interface Order {
   /**
    * The order quantity
    */
-  Quantity?: number;
+  Quantity: number;
   /**
    * The unit of the order quantity
    */
-  QuantityUnit?: string;
+  QuantityUnit: string;
   /**
-   * The internal order number issued at the manufacturer.
+   * The internal prdocut identifer of the Customer
    */
-  InternalOrderNumber?: string;
+  CustomerProductId?: string;
   /**
-   * The position on the internal order issued at the manufacturer.
+   * The number for the goods receipt issued by the Customer or ConsigneeOfGoods
    */
-  InternalOrderPosition?: string;
+  CustomerProductName?: string;
+  /**
+   * The identifier for the goods receipt issued by the Customer.
+   */
+  GoodsReceiptId?: string;
 }
 /**
  * Optional information about the order confirmation sent by the manufacturer to the customer.
  */
 export interface OrderConfirmation {
   /**
-   * The number of the order confirmation.
+   * The identifier of the order confirmation.
    */
-  Number: string;
+  Id: string;
   /**
    * The date of order confirmation issuance.
    */
@@ -239,9 +245,13 @@ export interface OrderConfirmation {
  */
 export interface Delivery {
   /**
-   * The number of the delivery note.
+   * The identifier of the delivery note.
    */
-  Number: string;
+  Id: string;
+  /**
+   * The position on the delivery note.
+   */
+  Position?: string;
   /**
    * The date of issuing the delivery note.
    */
@@ -249,23 +259,23 @@ export interface Delivery {
   /**
    * The shipped quantity.
    */
-  Quantity?: number;
+  Quantity: number;
   /**
    * The unit of the shipped quantity.
    */
-  QuantityUnit?: string;
+  QuantityUnit: string;
   /**
-   * The position on the delivery note.
+   * The internal order number issued at the manufacturer.
    */
-  Position?: string;
+  InternalOrderId?: string;
+  /**
+   * The position on the internal order issued at the manufacturer.
+   */
+  InternalOrderPosition?: string;
   /**
    * A reference to the transport, e.g. the license plates of trucks or container numbers
    */
   Transport?: string[];
-  /**
-   * The number for the goods receipt issued by the Customer or ConsigneeOfGoods
-   */
-  GoodsReceiptNumber?: string;
 }
 /**
  * The product description
@@ -274,15 +284,11 @@ export interface Product {
   /**
    * The number of the product at the manufacturer.
    */
-  Number?: string;
+  Id?: string;
   /**
    * The name of the product as given by the manufacturer, the trade name.
    */
   Name: string;
-  /**
-   * The number for the product issued by the customer.
-   */
-  CustomerProductNumber?: string;
   /**
    * The two-letter ISO country code of the country in which the product was manufactured.
    */
@@ -292,9 +298,17 @@ export interface Product {
    */
   PlaceOfOrigin?: string;
   /**
-   * The number identifying the batch/lot/charge of production.
+   * The identifer of the batch/lot/charge of filling into transport.
    */
-  ChargeNumber: string;
+  FillingBatchId: string;
+  /**
+   * The date of filling into transport container.
+   */
+  FillingBatchDate?: string;
+  /**
+   * The production batch identifer.
+   */
+  ProductionBatchId?: string;
   /**
    * The day on which the product was manufactured.
    */
@@ -302,68 +316,56 @@ export interface Product {
   /**
    * The list of standards to which the product conforms.
    */
-  Standards?: string[];
+  Standards?: [string, ...string[]];
+  /**
+   * The day on which the product becomes unusable.
+   */
+  ExpirationDate?: string;
   /**
    * An array of additional free text information on the product.
    */
-  AdditionalInformation?: string[];
+  AdditionalInformation?: [string, ...string[]];
 }
 /**
- * A structure to specify any kind of measurements as defined by https://www.campusplastics.com/campushome/coc
+ * A structure to specify any kind of measurements. It follows the structure as defined by CAMPUS (https://www.campusplastics.com)
  */
 export interface Inspection {
+  /**
+   * The identifier of the property according to the definition provided in 'PropertiesStandard'. Used for mapping of translations of `Property`.
+   */
+  PropertyId?: string;
   /**
    * The property measured.
    */
   Property: string;
   /**
-   * A subset of the property measured.
-   */
-  SubProperty?: string;
-  /**
-   * https://www.campusplastics.com defines numeric codes for properties used industry-wide
-   */
-  CAMPUSPropertyId?: number;
-  /**
-   * The symbol describing the property.
-   */
-  Symbol?: string;
-  /**
-   * The reference to the definition of the method such as EN or ISO norms.
+   * The reference to the definition of the method such as EN, ISO or factory standards.
    */
   Method: string;
   /**
    * A measured or calculated Value (e.g. mean of individual measurements).
    */
-  Value: number;
+  Value: string;
   /**
-   * The lower limit according the specification. If not provided it could be 0 or -∞.
+   * The data type of the measured value.
+   */
+  ValueType: 'string' | 'number' | 'date' | 'date-time' | 'boolean';
+  /**
+   * The lower limit according the specification. If a numeric value and not provided it can be 0 or -∞.
    */
   Minimum?: number;
   /**
-   * The upper limit according the specification. If not provided it is ∞.
+   * The upper limit according the specification. If a numeric value and not provided it can be ∞.
    */
   Maximum?: number;
   /**
    * The unit of the value.
    */
-  Unit: string;
-  /**
-   * Further instructions describing the exact procedure of the measurement.
-   */
-  SupplementaryInstructions?: string;
+  Unit?: string;
   /**
    * A description of the conditions under which the test was executed.
    */
   TestConditions?: string;
-  /**
-   * A field specifically for testing MFR to be provided in degree Celsius
-   */
-  Temperature?: number;
-  /**
-   * A field specifically for testing MFR to be provided in kg
-   */
-  Weight?: number;
 }
 /**
  * The statements declaring confirmity and optional CE
@@ -376,7 +378,7 @@ export interface DeclarationOfConformity {
   CE?: CEMarking;
 }
 /**
- * In case the manufacturer must
+ * For products which require CE marking.
  */
 export interface CEMarking {
   /**
@@ -390,11 +392,11 @@ export interface CEMarking {
   /**
    * The year when the declaration of conformance was issued
    */
-  DoCYear: string;
+  YearDocumentIssued: string;
   /**
    * The declaration of conformance document number
    */
-  DoCNumber: string;
+  DocumentNumber: string;
 }
 /**
  * Additional data in any kind of format attached to JSON document.
