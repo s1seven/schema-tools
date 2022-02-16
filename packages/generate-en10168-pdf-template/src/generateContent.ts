@@ -1,6 +1,6 @@
 import { Content } from 'pdfmake/interfaces';
 
-import { createFooter, Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { createFooter, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
 import { createCommercialTransaction } from './lib/commercialTransaction';
 import { createInspection } from './lib/createInspection';
@@ -8,10 +8,13 @@ import { createOtherTests } from './lib/createOtherTests';
 import { createProductDescription } from './lib/createProductDescription';
 import { createTransactionParties } from './lib/createTransactionParties';
 import { createValidation } from './lib/createValidation';
-import { Certificate } from './types';
+import { Certificate, EN10168CertificateTranslations, EN10168Translations } from './types';
 
-export function generateContent(certificate: Certificate, translations: Translations): Content {
-  const i18n = new Translate(translations, certificate.Certificate.CertificateLanguages);
+export function generateContent(certificate: Certificate, translations: EN10168Translations): Content {
+  const i18n = new Translate<EN10168Translations, EN10168CertificateTranslations>(
+    translations,
+    certificate.Certificate.CertificateLanguages,
+  );
   const commercialParties = createTransactionParties(certificate.Certificate.CommercialTransaction, i18n);
   const commercialTransaction = createCommercialTransaction(certificate.Certificate.CommercialTransaction, i18n);
   const productDescription = createProductDescription(certificate.Certificate.ProductDescription, i18n);

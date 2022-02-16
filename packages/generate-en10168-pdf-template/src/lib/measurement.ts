@@ -1,10 +1,14 @@
 import { TableCell } from 'pdfmake/interfaces';
 
-import { localizeNumber, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { localizeNumber } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
-import { Measurement } from '../types';
+import { EN10168CertificateTranslations, I18N, Measurement } from '../types';
 
-export function renderMeasurement(measurement: Measurement, name: string, i18n: Translate): TableCell[][] {
+export function renderMeasurement(
+  measurement: Measurement,
+  name: keyof EN10168CertificateTranslations['certificateFields'],
+  i18n: I18N,
+): TableCell[][] {
   if (!measurement) return [];
   const { Property, Value, Minimum, Maximum, Unit } = measurement;
   return [
@@ -24,7 +28,11 @@ export function renderMeasurement(measurement: Measurement, name: string, i18n: 
   ];
 }
 
-export function renderMeasurementArray(measurements: Measurement[], name: string, i18n: Translate): TableCell[][] {
+export function renderMeasurementArray(
+  measurements: Measurement[],
+  name: keyof EN10168CertificateTranslations['certificateFields'],
+  i18n: I18N,
+): TableCell[][] {
   if (!measurements?.length) return [];
   return [
     [

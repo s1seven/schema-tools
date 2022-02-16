@@ -1,18 +1,13 @@
 import { Column, ContentCanvas, ContentColumns, ContentText } from 'pdfmake/interfaces';
 
-import {
-  localizeDate,
-  TableElement,
-  tableLayout,
-  Translate,
-} from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { localizeDate, TableElement, tableLayout } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
-import { Validation } from '../types';
+import { I18N, Validation } from '../types';
 import { supplementaryInformation } from './supplementaryInformation';
 
 export function createValidation(
   validation: Validation,
-  i18n: Translate,
+  i18n: I18N,
 ): [ContentText, ContentCanvas, ContentColumns, TableElement] {
   const suppInformation = validation.SupplementaryInformation
     ? supplementaryInformation(validation.SupplementaryInformation, i18n, 3)
