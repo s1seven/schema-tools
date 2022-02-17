@@ -115,7 +115,6 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
       localizeDate: function (lvalue: string | number | Date, locales: string | string[] = 'EN') {
         const event = new Date(lvalue);
         const options: Intl.DateTimeFormatOptions = {
-          weekday: 'long',
           year: 'numeric',
           month: 'numeric',
           day: 'numeric',
@@ -139,13 +138,13 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
         filterOut?: boolean,
       ) {
         filter = typeof filter === 'string' ? filter.split(',').map((val) => val.trim()) : filter;
-        const ChemicalElements = Object.keys(elements)
+        const filteredElements = Object.keys(elements)
           .filter((element) => (filterOut ? !filter.includes(element) : filter.includes(element)))
           .map((el) => ({ key: el, value: elements[el] }));
 
-        return new Array(Math.ceil(ChemicalElements.length / chunkSize))
+        return new Array(Math.ceil(filteredElements.length / chunkSize))
           .fill('')
-          .map(() => ChemicalElements.splice(0, chunkSize));
+          .map(() => filteredElements.splice(0, chunkSize));
       },
     },
   };
