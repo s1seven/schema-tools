@@ -313,7 +313,19 @@ export function createAnalysis(
     body.push(additionalInformationTitle, additionalInformation);
   }
 
-  // console.log(JSON.stringify(body, null, 2));
+  const lotIdRow = analysis.LotId
+    ? [
+        {
+          text: `${i18n.translate('LotId', 'Certificate')} `,
+          style: 'h5',
+          margin: [0, 0, 0, 4],
+        },
+        {},
+        { text: analysis.LotId, style: 'p' },
+        {},
+      ]
+    : [];
+
   return [
     {
       text: `${i18n.translate('Inspections', 'Certificate')}`,
@@ -325,18 +337,7 @@ export function createAnalysis(
       style: 'table',
       table: {
         widths: [150, 90, 100, 150],
-        body: [
-          [
-            {
-              text: `${i18n.translate('LotId', 'Certificate')} `,
-              style: 'h5',
-              margin: [0, 0, 0, 4],
-            },
-            {},
-            { text: analysis.LotId, style: 'p' },
-            {},
-          ],
-        ],
+        body: [lotIdRow],
       },
       layout: tableLayout,
     },

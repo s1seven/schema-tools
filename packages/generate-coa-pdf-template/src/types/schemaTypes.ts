@@ -215,11 +215,11 @@ export interface Order {
    */
   QuantityUnit: string;
   /**
-   * The internal prdocut identifer of the Customer
+   * The internal product identifer of the Customer
    */
   CustomerProductId?: string;
   /**
-   * The number for the goods receipt issued by the Customer or ConsigneeOfGoods
+   * The number for the goods receipt issued by the Customer or Receiver
    */
   CustomerProductName?: string;
   /**
