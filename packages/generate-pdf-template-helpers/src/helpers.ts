@@ -63,7 +63,6 @@ export function localizeValue(
 export function localizeDate(lvalue: string | number | Date, locales: string | string[] = 'EN') {
   const event = new Date(lvalue);
   const options: Intl.DateTimeFormatOptions = {
-    weekday: 'long',
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',
