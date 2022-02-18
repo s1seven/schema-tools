@@ -11,14 +11,14 @@ module.exports = {
   rootDir: '../..',
   testMatch: [`<rootDir>/packages/${projectName}/**/*.spec.ts`],
   coverageDirectory: `<rootDir>/packages/${projectName}/coverage/`,
-  // coverageThreshold: {
-  //   global: {
-  //     statements: 85,
-  //     branches: 60,
-  //     functions: 85,
-  //     lines: 85,
-  //   },
-  // },
+  coverageThreshold: {
+    global: {
+      statements: 80,
+      branches: 60,
+      functions: 50,
+      lines: 85,
+    },
+  },
   reporters: ['default'],
   moduleDirectories: ['node_modules'],
 };

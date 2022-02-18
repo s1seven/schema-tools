@@ -1,10 +1,10 @@
 {
-  "name": "@s1seven/schema-tools-utils",
-  "description": "Utils used in @s1seven/schema-tools packages",
-  "version": "0.0.24",
+  "name": "@s1seven/schema-tools-versioning",
+  "version": "0.0.0",
+  "description": "Tool to help versioning schema repositories",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
-  "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/utils#readme",
+  "homepage": "https://github.com/s1seven/schema-tools/tree/main/packages/versioning#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/s1seven/schema-tools/.git"
@@ -40,15 +40,21 @@
     "test:staged": "jest --runInBand --onlyChanged",
     "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
-  "dependencies": {
-    "@s1seven/schema-tools-types": "^0.1.7",
-    "ajv": "^8.10.0",
-    "axios": "^0.26.0",
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.13.2",
-    "node-cache": "^5.1.2",
-    "reflect-metadata": "^0.1.13",
-    "semver-lite": "0.0.6"
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/lodash.get": "^4.4.6",
+    "@types/lodash.set": "^4.3.6"
   },
-  "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
+  "dependencies": {
+    "@s1seven/schema-tools-generate-html": "^0.0.27",
+    "@s1seven/schema-tools-generate-pdf": "^0.0.18",
+    "@s1seven/schema-tools-utils": "^0.0.24",
+    "glob": "^7.2.0",
+    "lodash.get": "^4.4.2",
+    "lodash.set": "^4.3.2",
+    "reflect-metadata": "^0.1.13"
+  },
+  "peerDependencies": {
+    "prettier": "*"
+  }
 }

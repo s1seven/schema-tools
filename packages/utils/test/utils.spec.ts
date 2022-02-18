@@ -8,13 +8,12 @@ import {
   asCoACertificate,
   asECoCCertificate,
   asEN10168Certificate,
-  axiosInstance,
-  cache,
   getRefSchemaUrl,
   getSchemaConfig,
   getTranslations,
   loadExternalFile,
 } from '../src/index';
+import { axiosInstance, cache } from '../src/loaders';
 
 describe('Utils', function () {
   const EN_10168_CERT_PATH = `${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.json`;

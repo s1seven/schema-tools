@@ -13,10 +13,10 @@ module.exports = {
   coverageDirectory: `<rootDir>/packages/${projectName}/coverage/`,
   coverageThreshold: {
     global: {
-      statements: 10,
-      branches: 10,
-      functions: 10,
-      lines: 10,
+      statements: 70,
+      branches: 35,
+      functions: 80,
+      lines: 65,
     },
   },
   reporters: ['default'],

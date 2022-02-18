@@ -13,7 +13,7 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
-  ignorePatterns: ['**/fixtures/*', '**/schemaTypes.ts'],
+  ignorePatterns: ['**/fixtures/*', '**/schemaTypes.ts', '**/dist'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
