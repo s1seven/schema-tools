@@ -4,7 +4,7 @@
   "version": "0.0.24",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
-  "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/utils#readme",
+  "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/utils#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/s1seven/schema-tools/.git"
