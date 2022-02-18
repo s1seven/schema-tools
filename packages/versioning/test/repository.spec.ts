@@ -1,6 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { TDocumentDefinitions } from 'pdfmake/interfaces';
-
+import type { TDocumentDefinitions } from '@s1seven/schema-tools-generate-pdf';
 import { loadExternalFile, removeFile, writeFile } from '@s1seven/schema-tools-utils';
 
 import { SchemaFileProperties, SchemaRepositoryVersion } from '../src/index';
