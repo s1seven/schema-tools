@@ -2,11 +2,10 @@ import { createWriteStream } from 'fs';
 import glob from 'glob';
 import get from 'lodash.get';
 import set from 'lodash.set';
-import type { TDocumentDefinitions, TFontDictionary } from 'pdfmake/interfaces';
 import prettier from 'prettier';
 
 import { generateHtml } from '@s1seven/schema-tools-generate-html';
-import { generatePdf } from '@s1seven/schema-tools-generate-pdf';
+import { generatePdf, TDocumentDefinitions, TFontDictionary } from '@s1seven/schema-tools-generate-pdf';
 import { loadExternalFile, writeFile } from '@s1seven/schema-tools-utils';
 
 export interface SchemaFileProperties {
