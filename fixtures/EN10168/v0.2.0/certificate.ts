@@ -1,4 +1,6 @@
-export type CertificateLanguages = ['EN' | 'DE' | 'FR' | 'PL'] | ['EN' | 'DE' | 'FR' | 'PL', 'EN' | 'DE' | 'FR' | 'PL'];
+export type CertificateLanguages =
+  | ['EN' | 'DE' | 'FR' | 'PL']
+  | ['EN' | 'DE' | 'FR' | 'PL', 'EN' | 'DE' | 'FR' | 'PL'];
 /**
  * List parties and details involved in the transaction
  */

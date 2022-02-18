@@ -1,7 +1,7 @@
 {
   "RefSchemaUrl": "https://schemas.s1seven.com/en10168-schemas/v0.2.0/schema.json",
   "Certificate": {
-    "CertificateLanguages": ["PL"],
+    "CertificateLanguages": ["EN", "DE"],
     "CommercialTransaction": {
       "A01": {
         "CompanyName": "Steel Mill SE",

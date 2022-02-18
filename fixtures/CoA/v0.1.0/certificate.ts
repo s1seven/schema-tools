@@ -17,7 +17,7 @@ export interface Certificate {
    */
   RefSchemaUrl: string;
   /**
-   * The certificate itself.
+   * The certificate information object
    */
   Certificate: {
     CertificateLanguages: CertificateLanguages;
@@ -42,13 +42,13 @@ export interface Certificate {
      */
     Analysis: {
       /**
-      * The inspection properties of the certificate according to a standard. Not rendered on the certificate.
-      */
-      PropertiesStandard?: 'CAMPUS';
-      /**
        * The lot identifier of the inspection example.
        */
       LotId?: string;
+      /**
+       * The inspection properties of the certificate according to a standard. Not rendered on the certificate.
+       */
+      PropertiesStandard?: 'CAMPUS';
       Inspections?: [Inspection, ...Inspection[]];
       /**
        * An array of additional free text information.
@@ -218,11 +218,11 @@ export interface Order {
    */
   QuantityUnit: string;
   /**
-   * The internal prdocut identifer of the Customer
+   * The internal product identifer of the Customer
    */
   CustomerProductId?: string;
   /**
-   * The number for the goods receipt issued by the Customer or ConsigneeOfGoods
+   * The number for the goods receipt issued by the Customer or Receiver
    */
   CustomerProductName?: string;
   /**
