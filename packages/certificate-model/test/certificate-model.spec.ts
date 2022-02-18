@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { JSONSchema7, Schemas, SchemaTypes, SupportedSchemas } from '@s1seven/schema-tools-types';
 import { formatValidationErrors, loadExternalFile } from '@s1seven/schema-tools-utils';
@@ -40,16 +41,64 @@ describe('CertificateModel', function () {
         },
       ],
     },
+    // TODO: reenable v0.0.2 when schemas.en10204.io is available
+    // {
+    //   version: 'v0.0.2',
+    //   type: SupportedSchemas.ECOC,
+    //   schemaType: 'e-coc-schemas' as SchemaTypes,
+    //   schemaUrl: 'https://schemas.s1seven.com/e-coc-schemas/v0.0.2/schema.json',
+    //   certificatePath: `${__dirname}/../../../fixtures/E-CoC/v0.0.2/valid_cert.json`,
+    //   validCertificate: require('../../../fixtures/E-CoC/v0.0.2/valid_cert.json') as Schemas,
+    //   invalidCertificate: require('../../../fixtures/E-CoC/v0.0.2/invalid_cert.json') as Schemas,
+    //   expectedSchemaProperties: ['RefSchemaUrl', 'EcocData', 'Declaration'],
+    //   validationErrors: [
+    //     {
+    //       root: '',
+    //       path: '/EcocData',
+    //       keyword: 'required',
+    //       schemaPath: '#/properties/EcocData/oneOf/2/required',
+    //       expected: "must have required property 'Results'",
+    //     },
+    //     {
+    //       root: '',
+    //       path: '/EcocData/Data/Parties/0/PartyAddress',
+    //       keyword: 'required',
+    //       schemaPath: '#/definitions/Address/required',
+    //       expected: "must have required property 'CountryCode'",
+    //     },
+    //     {
+    //       root: '',
+    //       path: '/EcocData/Data/Parties/1/PartyIdentifier/0/NameOfIdentifier',
+    //       keyword: 'enum',
+    //       schemaPath: '#/definitions/CompanyIdentifier/properties/NameOfIdentifier/enum',
+    //       expected: 'must be equal to one of the allowed values',
+    //     },
+    //     {
+    //       root: '',
+    //       path: '/EcocData/Data/Parties/1/PartyRole',
+    //       keyword: 'enum',
+    //       schemaPath: '#/definitions/PartyRole/enum',
+    //       expected: 'must be equal to one of the allowed values',
+    //     },
+    //   ],
+    // },
     {
-      version: 'v0.0.2',
+      version: 'v1.0.0',
       type: SupportedSchemas.ECOC,
       schemaType: 'e-coc-schemas' as SchemaTypes,
-      schemaUrl: 'https://schemas.s1seven.com/e-coc-schemas/v0.0.2/schema.json',
-      certificatePath: `${__dirname}/../../../fixtures/E-CoC/v0.0.2/valid_cert.json`,
-      validCertificate: require('../../../fixtures/E-CoC/v0.0.2/valid_cert.json') as Schemas,
-      invalidCertificate: require('../../../fixtures/E-CoC/v0.0.2/invalid_cert.json') as Schemas,
+      schemaUrl: 'https://schemas.s1seven.com/e-coc-schemas/v1.0.0/schema.json',
+      certificatePath: `${__dirname}/../../../fixtures/E-CoC/v1.0.0/valid_cert.json`,
+      validCertificate: require('../../../fixtures/E-CoC/v1.0.0/valid_cert.json') as Schemas,
+      invalidCertificate: require('../../../fixtures/E-CoC/v1.0.0/invalid_cert.json') as Schemas,
       expectedSchemaProperties: ['RefSchemaUrl', 'EcocData', 'Declaration'],
       validationErrors: [
+        {
+          root: '',
+          path: '/URL',
+          keyword: 'format',
+          schemaPath: '#/properties/URL/format',
+          expected: 'must match format "uri"',
+        },
         {
           root: '',
           path: '/EcocData',
@@ -59,10 +108,24 @@ describe('CertificateModel', function () {
         },
         {
           root: '',
+          path: '/EcocData/Data/Parties/0',
+          keyword: 'required',
+          schemaPath: '#/required',
+          expected: "must have required property 'PartyIdentifier'",
+        },
+        {
+          root: '',
           path: '/EcocData/Data/Parties/0/PartyAddress',
           keyword: 'required',
           schemaPath: '#/definitions/Address/required',
           expected: "must have required property 'CountryCode'",
+        },
+        {
+          root: '',
+          path: '/EcocData/Data/Parties/0/AdditionalPartyProperties',
+          keyword: 'minItems',
+          schemaPath: '#/definitions/AddProperties/minItems',
+          expected: 'must NOT have fewer than 1 items',
         },
         {
           root: '',
@@ -77,6 +140,41 @@ describe('CertificateModel', function () {
           keyword: 'enum',
           schemaPath: '#/definitions/PartyRole/enum',
           expected: 'must be equal to one of the allowed values',
+        },
+        {
+          root: '',
+          path: '/EcocData/Data/ObjectOfDeclaration/0',
+          keyword: 'required',
+          schemaPath: '#/required',
+          expected: "must have required property 'PartyRefId'",
+        },
+        {
+          root: '',
+          path: '/EcocData/Data/ObjectOfDeclaration/0/NormativeRef',
+          keyword: 'minItems',
+          schemaPath: '#/definitions/NormativeRef/minItems',
+          expected: 'must NOT have fewer than 1 items',
+        },
+        {
+          root: '',
+          path: '/EcocData/Data/ObjectOfDeclaration/1',
+          keyword: 'required',
+          schemaPath: '#/required',
+          expected: "must have required property 'PartyRefId'",
+        },
+        {
+          root: '',
+          path: '/EcocData/Data/ObjectOfDeclaration/1/NormativeRef',
+          keyword: 'minItems',
+          schemaPath: '#/definitions/NormativeRef/minItems',
+          expected: 'must NOT have fewer than 1 items',
+        },
+        {
+          root: '',
+          path: '/Declaration/Signature',
+          keyword: 'required',
+          schemaPath: '#/properties/Declaration/properties/Signature/required',
+          expected: "must have required property 'PartyRefOfSigner'",
         },
       ],
     },
@@ -127,6 +225,53 @@ describe('CertificateModel', function () {
         },
       ],
     },
+    {
+      version: 'v0.1.0',
+      type: SupportedSchemas.COA,
+      schemaType: 'coa-schemas' as SchemaTypes,
+      schemaUrl: 'https://schemas.s1seven.com/coa-schemas/v0.1.0/schema.json',
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.1.0/valid_cert.json`,
+      validCertificate: require('../../../fixtures/CoA/v0.1.0/valid_cert.json') as Schemas,
+      invalidCertificate: require('../../../fixtures/CoA/v0.1.0/invalid_cert.json') as Schemas,
+      expectedSchemaProperties: ['RefSchemaUrl', 'Certificate'],
+      validationErrors: [
+        {
+          root: '',
+          path: '/Certificate/Parties/Manufacturer',
+          keyword: 'required',
+          schemaPath: '#/required',
+          expected: "must have required property 'Name'",
+        },
+        {
+          root: '',
+          path: '/Certificate/Parties/Manufacturer/Identifier',
+          keyword: 'required',
+          schemaPath: '#/definitions/Identifier/required',
+          expected: "must have required property 'VAT'",
+        },
+        {
+          root: '',
+          path: '/Certificate/BusinessTransaction/OrderConfirmation/Date',
+          keyword: 'format',
+          schemaPath: '#/definitions/BusinessTransaction/properties/OrderConfirmation/properties/Date/format',
+          expected: 'must match format "date"',
+        },
+        {
+          root: '',
+          path: '/Certificate/BusinessTransaction/Delivery/Id',
+          keyword: 'type',
+          schemaPath: '#/definitions/BusinessTransaction/properties/Delivery/properties/Id/type',
+          expected: 'must be string',
+        },
+        {
+          root: '',
+          path: '/Certificate/Analysis/Inspections/1',
+          keyword: 'required',
+          schemaPath: '#/definitions/Inspection/required',
+          expected: "must have required property 'Property'",
+        },
+      ],
+    },
   ];
 
   testSuitesMap.forEach((testSuite) => {
@@ -164,6 +309,8 @@ describe('CertificateModel', function () {
 
       it('should build and validate instance using schema when using valid certificate', async () => {
         const schema = (await loadExternalFile(schemaUrl, 'json')) as JSONSchema7;
+        // $id is used to deduct where to load schema from
+        schema.$id = schema.$id.replace('schemas.en10204.io', 'schemas.s1seven.com');
         const cert = await CertificateModel.buildInstance({ schema }, validCertificate);
         await waitReady(cert);
         testValidation(cert);
