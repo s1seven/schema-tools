@@ -90,7 +90,6 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
 
         const localizeDate = () => {
           return new Intl.DateTimeFormat(locales, {
-            weekday: 'long',
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',

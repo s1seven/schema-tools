@@ -35,6 +35,15 @@ describe('GenerateHTML', function () {
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.0.4/template_hbs.html`, 'utf-8'),
       expectedHtmlFromMjml: '',
     },
+    {
+      type: SupportedSchemas.COA,
+      version: 'v0.1.0',
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.1.0/valid_cert.json`,
+      schemaTranslationsPath: `${__dirname}/../../../fixtures/CoA/v0.1.0/translations.json`,
+      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.1.0/certificate.ts`, 'utf-8'),
+      expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.1.0/template_hbs.html`, 'utf-8'),
+      expectedHtmlFromMjml: '',
+    },
   ];
 
   const htmlDifferOptions = {
