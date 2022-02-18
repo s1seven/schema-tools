@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-summary@0.1.0...@s1seven/schema-tools-certificate-summary@0.2.0) (2022-02-18)
+
+
+### Features
+
+* **certificate-summary:** add support for CoA v0.1 ([40263fd](https://github.com/s1seven/schema-tools/commit/40263fd1b85f2dd90c606afc252d13e96f382b66))
+
+
+
+
+
 # 0.1.0 (2022-01-10)
 
 

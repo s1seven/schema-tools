@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.25](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-interfaces@0.0.24...@s1seven/schema-tools-generate-interfaces@0.0.25) (2022-02-18)
+
+**Note:** Version bump only for package @s1seven/schema-tools-generate-interfaces
+
+
+
+
+
 ## [0.0.24](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-interfaces@0.0.23...@s1seven/schema-tools-generate-interfaces@0.0.24) (2022-01-10)
 
 

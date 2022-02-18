@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.1.7...@s1seven/schema-tools-types@0.2.0) (2022-02-18)
+
+
+### Features
+
+* **types:** add extra property to CoASchema class ([50c556e](http://github.com/s1seven/schema-tools/commit/50c556e5d0844a2107d00a801e089e598b134299))
+
+
+
+
+
 ## [0.1.7](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.1.6...@s1seven/schema-tools-types@0.1.7) (2022-01-10)
 
 

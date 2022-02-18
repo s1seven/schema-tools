@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.27...@s1seven/schema-tools-generate-html@0.1.0) (2022-02-18)
+
+
+### Features
+
+* **generate-html:** remove weekday ([e25a48f](http://github.com/s1seven/schema-tools/commit/e25a48f2b253465df72e408abe20236c07324ba2))
+
+
+
+
+
 ## [0.0.27](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.26...@s1seven/schema-tools-generate-html@0.0.27) (2022-01-10)
 
 

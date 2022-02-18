@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.1.4...@s1seven/schema-tools-generate-coa-pdf-template@0.2.0) (2022-02-18)
+
+
+### Bug Fixes
+
+* **generate-coa-pdf-template:** fix rendering for empty standard type ([3191a8c](http://github.com/s1seven/schema-tools/commit/3191a8c18c7ff5691de5b20c32628abc8dd30f29))
+* **generate-coa-pdf-template:** make inspection LotId row rendering optional ([d883635](http://github.com/s1seven/schema-tools/commit/d8836355ec101ae6d06edfd55f36759bd37ea079))
+* **generate-coa-pdf-template:** update translation types ([9ce50fd](http://github.com/s1seven/schema-tools/commit/9ce50fd92362ac40398d7ba678b36c839c21d262))
+
+
+### Features
+
+* **generate-coa-pdf-template:** add translations types ([dfb4771](http://github.com/s1seven/schema-tools/commit/dfb4771f0df6320044dd9e01e1ec8b322a1c5070))
+* **generate-coa-pdf-template:** regenerate TS interface ([467eeb9](http://github.com/s1seven/schema-tools/commit/467eeb9ee2e12684ae43821ce1bb5e396f6277ce))
+* **generate-coa-pdf-template:** update rendering for future CoA v0.1 ([3124b7c](http://github.com/s1seven/schema-tools/commit/3124b7caeba41783fe8482b5e25512b759a780c3))
+
+
+
+
+
 ## [0.1.4](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.1.3...@s1seven/schema-tools-generate-coa-pdf-template@0.1.4) (2022-01-10)
 
 

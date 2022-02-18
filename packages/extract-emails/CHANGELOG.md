@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.2.0...@s1seven/schema-tools-extract-emails@0.3.0) (2022-02-18)
+
+
+### Features
+
+* **extract-emails:** add support for CoA v0.1 ([58fa2e9](http://github.com/s1seven/schema-tools/commit/58fa2e9f5d8fcba9cbf08fd8b7be31618eb02fe7))
+
+
+
+
+
 # [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.1.6...@s1seven/schema-tools-extract-emails@0.2.0) (2022-01-10)
 
 

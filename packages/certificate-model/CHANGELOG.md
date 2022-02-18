@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.7](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.2.6...@s1seven/schema-tools-certificate-model@0.2.7) (2022-02-18)
+
+
+### Bug Fixes
+
+* replace `extractEmails` method ([35474fa](http://github.com/s1seven/schema-tools/commit/35474fa9532fdd0b8bd78d030dccef59a65a4c43))
+
+
+
+
+
 ## [0.2.6](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.2.5...@s1seven/schema-tools-certificate-model@0.2.6) (2022-01-10)
 
 

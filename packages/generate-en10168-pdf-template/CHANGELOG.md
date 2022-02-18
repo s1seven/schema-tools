@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.4.1...@s1seven/schema-tools-generate-en10168-pdf-template@0.5.0) (2022-02-18)
+
+
+### Features
+
+* **generate-en10168-pdf-template:** add translations types ([0bec61f](http://github.com/s1seven/schema-tools/commit/0bec61f86e5d068b0518f2902354a1fbba1ab688))
+
+
+
+
+
 ## [0.4.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.4.0...@s1seven/schema-tools-generate-en10168-pdf-template@0.4.1) (2022-01-10)
 
 

@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf-template-helpers@0.2.2...@s1seven/schema-tools-generate-pdf-template-helpers@0.3.0) (2022-02-18)
+
+
+### Bug Fixes
+
+* **generate-pdf-template-helpers:** correct transaltion types ([c09f44c](http://github.com/s1seven/schema-tools/commit/c09f44cd6361d23734b1742271739f90fd99e53b))
+
+
+### Features
+
+* **generate-pdf-template-helpers:** make Translate method types dynamic ([101e640](http://github.com/s1seven/schema-tools/commit/101e64095008ad2717c9d0ec1bb9e17e2190b5ca))
+* **generate-pdf-template-helpers:** remove weekday ([7261b14](http://github.com/s1seven/schema-tools/commit/7261b1476b836977b2604515da01b90cd1dac5ff))
+
+
+
+
+
 ## [0.2.2](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf-template-helpers@0.2.1...@s1seven/schema-tools-generate-pdf-template-helpers@0.2.2) (2022-01-10)
 
 
