@@ -1,0 +1,61 @@
+{
+  "name": "@s1seven/schema-tools-versioning",
+  "version": "0.0.0",
+  "description": "Tool to help versioning schema repositories",
+  "license": "Apache-2.0",
+  "author": "getlarge <ed@getlarge.eu>",
+  "homepage": "https://github.com/s1seven/schema-tools/tree/main/packages/versioning#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s1seven/schema-tools/.git"
+  },
+  "bugs": {
+    "url": "https://github.com/s1seven/schema-tools/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "publicConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=12",
+    "npm": ">=6"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rimraf -rf ./dist",
+    "cleanup": "rimraf -rf dist coverage",
+    "compile": "tsc -p tsconfig.build.json",
+    "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "prepublishOnly": "npm run build",
+    "test": "jest",
+    "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
+    "test:staged": "jest --runInBand --onlyChanged",
+    "scan:deps": "audit-ci --config ../../audit-ci.json"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/lodash.get": "^4.4.6",
+    "@types/lodash.set": "^4.3.6",
+    "@types/pdfmake": "^0.1.19"
+  },
+  "dependencies": {
+    "@s1seven/schema-tools-generate-html": "^0.0.27",
+    "@s1seven/schema-tools-generate-pdf": "^0.0.18",
+    "@s1seven/schema-tools-utils": "^0.0.24",
+    "glob": "^7.2.0",
+    "lodash.get": "^4.4.2",
+    "lodash.set": "^4.3.2",
+    "reflect-metadata": "^0.1.13"
+  },
+  "peerDependencies": {
+    "prettier": "*"
+  }
+}
