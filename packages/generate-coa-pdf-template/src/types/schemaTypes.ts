@@ -14,7 +14,7 @@ export interface Certificate {
    */
   RefSchemaUrl: string;
   /**
-   * The certificate itself.
+   * The certificate information object
    */
   Certificate: {
     CertificateLanguages: CertificateLanguages;

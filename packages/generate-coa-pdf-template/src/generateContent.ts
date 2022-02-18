@@ -266,10 +266,10 @@ function createInspection(inspection: Inspection, i18n: I18N): TableCell[] {
     { name: 'TestConditions' },
   ];
 
-  return textFields.map((field) => {
-    return { text: computeTextStyle(inspection[field.name], field.format, i18n.languages), style: 'caption' };
-    // return acc;
-  }, []);
+  return textFields.map(
+    (field) => ({ text: computeTextStyle(inspection[field.name], field.format, i18n.languages), style: 'caption' }),
+    [],
+  );
 }
 
 export function createAnalysis(
@@ -280,6 +280,19 @@ export function createAnalysis(
   },
   i18n: I18N,
 ): [ContentText, ContentCanvas, TableElement, TableElement] {
+  const lotIdRow = analysis.LotId
+    ? [
+        {
+          text: `${i18n.translate('LotId', 'Certificate')}`,
+          style: 'h5',
+          margin: [0, 0, 0, 4],
+        },
+        {},
+        { text: analysis.LotId, style: 'p' },
+        {},
+      ]
+    : [];
+
   const headerStyle = {
     fontSize: 8,
     italics: true,
@@ -312,19 +325,6 @@ export function createAnalysis(
     ];
     body.push(additionalInformationTitle, additionalInformation);
   }
-
-  const lotIdRow = analysis.LotId
-    ? [
-        {
-          text: `${i18n.translate('LotId', 'Certificate')} `,
-          style: 'h5',
-          margin: [0, 0, 0, 4],
-        },
-        {},
-        { text: analysis.LotId, style: 'p' },
-        {},
-      ]
-    : [];
 
   return [
     {

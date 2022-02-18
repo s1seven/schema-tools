@@ -67,7 +67,7 @@ describe('Rendering', () => {
     expect(tableBody[0][0]).toEqual(
       expect.objectContaining({
         text: i18n.translate('Id', 'Certificate'),
-        style: 'h5',
+        style: 'tableHeader',
       }),
     );
     expect(tableBody[0][1]).toEqual(expect.objectContaining({ text: certificate.Certificate.Id }));
@@ -110,13 +110,14 @@ describe('Rendering', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
     const productDescription = createProductDescription(certificate.Certificate.Product as Product, i18n);
     const tableBody = productDescription[2].table.body;
-    const { Name, AdditionalInformation } = certificate.Certificate.Product;
+    const { Id, ProductionBatchId, AdditionalInformation } = certificate.Certificate.Product;
     expect(tableBody[0][0]).toEqual(
-      expect.objectContaining({ text: i18n.translate('ProductName', 'Certificate'), style: 'tableHeader' }),
+      expect.objectContaining({ text: i18n.translate('ProductId', 'Certificate'), style: 'tableHeader' }),
     );
-    expect(tableBody[0][2]).toEqual(expect.objectContaining({ text: Name, style: 'p' }));
-    expect(tableBody[6][2]).toEqual(expect.objectContaining({ text: AdditionalInformation.join(', '), style: 'p' }));
-    // expect(tableBody[6][2]).toEqual(
+    expect(tableBody[0][2]).toEqual(expect.objectContaining({ text: Id, style: 'p' }));
+    expect(tableBody[6][2]).toEqual(expect.objectContaining({ text: ProductionBatchId, style: 'p' }));
+    expect(tableBody[10][2]).toEqual(expect.objectContaining({ text: AdditionalInformation.join(', '), style: 'p' }));
+    // expect(tableBody[7][2]).toEqual(
     //   expect.objectContaining({ text: localizeDate(ProductionDate, i18n.languages), style: 'p' }),
     // );
   });
@@ -124,11 +125,17 @@ describe('Rendering', () => {
   it('createAnalysis() - should correctly render inspections', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
     const analysis = createAnalysis(certificate.Certificate.Analysis as any, i18n);
-    const tableBody = analysis[2].table.body;
-    const titlesRow = tableBody[0];
-    const Inspections = certificate.Certificate.Analysis.Inspections;
-    expect(titlesRow[0]).toEqual(expect.objectContaining({ text: i18n.translate('Property', 'Certificate') }));
-    expect(titlesRow[3]).toEqual(expect.objectContaining({ text: i18n.translate('Value', 'Certificate') }));
+    const lotIdRow = analysis[2].table.body;
+    const tableBody = analysis[3].table.body;
+    const { Inspections, LotId } = certificate.Certificate.Analysis;
+
+    expect(lotIdRow[0][0]).toEqual(
+      expect.objectContaining({ text: i18n.translate('LotId', 'Certificate'), style: 'h5' }),
+    );
+    expect(lotIdRow[0][2]).toEqual(expect.objectContaining({ text: LotId }));
+
+    expect(tableBody[0][0]).toEqual(expect.objectContaining({ text: i18n.translate('Property', 'Certificate') }));
+    expect(tableBody[0][3]).toEqual(expect.objectContaining({ text: i18n.translate('Value', 'Certificate') }));
     expect(tableBody[1][0]).toEqual(expect.objectContaining({ text: Inspections[0].Property }));
     expect(tableBody[1][3]).toEqual(
       expect.objectContaining({ text: localizeNumber(Inspections[0].Value, i18n.languages) }),
@@ -142,8 +149,8 @@ describe('Rendering', () => {
   it('createAnalysis() - should correctly render AdditionalInformation', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
     const analysis = createAnalysis(certificate.Certificate.Analysis as any, i18n);
-    const tableBody = analysis[2].table.body;
-    const AdditionalInformation = certificate.Certificate.Analysis.AdditionalInformation;
+    const tableBody = analysis[3].table.body;
+    const { AdditionalInformation } = certificate.Certificate.Analysis;
     expect(tableBody[3][0]).toEqual(
       expect.objectContaining({ text: i18n.translate('AdditionalInformation', 'Certificate') }),
     );
