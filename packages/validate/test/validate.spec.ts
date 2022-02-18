@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { SupportedSchemas } from '@s1seven/schema-tools-types';
 
@@ -59,7 +60,7 @@ describe('ValidateSchema', function () {
             expected: mustBeEnum,
             keyword: 'enum',
             path: `${basePath}/DocumentMetadata/state`,
-            root: 'v0.1.0',
+            root: certVersion,
             schemaPath: '#/properties/DocumentMetadata/properties/state/enum',
           },
           {
@@ -93,20 +94,74 @@ describe('ValidateSchema', function () {
         ],
       }),
     },
+    // TODO: reenable v0.0.2 when schemas.en10204.io is available
+    // {
+    //   type: SupportedSchemas.ECOC,
+    //   fixturesPath: '../../../fixtures/E-CoC',
+    //   version: 'v0.0.2',
+    //   validCertificate: require('../../../fixtures/E-CoC/v0.0.2/valid_cert.json'),
+    //   invalidCertificate: require('../../../fixtures/E-CoC/v0.0.2/invalid_cert.json'),
+    //   validationErrors: (basePath: string, certVersion: string) => ({
+    //     [certVersion]: [
+    //       {
+    //         expected: "must have required property 'Results'",
+    //         keyword: 'required',
+    //         path: `${basePath}/EcocData`,
+    //         root: certVersion,
+    //         schemaPath: '#/properties/EcocData/oneOf/2/required',
+    //       },
+    //       {
+    //         expected: "must have required property 'CountryCode'",
+    //         keyword: 'required',
+    //         path: `${basePath}/EcocData/Data/Parties/0/PartyAddress`,
+    //         root: certVersion,
+    //         schemaPath: '#/definitions/Address/required',
+    //       },
+    //       {
+    //         expected: mustBeEnum,
+    //         keyword: 'enum',
+    //         path: `${basePath}/EcocData/Data/Parties/1/PartyIdentifier/0/NameOfIdentifier`,
+    //         root: certVersion,
+    //         schemaPath: '#/definitions/CompanyIdentifier/properties/NameOfIdentifier/enum',
+    //       },
+    //       {
+    //         expected: mustBeEnum,
+    //         keyword: 'enum',
+    //         path: `${basePath}/EcocData/Data/Parties/1/PartyRole`,
+    //         root: certVersion,
+    //         schemaPath: '#/definitions/PartyRole/enum',
+    //       },
+    //     ],
+    //   }),
+    // },
     {
       type: SupportedSchemas.ECOC,
       fixturesPath: '../../../fixtures/E-CoC',
-      version: 'v0.0.2',
-      validCertificate: require('../../../fixtures/E-CoC/v0.0.2/valid_cert.json'),
-      invalidCertificate: require('../../../fixtures/E-CoC/v0.0.2/invalid_cert.json'),
+      version: 'v1.0.0',
+      validCertificate: require('../../../fixtures/E-CoC/v1.0.0/valid_cert.json'),
+      invalidCertificate: require('../../../fixtures/E-CoC/v1.0.0/invalid_cert.json'),
       validationErrors: (basePath: string, certVersion: string) => ({
         [certVersion]: [
+          {
+            expected: 'must match format "uri"',
+            keyword: 'format',
+            path: `${basePath}/URL`,
+            root: certVersion,
+            schemaPath: '#/properties/URL/format',
+          },
           {
             expected: "must have required property 'Results'",
             keyword: 'required',
             path: `${basePath}/EcocData`,
             root: certVersion,
             schemaPath: '#/properties/EcocData/oneOf/2/required',
+          },
+          {
+            expected: "must have required property 'PartyIdentifier'",
+            keyword: 'required',
+            path: `${basePath}/EcocData/Data/Parties/0`,
+            root: certVersion,
+            schemaPath: '#/required',
           },
           {
             expected: "must have required property 'CountryCode'",
@@ -116,18 +171,60 @@ describe('ValidateSchema', function () {
             schemaPath: '#/definitions/Address/required',
           },
           {
-            expected: mustBeEnum,
+            expected: 'must NOT have fewer than 1 items',
+            keyword: 'minItems',
+            path: `${basePath}/EcocData/Data/Parties/0/AdditionalPartyProperties`,
+            root: certVersion,
+            schemaPath: '#/definitions/AddProperties/minItems',
+          },
+          {
+            expected: 'must be equal to one of the allowed values',
             keyword: 'enum',
             path: `${basePath}/EcocData/Data/Parties/1/PartyIdentifier/0/NameOfIdentifier`,
             root: certVersion,
             schemaPath: '#/definitions/CompanyIdentifier/properties/NameOfIdentifier/enum',
           },
           {
-            expected: mustBeEnum,
+            expected: 'must be equal to one of the allowed values',
             keyword: 'enum',
             path: `${basePath}/EcocData/Data/Parties/1/PartyRole`,
             root: certVersion,
             schemaPath: '#/definitions/PartyRole/enum',
+          },
+          {
+            expected: "must have required property 'PartyRefId'",
+            keyword: 'required',
+            path: `${basePath}/EcocData/Data/ObjectOfDeclaration/0`,
+            root: certVersion,
+            schemaPath: '#/required',
+          },
+          {
+            expected: 'must NOT have fewer than 1 items',
+            keyword: 'minItems',
+            path: `${basePath}/EcocData/Data/ObjectOfDeclaration/0/NormativeRef`,
+            root: certVersion,
+            schemaPath: '#/definitions/NormativeRef/minItems',
+          },
+          {
+            expected: "must have required property 'PartyRefId'",
+            keyword: 'required',
+            path: `${basePath}/EcocData/Data/ObjectOfDeclaration/1`,
+            root: certVersion,
+            schemaPath: '#/required',
+          },
+          {
+            expected: 'must NOT have fewer than 1 items',
+            keyword: 'minItems',
+            path: `${basePath}/EcocData/Data/ObjectOfDeclaration/1/NormativeRef`,
+            root: certVersion,
+            schemaPath: '#/definitions/NormativeRef/minItems',
+          },
+          {
+            expected: "must have required property 'PartyRefOfSigner'",
+            keyword: 'required',
+            path: `${basePath}/Declaration/Signature`,
+            root: certVersion,
+            schemaPath: '#/properties/Declaration/properties/Signature/required',
           },
         ],
       }),
@@ -167,6 +264,52 @@ describe('ValidateSchema', function () {
             path: `${basePath}/Certificate/BusinessTransaction/Delivery/Number`,
             root: certVersion,
             schemaPath: '#/definitions/BusinessTransaction/properties/Delivery/properties/Number/type',
+          },
+          {
+            expected: "must have required property 'Property'",
+            keyword: 'required',
+            path: `${basePath}/Certificate/Analysis/Inspections/1`,
+            root: certVersion,
+            schemaPath: '#/definitions/Inspection/required',
+          },
+        ],
+      }),
+    },
+    {
+      type: SupportedSchemas.COA,
+      fixturesPath: '../../../fixtures/CoA',
+      version: 'v0.1.0',
+      validCertificate: require('../../../fixtures/CoA/v0.1.0/valid_cert.json'),
+      invalidCertificate: require('../../../fixtures/CoA/v0.1.0/invalid_cert.json'),
+      validationErrors: (basePath: string, certVersion: string) => ({
+        [certVersion]: [
+          {
+            expected: "must have required property 'Name'",
+            keyword: 'required',
+            path: `${basePath}/Certificate/Parties/Manufacturer`,
+            root: certVersion,
+            schemaPath: '#/required',
+          },
+          {
+            expected: "must have required property 'VAT'",
+            keyword: 'required',
+            path: `${basePath}/Certificate/Parties/Manufacturer/Identifier`,
+            root: certVersion,
+            schemaPath: '#/definitions/Identifier/required',
+          },
+          {
+            expected: 'must match format "date"',
+            keyword: 'format',
+            path: `${basePath}/Certificate/BusinessTransaction/OrderConfirmation/Date`,
+            root: certVersion,
+            schemaPath: '#/definitions/BusinessTransaction/properties/OrderConfirmation/properties/Date/format',
+          },
+          {
+            expected: 'must be string',
+            keyword: 'type',
+            path: `${basePath}/Certificate/BusinessTransaction/Delivery/Id`,
+            root: certVersion,
+            schemaPath: '#/definitions/BusinessTransaction/properties/Delivery/properties/Id/type',
           },
           {
             expected: "must have required property 'Property'",
