@@ -17,6 +17,7 @@ export enum SenderRoles {
 export enum ReceiverRoles {
   Customer = 'Customer',
   Recipient = 'Recipient',
+  Receiver = 'Receiver',
   Buyer = 'Buyer',
   ProductConsignee = 'ProductConsignee',
   CertificateConsignee = 'CertificateConsignee',
@@ -115,6 +116,7 @@ export function extractPartiesFromCoA(certificate: CoASchema): PartyEmail[] {
     ['Manufacturer']: SenderRoles.Manufacturer,
     ['Customer']: ReceiverRoles.Customer,
     ['ConsigneeOfCertificate']: ReceiverRoles.CertificateConsignee,
+    ['Receiver']: ReceiverRoles.Receiver,
   };
   const validKeys = Object.keys(coaCompanyRole);
   return Object.entries(Parties)

@@ -1,19 +1,18 @@
-import { Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-
 import { supplementaryInformation } from '../src/lib/supplementaryInformation';
+import { EN10168Translations } from '../src/types';
 import { defaultSchemaUrl } from './constants';
-import { getTranslations } from './getTranslations';
+import { getI18N, getTranslations } from './getTranslations';
 
 /* eslint-disable sonarjs/no-duplicate-string */
 describe('Rendering supplementary information', () => {
-  let translations: Translations;
+  let translations: EN10168Translations;
 
   beforeAll(async () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
   it('does not render header when no supplementary inforamtion is given', () => {
-    const i18n = new Translate({ EN: translations.EN }, ['EN']);
+    const i18n = getI18N(translations, ['EN']);
     expect(supplementaryInformation({}, i18n)).toEqual([]);
   });
 
@@ -25,7 +24,7 @@ describe('Rendering supplementary information', () => {
         Unit: 'Apples',
       },
     };
-    const i18n = new Translate({ EN: translations.EN }, ['EN']);
+    const i18n = getI18N(translations, ['EN']);
     expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
       { text: 'Supplementary information', style: 'h5', colSpan: 3 },
       {},
@@ -41,8 +40,7 @@ describe('Rendering supplementary information', () => {
         Unit: 'Apples',
       },
     };
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
-
+    const i18n = getI18N(translations, ['EN', 'DE']);
     expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
       { text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 3 },
       {},
@@ -62,8 +60,7 @@ describe('Rendering supplementary information', () => {
         Value: 'A96',
       },
     };
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
-
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const supplementaryInfo = supplementaryInformation(suppInfo, i18n);
     expect(supplementaryInfo.length).toEqual(3);
     expect(supplementaryInfo[0]).toEqual([
@@ -91,8 +88,7 @@ describe('Rendering supplementary information', () => {
         Unit: 'Apples',
       },
     };
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
-
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const supplementaryInfo = supplementaryInformation(suppInfo, i18n, 4);
     expect(supplementaryInfo.length).toEqual(2);
     expect(supplementaryInfo[0]).toEqual([

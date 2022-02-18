@@ -1,12 +1,12 @@
 import { TableCell } from 'pdfmake/interfaces';
 
-import { createEmptyColumns, localizeValue, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { createEmptyColumns, localizeValue } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
-import { KeyValueObject } from '../types';
+import { I18N, KeyValueObject } from '../types';
 
 export const supplementaryInformation = (
   data: { [k: string]: KeyValueObject },
-  i18n: Translate,
+  i18n: I18N,
   colSpan = 3,
 ): TableCell[][] => {
   const dataMapped: TableCell[][] = Object.keys(data).map((element) => {

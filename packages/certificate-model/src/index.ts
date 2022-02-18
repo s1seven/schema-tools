@@ -5,7 +5,7 @@ import cloneDeepWith from 'lodash.clonedeepwith';
 import merge from 'lodash.merge';
 import { URL } from 'url';
 
-import { extractEmails, PartyEmail } from '@s1seven/schema-tools-extract-emails';
+import { extractParties, PartyEmail } from '@s1seven/schema-tools-extract-emails';
 import {
   BaseCertificateSchema,
   JSONSchema7,
@@ -300,6 +300,6 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
   }
 
   getTransactionParties(): Promise<PartyEmail[] | null> {
-    return extractEmails(this.toJSON() as Record<string, unknown>);
+    return extractParties(this.toJSON() as Record<string, unknown>);
   }
 }

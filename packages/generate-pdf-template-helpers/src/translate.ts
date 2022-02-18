@@ -1,9 +1,9 @@
-import { Translations } from './types';
+import { Translation, Translations } from './types';
 
-export class Translate {
-  constructor(readonly translations: Translations, readonly languages: string[] = ['EN']) {}
+export class Translate<T = Translations, t = Translation> {
+  constructor(readonly translations: T, readonly languages: string[] = ['EN']) {}
 
-  getField(language: string, group: string, phrase: string) {
+  getField<G extends keyof t = keyof t, P extends keyof t[G] = keyof t[G]>(language: string, group: G, phrase: P) {
     const translations = this.translations;
     if (language in translations && group in translations[language] && phrase in translations[language][group]) {
       return translations[language][group][phrase];
@@ -11,11 +11,11 @@ export class Translate {
     return '';
   }
 
-  getTranslation(group: string, phrase: string) {
+  getTranslation<G extends keyof t = keyof t, P extends keyof t[G] = keyof t[G]>(group: G, phrase: P) {
     return this.languages.map((language) => this.getField(language, group, phrase)).join(' / ');
   }
 
-  translate(phrase: string, group: string) {
+  translate<G extends keyof t = keyof t, P extends keyof t[G] = keyof t[G]>(phrase: P, group: G) {
     // specific to EN10168
     if (group === 'certificateFields') {
       return `${phrase} ${this.getTranslation(group, phrase)}`;

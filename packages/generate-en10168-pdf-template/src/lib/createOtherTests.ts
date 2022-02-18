@@ -5,16 +5,12 @@ import {
   localizeValue,
   TableElement,
   tableLayout,
-  Translate,
 } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
-import { NonDestructiveTests, OtherProductTests, OtherTests } from '../types';
+import { I18N, NonDestructiveTests, OtherProductTests, OtherTests } from '../types';
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 
-export function createOtherTests(
-  otherTests: OtherTests,
-  i18n: Translate,
-): (TableElement | ContentText | ContentCanvas)[] {
+export function createOtherTests(otherTests: OtherTests, i18n: I18N): (TableElement | ContentText | ContentCanvas)[] {
   if (!otherTests) {
     return [
       {
@@ -70,7 +66,7 @@ export function createOtherTests(
 
 const renderKVObjectTests = (
   data: OtherProductTests | NonDestructiveTests,
-  i18n: Translate,
+  i18n: I18N,
   testName: 'OtherProductTests' | 'NonDestructiveTests',
   colSpan = 4,
 ): (ContentText | ContentCanvas | TableElement)[] => {

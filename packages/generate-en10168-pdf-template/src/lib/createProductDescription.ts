@@ -1,13 +1,8 @@
 import { ContentCanvas, ContentText, TableCell } from 'pdfmake/interfaces';
 
-import {
-  createEmptyColumns,
-  TableElement,
-  tableLayout,
-  Translate,
-} from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { createEmptyColumns, TableElement, tableLayout } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
-import { ProductDescription, ProductShape } from '../types';
+import { I18N, ProductDescription, ProductShape } from '../types';
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { renderMeasurement } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
@@ -19,9 +14,9 @@ interface ProductNorms {
   SteelDesignation?: string[];
 }
 
-export function productNorms(productNorms: ProductNorms, i18n: Translate): TableCell[][] {
+export function productNorms(productNorms: ProductNorms, i18n: I18N): TableCell[][] {
   const header = [{ text: i18n.translate('B02', 'certificateFields'), colSpan: 4, style: 'tableHeader' }, {}, {}, {}];
-  const content = Object.keys(productNorms).map((norm) => [
+  const content = Object.keys(productNorms).map((norm: keyof ProductNorms) => [
     { text: i18n.translate(norm, 'otherFields'), style: 'caption', colSpan: 3 },
     {},
     {},
@@ -30,12 +25,12 @@ export function productNorms(productNorms: ProductNorms, i18n: Translate): Table
   return [header, ...content];
 }
 
-export function productShape(productShape: ProductShape, i18n: Translate): TableCell[][] {
+export function productShape(productShape: ProductShape, i18n: I18N): TableCell[][] {
   if (!productShape) return [];
   const header = [{ text: i18n.translate('B09', 'certificateFields'), style: 'tableHeader', colSpan: 4 }, {}, {}, {}];
   const content = Object.keys(productShape)
     .filter((key) => key.toLowerCase() !== 'unit')
-    .map((key) => [
+    .map((key: keyof ProductShape) => [
       { text: i18n.translate(key, 'otherFields'), style: 'caption', colSpan: 3 },
       {},
       {},
@@ -52,13 +47,27 @@ export function productShape(productShape: ProductShape, i18n: Translate): Table
 
 export function createProductDescription(
   productDescription: ProductDescription,
-  i18n: Translate,
+  i18n: I18N,
 ): [ContentText, ContentCanvas, TableElement, TableElement] {
+  type KeysToOmit = keyof Pick<
+    ProductDescription,
+    'B01' | 'B02' | 'B09' | 'B10' | 'B11' | 'B12' | 'B12' | 'B13' | 'SupplementaryInformation'
+  >;
   const B02ProductNorms = productNorms(productDescription.B02, i18n);
-  const contentToOmit = ['B01', 'B02', 'B09', 'B10', 'B11', 'B12', 'B12', 'B13', 'SupplementaryInformation'];
+  const contentToOmit: KeysToOmit[] = [
+    'B01',
+    'B02',
+    'B09',
+    'B10',
+    'B11',
+    'B12',
+    'B12',
+    'B13',
+    'SupplementaryInformation',
+  ];
   const content = Object.keys(productDescription)
-    .filter((element) => !contentToOmit.includes(element))
-    .map((element) => [
+    .filter((element: keyof ProductDescription) => !contentToOmit.includes(element as KeysToOmit))
+    .map((element: keyof Omit<ProductDescription, KeysToOmit>) => [
       { text: i18n.translate(element, 'certificateFields'), style: 'tableHeader', colSpan: 3 },
       {},
       {},

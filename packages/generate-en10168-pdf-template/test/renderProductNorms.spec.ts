@@ -1,18 +1,17 @@
-import { Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-
 import { productNorms } from '../src/lib/createProductDescription';
+import { EN10168Translations } from '../src/types';
 import { certificate, defaultSchemaUrl } from './constants';
-import { getTranslations } from './getTranslations';
+import { getI18N, getTranslations } from './getTranslations';
 
 describe('Product norms', () => {
-  let translations: Translations;
+  let translations: EN10168Translations;
 
   beforeAll(async () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
   it('works for example certificate', async () => {
-    const i18n = new Translate(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const norms = productNorms(certificate.Certificate.ProductDescription.B02, i18n);
     const expected = [
       [
@@ -85,7 +84,7 @@ describe('Product norms', () => {
   };
 
   it('correctly renders header', async () => {
-    const i18n = new Translate(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const norms = productNorms(normsInput, i18n);
     expect(norms[0]).toEqual([
       { text: 'B02 Specification of the product / Spezfikation des Erzeugnis', colSpan: 4, style: 'tableHeader' },
@@ -96,7 +95,7 @@ describe('Product norms', () => {
   });
 
   it('correctly renders for many values', async () => {
-    const i18n = new Translate(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const norms = productNorms(normsInput, i18n);
     expect(norms[2]).toEqual([
       { text: 'Mass norm / Mass Norm', colSpan: 3, style: 'caption' },
@@ -108,7 +107,7 @@ describe('Product norms', () => {
 
   // eslint-disable-next-line quotes
   it("doesn't render norms that are not included", async () => {
-    const i18n = new Translate(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const norms = productNorms(normsInput, i18n);
     expect(norms.length).toEqual(4);
   });

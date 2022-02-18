@@ -1,22 +1,19 @@
-import {
-  fillTableRow,
-  TableElement,
-  tableLayout,
-  Translate,
-} from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { fillTableRow, TableElement, tableLayout } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
-import { CommercialTransaction } from '../types';
+import { CommercialTransaction, I18N } from '../types';
 import { TRANSACTION_COLUMNS_COUNT } from './constants';
 
-function separateCommercialParties(commercialTransaction: CommercialTransaction, i18n: Translate) {
+function separateCommercialParties(commercialTransaction: CommercialTransaction, i18n: I18N) {
   const initKeys = commercialTransaction['A04']
     ? [[{ text: i18n.translate('A04', 'certificateFields'), style: 'tableHeader' }]]
     : [];
   const initValues = commercialTransaction['A04'] ? [[{ image: commercialTransaction.A04, width: 150 }]] : [];
 
+  type FilteredKeys = keyof Pick<CommercialTransaction, 'A01' | 'A06' | 'A06.1' | 'A06.2' | 'A06.3'>;
+  const filteredKeys: FilteredKeys[] = ['A01', 'A06', 'A06.1', 'A06.2', 'A06.3'];
   const commercialTransactionParties = Object.keys(commercialTransaction).filter((element) =>
-    ['A01', 'A06', 'A06.1', 'A06.2', 'A06.3'].includes(element),
-  );
+    filteredKeys.includes(element as FilteredKeys),
+  ) as FilteredKeys[];
 
   const keys = commercialTransactionParties.map((element) => [
     { text: i18n.translate(element, 'certificateFields'), style: 'tableHeader' },
@@ -45,7 +42,7 @@ function splitIfTooLong<T>(arr: T[]): T[][] | (T | string)[][][] {
   ];
 }
 
-export function createTransactionParties(commercialTransaction: CommercialTransaction, i18n: Translate): TableElement {
+export function createTransactionParties(commercialTransaction: CommercialTransaction, i18n: I18N): TableElement {
   const [keys, values] = separateCommercialParties(commercialTransaction, i18n);
   if (keys?.length <= TRANSACTION_COLUMNS_COUNT) {
     const contentBody = [

@@ -1,0 +1,240 @@
+{
+  "Id": "89172671",
+  "Uuid": "c42cf70d-042e-44e6-a918-02e57aa69982",
+  "URL": "",
+  "RefSchemaUrl": "https://schemas.s1seven.com/e-coc-schemas/v1.0.0/schema.json",
+  "EcocData": {
+    "DataLevel": "C",
+    "Data": {
+      "EcocType": "MaterialCertificate3.1",
+      "Parties": [
+        {
+          "PartyNo": 1,
+          "PartyName": "Material Trading AG",
+          "PartyAddress": {
+            "StreetAddress": "Handelsgasse 1",
+            "City": "Berlin",
+            "PostalCode": "10115",
+            "State": "",
+            "AddAddressLine": ""
+          },
+          "PartyRole": "Recipient",
+          "AdditionalPartyProperties": []
+        },
+        {
+          "PartyNo": 2,
+          "PartyName": "Material Manufacturing SE",
+          "PartyIdentifier": [
+            {
+              "NameOfIdentifier": "ANY",
+              "ValueOfIdentifier": "1906N"
+            },
+            {
+              "NameOfIdentifier": "VATID",
+              "ValueOfIdentifier": "AT123456789"
+            }
+          ],
+          "PartyAddress": {
+            "StreetAddress": "Stahlstrasse 1",
+            "City": "Linz",
+            "PostalCode": "4040",
+            "CountryCode": "AT",
+            "State": "",
+            "AddAddressLine": ""
+          },
+          "PartyRole": "invalidrole"
+        }
+      ],
+      "BusinessRef": {
+        "StandardReferences": [
+          {
+            "Name": "OrderNo",
+            "Value": "686901"
+          },
+          {
+            "Name": "OrderDate",
+            "Value": "2020-01-27"
+          },
+          {
+            "Name": "DeliveryNote",
+            "Value": "89172671"
+          },
+          {
+            "Name": "DeliveryDate",
+            "Value": "2020-01-28"
+          }
+        ],
+        "AdditionalReferences": [
+          {
+            "Name": "OrderConfirmation",
+            "Value": ["179981"]
+          },
+          {
+            "Name": "OrderConfirmationDate",
+            "Value": ["2020-01-27"]
+          }
+        ]
+      },
+      "NormativeRef": ["ISO 9001", "IATF 16949", "EN/AS 9100", "ISO 14001", "ISO 50001", "NADCAP"],
+      "ObjectOfDeclaration": [
+        {
+          "ObjectId": "1",
+          "ObjectName": "Material TopPlate Gussplatte gefräst",
+          "ObjectType": "Material",
+          "Quantities": [
+            {
+              "Amount": 1096,
+              "Unit": "Kg"
+            },
+            {
+              "Amount": 6,
+              "Unit": "Pcs"
+            }
+          ],
+          "Dimensions": [
+            {
+              "Direction": "Length",
+              "DimValue": 3020,
+              "DimUnit": "mm"
+            },
+            {
+              "Direction": "Width",
+              "DimValue": 1520,
+              "DimUnit": "mm"
+            },
+            {
+              "Direction": "Height",
+              "DimValue": 15,
+              "DimUnit": "mm"
+            }
+          ],
+          "NormativeRef": [],
+          "ObjectProperties": [
+            {
+              "Name": "BatchNo",
+              "Value": ["46423/02"]
+            },
+            {
+              "Name": "CastNo",
+              "Value": ["01/0004999/9"]
+            },
+            {
+              "Name": "PackageNo",
+              "Value": ["1799810001"]
+            },
+            {
+              "Name": "Material",
+              "Value": ["5083"]
+            },
+            {
+              "Name": "Temper",
+              "Value": ["GH"]
+            },
+            {
+              "Name": "PackageNo",
+              "Value": ["1799810001"]
+            },
+            {
+              "Name": "Form",
+              "Value": ["Platten (gesägt/gefräst)"]
+            }
+          ],
+          "AdditionalObjectProperties": []
+        },
+        {
+          "ObjectId": "2",
+          "ObjectName": "Material TopPlate Gussplatte gefräst",
+          "ObjectType": "Material",
+          "Quantities": [
+            {
+              "Amount": 1093,
+              "Unit": "Kg"
+            },
+            {
+              "Amount": 6,
+              "Unit": "Pcs"
+            }
+          ],
+          "Dimensions": [
+            {
+              "Direction": "Length",
+              "DimValue": 3020,
+              "DimUnit": "mm"
+            },
+            {
+              "Direction": "Width",
+              "DimValue": 1520,
+              "DimUnit": "mm"
+            },
+            {
+              "Direction": "Height",
+              "DimValue": 15,
+              "DimUnit": "mm"
+            }
+          ],
+          "NormativeRef": [],
+          "ObjectProperties": [
+            {
+              "Name": "BatchNo",
+              "Value": ["46423/01"]
+            },
+            {
+              "Name": "CastNo",
+              "Value": ["01/0005004/9"]
+            },
+            {
+              "Name": "PackageNo",
+              "Value": ["1799810002"]
+            },
+            {
+              "Name": "Material",
+              "Value": ["5083"]
+            },
+            {
+              "Name": "Temper",
+              "Value": ["GH"]
+            },
+            {
+              "Name": "PackageNo",
+              "Value": ["1799810002"]
+            },
+            {
+              "Name": "Form",
+              "Value": ["Platten (gesägt/gefräst)"]
+            }
+          ],
+          "AdditionalObjectProperties": []
+        }
+      ]
+    }
+  },
+  "Declaration": {
+    "DateOfIssue": "2020-01-28",
+    "Concessions": ["", ""],
+    "remarks": [
+      "Herstellerland Österreich",
+      "The Goods are of Austrian origin",
+      "Technical Spec.:",
+      "Material TopPlate Gussplatte gefräst, Rev.07, September 2015"
+    ],
+    "ConformityStatus": "True",
+    "Signature": {
+      "SignerName": "Josef Klampfer",
+      "SignerPosition": "Factory specialist",
+      "SignatureStamp": "ABCDEFGHIJKLMNOPQRSTUVWXYZA",
+      "SignatureDate": "2020-01-28"
+    },
+    "CocConfirmationText": [
+      "Es wird bestätigt, dass die Lieferung geprüft wurde und den Vereinbarungen bei der Bestellung entspricht.",
+      "We hereby certify that the material described above has been tested and complies with the terms of the order contract."
+    ]
+  },
+  "Attachment": {
+    "FileName": "Material EN 10204 3.1.pdf",
+    "FileType": "application/pdf",
+    "Encoding": "base64",
+    "Data": "JVBERi0xLjQNCiWio4+TDQozIDAgb2JqDQo8PC9UeXBlIC9YT2JqZWN0IC9TdWJ0eXBlIC9JbWFnZSAvV2lkdGggMTQyMCAvSGVpZ2h0IDQ1MiAvQ29sb3JTcGFjZSAvRGV2aWNlQ01ZSyAvQml0c1BlckNvbXBvbmVudCA4IC9EZWNvZGUgWzEgMCAxIDAgMSAwIDEgMF0gL0ludGVycG9sYXRlIGZhbHNlIC9GaWx0ZXIgL0RDVERlY29kZSAvTGVuZ3RoIDE5MzA3NSA+Pg0Kc3RyZWFtDQr/2P/gABBKRklGAAEBAQEsASwAAP/uAA5BZG9iZQBkAAAAAAD/4QBKRXhpZgAATU0AKgAAAAgAAwEaAAUAAAABAAAAMgEbAAUAAAABAAAAOgEoAAMAAAABAAIAAAAAAAABLAAAAAEAAAEsAAAAAQAA/9sAQwABAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAgICAgICAgICAgIDAwMDAwMDAwMD/8AAFAgBxAWMBAERAAIRAAMRAAQRAP/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/aAA4EAQACAAMABAAAPwD+/iv7+K/v4r+/iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiuL+IvxB8J/",
+    "HashAlgorithm": "MD5",
+    "HashValue": "7D931C43B44AF59CBF0B68C882452BB7"
+  }
+}

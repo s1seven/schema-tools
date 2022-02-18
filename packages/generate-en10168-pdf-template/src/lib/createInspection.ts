@@ -5,13 +5,13 @@ import {
   localizeNumber,
   TableElement,
   tableLayout,
-  Translate,
 } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
 import {
   ChemicalComposition,
   ChemicalElement,
   HardnessTest,
+  I18N,
   Inspection,
   NotchedBarImpactTest,
   OtherMechanicalTests,
@@ -21,15 +21,16 @@ import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
 
-export function createInspection(
-  inspection: Inspection,
-  i18n: Translate,
-): (TableElement | ContentText | ContentCanvas)[] {
+export function createInspection(inspection: Inspection, i18n: I18N): (TableElement | ContentText | ContentCanvas)[] {
   const contentToRender = ['C00', 'C01', 'C02', 'C03'];
   const content = Object.keys(inspection)
     .filter((element) => contentToRender.includes(element) && inspection[element])
     .map((element) => [
-      { text: i18n.translate(element, 'certificateFields'), style: 'tableHeader', colSpan: 3 },
+      {
+        text: i18n.translate(element as 'C00' | 'C01' | 'C02' | 'C03', 'certificateFields'),
+        style: 'tableHeader',
+        colSpan: 3,
+      },
       {},
       {},
       { text: inspection[element], style: 'p' },
@@ -82,7 +83,7 @@ export function createInspection(
 
 export function renderTensileTest(
   tensileTest: TensileTest,
-  i18n: Translate,
+  i18n: I18N,
 ): [ContentText, ContentCanvas, TableElement, TableElement] {
   const C10 = tensileTest.C10
     ? [
@@ -92,7 +93,8 @@ export function renderTensileTest(
         { text: tensileTest.C10, style: 'p' },
       ]
     : createEmptyColumns(4);
-  const measurementKeys = ['C11', 'C12', 'C13'];
+  type MeasurementKeys = keyof Pick<TensileTest, 'C11' | 'C12' | 'C13'>;
+  const measurementKeys: MeasurementKeys[] = ['C11', 'C12', 'C13'];
   const tableBody = measurementKeys
     .filter((key) => tensileTest[key])
     .map((key) => {
@@ -129,7 +131,7 @@ export function renderTensileTest(
 
 export function renderHardnessTest(
   hardnessTest: HardnessTest,
-  i18n: Translate,
+  i18n: I18N,
 ): [ContentText, ContentCanvas, TableElement, TableElement] {
   const C30 = hardnessTest.C30
     ? [
@@ -169,7 +171,7 @@ export function renderHardnessTest(
 
 export function renderNotchedBarImpactTest(
   notchedBarImpactTest: NotchedBarImpactTest,
-  i18n: Translate,
+  i18n: I18N,
 ): [ContentText, ContentCanvas, TableElement, TableElement] {
   const C40 = notchedBarImpactTest.C40
     ? [
@@ -211,7 +213,7 @@ export function renderNotchedBarImpactTest(
 
 export function renderOtherMechanicalTests(
   otherMechanicalTests: OtherMechanicalTests,
-  i18n: Translate,
+  i18n: I18N,
 ): [ContentText, ContentCanvas, TableElement] {
   const values = Object.keys(otherMechanicalTests).map((element) => [
     { text: `${element} ${otherMechanicalTests[element].Key}`, style: 'p' },
@@ -236,7 +238,7 @@ export function renderOtherMechanicalTests(
 
 function createChemicalElementTables(
   chemicalComposition: ChemicalComposition,
-  i18n: Translate,
+  i18n: I18N,
   chunkSize = 15,
 ): TableElement[] {
   const ChemicalElements: { key: string; value: ChemicalElement }[] = Object.keys(chemicalComposition)
@@ -318,7 +320,7 @@ function createChemicalElementTables(
 
 export function renderChemicalComposition(
   chemicalComposition: ChemicalComposition,
-  i18n: Translate,
+  i18n: I18N,
 ): (ContentText | ContentCanvas | TableElement)[] {
   const C70 = chemicalComposition.C70
     ? [

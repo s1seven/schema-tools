@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { TableElement, Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { TableElement } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
 import {
   renderChemicalComposition,
@@ -7,18 +7,19 @@ import {
   renderNotchedBarImpactTest,
   renderTensileTest,
 } from '../src/lib/createInspection';
+import { EN10168Translations } from '../src/types';
 import { certificate, defaultSchemaUrl } from './constants';
-import { getTranslations } from './getTranslations';
+import { getI18N, getTranslations } from './getTranslations';
 
 describe('Rendering inspection section', () => {
-  let translations: Translations;
+  let translations: EN10168Translations;
 
   beforeAll(async () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
   it('correctly renders TensileTest', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const tensileTest = renderTensileTest(certificate.Certificate.Inspection.TensileTest as any, i18n);
     expect(tensileTest[3].table).toEqual({
       body: [
@@ -155,7 +156,7 @@ describe('Rendering inspection section', () => {
   });
 
   it('correctly renders HardnessTest', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const HardnessTest = {
       C30: 'Method',
       C31: [
@@ -279,7 +280,7 @@ describe('Rendering inspection section', () => {
   });
 
   it('correctly renders NotchedBarImpact', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const notchedBarImpactTest = renderNotchedBarImpactTest(
       certificate.Certificate.Inspection.NotchedBarImpactTest as any,
       i18n,
@@ -400,7 +401,7 @@ describe('Rendering inspection section', () => {
   });
 
   it('correctly renders ChemicalComposition', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const chemicalComposition = renderChemicalComposition(certificate.Certificate.Inspection.ChemicalComposition, i18n);
 
     expect((chemicalComposition[3] as TableElement).table).toEqual({

@@ -63,7 +63,6 @@ export function localizeValue(
 export function localizeDate(lvalue: string | number | Date, locales: string | string[] = 'EN') {
   const event = new Date(lvalue);
   const options: Intl.DateTimeFormatOptions = {
-    weekday: 'long',
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',
@@ -71,7 +70,10 @@ export function localizeDate(lvalue: string | number | Date, locales: string | s
   return new Intl.DateTimeFormat(locales, options).format(event);
 }
 
-export function localizeNumber(lvalue: number, locales: string | string[] = 'EN') {
+export function localizeNumber(lvalue: number | string, locales: string | string[] = 'EN') {
+  if (typeof lvalue === 'string') {
+    lvalue = Number(lvalue);
+  }
   return new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(lvalue);
 }
 

@@ -1,20 +1,18 @@
-import { Translate, Translations } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-
 import { createCommercialTransaction } from '../src/lib/commercialTransaction';
 import { createTransactionParties } from '../src/lib/createTransactionParties';
-import { CommercialTransaction } from '../src/types';
+import { CommercialTransaction, EN10168Translations } from '../src/types';
 import { certificate, defaultSchemaUrl } from './constants';
-import { getTranslations } from './getTranslations';
+import { getI18N, getTranslations } from './getTranslations';
 
 describe('Rendering commercial transaction', () => {
-  let translations: Translations;
+  let translations: EN10168Translations;
 
   beforeAll(async () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
   it('correctly renders for testingCertificate', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const commercialTransaction = createCommercialTransaction(
       certificate.Certificate.CommercialTransaction as any,
       i18n,
@@ -67,14 +65,14 @@ describe('Rendering commercial transaction', () => {
 });
 
 describe('Rendering transaction parties', () => {
-  let translations: Translations;
+  let translations: EN10168Translations;
 
   beforeAll(async () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });
 
   it('correctly renders for testingCertificate', () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const transactionParties = createTransactionParties(certificate.Certificate.CommercialTransaction as any, i18n);
     const tableBody = transactionParties.table.body;
 
@@ -156,7 +154,7 @@ describe('Rendering transaction parties', () => {
 
   // eslint-disable-next-line
   it("correctly renders when Manufacturer's mark is not provided", () => {
-    const i18n = new Translate({ EN: translations.EN, DE: translations.DE }, ['EN', 'DE']);
+    const i18n = getI18N(translations, ['EN', 'DE']);
     const transactionParties = createTransactionParties(
       {
         A01: {

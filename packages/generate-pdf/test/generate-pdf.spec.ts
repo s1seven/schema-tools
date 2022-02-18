@@ -1,3 +1,4 @@
+import { createHash } from 'crypto';
 import { createWriteStream, existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
 import path from 'path';
 import { fromBuffer } from 'pdf2pic';
@@ -19,10 +20,25 @@ describe('GeneratePDF', function () {
     },
   };
 
+  const docDefinition: Partial<TDocumentDefinitions> = {
+    pageSize: 'A4',
+    pageMargins: [20, 20, 20, 40],
+    footer: (currentPage, pageCount) => ({
+      text: currentPage.toString() + ' / ' + pageCount,
+      style: 'footer',
+      alignment: 'center',
+    }),
+    defaultStyle: {
+      font: 'Lato',
+      fontSize: 10,
+    },
+  };
+
+  //! only include local generator path for latest version
   const testMaps: {
     type: SupportedSchemas;
     version: string;
-    generatorPath: string;
+    generatorPath?: string;
     styles: StyleDictionary;
     translationsPath: string;
     certificateHtmlPath: string;
@@ -33,44 +49,44 @@ describe('GeneratePDF', function () {
     {
       type: SupportedSchemas.EN10168,
       version: 'v0.1.0',
-      generatorPath: path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`),
       styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
       translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/translations.json`),
       certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/template_hbs.html`),
       expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.pdf`),
       validCertificate: require('../../../fixtures/EN10168/v0.1.0/valid_cert.json'),
-      docDefinition: {
-        pageSize: 'A4',
-        pageMargins: [20, 20, 20, 40],
-        footer: function (currentPage, pageCount) {
-          return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
-        },
-        defaultStyle: {
-          font: 'Lato',
-          fontSize: 10,
-        },
-      },
+      docDefinition,
+    },
+    {
+      type: SupportedSchemas.EN10168,
+      version: 'v0.2.0',
+      generatorPath: path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`),
+      styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
+      translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.2.0/translations.json`),
+      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.2.0/template_hbs.html`),
+      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.2.0/valid_cert.pdf`),
+      validCertificate: require('../../../fixtures/EN10168/v0.2.0/valid_cert.json'),
+      docDefinition,
     },
     {
       type: SupportedSchemas.COA,
       version: 'v0.0.4',
-      generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
       styles: require('../../generate-coa-pdf-template/utils/styles.js'),
       translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.4/translations.json`),
       certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.4/template_hbs.html`),
       expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.4/valid_cert.pdf`),
       validCertificate: require('../../../fixtures/CoA/v0.0.4/valid_cert.json'),
-      docDefinition: {
-        pageSize: 'A4',
-        pageMargins: [20, 20, 20, 40],
-        footer: function (currentPage, pageCount) {
-          return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
-        },
-        defaultStyle: {
-          font: 'Lato',
-          fontSize: 10,
-        },
-      },
+      docDefinition,
+    },
+    {
+      type: SupportedSchemas.COA,
+      version: 'v0.1.0',
+      generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
+      styles: require('../../generate-coa-pdf-template/utils/styles.js'),
+      translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.0/translations.json`),
+      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.0/template_hbs.html`),
+      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.0/valid_cert.pdf`),
+      validCertificate: require('../../../fixtures/CoA/v0.1.0/valid_cert.json'),
+      docDefinition,
     },
   ];
 
@@ -133,6 +149,9 @@ describe('GeneratePDF', function () {
 
       it('should render PDF certificate using certificate object and local PDF generator script', async () => {
         const outputFilePath = `./${type}-${version}-test2.pdf`;
+        if (!generatorPath) {
+          return;
+        }
         //
         const pdfDoc = await generatePdf(validCertificate, {
           docDefinition,
@@ -147,6 +166,9 @@ describe('GeneratePDF', function () {
       }, 15000);
 
       it('should render PDF certificate using certificate object, local PDF generator script, styles and translations', async () => {
+        if (!generatorPath) {
+          return;
+        }
         const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
         const options = {
           density: 100,
@@ -162,10 +184,13 @@ describe('GeneratePDF', function () {
           generatorPath,
           translations,
         });
+
         const expectedPDF: ToBase64Response = await fromBuffer(expectedPDFBuffer, options)(1, true);
         const result: ToBase64Response = await fromBuffer(pdfDoc, options)(1, true);
+        const expectedHash = createHash('sha256').update(expectedPDF.base64).digest('hex');
+        const resultHash = createHash('sha256').update(result.base64).digest('hex');
         expect(pdfDoc instanceof Buffer).toEqual(true);
-        expect(result.base64).toEqual(expectedPDF.base64);
+        expect(resultHash).toEqual(expectedHash);
       }, 15000);
 
       // TODO: skipped due to issues between v0.0.2 and v0.1.0 EN10168 html => investigate
