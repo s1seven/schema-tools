@@ -54,6 +54,22 @@ describe('CertificateSummary', function () {
       },
     },
     {
+      version: 'v1.0.0',
+      type: SupportedSchemas.ECOC,
+      certificatePath: `${__dirname}/../../../fixtures/E-CoC/v1.0.0/valid_cert.json`,
+      certificate: require('../../../fixtures/E-CoC/v1.0.0/valid_cert.json'),
+      expectedSummary: {
+        sellerName: 'Material Manufacturing SE',
+        buyerName: 'Material Trading AG',
+        certificateIdentifier: '89172671',
+        productDescription: undefined,
+        purchaseDeliveryNumber: undefined,
+        purchaseDeliveryPosition: undefined,
+        purchaseOrderNumber: undefined,
+        purchaseOrderPosition: undefined,
+      },
+    },
+    {
       version: 'v0.0.4',
       type: SupportedSchemas.COA,
       certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.4/valid_cert.json`,
