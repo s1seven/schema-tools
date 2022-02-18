@@ -22,17 +22,17 @@ describe('Localize', () => {
 
   it('correctly localize date for EN', () => {
     const result = localizeDate(testDate, ['EN']);
-    expect(result).toBe('Monday, 8/2/2021');
+    expect(result).toBe('8/2/2021');
   });
 
   it('correctly localize date for DE', () => {
     const result = localizeDate(testDate, ['DE']);
-    expect(result).toBe('Montag, 2.8.2021');
+    expect(result).toBe('2.8.2021');
   });
 
   it('correctly localize date for FR', () => {
     const result = localizeDate(testDate, ['FR']);
-    expect(result).toBe('lundi 02/08/2021');
+    expect(result).toBe('02/08/2021');
   });
 
   it('correctly localize value based on its type and languages - number - EN', () => {
@@ -42,6 +42,6 @@ describe('Localize', () => {
 
   it('correctly localize value based on its type and languages - date - EN', () => {
     const result = localizeValue(testDate.toString(), 'date', ['EN']);
-    expect(result).toBe('Monday, 8/2/2021');
+    expect(result).toBe('8/2/2021');
   });
 });
