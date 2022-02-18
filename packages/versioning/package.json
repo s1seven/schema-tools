@@ -43,8 +43,7 @@
   "devDependencies": {
     "@types/glob": "^7.2.0",
     "@types/lodash.get": "^4.4.6",
-    "@types/lodash.set": "^4.3.6",
-    "@types/pdfmake": "^0.1.19"
+    "@types/lodash.set": "^4.3.6"
   },
   "dependencies": {
     "@s1seven/schema-tools-generate-html": "^0.0.27",

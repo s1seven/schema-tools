@@ -43,6 +43,6 @@
   },
   "devDependencies": {
     "@s1seven/schema-tools-utils": "^0.0.24",
-    "@types/pdfmake": "^0.1.19"
+    "@types/pdfmake": "^0.1.20"
   }
 }

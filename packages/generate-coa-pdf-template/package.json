@@ -53,7 +53,7 @@
   "devDependencies": {
     "@s1seven/schema-tools-generate-interfaces": "^0.0.24",
     "@s1seven/schema-tools-utils": "^0.0.24",
-    "@types/pdfmake": "^0.1.19",
+    "@types/pdfmake": "^0.1.20",
     "full-icu": "^1.4.0",
     "lato-font": "^3.0.0",
     "parcel": "^2.3.1"
