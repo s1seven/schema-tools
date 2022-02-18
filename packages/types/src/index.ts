@@ -146,6 +146,10 @@ export class CoASchemaCertificate {
   Type?: string;
 
   @IsOptional()
+  @IsNotEmptyObject()
+  Standards?: { Type?: string; Norm: string };
+
+  @IsOptional()
   @IsArray()
   Contacts?: any;
 
