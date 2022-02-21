@@ -94,46 +94,45 @@ describe('ValidateSchema', function () {
         ],
       }),
     },
-    // TODO: reenable v0.0.2 when schemas.en10204.io is available
-    // {
-    //   type: SupportedSchemas.ECOC,
-    //   fixturesPath: '../../../fixtures/E-CoC',
-    //   version: 'v0.0.2',
-    //   validCertificate: require('../../../fixtures/E-CoC/v0.0.2/valid_cert.json'),
-    //   invalidCertificate: require('../../../fixtures/E-CoC/v0.0.2/invalid_cert.json'),
-    //   validationErrors: (basePath: string, certVersion: string) => ({
-    //     [certVersion]: [
-    //       {
-    //         expected: "must have required property 'Results'",
-    //         keyword: 'required',
-    //         path: `${basePath}/EcocData`,
-    //         root: certVersion,
-    //         schemaPath: '#/properties/EcocData/oneOf/2/required',
-    //       },
-    //       {
-    //         expected: "must have required property 'CountryCode'",
-    //         keyword: 'required',
-    //         path: `${basePath}/EcocData/Data/Parties/0/PartyAddress`,
-    //         root: certVersion,
-    //         schemaPath: '#/definitions/Address/required',
-    //       },
-    //       {
-    //         expected: mustBeEnum,
-    //         keyword: 'enum',
-    //         path: `${basePath}/EcocData/Data/Parties/1/PartyIdentifier/0/NameOfIdentifier`,
-    //         root: certVersion,
-    //         schemaPath: '#/definitions/CompanyIdentifier/properties/NameOfIdentifier/enum',
-    //       },
-    //       {
-    //         expected: mustBeEnum,
-    //         keyword: 'enum',
-    //         path: `${basePath}/EcocData/Data/Parties/1/PartyRole`,
-    //         root: certVersion,
-    //         schemaPath: '#/definitions/PartyRole/enum',
-    //       },
-    //     ],
-    //   }),
-    // },
+    {
+      type: SupportedSchemas.ECOC,
+      fixturesPath: '../../../fixtures/E-CoC',
+      version: 'v0.0.2',
+      validCertificate: require('../../../fixtures/E-CoC/v0.0.2/valid_cert.json'),
+      invalidCertificate: require('../../../fixtures/E-CoC/v0.0.2/invalid_cert.json'),
+      validationErrors: (basePath: string, certVersion: string) => ({
+        [certVersion]: [
+          {
+            expected: "must have required property 'Results'",
+            keyword: 'required',
+            path: `${basePath}/EcocData`,
+            root: certVersion,
+            schemaPath: '#/properties/EcocData/oneOf/2/required',
+          },
+          {
+            expected: "must have required property 'CountryCode'",
+            keyword: 'required',
+            path: `${basePath}/EcocData/Data/Parties/0/PartyAddress`,
+            root: certVersion,
+            schemaPath: '#/definitions/Address/required',
+          },
+          {
+            expected: mustBeEnum,
+            keyword: 'enum',
+            path: `${basePath}/EcocData/Data/Parties/1/PartyIdentifier/0/NameOfIdentifier`,
+            root: certVersion,
+            schemaPath: '#/definitions/CompanyIdentifier/properties/NameOfIdentifier/enum',
+          },
+          {
+            expected: mustBeEnum,
+            keyword: 'enum',
+            path: `${basePath}/EcocData/Data/Parties/1/PartyRole`,
+            root: certVersion,
+            schemaPath: '#/definitions/PartyRole/enum',
+          },
+        ],
+      }),
+    },
     {
       type: SupportedSchemas.ECOC,
       fixturesPath: '../../../fixtures/E-CoC',
