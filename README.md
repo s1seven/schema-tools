@@ -21,40 +21,40 @@ The specification of these libraries can be found in [SEP](https://s1seven.githu
 ## List of packages
 
 - [Certificate-Model](https://github.com/s1seven/schema-tools/tree/master/packages/certificate-model#readme)
-The certificate-model module provides a class using template pattern to generate a class / instances based a given JSON schema.
+  The certificate-model module provides a class using template pattern to generate a class / instances based a given JSON schema.
 
 - [Certificate-Summary](https://github.com/s1seven/schema-tools/blob/main/packages/certificate-summary/README.md)
-Build certificate summary by retrieving general common properties.
+  Build certificate summary by retrieving general common properties.
 
 - [Extract-Emails](https://github.com/s1seven/schema-tools/tree/master/packages/extract-emails#readme)
-This repository contains tools to extract emails from certificate(s).
+  This repository contains tools to extract emails from certificate(s).
 
 - [Generate-CoA-PDF-Template](https://github.com/s1seven/schema-tools/blob/main/packages/generate-coa-pdf-template/README.md)
-This package provides a minified script to be used in CoA-schemas specific verison release.
+  This package provides a minified script to be used in CoA-schemas specific verison release.
 
 - [Generate-En10168-PDF-Template](https://github.com/s1seven/schema-tools/blob/main/packages/generate-en10168-pdf-template/README.md)
-This package provides a minified script to be used in EN10168-schemas specific verison release. 
+  This package provides a minified script to be used in EN10168-schemas specific verison release.
 
 - [Generate-HTML](https://github.com/s1seven/schema-tools/tree/master/packages/generate-html#readme)
-The generate-html module is using handlebars and/or mjml to generate HTML string using a JSON schema.
+  The generate-html module is using handlebars and/or mjml to generate HTML string using a JSON schema.
 
 - [Generate-Interfaces](https://github.com/s1seven/schema-tools/tree/master/packages/generate-interfaces#readme)
-The generate-interfaces module is using the json-schema-to-typescript package to generate TS interfaces and types using a JSON / OpenAPI schema.
+  The generate-interfaces module is using the json-schema-to-typescript package to generate TS interfaces and types using a JSON / OpenAPI schema.
 
 - [Generate-PDF](https://github.com/s1seven/schema-tools/tree/master/packages/generate-pdf#readme)
-The generate-pdf module uses pdfmake to generate PDF buffer | stream from a certificate as JSON or HTML.
+  The generate-pdf module uses pdfmake to generate PDF buffer | stream from a certificate as JSON or HTML.
 
 - [Types](https://github.com/s1seven/schema-tools/tree/master/packages/types#readme)
-Contains shared types. Uses duck typing / type guards for quick validation. To be updated every time the schema is updated.
+  Contains shared types. Uses duck typing / type guards for quick validation. To be updated every time the schema is updated.
 
 - [Utils](https://github.com/s1seven/schema-tools/tree/master/packages/utils#readme)
-internal utilities including caching.
+  internal utilities including caching.
 
 - [Validate](https://github.com/s1seven/schema-tools/tree/master/packages/validate#readme)
-Takes certificates as input and validates them by using downloaded json schema.
+  Takes certificates as input and validates them by using downloaded json schema.
 
 - [Versioning](https://github.com/s1seven/schema-tools/blob/main/packages/versioning/README.md)
-Update all files containing versioning during release.
+  Update all files containing versioning during release.
 
 ## Dependency graph
 
@@ -75,10 +75,59 @@ Schema links:
 [CDN](https://github.com/thematerials-network/CDN-schemas)
 
 Process:
+
 1. Update the schema in question
-2. Check and update the types 
+2. Check and update the types using the create-schema-interfaces CLI tool (paste in the path to the updated schema when prompted)
 3. For a new Release Candidate, add a new fixture (used for testing)
+
+// Insert here instructions on how to create a new fixture
 
 ## Starting out
 
 To get started, run `npm install`, `npm run bootstrap` and `npm run build`
+
+## Testing
+
+The following packages only test the latest version:
+
+- generate-coa-pdf-template
+- generate-en10168-pdf-template
+
+The remaining packages should be made compatible with [all schema versions][#supported schemas]
+
+### Fixtures
+
+- Create or use a folder following the schema name
+- Create a subfolder following the version of the release candidate
+- Add a valid json certificate with the name `valid_cert.json`
+- Add an invalid json certificate with the name `invalid_cert.json`
+- Add the `translations.json` - for ease of use we keep English and German translations in a single file
+- `certificate.ts`, `template_hbs.html` and `valid_cert.pdf` are dynamically generated with the following scripts:
+
+To generate `certificate.ts`, run
+
+```sh
+npm run fixtures:interfaces -- -s /Users/eamon/work/CoA-schemas/schema.json -o fixtures/CoA/v0.1.1/certificate.ts
+```
+
+from the root directory where -s indicates the path to the updated schema and -o indicates the path to the certificate to be generated.
+
+To generate `template_hbs.html`, run
+
+```sh
+npm run fixtures:html -- -c fixtures/CoA/v0.1.1/valid_cert.json -o fixtures/CoA/v0.1.1/template_hbs.html -t fixtures/CoA/v0.1.1/translations.json -T /Users/eamon/work/CoA-schemas/template.hbs
+```
+
+from the root directory.
+
+To generate `valid_cert.pdf`, run
+
+```sh
+npm run fixtures:pdf -- -c fixtures/CoA/v0.1.1/valid_cert.json -o fixtures/CoA/v0.1.1/valid_cert.pdf -t fixtures/CoA/v0.1.1/translations.json -g /Users/eamon/work/CoA-schemas/generate-pdf.min.js -s /Users/eamon/work/CoA-schemas/generate-pdf.styles.json
+```
+
+from the root directory.
+
+## PDF Generation
+
+After making changes to `generateContent` for CoA and en10168, run the `build` script to generate a minified version in `dist` which can then be used in the PDF Generator.
