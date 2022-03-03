@@ -17,5 +17,7 @@ const rl = readline.createInterface({ input, output });
   if (schemaPath && fs.existsSync(schemaPath)) {
     const outputPath = `${__dirname}/../src/types/schemaTypes.ts`;
     await generate(schemaPath, path.resolve(outputPath));
+  } else {
+    console.log('FilePath does not exist.');
   }
 })();

@@ -23,14 +23,11 @@ The specification of these libraries can be found in [SEP](https://s1seven.githu
 - [Certificate-Model](https://github.com/s1seven/schema-tools/tree/master/packages/certificate-model#readme)
 The certificate-model module provides a class using template pattern to generate a class / instances based a given JSON schema.
 
-- [Extract-Emails](https://github.com/s1seven/schema-tools/tree/master/packages/extract-emails#readme)
-This repository contains tools to extract emails from certificate(s).
-
-- [Generate-HTML](https://github.com/s1seven/schema-tools/tree/master/packages/generate-html#readme)
-The generate-html module is using handlebars and/or mjml to generate HTML string using a JSON schema.
-
 - [Certificate-Summary](https://github.com/s1seven/schema-tools/blob/main/packages/certificate-summary/README.md)
 Build certificate summary by retrieving general common properties.
+
+- [Extract-Emails](https://github.com/s1seven/schema-tools/tree/master/packages/extract-emails#readme)
+This repository contains tools to extract emails from certificate(s).
 
 - [Generate-CoA-PDF-Template](https://github.com/s1seven/schema-tools/blob/main/packages/generate-coa-pdf-template/README.md)
 This package provides a minified script to be used in CoA-schemas specific verison release.
@@ -38,14 +35,14 @@ This package provides a minified script to be used in CoA-schemas specific veris
 - [Generate-En10168-PDF-Template](https://github.com/s1seven/schema-tools/blob/main/packages/generate-en10168-pdf-template/README.md)
 This package provides a minified script to be used in EN10168-schemas specific verison release. 
 
-- [Versioning](https://github.com/s1seven/schema-tools/blob/main/packages/versioning/README.md)
-Update all files containing versioning during release.
-
-- [Generate-PDF](https://github.com/s1seven/schema-tools/tree/master/packages/generate-pdf#readme)
-The generate-pdf module uses pdfmake to generate PDF buffer | stream from a certificate as JSON or HTML.
+- [Generate-HTML](https://github.com/s1seven/schema-tools/tree/master/packages/generate-html#readme)
+The generate-html module is using handlebars and/or mjml to generate HTML string using a JSON schema.
 
 - [Generate-Interfaces](https://github.com/s1seven/schema-tools/tree/master/packages/generate-interfaces#readme)
 The generate-interfaces module is using the json-schema-to-typescript package to generate TS interfaces and types using a JSON / OpenAPI schema.
+
+- [Generate-PDF](https://github.com/s1seven/schema-tools/tree/master/packages/generate-pdf#readme)
+The generate-pdf module uses pdfmake to generate PDF buffer | stream from a certificate as JSON or HTML.
 
 - [Types](https://github.com/s1seven/schema-tools/tree/master/packages/types#readme)
 Contains shared types. Uses duck typing / type guards for quick validation. To be updated every time the schema is updated.
@@ -55,6 +52,9 @@ internal utilities including caching.
 
 - [Validate](https://github.com/s1seven/schema-tools/tree/master/packages/validate#readme)
 Takes certificates as input and validates them by using downloaded json schema.
+
+- [Versioning](https://github.com/s1seven/schema-tools/blob/main/packages/versioning/README.md)
+Update all files containing versioning during release.
 
 ## Dependency graph
 
@@ -66,14 +66,19 @@ Takes certificates as input and validates them by using downloaded json schema.
 
 ## Contributing
 
-When updating the schema, the tools need to be updated at the same time.
+When updating the schema (links below), the tools need to be updated at the same time.
+
+Schema links:
+[EN10168](https://github.com/thematerials-network/EN10168-schemas)
+[E-CoC](https://github.com/thematerials-network/E-CoC-schemas)
+[CoA](https://github.com/thematerials-network/CoA-schemas)
+[CDN](https://github.com/thematerials-network/CDN-schemas)
 
 Process:
 1. Update the schema in question
 2. Check and update the types 
 3. For a new Release Candidate, add a new fixture (used for testing)
 
-
 ## Starting out
 
-To get started, run `npm install`, `npm run build` and `npm run bootstrap`
+To get started, run `npm install`, `npm run bootstrap` and `npm run build`
