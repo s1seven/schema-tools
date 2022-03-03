@@ -145,9 +145,17 @@ export function createBusinessReferences(
 
   const quantityRow: TableCell[] = [
     { text: i18n.translate('OrderQuantity', 'Certificate'), style: 'tableHeader' },
-    { text: `${localizeNumber(Order.Quantity, i18n.languages)} ${Order.QuantityUnit}`, style: 'p' },
+    {
+      text: Order.Quantity ? `${localizeNumber(Order.Quantity, i18n.languages)} ${Order.QuantityUnit || ''}` : '',
+      style: 'p',
+    },
     { text: i18n.translate('DeliveryQuantity', 'Certificate'), style: 'tableHeader' },
-    { text: `${localizeNumber(Delivery.Quantity, i18n.languages)} ${Delivery.QuantityUnit}`, style: 'p' },
+    {
+      text: Delivery.Quantity
+        ? `${localizeNumber(Delivery.Quantity, i18n.languages)} ${Delivery.QuantityUnit || ''}`
+        : '',
+      style: 'p',
+    },
   ];
 
   const dateRow: TableCell[] = [
