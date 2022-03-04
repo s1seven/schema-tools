@@ -35,7 +35,7 @@ function createManufacturerHeader(parties: Parties, logo: string): TableCell[][]
     { text: Manufacturer.AddressLine1, style: 'p' },
     { text: Manufacturer.AddressLine2 || ' ', style: 'p' },
     {
-      text: `${Manufacturer.City},${Manufacturer.ZipCode},${Manufacturer.Country}`,
+      text: `${Manufacturer.ZipCode} ${Manufacturer.City}, ${Manufacturer.Country}`,
       style: 'p',
     },
     // { text: commercialTransaction[element]?.VAT_Id || '', style: 'p' },
@@ -64,7 +64,7 @@ function createPartyColumn(party: Company): TableCell[] {
     { text: party.AddressLine1, style: 'p' },
     { text: party.AddressLine2 || ' ', style: 'p' },
     {
-      text: `${party.ZipCode} ${party.City} ${party.Country}`,
+      text: `${party.ZipCode} ${party.City}, ${party.Country}`,
       style: 'p',
     },
     { text: party.Email, style: 'p' },
@@ -369,7 +369,9 @@ export function createDeclarationOfConformity(
       style: 'table',
       table: {
         widths: [160, '*', 180],
-        body: [[{ text: declarationOfConformity.Declaration, style: 'p', colSpan: 2 }, {}]],
+        body: [
+          [{ text: declarationOfConformity.Declaration, style: 'p', colSpan: declarationOfConformity.CE ? 2 : 3 }, {}],
+        ],
       },
       layout: tableLayout,
     },
