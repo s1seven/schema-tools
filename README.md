@@ -77,8 +77,10 @@ Schema links:
 Process:
 
 1. Update the schema in question
-2. Check and update the types using the create-schema-interfaces CLI tool (paste in the path to the updated schema when prompted)
-3. For a new Release Candidate, add a new fixture (used for testing)
+2. Check and update the types using the `create-schema-interfaces` CLI tool (paste in the path to the updated schema when prompted)
+3. If necessary, make changes in `generateContent.ts` and run `npm run build`.
+   If `generateContent.ts` has been changed and built, copy the contents of `dist/generateContent.js` to the schema repository and replace the contents of `generate-pdf.min.js` with the new minified code
+4. For a new Release Candidate, add a new fixture (used for testing)
 
 // Insert here instructions on how to create a new fixture
 
@@ -128,6 +130,6 @@ npm run fixtures:pdf -- -c fixtures/CoA/v0.1.1/valid_cert.json -o fixtures/CoA/v
 
 from the root directory.
 
-## PDF Generation
+## PDF Generation - Making changes to a PDF
 
-After making changes to `generateContent` for CoA and en10168, run the `build` script to generate a minified version in `dist` which can then be used in the PDF Generator.
+To change the appearance of a PDF, make the needed changes to `generateContent.ts` for CoA and en10168, run the `build` script to generate a minified version in `dist` which can then be used following the `-g` argument in the root script `fixtures:pdf` PDF Generator.
