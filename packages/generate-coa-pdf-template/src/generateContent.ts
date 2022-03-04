@@ -151,9 +151,7 @@ export function createBusinessReferences(
     },
     { text: i18n.translate('DeliveryQuantity', 'Certificate'), style: 'tableHeader' },
     {
-      text: Delivery.Quantity
-        ? `${localizeNumber(Delivery.Quantity, i18n.languages)} ${Delivery.QuantityUnit || ''}`
-        : '',
+      text: `${localizeNumber(Delivery.Quantity, i18n.languages)} ${Delivery.QuantityUnit}`,
       style: 'p',
     },
   ];
