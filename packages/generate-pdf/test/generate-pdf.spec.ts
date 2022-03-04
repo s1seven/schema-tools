@@ -80,7 +80,6 @@ describe('GeneratePDF', function () {
     {
       type: SupportedSchemas.COA,
       version: 'v0.1.0',
-      generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
       styles: require('../../generate-coa-pdf-template/utils/styles.js'),
       translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.0/translations.json`),
       certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.0/template_hbs.html`),
@@ -88,6 +87,17 @@ describe('GeneratePDF', function () {
       validCertificate: require('../../../fixtures/CoA/v0.1.0/valid_cert.json'),
       docDefinition,
     },
+    // {
+    //   type: SupportedSchemas.COA,
+    //   version: 'v0.1.1',
+    //   generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
+    //   styles: require('../../generate-coa-pdf-template/utils/styles.js'),
+    //   translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.1/translations.json`),
+    //   certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.1/template_hbs.html`),
+    //   expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.1/valid_cert.pdf`),
+    //   validCertificate: require('../../../fixtures/CoA/v0.1.1/valid_cert.json'),
+    //   docDefinition,
+    // },
   ];
 
   const waitWritableStreamEnd = (writeStream: Writable, outputFilePath: string) => {
