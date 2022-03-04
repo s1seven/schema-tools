@@ -56,8 +56,8 @@
     "release": "npm run version && lerna publish from-package",
     "publish": "lerna publish",
     "fixtures:interfaces": "node ./utils/create-schema-interfaces.js",
-    "fixtures:html": "node ./utils/create-html-certificate-yargs.js",
-    "fixtures:pdf": "node ./utils/create-pdf-certificate-yargs.js"
+    "fixtures:html": "node ./utils/create-html-certificate.js",
+    "fixtures:pdf": "node ./utils/create-pdf-certificate.js"
   },
   "devDependencies": {
     "@lerna/publish": "4.0.0",
