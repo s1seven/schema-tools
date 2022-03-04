@@ -54,11 +54,17 @@
     "prepublishOnly": "npm run build",
     "version": "lerna version",
     "release": "npm run version && lerna publish from-package",
-    "publish": "lerna publish"
+    "publish": "lerna publish",
+    "fixtures:interfaces": "node ./utils/create-schema-interfaces.js",
+    "fixtures:html": "node ./utils/create-html-certificate.js",
+    "fixtures:pdf": "node ./utils/create-pdf-certificate.js"
   },
   "devDependencies": {
     "@lerna/publish": "4.0.0",
     "@lerna/run": "4.0.0",
+    "@s1seven/schema-tools-generate-html": "0.1.0",
+    "@s1seven/schema-tools-generate-interfaces": "0.0.25",
+    "@s1seven/schema-tools-generate-pdf": "0.0.19",
     "@types/jest": "^27.4.0",
     "@types/node": "^16.11.11",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
@@ -82,6 +88,7 @@
     "karma-jasmine": "^4.0.1",
     "karma-typescript": "^5.5.2",
     "karma-webpack": "^5.0.0",
+    "lato-font": "^3.0.0",
     "lerna": "^4.0.0",
     "lerna-dependency-graph": "^1.1.0",
     "lint-staged": "^12.3.4",
@@ -108,5 +115,8 @@
   },
   "pre-commit": [
     "lint:staged"
-  ]
+  ],
+  "dependencies": {
+    "yargs": "^17.3.1"
+  }
 }

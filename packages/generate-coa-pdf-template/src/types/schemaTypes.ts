@@ -209,11 +209,11 @@ export interface Order {
   /**
    * The order quantity
    */
-  Quantity: number;
+  Quantity?: number;
   /**
    * The unit of the order quantity
    */
-  QuantityUnit: string;
+  QuantityUnit?: string;
   /**
    * The internal product identifer of the Customer
    */
