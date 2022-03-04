@@ -82,8 +82,6 @@ Process:
    If `generateContent.ts` has been changed and built, copy the contents of `dist/generateContent.js` to the schema repository and replace the contents of `generate-pdf.min.js` with the new minified code
 4. For a new Release Candidate, add a new fixture (used for testing)
 
-// Insert here instructions on how to create a new fixture
-
 ## Starting out
 
 To get started, run `npm install`, `npm run bootstrap` and `npm run build`
@@ -106,7 +104,7 @@ The remaining packages should be made compatible with [all schema versions][#sup
 - Add the `translations.json` - for ease of use we keep English and German translations in a single file
 - `certificate.ts`, `template_hbs.html` and `valid_cert.pdf` are dynamically generated with the following scripts:
 
-To generate `certificate.ts`, run
+To generate `certificate.ts` (json-schema converted to Typescript interfaces), run
 
 ```sh
 npm run fixtures:interfaces -- -s /Users/eamon/work/CoA-schemas/schema.json -o fixtures/CoA/v0.1.1/certificate.ts
@@ -114,7 +112,7 @@ npm run fixtures:interfaces -- -s /Users/eamon/work/CoA-schemas/schema.json -o f
 
 from the root directory where -s indicates the path to the updated schema and -o indicates the path to the certificate to be generated.
 
-To generate `template_hbs.html`, run
+To generate `template_hbs.html` (HTML certificate generated from Handlebars template), run
 
 ```sh
 npm run fixtures:html -- -c fixtures/CoA/v0.1.1/valid_cert.json -o fixtures/CoA/v0.1.1/template_hbs.html -t fixtures/CoA/v0.1.1/translations.json -T /Users/eamon/work/CoA-schemas/template.hbs
@@ -122,7 +120,7 @@ npm run fixtures:html -- -c fixtures/CoA/v0.1.1/valid_cert.json -o fixtures/CoA/
 
 from the root directory.
 
-To generate `valid_cert.pdf`, run
+To generate `valid_cert.pdf` (PDF certificate generated from JS generator), run
 
 ```sh
 npm run fixtures:pdf -- -c fixtures/CoA/v0.1.1/valid_cert.json -o fixtures/CoA/v0.1.1/valid_cert.pdf -t fixtures/CoA/v0.1.1/translations.json -g /Users/eamon/work/CoA-schemas/generate-pdf.min.js -s /Users/eamon/work/CoA-schemas/generate-pdf.styles.json

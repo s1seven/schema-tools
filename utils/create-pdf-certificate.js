@@ -143,12 +143,3 @@ const { generatePdf } = require('@s1seven/schema-tools-generate-pdf');
     process.exit(1);
   }
 })();
-
-// export declare function generatePdf(certificateInput: Record<string, unknown> | string, options: {
-//   outputType: 'stream';
-//   inputType?: 'json' | 'html';
-//   generatorPath?: string;
-//   docDefinition?: Partial<TDocumentDefinitions>;
-//   fonts?: TFontDictionary;
-//   translations?: Translations;
-// }): Promise<PDFKit.PDFDocument>;
