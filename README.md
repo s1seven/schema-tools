@@ -93,7 +93,7 @@ The following packages only test the latest version:
 - generate-coa-pdf-template
 - generate-en10168-pdf-template
 
-The remaining packages should be made compatible with [all schema versions][#supported schemas]
+The remaining packages should be made compatible with [all schema versions](#supported-schemas)
 
 ### Fixtures
 
