@@ -80,6 +80,8 @@ export enum CertificateLanguages {
   FR = 'FR',
   PL = 'PL',
   RU = 'RU',
+  IT = 'IT',
+  TR = 'TR',
 }
 
 export class EN10168SchemaCertificate {
