@@ -25,7 +25,7 @@ export interface ValidationError {
   expected: string;
 }
 
-export type SchemaTypes = 'en10168-schemas' | 'e-coc-schemas' | 'coa-schemas' | 'cdn-schemas';
+export type SchemaTypes = `${SupportedSchemas}-schemas`;
 
 export enum SupportedSchemas {
   EN10168 = 'en10168',
@@ -33,6 +33,13 @@ export enum SupportedSchemas {
   COA = 'coa',
   CDN = 'cdn',
 }
+
+export const schemaToExternalStandardsMap = {
+  coa: ['Certificate.Analysis.PropertiesStandard', 'path2'],
+  en10168: [],
+  'e-coc': [],
+  cdn: [],
+};
 
 export interface SchemaConfig {
   baseUrl: string;
@@ -66,10 +73,29 @@ export class CertificateDocumentMetadata {
   state?: CertificateDocumentMetadataState;
 }
 
-export type Languages = 'CN' | 'DE' | 'ES' | 'EN' | 'FR' | 'PL' | 'RU';
+export type Languages = `${CertificateLanguages}`;
 
 export type Translations = {
   [key in Languages]?: Record<string, any>;
+};
+
+export type PropertiesStandards = `${ExternalStandards}`;
+
+export enum ExternalStandards {
+  CAMPUS = 'CAMPUS',
+}
+
+export type CampusTranslations = {
+  [key in Languages]?: { Id: string; Property: string; TestConditions?: string }[];
+};
+
+// check if this should be optional?
+export type ExternalStandardsTranslations = {
+  [ExternalStandards.CAMPUS]?: CampusTranslations;
+};
+
+export type ExtraTranslations = {
+  [key in ExternalStandards]?: ExternalStandardsTranslations[key];
 };
 
 export enum CertificateLanguages {
