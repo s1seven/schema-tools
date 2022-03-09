@@ -6,8 +6,9 @@ import NodeCache from 'node-cache';
 import { Readable } from 'stream';
 import { promisify } from 'util';
 
-import { SchemaConfig, Translations } from '@s1seven/schema-tools-types';
+import { PropertiesStandards, SchemaConfig, Translations } from '@s1seven/schema-tools-types';
 
+import { ExternalStandardsTranslations } from '../../generate-html/node_modules/@s1seven/schema-tools-types/dist';
 import { getRefSchemaUrl } from './helpers';
 
 export const cache = new NodeCache({
@@ -46,6 +47,30 @@ export function writeFile(path: string, content: string): Promise<void> {
   return promisify(fs.writeFile)(path, content);
 }
 
+const translationsArrayToObject = function (translationsArray: { [x: string]: Record<string, unknown> }[]): {
+  [x: string]: Record<string, unknown>;
+} {
+  return translationsArray.reduce((acc, translation) => {
+    const [key] = Object.keys(translation);
+    console.log(translation);
+    console.log(key);
+    acc[key] = translation[key];
+    return acc;
+  }, {});
+};
+
+/* getTranslations takes an array of certificate languages and the schemaConfig as arguments
+  It returns an object containing the translations
+
+  getExtraTranslations takes an array of certificate languages, the schemaConfig and
+  an array of propertiesStandards
+  It returns an object containing the translations
+
+  options:
+  call getExtraTranslations multiple times and store the results
+  pass an array to getExtraTranslations and return an array of objects
+*/
+
 export async function getTranslations(
   certificateLanguages: string[],
   schemaConfig: SchemaConfig,
@@ -54,6 +79,38 @@ export async function getTranslations(
   const translationsArray = await Promise.all(
     certificateLanguages.map(async (lang) => {
       const filePath = getRefSchemaUrl(schemaConfig, `${lang}.json`).href;
+      try {
+        return { [lang]: await loadExternalFile(filePath, 'json') };
+      } catch (error: any) {
+        errors.push(lang);
+        // errors.push({ [lang]: error?.message });
+        return null;
+      }
+    }),
+  );
+
+  if (errors.length) {
+    throw new Error(`these languages have errors: ${errors.join(', ')}`);
+    // throw new Error(`these languages have errors: ${JSON.stringify(errors, null, 2)}`);
+  }
+
+  return translationsArrayToObject(translationsArray);
+}
+
+export async function getExtraTranslations(
+  certificateLanguages: string[],
+  schemaConfig: SchemaConfig,
+  propertiesStandards: PropertiesStandards[],
+): Promise<ExternalStandardsTranslations> {
+  const errors = [];
+  const translationsArray = await Promise.all(
+    certificateLanguages.map(async (lang) => {
+      // edit getRefSchemaUrl to take an optional propertiesStandards argument? Or create a new function
+      const filePath1 = getRefSchemaUrl(schemaConfig, `${lang}.json`).href;
+
+      const filePath = `https://schemas.s1seven.com/coa-schemas/v0.1.0/${propertiesStandards}/${lang}.json`;
+      console.log(filePath);
+      console.log(filePath1);
       try {
         return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
       } catch (error: any) {
@@ -69,11 +126,11 @@ export async function getTranslations(
     // throw new Error(`these languages have errors: ${JSON.stringify(errors, null, 2)}`);
   }
 
-  return translationsArray.reduce((acc, translation) => {
-    const [key] = Object.keys(translation);
-    acc[key] = translation[key];
-    return acc;
-  }, {});
+  /* Combine input object to output an object like 
+    CAMPUS: { EN: { '38' { Property: 'Melt volume-flow rate', TestConditions: 'MVR' },...} },
+
+  */
+  return translationsArrayToObject(translationsArray);
 }
 
 export type ExternalFile = ReturnType<typeof loadExternalFile>;
