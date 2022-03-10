@@ -7,6 +7,7 @@ import { URL } from 'url';
 
 import {
   ExternalStandards,
+  ExternalStandardsEnum,
   ExternalStandardsTranslations,
   ExtraTranslations,
   SchemaConfig,
@@ -14,7 +15,6 @@ import {
   schemaToExternalStandardsMap,
   Translations,
 } from '@s1seven/schema-tools-types';
-// import { ExternalStandardsTranslations } from '@s1seven/schema-tools-types';
 import {
   castCertificate,
   getCertificateLanguages,
@@ -48,19 +48,13 @@ const handlebarsBaseOptions = (data: {
   translations: Translations;
   extraTranslations: ExternalStandardsTranslations;
 }): RuntimeOptions => {
-  const { translations } = data;
+  const { translations, extraTranslations } = data;
   return {
     helpers: {
       t: function (key: string, field: string, ln: string) {
         const result = get(translations, [ln.toUpperCase(), field, key]);
         return new SafeString(result);
       },
-      /* i18n takes the certificate field and key as strings, and an array of languages
-        it checks to make sure languages is an array and stores them in 1n
-        The reduce function returns a string
-        it gets the current language field from the translations object using lodash get
-        then it returns a string containing one or 2 translations to be interpolated into the template
-      */
       i18n: function (key: string, field: string, languages: string | string[]) {
         const ln = typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
         const result = ln.reduce((acc, curr) => {
@@ -69,10 +63,23 @@ const handlebarsBaseOptions = (data: {
         }, '');
         return new SafeString(result);
       },
-      /* in the new helper, the path to the standard name will be provided
-        resolve it, then follow the path - standard name, lang, id to get the translation
-        Have a fallback to property if there is no translation
-      */
+      extraI18n: function (
+        standard: ExternalStandardsEnum,
+        languages: string | string[],
+        Id: string,
+        key: string,
+        propertyName = '',
+      ) {
+        const ln = typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
+        const translations = ln.reduce((acc, curr) => {
+          const translation = get(extraTranslations, [standard, curr, Id, key]) || propertyName;
+          acc.push(translation);
+          return acc;
+        }, []);
+
+        const [translation1, translation2] = translations;
+        return new SafeString(translation1 === translation2 ? translation1 : `${translation1} / ${translation2}`);
+      },
       ifEqual: function (lvalue: unknown, rvalue: unknown, options: any) {
         return lvalue === rvalue ? options.fn(this) : options.inverse(this);
       },
@@ -220,7 +227,6 @@ export async function generateHtml(
   const { certificate, type } = castCertificate(rawCert);
   const certificateLanguages = getCertificateLanguages(certificate) || ['EN'];
 
-  // check and throw an error if schemaToExternalStandardsMap[type] is undefined?
   const externalStandards: ExternalStandards[] =
     schemaToExternalStandardsMap[type].map((schemaType) => get(certificate, schemaType)) ||
     [].filter((externalStandards) => externalStandards);
@@ -239,7 +245,6 @@ export async function generateHtml(
       (await getExtraTranslations(certificateLanguages, options.schemaConfig, externalStandards))
     : {};
 
-  // define a helper that will deal with extraTranslations in handlebarsBaseOptions
   options.handlebars = merge(options.handlebars || {}, handlebarsBaseOptions({ translations, extraTranslations }));
 
   return options.templateType === 'mjml'
