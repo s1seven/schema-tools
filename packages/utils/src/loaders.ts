@@ -92,34 +92,24 @@ export async function getExtraTranslations(
   certificateLanguages: string[],
   schemaConfig: SchemaConfig,
   externalStandards: ExternalStandards[],
-): ExternalStandardsTranslations {
+): Promise<ExternalStandardsTranslations> {
   const errors = [];
   const externalStandardsArray = await Promise.all(
     externalStandards.map(async (externalStandard) => {
-      // certificateLanguages.map returns format 'CAMPUS: { EN: {}, DE: {} }'
-      const translationsArray = await certificateLanguages.map(async (lang) => {
-        const filePath = getRefSchemaUrl(schemaConfig, `${externalStandard}/${lang}.json`).href;
-        // https://schemas.s1seven.com/coa-schemas/v0.1.0/CAMPUS/EN.json
-        try {
-          // EN: {}
-          return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
-        } catch (error: any) {
-          errors.push(lang);
-          // errors.push({ [lang]: error?.message });
-          return null;
-        }
-      });
+      const translationsArray = await Promise.all(
+        certificateLanguages.map(async (lang) => {
+          const filePath = getRefSchemaUrl(schemaConfig, `${externalStandard}/${lang}.json`).href;
+          try {
+            return { [lang]: await loadExternalFile(filePath, 'json') };
+          } catch (error: any) {
+            errors.push(`${externalStandard} - ${lang}`);
+            // errors.push({ [lang]: error?.message });
+            return null;
+          }
+        }),
+      );
 
-      return {
-        // fix the types to use this
-        // [externalStandard]: translationsArrayToObject(translationsArray);
-        // eslint-disable-next-line sonarjs/no-identical-functions
-        [externalStandard]: translationsArray.reduce((acc, translation) => {
-          const [key] = Object.keys(translation);
-          acc[key] = translation[key];
-          return acc;
-        }, {}),
-      };
+      return { [externalStandard]: translationsArrayToObject(translationsArray) };
     }),
   );
 
