@@ -86,10 +86,9 @@ export enum ExternalStandardsEnum {
 }
 
 export type CampusTranslations = {
-  [key in Languages]?: { Id: string; Property: string; TestConditions?: string }[];
+  [key in Languages]?: { [Id: string]: { Property: string; TestConditions: string } };
 };
 
-// check if this should be optional?
 export type ExternalStandardsTranslations = {
   [ExternalStandardsEnum.CAMPUS]?: CampusTranslations;
 };
