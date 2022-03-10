@@ -6,9 +6,14 @@ import NodeCache from 'node-cache';
 import { Readable } from 'stream';
 import { promisify } from 'util';
 
-import { PropertiesStandards, SchemaConfig, Translations } from '@s1seven/schema-tools-types';
+import {
+  ExternalStandards,
+  ExternalStandardsTranslations,
+  SchemaConfig,
+  Translations,
+} from '@s1seven/schema-tools-types';
 
-import { ExternalStandardsTranslations } from '../../generate-html/node_modules/@s1seven/schema-tools-types/dist';
+// import { ExternalStandardsTranslations } from '../../generate-html/node_modules/@s1seven/schema-tools-types/dist';
 import { getRefSchemaUrl } from './helpers';
 
 export const cache = new NodeCache({
@@ -52,24 +57,10 @@ const translationsArrayToObject = function (translationsArray: { [x: string]: Re
 } {
   return translationsArray.reduce((acc, translation) => {
     const [key] = Object.keys(translation);
-    console.log(translation);
-    console.log(key);
     acc[key] = translation[key];
     return acc;
   }, {});
 };
-
-/* getTranslations takes an array of certificate languages and the schemaConfig as arguments
-  It returns an object containing the translations
-
-  getExtraTranslations takes an array of certificate languages, the schemaConfig and
-  an array of propertiesStandards
-  It returns an object containing the translations
-
-  options:
-  call getExtraTranslations multiple times and store the results
-  pass an array to getExtraTranslations and return an array of objects
-*/
 
 export async function getTranslations(
   certificateLanguages: string[],
@@ -100,24 +91,35 @@ export async function getTranslations(
 export async function getExtraTranslations(
   certificateLanguages: string[],
   schemaConfig: SchemaConfig,
-  propertiesStandards: PropertiesStandards[],
-): Promise<ExternalStandardsTranslations> {
+  externalStandards: ExternalStandards[],
+): ExternalStandardsTranslations {
   const errors = [];
-  const translationsArray = await Promise.all(
-    certificateLanguages.map(async (lang) => {
-      // edit getRefSchemaUrl to take an optional propertiesStandards argument? Or create a new function
-      const filePath1 = getRefSchemaUrl(schemaConfig, `${lang}.json`).href;
+  const externalStandardsArray = await Promise.all(
+    externalStandards.map(async (externalStandard) => {
+      // certificateLanguages.map returns format 'CAMPUS: { EN: {}, DE: {} }'
+      const translationsArray = await certificateLanguages.map(async (lang) => {
+        const filePath = getRefSchemaUrl(schemaConfig, `${externalStandard}/${lang}.json`).href;
+        // https://schemas.s1seven.com/coa-schemas/v0.1.0/CAMPUS/EN.json
+        try {
+          // EN: {}
+          return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
+        } catch (error: any) {
+          errors.push(lang);
+          // errors.push({ [lang]: error?.message });
+          return null;
+        }
+      });
 
-      const filePath = `https://schemas.s1seven.com/coa-schemas/v0.1.0/${propertiesStandards}/${lang}.json`;
-      console.log(filePath);
-      console.log(filePath1);
-      try {
-        return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
-      } catch (error: any) {
-        errors.push(lang);
-        // errors.push({ [lang]: error?.message });
-        return null;
-      }
+      return {
+        // fix the types to use this
+        // [externalStandard]: translationsArrayToObject(translationsArray);
+        // eslint-disable-next-line sonarjs/no-identical-functions
+        [externalStandard]: translationsArray.reduce((acc, translation) => {
+          const [key] = Object.keys(translation);
+          acc[key] = translation[key];
+          return acc;
+        }, {}),
+      };
     }),
   );
 
@@ -126,11 +128,7 @@ export async function getExtraTranslations(
     // throw new Error(`these languages have errors: ${JSON.stringify(errors, null, 2)}`);
   }
 
-  /* Combine input object to output an object like 
-    CAMPUS: { EN: { '38' { Property: 'Melt volume-flow rate', TestConditions: 'MVR' },...} },
-
-  */
-  return translationsArrayToObject(translationsArray);
+  return translationsArrayToObject(externalStandardsArray);
 }
 
 export type ExternalFile = ReturnType<typeof loadExternalFile>;
