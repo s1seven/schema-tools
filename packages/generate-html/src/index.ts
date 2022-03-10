@@ -6,9 +6,9 @@ import mjml2html from 'mjml';
 import { URL } from 'url';
 
 import {
+  ExternalStandards,
   ExternalStandardsTranslations,
   ExtraTranslations,
-  PropertiesStandards,
   SchemaConfig,
   Schemas,
   schemaToExternalStandardsMap,
@@ -221,8 +221,7 @@ export async function generateHtml(
   const certificateLanguages = getCertificateLanguages(certificate) || ['EN'];
 
   // check and throw an error if schemaToExternalStandardsMap[type] is undefined?
-  // Change type to externalStandards
-  const externalStandards: PropertiesStandards[] =
+  const externalStandards: ExternalStandards[] =
     schemaToExternalStandardsMap[type].map((schemaType) => get(certificate, schemaType)) ||
     [].filter((externalStandards) => externalStandards);
 
@@ -235,33 +234,12 @@ export async function generateHtml(
     ? options.translations || (await getTranslations(certificateLanguages, options.schemaConfig))
     : {};
 
-  // implement getExtraTranslations
-
-  // extraTranslations should resolve to the loaded translations object
-  // verify type is correct
-  // verify if getExtraTranslations returns an ExternalStandardsTranslations obj or a Translations obj
   const extraTranslations: ExternalStandardsTranslations = certificateLanguages?.length
-    ? options.extraTranslations
-    : // || (await getExtraTranslations(certificateLanguages, options.schemaConfig, propertiesStandards))
-      {};
+    ? options.extraTranslations ||
+      (await getExtraTranslations(certificateLanguages, options.schemaConfig, externalStandards))
+    : {};
 
-  /* as we can have multiple propertiesStandards in a cert, we can also have
-  multiple extraTranslations objects  */
-
-  /* to figure out, the campus translations format is different to the standard format
-    standard translation format is an object with a certificate prop which contains
-      an object with more props
-    the campus translations format is an array for object of the format { Id: '', Property: '', TestConditions: '' }
-    Should the extra translations format be brought in line with the standard format,
-      or will they all come as an array of objects?
-  */
-  console.log(externalStandards);
-  // pass the array to getExtraTranslations, get an object back
-  console.log(getExtraTranslations);
-  // console.log(options.extraTranslations);
-
-  // pass extra translations to handlebarsBaseOptions
-  // define a helper that will deal with that object
+  // define a helper that will deal with extraTranslations in handlebarsBaseOptions
   options.handlebars = merge(options.handlebars || {}, handlebarsBaseOptions({ translations, extraTranslations }));
 
   return options.templateType === 'mjml'
