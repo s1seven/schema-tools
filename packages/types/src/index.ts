@@ -35,7 +35,7 @@ export enum SupportedSchemas {
 }
 
 export const schemaToExternalStandardsMap = {
-  coa: ['Certificate.Analysis.PropertiesStandard', 'path2'],
+  coa: ['Certificate.Analysis.PropertiesStandard'],
   en10168: [],
   'e-coc': [],
   cdn: [],
@@ -79,9 +79,9 @@ export type Translations = {
   [key in Languages]?: Record<string, any>;
 };
 
-export type PropertiesStandards = `${ExternalStandards}`;
+export type ExternalStandards = `${ExternalStandardsEnum}`;
 
-export enum ExternalStandards {
+export enum ExternalStandardsEnum {
   CAMPUS = 'CAMPUS',
 }
 
@@ -91,11 +91,11 @@ export type CampusTranslations = {
 
 // check if this should be optional?
 export type ExternalStandardsTranslations = {
-  [ExternalStandards.CAMPUS]?: CampusTranslations;
+  [ExternalStandardsEnum.CAMPUS]?: CampusTranslations;
 };
 
 export type ExtraTranslations = {
-  [key in ExternalStandards]?: ExternalStandardsTranslations[key];
+  [key in ExternalStandardsEnum]?: ExternalStandardsTranslations[key];
 };
 
 export enum CertificateLanguages {
