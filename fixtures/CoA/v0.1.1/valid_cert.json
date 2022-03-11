@@ -99,7 +99,7 @@
           "TestConditions": "2,16 kg 190° Celsius"
         },
         {
-          "PropertyId": "1039",
+          "PropertyId": "51",
           "Property": "Density",
           "Method": "DIN EN ISO 1183-1A",
           "Unit": "g/cm³",
