@@ -13,7 +13,6 @@ import {
   Translations,
 } from '@s1seven/schema-tools-types';
 
-// import { ExternalStandardsTranslations } from '../../generate-html/node_modules/@s1seven/schema-tools-types/dist';
 import { getRefSchemaUrl } from './helpers';
 
 export const cache = new NodeCache({
@@ -74,7 +73,6 @@ export async function getTranslations(
         return { [lang]: await loadExternalFile(filePath, 'json') };
       } catch (error: any) {
         errors.push(lang);
-        // errors.push({ [lang]: error?.message });
         return null;
       }
     }),
@@ -82,7 +80,6 @@ export async function getTranslations(
 
   if (errors.length) {
     throw new Error(`these languages have errors: ${errors.join(', ')}`);
-    // throw new Error(`these languages have errors: ${JSON.stringify(errors, null, 2)}`);
   }
 
   return translationsArrayToObject(translationsArray);
@@ -103,7 +100,6 @@ export async function getExtraTranslations(
             return { [lang]: await loadExternalFile(filePath, 'json') };
           } catch (error: any) {
             errors.push(`${externalStandard} - ${lang}`);
-            // errors.push({ [lang]: error?.message });
             return null;
           }
         }),
@@ -115,7 +111,6 @@ export async function getExtraTranslations(
 
   if (errors.length) {
     throw new Error(`these languages have errors: ${errors.join(', ')}`);
-    // throw new Error(`these languages have errors: ${JSON.stringify(errors, null, 2)}`);
   }
 
   return translationsArrayToObject(externalStandardsArray);
