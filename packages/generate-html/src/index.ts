@@ -78,7 +78,12 @@ const handlebarsBaseOptions = (data: {
         }, []);
 
         const [translation1, translation2] = translations;
-        return new SafeString(translation1 === translation2 ? translation1 : `${translation1} / ${translation2}`);
+
+        if (!translation2) {
+          return new SafeString(translation1);
+        } else {
+          return new SafeString(translation1 === translation2 ? translation1 : `${translation1} / ${translation2}`);
+        }
       },
       ifEqual: function (lvalue: unknown, rvalue: unknown, options: any) {
         return lvalue === rvalue ? options.fn(this) : options.inverse(this);
