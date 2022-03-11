@@ -60,14 +60,17 @@ export function castCertificate(certificate: Record<string, unknown>): {
   certificate: Schemas;
   type: SupportedSchemas;
 } {
-  // TODO: add some type-chcking
-  let validCertificate: Schemas;
-  const supportedSchemas = Object.values(SupportedSchemas);
-  for (const supportedSchema of supportedSchemas) {
-    validCertificate = castCertificatesMap[supportedSchema](certificate);
-    if (validCertificate) {
-      return { certificate: validCertificate, type: supportedSchema };
+  if (typeof certificate === 'object' && !Array.isArray(certificate) && certificate !== null) {
+    let validCertificate: Schemas;
+    const supportedSchemas = Object.values(SupportedSchemas);
+    for (const supportedSchema of supportedSchemas) {
+      validCertificate = castCertificatesMap[supportedSchema](certificate);
+      if (validCertificate) {
+        return { certificate: validCertificate, type: supportedSchema };
+      }
     }
+    throw new Error('Could not cast the certificate to the right type');
+  } else {
+    throw new TypeError('Certificate must be a valid object');
   }
-  throw new Error('Could not cast the certificate to the right type');
 }
