@@ -228,8 +228,9 @@ export async function generateHtml(
   const certificateLanguages = getCertificateLanguages(certificate) || ['EN'];
 
   const externalStandards: ExternalStandards[] =
-    schemaToExternalStandardsMap[type].map((schemaType) => get(certificate, schemaType)) ||
-    [].filter((externalStandards) => externalStandards);
+    schemaToExternalStandardsMap[type]
+      .map((schemaType) => get(certificate, schemaType, undefined))
+      .filter((externalStandards) => externalStandards) || [];
 
   if (!options.schemaConfig) {
     const refSchemaUrl = new URL(certificate.RefSchemaUrl);

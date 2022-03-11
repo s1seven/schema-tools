@@ -35,10 +35,10 @@ export enum SupportedSchemas {
 }
 
 export const schemaToExternalStandardsMap = {
-  coa: ['Certificate.Analysis.PropertiesStandard'],
-  en10168: [],
-  'e-coc': [],
-  cdn: [],
+  [SupportedSchemas.COA]: ['Certificate.Analysis.PropertiesStandard'],
+  [SupportedSchemas.EN10168]: [],
+  [SupportedSchemas.ECOC]: [],
+  [SupportedSchemas.CDN]: [],
 };
 
 export interface SchemaConfig {
