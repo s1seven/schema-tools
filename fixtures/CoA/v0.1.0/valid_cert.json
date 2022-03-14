@@ -87,7 +87,6 @@
     },
     "Analysis": {
       "LotId": "123456789 10",
-      "PropertiesStandard": "",
       "Inspections": [
         {
           "PropertyId": "1038",
