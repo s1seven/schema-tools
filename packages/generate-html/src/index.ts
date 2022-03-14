@@ -44,6 +44,10 @@ export type GenerateHtmlOptions = {
   extraTranslations?: ExtraTranslations;
 };
 
+function languagesStringToArray(languages: string | string[]): string[] {
+  return typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
+}
+
 const handlebarsBaseOptions = (data: {
   translations: Translations;
   extraTranslations: ExternalStandardsTranslations;
@@ -56,7 +60,7 @@ const handlebarsBaseOptions = (data: {
         return new SafeString(result);
       },
       i18n: function (key: string, field: string, languages: string | string[]) {
-        const ln = typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
+        const ln = languagesStringToArray(languages);
         const result = ln.reduce((acc, curr) => {
           const translation = get(translations, [curr, field, key]);
           return !acc ? (acc += `${translation}`) : (acc += ` / ${translation}`);
@@ -70,7 +74,7 @@ const handlebarsBaseOptions = (data: {
         key: string,
         propertyName = '',
       ) {
-        const ln = typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
+        const ln = languagesStringToArray(languages);
         const translations = ln.reduce((acc, curr) => {
           const translation = get(extraTranslations, [standard, curr, Id, key]) || propertyName;
           acc.push(translation);
