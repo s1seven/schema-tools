@@ -113,10 +113,6 @@ export async function getExtraTranslations(
     }),
   );
 
-  if (errors.length) {
-    throw new Error(`these languages have errors: ${errors.join(', ')}`);
-  }
-
   return translationsArrayToObject(externalStandardsArray);
 }
 
