@@ -1,13 +1,24 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { compile, RuntimeOptions, SafeString } from 'handlebars';
 import get from 'lodash.get';
 import merge from 'lodash.merge';
 import mjml2html from 'mjml';
 import { URL } from 'url';
 
-import { SchemaConfig, Schemas, Translations } from '@s1seven/schema-tools-types';
+import {
+  ExternalStandards,
+  ExternalStandardsEnum,
+  ExternalStandardsTranslations,
+  ExtraTranslations,
+  SchemaConfig,
+  Schemas,
+  schemaToExternalStandardsMap,
+  Translations,
+} from '@s1seven/schema-tools-types';
 import {
   castCertificate,
   getCertificateLanguages,
+  getExtraTranslations,
   getRefSchemaUrl,
   getSchemaConfig,
   getTranslations,
@@ -30,10 +41,18 @@ export type GenerateHtmlOptions = {
   schemaConfig?: SchemaConfig;
   templatePath?: string;
   translations?: Translations;
+  extraTranslations?: ExtraTranslations;
 };
 
-const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOptions => {
-  const { translations } = data;
+function languagesStringToArray(languages: string | string[]): string[] {
+  return typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
+}
+
+const handlebarsBaseOptions = (data: {
+  translations: Translations;
+  extraTranslations: ExternalStandardsTranslations;
+}): RuntimeOptions => {
+  const { translations, extraTranslations } = data;
   return {
     helpers: {
       t: function (key: string, field: string, ln: string) {
@@ -41,12 +60,34 @@ const handlebarsBaseOptions = (data: { translations: Translations }): RuntimeOpt
         return new SafeString(result);
       },
       i18n: function (key: string, field: string, languages: string | string[]) {
-        const ln = typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
+        const ln = languagesStringToArray(languages);
         const result = ln.reduce((acc, curr) => {
           const translation = get(translations, [curr, field, key]);
           return !acc ? (acc += `${translation}`) : (acc += ` / ${translation}`);
         }, '');
         return new SafeString(result);
+      },
+      extraI18n: function (
+        standard: ExternalStandardsEnum,
+        languages: string | string[],
+        Id: string,
+        key: string,
+        propertyName = '',
+      ) {
+        const ln = languagesStringToArray(languages);
+        const translations = ln.reduce((acc, curr) => {
+          const translation = get(extraTranslations, [standard, curr, Id, key]) || propertyName;
+          acc.push(translation);
+          return acc;
+        }, []);
+
+        const [translation1, translation2] = translations;
+
+        if (!translation2) {
+          return new SafeString(translation1);
+        } else {
+          return new SafeString(translation1 === translation2 ? translation1 : `${translation1} / ${translation2}`);
+        }
       },
       ifEqual: function (lvalue: unknown, rvalue: unknown, options: any) {
         return lvalue === rvalue ? options.fn(this) : options.inverse(this);
@@ -192,8 +233,13 @@ export async function generateHtml(
     throw new Error(`Invalid input type : ${typeof certificateInput}`);
   }
 
-  const { certificate } = castCertificate(rawCert);
+  const { certificate, type } = castCertificate(rawCert);
   const certificateLanguages = getCertificateLanguages(certificate) || ['EN'];
+
+  const externalStandards: ExternalStandards[] =
+    schemaToExternalStandardsMap[type]
+      .map((schemaType) => get(certificate, schemaType, undefined))
+      .filter((externalStandards) => externalStandards) || [];
 
   if (!options.schemaConfig) {
     const refSchemaUrl = new URL(certificate.RefSchemaUrl);
@@ -203,7 +249,13 @@ export async function generateHtml(
   const translations = certificateLanguages?.length
     ? options.translations || (await getTranslations(certificateLanguages, options.schemaConfig))
     : {};
-  options.handlebars = merge(options.handlebars || {}, handlebarsBaseOptions({ translations }));
+
+  const extraTranslations: ExternalStandardsTranslations = certificateLanguages?.length
+    ? options.extraTranslations ||
+      (await getExtraTranslations(certificateLanguages, options.schemaConfig, externalStandards))
+    : {};
+
+  options.handlebars = merge(options.handlebars || {}, handlebarsBaseOptions({ translations, extraTranslations }));
 
   return options.templateType === 'mjml'
     ? parseMjmlTemplate(certificate, options)

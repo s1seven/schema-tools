@@ -2,12 +2,13 @@ import { readFileSync } from 'fs';
 import { Stream } from 'stream';
 import { URL } from 'url';
 
-import { SchemaConfig, SupportedSchemas } from '@s1seven/schema-tools-types';
+import { ExternalStandards, SchemaConfig, SupportedSchemas } from '@s1seven/schema-tools-types';
 
 import {
   asCoACertificate,
   asECoCCertificate,
   asEN10168Certificate,
+  getExtraTranslations,
   getRefSchemaUrl,
   getSchemaConfig,
   getTranslations,
@@ -26,6 +27,15 @@ describe('Utils', function () {
     baseUrl: 'https://schemas.s1seven.com',
     schemaType: 'en10168-schemas',
     version: '0.1.0',
+  };
+
+  const failingLanguageTest = function () {
+    (axiosInstance as any).get.mockImplementationOnce((filePath: string) => {
+      if (filePath.endsWith('DE.json')) {
+        throw new Error();
+      }
+      return { data: MOCK_CERT, status: 200 };
+    });
   };
 
   it('getRefSchemaUrl() should return proper url object', () => {
@@ -121,15 +131,32 @@ describe('Utils', function () {
     });
 
     it('should fail at languages, where no translation is present.', async () => {
-      (axiosInstance as any).get.mockImplementationOnce((filePath: string) => {
-        if (filePath.endsWith('DE.json')) {
-          throw new Error();
-        }
-        return { data: MOCK_CERT, status: 200 };
-      });
-
+      failingLanguageTest();
       await expect(getTranslations(certificateLanguages, schemaConf)).rejects.toThrow(
         'these languages have errors: DE',
+      );
+    });
+  });
+
+  describe('getExtraTranslations()', function () {
+    const certificateLanguages = ['DE', 'EN'];
+    const externalStandards: ExternalStandards[] = ['CAMPUS'];
+    (axiosInstance as any) = { get: jest.fn() };
+
+    beforeEach(() => {
+      (axiosInstance as any).get.mockClear();
+    });
+
+    it('should return translations in the requested languages', async () => {
+      (axiosInstance as any).get.mockResolvedValue({ data: MOCK_CERT, status: 200 });
+      const translatedCerts = await getExtraTranslations(certificateLanguages, schemaConf, externalStandards);
+      expect(translatedCerts).toMatchObject({ CAMPUS: { DE: MOCK_CERT, EN: MOCK_CERT } });
+    });
+
+    it('should fail at languages, where no translation is present.', async () => {
+      failingLanguageTest();
+      await expect(getExtraTranslations(certificateLanguages, schemaConf, externalStandards)).rejects.toThrow(
+        'these languages have errors: CAMPUS - DE',
       );
     });
   });

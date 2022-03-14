@@ -6,7 +6,12 @@ import NodeCache from 'node-cache';
 import { Readable } from 'stream';
 import { promisify } from 'util';
 
-import { SchemaConfig, Translations } from '@s1seven/schema-tools-types';
+import {
+  ExternalStandards,
+  ExternalStandardsTranslations,
+  SchemaConfig,
+  Translations,
+} from '@s1seven/schema-tools-types';
 
 import { getRefSchemaUrl } from './helpers';
 
@@ -46,6 +51,16 @@ export function writeFile(path: string, content: string): Promise<void> {
   return promisify(fs.writeFile)(path, content);
 }
 
+const translationsArrayToObject = function (translationsArray: { [x: string]: Record<string, unknown> }[]): {
+  [x: string]: Record<string, unknown>;
+} {
+  return translationsArray.reduce((acc, translation) => {
+    const [key] = Object.keys(translation);
+    acc[key] = translation[key];
+    return acc;
+  }, {});
+};
+
 export async function getTranslations(
   certificateLanguages: string[],
   schemaConfig: SchemaConfig,
@@ -55,10 +70,9 @@ export async function getTranslations(
     certificateLanguages.map(async (lang) => {
       const filePath = getRefSchemaUrl(schemaConfig, `${lang}.json`).href;
       try {
-        return { [lang]: (await loadExternalFile(filePath, 'json')) as any };
+        return { [lang]: await loadExternalFile(filePath, 'json') };
       } catch (error: any) {
         errors.push(lang);
-        // errors.push({ [lang]: error?.message });
         return null;
       }
     }),
@@ -66,14 +80,40 @@ export async function getTranslations(
 
   if (errors.length) {
     throw new Error(`these languages have errors: ${errors.join(', ')}`);
-    // throw new Error(`these languages have errors: ${JSON.stringify(errors, null, 2)}`);
   }
 
-  return translationsArray.reduce((acc, translation) => {
-    const [key] = Object.keys(translation);
-    acc[key] = translation[key];
-    return acc;
-  }, {});
+  return translationsArrayToObject(translationsArray);
+}
+
+export async function getExtraTranslations(
+  certificateLanguages: string[],
+  schemaConfig: SchemaConfig,
+  externalStandards: ExternalStandards[],
+): Promise<ExternalStandardsTranslations> {
+  const errors = [];
+  const externalStandardsArray = await Promise.all(
+    externalStandards.map(async (externalStandard) => {
+      const translationsArray = await Promise.all(
+        certificateLanguages.map(async (lang) => {
+          const filePath = getRefSchemaUrl(schemaConfig, `${externalStandard}/${lang}.json`).href;
+          try {
+            return { [lang]: await loadExternalFile(filePath, 'json') };
+          } catch (error: any) {
+            errors.push(`${externalStandard} - ${lang}`);
+            return null;
+          }
+        }),
+      );
+
+      if (errors.length) {
+        throw new Error(`these languages have errors: ${errors.join(', ')}`);
+      }
+
+      return { [externalStandard]: translationsArrayToObject(translationsArray) };
+    }),
+  );
+
+  return translationsArrayToObject(externalStandardsArray);
 }
 
 export type ExternalFile = ReturnType<typeof loadExternalFile>;
