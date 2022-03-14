@@ -29,6 +29,15 @@ describe('Utils', function () {
     version: '0.1.0',
   };
 
+  const failingLanguageTest = function () {
+    (axiosInstance as any).get.mockImplementationOnce((filePath: string) => {
+      if (filePath.endsWith('DE.json')) {
+        throw new Error();
+      }
+      return { data: MOCK_CERT, status: 200 };
+    });
+  };
+
   it('getRefSchemaUrl() should return proper url object', () => {
     expect(getRefSchemaUrl(schemaConf)).toMatchObject(refSchemaUrl);
   });
@@ -122,13 +131,7 @@ describe('Utils', function () {
     });
 
     it('should fail at languages, where no translation is present.', async () => {
-      (axiosInstance as any).get.mockImplementationOnce((filePath: string) => {
-        if (filePath.endsWith('DE.json')) {
-          throw new Error();
-        }
-        return { data: MOCK_CERT, status: 200 };
-      });
-
+      failingLanguageTest();
       await expect(getTranslations(certificateLanguages, schemaConf)).rejects.toThrow(
         'these languages have errors: DE',
       );
@@ -151,14 +154,7 @@ describe('Utils', function () {
     });
 
     it('should fail at languages, where no translation is present.', async () => {
-      (axiosInstance as any).get.mockImplementationOnce((filePath: string) => {
-        console.log(filePath);
-        if (filePath.endsWith('DE.json')) {
-          throw new Error();
-        }
-        return { data: MOCK_CERT, status: 200 };
-      });
-
+      failingLanguageTest();
       await expect(getExtraTranslations(certificateLanguages, schemaConf, externalStandards)).rejects.toThrow(
         'these languages have errors: CAMPUS - DE',
       );
