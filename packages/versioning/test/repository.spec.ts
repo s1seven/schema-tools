@@ -36,7 +36,7 @@ describe('Versioning', function () {
   });
 
   it('should update get RefSchemaUrl from parameters', () => {
-    const instance = new SchemaRepositoryVersion(serverUrl, defaultSchemaFilePaths, version, {}, schemaName);
+    const instance = new SchemaRepositoryVersion(serverUrl, defaultSchemaFilePaths, version, {}, null, schemaName);
     const RefSchemaUrl = instance.buildRefSchemaUrl();
     expect(RefSchemaUrl).toBe(`${serverUrl}/${version}/${schemaName}`);
   });
