@@ -84,7 +84,22 @@ Process:
 
 ## Starting out
 
-To get started, run `npm install`, `npm run bootstrap` and `npm run build`
+To get started, run :
+
+```sh
+npm install
+npm run bootstrap
+npm run build
+```
+
+## Development
+
+When working on changes that affects multiple packages, you should rebuild them when they are declared as dependencies in order for those changes to be effective.
+
+```sh
+npm run build
+npm run bootstrap
+```
 
 ## Testing
 

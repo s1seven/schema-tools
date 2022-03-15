@@ -58,6 +58,7 @@ describe('Versioning', function () {
       expect.stringContaining('certificate'),
       templatePath,
       translations,
+      {},
     );
   });
 

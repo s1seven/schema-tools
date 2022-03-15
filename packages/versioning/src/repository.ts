@@ -26,12 +26,14 @@ export class SchemaRepositoryVersion {
     certificatePath: string,
     templatePath: string,
     translations: Record<string, any>,
+    handlebars: Record<string, any> = {},
   ): Promise<void> {
     const outputPath = certificatePath.replace('.json', '.html');
     const rawHtml = await generateHtml(certificatePath, {
       templatePath,
       templateType: 'hbs',
       translations,
+      handlebars,
     });
 
     const html = prettier.format(rawHtml, { parser: 'html' });
@@ -93,11 +95,15 @@ export class SchemaRepositoryVersion {
     );
   }
 
-  async updateHtmlFixturesVersion(pattern: CertificatePattern, templatePath: string): Promise<void> {
+  async updateHtmlFixturesVersion(
+    pattern: CertificatePattern,
+    templatePath: string,
+    handlebars: Record<string, any> = {},
+  ): Promise<void> {
     const filePaths = glob.sync(pattern);
     await Promise.all(
       filePaths.map((filePath) =>
-        SchemaRepositoryVersion.generateHtmlCertificate(filePath, templatePath, this.translations),
+        SchemaRepositoryVersion.generateHtmlCertificate(filePath, templatePath, this.translations, handlebars),
       ),
     );
   }

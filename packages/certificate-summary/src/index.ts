@@ -4,6 +4,7 @@ import {
   extractPartiesFromEN10168,
   getReceivers,
   getSenders,
+  PartyEmail,
 } from '@s1seven/schema-tools-extract-emails';
 import { CoASchema, ECoCSchema, EN10168Schema, SupportedSchemas } from '@s1seven/schema-tools-types';
 import { castCertificate, loadExternalFile } from '@s1seven/schema-tools-utils';
@@ -17,6 +18,10 @@ export interface CertificateSummary {
   purchaseDeliveryPosition?: string;
   purchaseOrderNumber?: string;
   purchaseOrderPosition?: string;
+}
+
+function getFirstPartyName(parties: PartyEmail[]): string {
+  return parties?.length ? parties[0]?.name : '';
 }
 
 function extractSummaryFromEN10168(certificate: EN10168Schema): CertificateSummary | null {
@@ -38,8 +43,8 @@ function extractSummaryFromEN10168(certificate: EN10168Schema): CertificateSumma
 
   return {
     certificateIdentifier: certificate.Certificate.CommercialTransaction.A03,
-    sellerName: senders[0]?.name,
-    buyerName: receivers[0]?.name,
+    sellerName: getFirstPartyName(senders),
+    buyerName: getFirstPartyName(receivers),
     productDescription: certificate.Certificate.ProductDescription?.B01,
     purchaseDeliveryNumber,
     purchaseDeliveryPosition: undefined,
@@ -62,8 +67,8 @@ function extractSummaryFromECoC(certificate: ECoCSchema): CertificateSummary | n
 
   return {
     certificateIdentifier: certificate.Id,
-    sellerName: senders[0]?.name,
-    buyerName: receivers[0]?.name,
+    sellerName: getFirstPartyName(senders),
+    buyerName: getFirstPartyName(receivers),
     productDescription: undefined,
     purchaseDeliveryNumber,
     purchaseDeliveryPosition: undefined,
@@ -88,8 +93,8 @@ function extractSummaryFromCoA(certificate: CoASchema): CertificateSummary | nul
   const purchaseDeliveryPosition = Delivery?.Position;
   return {
     certificateIdentifier: certificate.Certificate.Id,
-    sellerName: senders[0]?.name,
-    buyerName: receivers[0]?.name,
+    sellerName: getFirstPartyName(senders),
+    buyerName: getFirstPartyName(receivers),
     productDescription: certificate.Certificate.Product?.Name,
     purchaseDeliveryNumber,
     purchaseDeliveryPosition,
