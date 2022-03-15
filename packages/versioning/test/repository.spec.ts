@@ -10,6 +10,7 @@ describe('Versioning', function () {
   const schemaName = 'schema.json';
   const defaultSchemaFilePaths: SchemaFileProperties[] = [{ filePath: '', properties: [{ value: '', path: '' }] }];
   const translations = { EN: {} };
+  const extraTranslations = { CAMPUS: { EN: {} } };
   const pattern = `${__dirname}/certificate-*`;
   const fixtures = {
     'certificate-1.json': { RefSchemaUrl: '' },
@@ -36,7 +37,7 @@ describe('Versioning', function () {
   });
 
   it('should update get RefSchemaUrl from parameters', () => {
-    const instance = new SchemaRepositoryVersion(serverUrl, defaultSchemaFilePaths, version, {}, schemaName);
+    const instance = new SchemaRepositoryVersion(serverUrl, defaultSchemaFilePaths, version, {}, null, schemaName);
     const RefSchemaUrl = instance.buildRefSchemaUrl();
     expect(RefSchemaUrl).toBe(`${serverUrl}/${version}/${schemaName}`);
   });
@@ -51,13 +52,20 @@ describe('Versioning', function () {
 
   it('should update HTML certificate fixtures', async () => {
     const templatePath = 'test.hbs';
-    const instance = new SchemaRepositoryVersion(serverUrl, defaultSchemaFilePaths, version, translations);
+    const instance = new SchemaRepositoryVersion(
+      serverUrl,
+      defaultSchemaFilePaths,
+      version,
+      translations,
+      extraTranslations,
+    );
     await instance.updateHtmlFixturesVersion(`${pattern}.json`, templatePath);
     expect(SchemaRepositoryVersion.generateHtmlCertificate).toBeCalledTimes(2);
     expect(SchemaRepositoryVersion.generateHtmlCertificate).toBeCalledWith(
       expect.stringContaining('certificate'),
       templatePath,
       translations,
+      extraTranslations,
       {},
     );
   });

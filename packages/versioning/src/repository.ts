@@ -1,11 +1,13 @@
 import { createWriteStream } from 'fs';
 import glob from 'glob';
+import type { RuntimeOptions } from 'handlebars';
 import get from 'lodash.get';
 import set from 'lodash.set';
 import prettier from 'prettier';
 
 import { generateHtml } from '@s1seven/schema-tools-generate-html';
 import { generatePdf, TDocumentDefinitions, TFontDictionary } from '@s1seven/schema-tools-generate-pdf';
+import type { ExtraTranslations, Translations } from '@s1seven/schema-tools-types';
 import { loadExternalFile, writeFile } from '@s1seven/schema-tools-utils';
 
 export interface SchemaFileProperties {
@@ -25,8 +27,9 @@ export class SchemaRepositoryVersion {
   static async generateHtmlCertificate(
     certificatePath: string,
     templatePath: string,
-    translations: Record<string, any>,
-    handlebars: Record<string, any> = {},
+    translations: Translations,
+    extraTranslations: ExtraTranslations = null,
+    handlebars: RuntimeOptions = {},
   ): Promise<void> {
     const outputPath = certificatePath.replace('.json', '.html');
     const rawHtml = await generateHtml(certificatePath, {
@@ -34,6 +37,7 @@ export class SchemaRepositoryVersion {
       templateType: 'hbs',
       translations,
       handlebars,
+      extraTranslations,
     });
 
     const html = prettier.format(rawHtml, { parser: 'html' });
@@ -71,6 +75,7 @@ export class SchemaRepositoryVersion {
     readonly schemaFilePaths: SchemaFileProperties[],
     readonly version: string,
     readonly translations: Record<string, unknown> = {},
+    readonly extraTranslations: ExtraTranslations = null,
     readonly schemaName = 'schema.json',
   ) {}
 
@@ -98,12 +103,18 @@ export class SchemaRepositoryVersion {
   async updateHtmlFixturesVersion(
     pattern: CertificatePattern,
     templatePath: string,
-    handlebars: Record<string, any> = {},
+    handlebars: RuntimeOptions = {},
   ): Promise<void> {
     const filePaths = glob.sync(pattern);
     await Promise.all(
       filePaths.map((filePath) =>
-        SchemaRepositoryVersion.generateHtmlCertificate(filePath, templatePath, this.translations, handlebars),
+        SchemaRepositoryVersion.generateHtmlCertificate(
+          filePath,
+          templatePath,
+          this.translations,
+          this.extraTranslations,
+          handlebars,
+        ),
       ),
     );
   }
