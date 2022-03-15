@@ -28,7 +28,8 @@
     "build": "npm run cleanup && lerna run compile",
     "cleanup": "lerna run cleanup --stream --parallel",
     "lint": "lerna run lint",
-    "lint:staged": "lint-staged",
+    "lint:staged": "npx lint-staged",
+    "lint:commit": "npx --no -- commitlint --edit $1",
     "prepare": "npm run format && npm run lint",
     "test": "lerna run test",
     "test:cov": "lerna run test:cov && node merge-coverage.js",
@@ -60,6 +61,8 @@
     "fixtures:pdf": "node ./utils/create-pdf-certificate.js"
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.2.1",
+    "@commitlint/config-conventional": "^16.2.1",
     "@lerna/publish": "4.0.0",
     "@lerna/run": "4.0.0",
     "@s1seven/schema-tools-generate-html": "0.1.0",
@@ -78,6 +81,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-sonarjs": "^0.11.0",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "glob": "^7.2.0",
     "istanbul-lib-coverage": "^3.2.0",
     "istanbul-lib-report": "^3.0.0",
     "istanbul-reports": "^3.1.4",
@@ -106,7 +110,8 @@
     "weak-napi": "^2.0.2",
     "webpack": "^5.69.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.7.4"
+    "webpack-dev-server": "^4.7.4",
+    "yargs": "^17.3.1"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -115,8 +120,5 @@
   },
   "pre-commit": [
     "lint:staged"
-  ],
-  "dependencies": {
-    "yargs": "^17.3.1"
-  }
+  ]
 }
