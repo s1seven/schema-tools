@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.0.25...@s1seven/schema-tools-utils@0.1.0) (2022-03-15)
+
+
+### Bug Fixes
+
+* add extra error check to avoid null values being passed to translationsArrayToObject ([eb36c5e](http://github.com/s1seven/schema-tools/commit/eb36c5e1f110dbbf67f01dc7b76aaf8f6be3cae9))
+* add type-checking to castCertificate ([d2bdb06](http://github.com/s1seven/schema-tools/commit/d2bdb06865566a92f25a31aa41f14eccd1252bb5))
+* change plainToClass to plainToInstance ([697bba8](http://github.com/s1seven/schema-tools/commit/697bba8c18b1f7b33a4971a1a0a0ed2c80a5f129))
+* finalize getExtraTranslations ([7594084](http://github.com/s1seven/schema-tools/commit/7594084ce83b30c099dd5fa7876487e2a5f200a8))
+* move sample_certificate to external file for example.js in packages/utils ([18d90ae](http://github.com/s1seven/schema-tools/commit/18d90ae9c46f153b83d4ceb945720d2a9898cbc5))
+* remove template.html, remove comments from loaders.ts ([ae44b3d](http://github.com/s1seven/schema-tools/commit/ae44b3d017d6ab3ba111570ecc324dd0276f43f8))
+
+
+### Features
+
+* add script to test castCertificate function ([1d9336a](http://github.com/s1seven/schema-tools/commit/1d9336a384378237fabce6cf1539cd2afbea4de9))
+* implemented getExtraTranslations ([b2220d4](http://github.com/s1seven/schema-tools/commit/b2220d4f593a9bd12cede4df0ce7933ceb42c96c))
+* started working on getExtraTranslations ([f99f828](http://github.com/s1seven/schema-tools/commit/f99f8287abe51dc513c2fa6a8930b36b1c0b2a9e))
+
+
+
+
+
 ## [0.0.25](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.0.24...@s1seven/schema-tools-utils@0.0.25) (2022-02-18)
 
 **Note:** Version bump only for package @s1seven/schema-tools-utils

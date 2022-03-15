@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-summary@0.2.0...@s1seven/schema-tools-certificate-summary@0.2.1) (2022-03-15)
+
+
+### Bug Fixes
+
+* **certificate-summary:** check type of parties before getting name ([80181f7](https://github.com/s1seven/schema-tools/commit/80181f74bd763cbb2e72d3f7d7ecd1006f41b7a2))
+
+
+
+
+
 # [0.2.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-summary@0.1.0...@s1seven/schema-tools-certificate-summary@0.2.0) (2022-02-18)
 
 

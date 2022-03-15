@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.2.0...@s1seven/schema-tools-generate-coa-pdf-template@0.2.1) (2022-03-15)
+
+
+### Bug Fixes
+
+* added back create-interfaces-interactive script ([62049d2](http://github.com/s1seven/schema-tools/commit/62049d299eb7c2a7b95aab242012704be0c0d711))
+* make addresses consistent, declarationOfConformity now takes up all 3 columns if CE is not present ([4915544](http://github.com/s1seven/schema-tools/commit/49155440dcb21989374b76b0cdf87f43926df59d))
+* remove duplicate script from CoA utils and the corresponding script from package.json ([ca75415](http://github.com/s1seven/schema-tools/commit/ca75415bef790ac3632af80faa1e02d1f4875cec))
+* remove old CLI tools, add new valid_cert, add script to package.json ([a3f27e3](http://github.com/s1seven/schema-tools/commit/a3f27e3fee645bd9da8e00d64c4e497fc8ba63c5))
+* revert change to delivery quanitity, now it's required ([0a9703d](http://github.com/s1seven/schema-tools/commit/0a9703d7d2b0365b8aebec601deae41979b345c7))
+* update generateContent script to make Quantity and QuantityUnit optional ([ce245d5](http://github.com/s1seven/schema-tools/commit/ce245d5ae5c0ae0294ca9671787033fbdbcee415))
+
+
+
+
+
 # [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.1.4...@s1seven/schema-tools-generate-coa-pdf-template@0.2.0) (2022-02-18)
 
 

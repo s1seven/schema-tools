@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.2.0...@s1seven/schema-tools-types@0.3.0) (2022-03-15)
+
+
+### Bug Fixes
+
+* add TR and IT as languages to types ([0f65949](http://github.com/s1seven/schema-tools/commit/0f6594976fa18d89a4f131e259bcbfa5792f181f))
+* improved typing ([7ba3b2a](http://github.com/s1seven/schema-tools/commit/7ba3b2aae9915a924586fa89761e6beaea057399))
+* update schemaToExternalStandardsMap types, fix typo in generate-html/src/index.ts ([6542378](http://github.com/s1seven/schema-tools/commit/654237807f7f05f880589f2d92db29099cd75843))
+* update types ([2f97a5c](http://github.com/s1seven/schema-tools/commit/2f97a5cb483dcd59b07f2aee5e0de35d34b38830))
+
+
+### Features
+
+* added new types for external translations ([22bbaad](http://github.com/s1seven/schema-tools/commit/22bbaad99a428ff01a8834374637567a996f7ea3))
+
+
+
+
+
 # [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.1.7...@s1seven/schema-tools-types@0.2.0) (2022-02-18)
 
 

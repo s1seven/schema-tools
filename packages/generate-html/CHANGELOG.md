@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.1.0...@s1seven/schema-tools-generate-html@0.2.0) (2022-03-15)
+
+
+### Bug Fixes
+
+* move extra translations to external file, improve campus test script, edit property id in valid_cert.json ([276fb70](http://github.com/s1seven/schema-tools/commit/276fb708b3e3fbb400f7b8679214bea241dc1d61))
+* remove template.html, remove comments from loaders.ts ([ae44b3d](http://github.com/s1seven/schema-tools/commit/ae44b3d017d6ab3ba111570ecc324dd0276f43f8))
+* update schemaToExternalStandardsMap types, fix typo in generate-html/src/index.ts ([6542378](http://github.com/s1seven/schema-tools/commit/654237807f7f05f880589f2d92db29099cd75843))
+* when only 1 language is provided, it no longer displays undefined ([65681f4](http://github.com/s1seven/schema-tools/commit/65681f479550acd83e89b56ae76001102f6b307d))
+
+
+### Features
+
+* add new handlebars helper for external translations ([cb06fc6](http://github.com/s1seven/schema-tools/commit/cb06fc63b2309a1f6b2d748147f1690c64d6a099))
+* add path to updated template for testing script ([a11e350](http://github.com/s1seven/schema-tools/commit/a11e350ffa59086799b92b6338edca1161f23a8f))
+* add testing script for CAMPUS ([223520a](http://github.com/s1seven/schema-tools/commit/223520a71cf4ea79c4410c8e000601468ac6c88f))
+* implemented extraTranslations ([076e76d](http://github.com/s1seven/schema-tools/commit/076e76d5366c6a27d442846d971acbc72790fca2))
+* include latest html template ([d4c5aa1](http://github.com/s1seven/schema-tools/commit/d4c5aa119a71468987414b1d97fc88c5d1839f3c))
+* started work on generateHtml to allow external translations ([66aa59a](http://github.com/s1seven/schema-tools/commit/66aa59acb18e08399380eb8170634f9307627361))
+
+
+
+
+
 # [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.0.27...@s1seven/schema-tools-generate-html@0.1.0) (2022-02-18)
 
 
