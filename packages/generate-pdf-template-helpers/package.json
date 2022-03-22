@@ -39,6 +39,7 @@
     "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
   "dependencies": {
+    "@s1seven/schema-tools-types": "^0.3.0",
     "pdfmake": "^0.2.4"
   },
   "devDependencies": {

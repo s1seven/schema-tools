@@ -1,12 +1,11 @@
-import { ExternalStandards, ExternalStandardsTranslations, Translation, Translations } from './types';
+import { ExternalStandardsTranslations, Languages } from '@s1seven/schema-tools-types';
 
-export class Translate<
-  T = Translations,
-  t = Translation,
-  E = ExternalStandardsTranslations,
-  // e = CoACampusTranslations,
-> {
-  constructor(readonly translations: T, readonly extraTranslations: E, readonly languages: string[] = ['EN']) {}
+import { Translations } from './types';
+
+type ValueOf<T> = T[keyof T];
+
+export class Translate<T = Translations, E = ExternalStandardsTranslations> {
+  constructor(readonly translations: T, readonly extraTranslations: E, readonly languages: Languages[] = ['EN']) {}
   /*
   t is [group: string]: Record<string, string>;
 
@@ -17,7 +16,11 @@ export class Translate<
   P is a phrase, refers to the values of t - Record<string, string>
 
   */
-  getField<G extends keyof t = keyof t, P extends keyof t[G] = keyof t[G]>(language: string, group: G, phrase: P) {
+  getField<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
+    language: Languages,
+    group: G,
+    phrase: P,
+  ) {
     const translations = this.translations;
     if (language in translations && group in translations[language] && phrase in translations[language][group]) {
       return translations[language][group][phrase];
@@ -25,11 +28,17 @@ export class Translate<
     return '';
   }
 
-  getTranslation<G extends keyof t = keyof t, P extends keyof t[G] = keyof t[G]>(group: G, phrase: P) {
+  getTranslation<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
+    group: G,
+    phrase: P,
+  ) {
     return this.languages.map((language) => this.getField(language, group, phrase)).join(' / ');
   }
 
-  translate<G extends keyof t = keyof t, P extends keyof t[G] = keyof t[G]>(phrase: P, group: G) {
+  translate<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
+    phrase: P,
+    group: G,
+  ) {
     // specific to EN10168
     if (group === 'certificateFields') {
       return `${phrase} ${this.getTranslation(group, phrase)}`;
@@ -37,43 +46,42 @@ export class Translate<
     return this.getTranslation(group, phrase);
   }
 
-  extraTranslate(
-    propertiesStandard: ExternalStandards | undefined,
-    propertyId: string, // how can I enforce that this is a key of E?
-    property: 'Property' | 'TestConditions',
+  extraTranslate<S extends keyof E = keyof E, R extends ValueOf<E[S]> = ValueOf<E[S]>, P extends keyof R = keyof R>(
+    externalStandard: S | undefined,
+    propertyId: P,
+    property: keyof R[P],
     defaultValue: string,
   ) {
-    return this.getExtraTranslation(propertiesStandard, propertyId, property, defaultValue);
+    return this.getExtraTranslation(externalStandard, propertyId, property, defaultValue);
   }
 
-  getExtraTranslation<S extends keyof E = keyof E, P extends keyof t[G] = keyof t[G]>(
-    propertiesStandard: S,
-    propertyId: string,
-    property: string,
-    defaultValue: string,
-  ) {
+  getExtraTranslation<
+    S extends keyof E = keyof E,
+    R extends ValueOf<E[S]> = ValueOf<E[S]>,
+    P extends keyof R = keyof R,
+  >(externalStandard: S | undefined, propertyId: P, property: keyof R[P], defaultValue: string) {
     const translatedFields = this.languages.map(
-      (language) => this.getExtraField(propertiesStandard, language, propertyId, property) || defaultValue,
+      (language) => this.getExtraField(externalStandard, language, propertyId, property) || defaultValue,
     );
 
     return translatedFields[0] === translatedFields[1] ? translatedFields[0] : translatedFields.join(' / ');
   }
 
-  getExtraField<S extends keyof E = keyof E, L extends string, P extends keyof t[G] = keyof t[G]>(
-    propertiesStandard: E | undefined,
-    language: string,
-    propertyId: string,
-    property: string,
+  getExtraField<S extends keyof E = keyof E, R extends ValueOf<E[S]> = ValueOf<E[S]>, P extends keyof R = keyof R>(
+    externalStandard: S | undefined,
+    language: Languages,
+    propertyId: P,
+    property: keyof R[P],
   ) {
     const extraTranslations = this.extraTranslations;
 
     if (
-      propertiesStandard &&
-      language in extraTranslations[propertiesStandard] &&
-      propertyId in extraTranslations[propertiesStandard][language] &&
-      property in extraTranslations[propertiesStandard][language][propertyId]
+      externalStandard &&
+      language in extraTranslations[externalStandard] &&
+      propertyId in extraTranslations[externalStandard][language] &&
+      property in extraTranslations[externalStandard][language][propertyId]
     ) {
-      return extraTranslations[propertiesStandard][language][propertyId][property];
+      return extraTranslations[externalStandard][language][propertyId][property];
     }
     return '';
   }
