@@ -10,25 +10,22 @@ import {
   tableLayout,
   Translate,
 } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { ExternalStandardsEnum, ExternalStandardsTranslations } from '@s1seven/schema-tools-types';
 
 import {
   Attachment,
   BusinessTransaction,
   Certificate,
-  CoACampusTranslations,
-  CoACertificateTranslations,
   CoATranslations,
   Company,
   DeclarationOfConformity,
-  ExternalStandardsEnum,
-  ExtraTranslationProperties,
   Inspection,
   Parties,
   Person,
   Product,
 } from './types';
 
-type I18N = Translate<CoATranslations, CoACertificateTranslations, ExtraTranslationProperties>;
+type I18N = Translate<CoATranslations, ExternalStandardsTranslations>;
 
 function createManufacturerHeader(parties: Parties, logo: string): TableCell[][] {
   const manufacturerLogo: TableCell[] = logo ? [{ image: logo, width: 150 }] : [];
@@ -483,7 +480,7 @@ export function createAttachments(attachments: Attachment[], i18n: I18N): [Conte
 export function generateContent(
   certificate: Certificate,
   translations: CoATranslations,
-  extraTranslations: ExtraTranslationProperties,
+  extraTranslations: ExternalStandardsTranslations,
 ): Content {
   const i18n = new Translate(translations, extraTranslations, certificate.Certificate.CertificateLanguages);
   const header = createHeader(certificate.Certificate.Parties, certificate.Certificate.Logo || '');
