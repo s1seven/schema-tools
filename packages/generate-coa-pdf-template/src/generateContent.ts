@@ -15,17 +15,20 @@ import {
   Attachment,
   BusinessTransaction,
   Certificate,
+  CoACampusTranslations,
   CoACertificateTranslations,
   CoATranslations,
   Company,
   DeclarationOfConformity,
+  ExternalStandardsEnum,
+  ExtraTranslationProperties,
   Inspection,
   Parties,
   Person,
   Product,
 } from './types';
 
-type I18N = Translate<CoATranslations, CoACertificateTranslations>;
+type I18N = Translate<CoATranslations, CoACertificateTranslations, ExtraTranslationProperties>;
 
 function createManufacturerHeader(parties: Parties, logo: string): TableCell[][] {
   const manufacturerLogo: TableCell[] = logo ? [{ image: logo, width: 150 }] : [];
@@ -261,7 +264,11 @@ export function createProductDescription(product: Product, i18n: I18N): [Content
   ];
 }
 
-function createInspection(inspection: Inspection, i18n: I18N): TableCell[] {
+function createInspection(
+  inspection: Inspection,
+  PropertiesStandards: ExternalStandardsEnum | undefined,
+  i18n: I18N,
+): TableCell[] {
   const textFields: { name: string; format?: 'Number' }[] = [
     { name: 'Property' },
     { name: 'Method' },
@@ -272,10 +279,20 @@ function createInspection(inspection: Inspection, i18n: I18N): TableCell[] {
     { name: 'TestConditions' },
   ];
 
-  return textFields.map(
-    (field) => ({ text: computeTextStyle(inspection[field.name], field.format, i18n.languages), style: 'caption' }),
-    [],
-  );
+  return textFields.map((field) => {
+    if (field.name === 'Property' || field.name === 'TestConditions') {
+      return {
+        text: computeTextStyle(
+          i18n.extraTranslate(PropertiesStandards, inspection.PropertyId, field.name, inspection[field.name]),
+          field.format,
+          i18n.languages,
+        ),
+        style: 'caption',
+      };
+    }
+
+    return { text: computeTextStyle(inspection[field.name], field.format, i18n.languages), style: 'caption' };
+  }, []);
 }
 
 export function createAnalysis(
@@ -283,6 +300,7 @@ export function createAnalysis(
     LotId?: string;
     Inspections?: Inspection[];
     AdditionalInformation?: string[];
+    PropertiesStandards?: ExternalStandardsEnum;
   },
   i18n: I18N,
 ): [ContentText, ContentCanvas, TableElement, TableElement] {
@@ -316,7 +334,9 @@ export function createAnalysis(
 
   const body = [headerRow];
   if (analysis.Inspections?.length) {
-    const inspectionsRows = analysis.Inspections.map((inspection) => createInspection(inspection, i18n));
+    const inspectionsRows = analysis.Inspections.map((inspection) =>
+      createInspection(inspection, analysis.PropertiesStandards, i18n),
+    );
     body.push(...inspectionsRows);
   }
   if (analysis.AdditionalInformation?.length) {
@@ -460,8 +480,12 @@ export function createAttachments(attachments: Attachment[], i18n: I18N): [Conte
   ];
 }
 
-export function generateContent(certificate: Certificate, translations: CoATranslations): Content {
-  const i18n = new Translate(translations, certificate.Certificate.CertificateLanguages);
+export function generateContent(
+  certificate: Certificate,
+  translations: CoATranslations,
+  extraTranslations: ExtraTranslationProperties,
+): Content {
+  const i18n = new Translate(translations, extraTranslations, certificate.Certificate.CertificateLanguages);
   const header = createHeader(certificate.Certificate.Parties, certificate.Certificate.Logo || '');
   const receivers = createReceivers(certificate.Certificate.Parties, i18n);
   const generalInfo = createGeneralInfo(certificate, i18n);

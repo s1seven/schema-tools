@@ -15,3 +15,31 @@ export interface Translation {
 export interface Translations {
   [ln: string]: Translation;
 }
+
+export type Languages = `${CertificateLanguages}`;
+
+export enum CertificateLanguages {
+  CN = 'CN',
+  DE = 'DE',
+  EN = 'EN',
+  ES = 'ES',
+  FR = 'FR',
+  PL = 'PL',
+  RU = 'RU',
+  IT = 'IT',
+  TR = 'TR',
+}
+
+export type CampusTranslations = {
+  [key in Languages]?: { [Id: string]: { Property: string; TestConditions: string } };
+};
+
+export type ExternalStandardsTranslations = {
+  [ExternalStandardsEnum.CAMPUS]?: CampusTranslations;
+};
+
+export enum ExternalStandardsEnum {
+  CAMPUS = 'CAMPUS',
+}
+
+export type ExternalStandards = `${ExternalStandardsEnum}`;

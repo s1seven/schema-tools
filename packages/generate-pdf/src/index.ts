@@ -1,5 +1,6 @@
 import htmlToPdfmake from 'html-to-pdfmake';
 import jsdom from 'jsdom';
+import { get } from 'lodash';
 import clone from 'lodash.clone';
 import merge from 'lodash.merge';
 import Module from 'module';
@@ -8,9 +9,17 @@ import { Content, StyleDictionary, TDocumentDefinitions, TFontDictionary } from 
 import { URL } from 'url';
 import vm from 'vm';
 
-import { Schemas, Translations } from '@s1seven/schema-tools-types';
 import {
+  ExternalStandards,
+  ExtraTranslations,
+  Schemas,
+  schemaToExternalStandardsMap,
+  Translations,
+} from '@s1seven/schema-tools-types';
+import {
+  castCertificate,
   getCertificateLanguages,
+  getExtraTranslations,
   getSchemaConfig,
   getTranslations,
   loadExternalFile,
@@ -25,6 +34,7 @@ export type GeneratePdfOptions = {
   docDefinition?: Partial<TDocumentDefinitions>;
   fonts?: TFontDictionary;
   translations?: Translations;
+  extraTranslations?: ExtraTranslations;
 };
 
 const fonts = {
@@ -54,7 +64,7 @@ const baseDocDefinition = (content: TDocumentDefinitions['content']): TDocumentD
 export async function buildModule(
   filePath: string,
   moduleName?: string,
-): Promise<{ generateContent: (certificate: Schemas, translations: Translations) => Content[] }> {
+): Promise<{ generateContent: (certificate: Schemas, translations: Translations, extraTranslations) => Content[] }> {
   const code = await loadExternalFile(filePath, 'text');
   const fileName = moduleName || filePath;
   const _module = new Module(fileName);
@@ -69,6 +79,7 @@ export async function generateInSandbox(
   certificate: Schemas,
   translations: Record<string, unknown>,
   generatorPath?: string,
+  extraTranslations?,
 ): Promise<Content[]> {
   let filePath: string;
   let moduleName: string;
@@ -81,15 +92,16 @@ export async function generateInSandbox(
     filePath = refSchemaUrl.href;
     moduleName = refSchemaUrl.pathname;
   }
-
   const { generateContent } = await buildModule(filePath, moduleName);
-  const code = `(async function () {
-    content = await generateContent(certificate, translations);
+  const code = `console.log(this);
+  (async function () {
+    content = await generateContent(certificate, translations, extraTranslations);
   }())`;
 
   const script = new vm.Script(code);
   const context = {
     certificate,
+    extraTranslations,
     translations,
     generateContent,
     content: [] as Content[],
@@ -110,6 +122,7 @@ async function getPdfMakeContentFromObject(
   certificate: Schemas,
   generatorPath: string = null,
   translations: Translations = null,
+  extraTranslations: ExtraTranslations,
 ): Promise<TDocumentDefinitions['content']> {
   const refSchemaUrl = new URL(certificate.RefSchemaUrl);
   const schemaConfig = getSchemaConfig(refSchemaUrl);
@@ -117,7 +130,20 @@ async function getPdfMakeContentFromObject(
   if (!translations) {
     translations = certificateLanguages?.length ? await getTranslations(certificateLanguages, schemaConfig) : {};
   }
-  return generateInSandbox(certificate, translations, generatorPath);
+
+  const { type } = castCertificate(certificate);
+
+  const externalStandards: ExternalStandards[] =
+    schemaToExternalStandardsMap[type]
+      .map((schemaType) => get(certificate, schemaType, undefined))
+      .filter((externalStandards) => externalStandards) || [];
+
+  if (!extraTranslations) {
+    extraTranslations = certificateLanguages?.length
+      ? await getExtraTranslations(certificateLanguages, schemaConfig, externalStandards)
+      : {};
+  }
+  return generateInSandbox(certificate, translations, generatorPath, extraTranslations);
 }
 
 function getPdfMakeStyles(certificate: Schemas): Promise<StyleDictionary> {
@@ -143,7 +169,12 @@ async function buildPdfContent(
     } else {
       throw new Error(`Invalid certificate type : ${typeof certificateInput}`);
     }
-    pdfMakeContent = await getPdfMakeContentFromObject(rawCert, options.generatorPath, options.translations);
+    pdfMakeContent = await getPdfMakeContentFromObject(
+      rawCert,
+      options.generatorPath,
+      options.translations,
+      options.extraTranslations,
+    );
     if (!options.docDefinition?.styles) {
       const styles = await getPdfMakeStyles(rawCert);
       if (!options.docDefinition) {
@@ -167,6 +198,7 @@ export async function generatePdf(
     docDefinition?: Partial<TDocumentDefinitions>;
     fonts?: TFontDictionary;
     translations?: Translations;
+    extraTranslations?: ExtraTranslations;
   },
 ): Promise<Buffer>;
 
@@ -179,6 +211,7 @@ export async function generatePdf(
     docDefinition?: Partial<TDocumentDefinitions>;
     fonts?: TFontDictionary;
     translations?: Translations;
+    extraTranslations?: ExtraTranslations;
   },
 ): Promise<PDFKit.PDFDocument>;
 
