@@ -11,12 +11,12 @@ The specification of these libraries can be found in [SEP](https://s1seven.githu
 
 ## Supported Schemas
 
-| Name                                                               | Version range |
-| ------------------------------------------------------------------ | :-----------: |
-| [EN10168](https://github.com/thematerials-network/EN10168-schemas) | 0.0.2 - 0.2.x |
-| [E-CoC](https://github.com/thematerials-network/E-CoC-schemas)     | 0.0.2 - 1.0.0 |
-| [CoA](https://github.com/thematerials-network/CoA-schemas)         | 0.0.3 - 0.1.x |
-| [CDN](https://github.com/thematerials-network/CDN-schemas)         |      xx       |
+| Name      | Version range |
+| --------- | :-----------: |
+| [EN10168] | 0.0.2 - 0.2.x |
+| [E-CoC]   | 0.0.2 - 1.0.0 |
+| [CoA]     | 0.0.3 - 0.1.x |
+| [CDN]     |      xx       |
 
 ## List of packages
 
@@ -27,16 +27,16 @@ The specification of these libraries can be found in [SEP](https://s1seven.githu
   Build certificate summary by retrieving general common properties.
 
 - [Extract-Emails](https://github.com/s1seven/schema-tools/tree/master/packages/extract-emails#readme)
-  This repository contains tools to extract emails from certificate(s).
+  This repository contains tools to extract information (emails, VAT, ...) about parties included in certificate(s).
 
 - [Generate-CoA-PDF-Template](https://github.com/s1seven/schema-tools/blob/main/packages/generate-coa-pdf-template/README.md)
   This package provides a minified script to be used in CoA-schemas specific verison release.
 
-- [Generate-En10168-PDF-Template](https://github.com/s1seven/schema-tools/blob/main/packages/generate-en10168-pdf-template/README.md)
+- [Generate-EN10168-PDF-Template](https://github.com/s1seven/schema-tools/blob/main/packages/generate-en10168-pdf-template/README.md)
   This package provides a minified script to be used in EN10168-schemas specific verison release.
 
 - [Generate-HTML](https://github.com/s1seven/schema-tools/tree/master/packages/generate-html#readme)
-  The generate-html module is using handlebars and/or mjml to generate HTML string using a JSON schema.
+  The generate-html module is using handlebars and/or mjml to generate HTML string using a certificate using a supported JSON schema.
 
 - [Generate-Interfaces](https://github.com/s1seven/schema-tools/tree/master/packages/generate-interfaces#readme)
   The generate-interfaces module is using the json-schema-to-typescript package to generate TS interfaces and types using a JSON / OpenAPI schema.
@@ -48,13 +48,13 @@ The specification of these libraries can be found in [SEP](https://s1seven.githu
   Contains shared types. Uses duck typing / type guards for quick validation. To be updated every time the schema is updated.
 
 - [Utils](https://github.com/s1seven/schema-tools/tree/master/packages/utils#readme)
-  internal utilities including caching.
+  internal utilities including static resources caching.
 
 - [Validate](https://github.com/s1seven/schema-tools/tree/master/packages/validate#readme)
-  Takes certificates as input and validates them by using downloaded json schema.
+  Takes certificates as input and validates them by using the referenced JSON schema.
 
 - [Versioning](https://github.com/s1seven/schema-tools/blob/main/packages/versioning/README.md)
-  Update all files containing versioning during release.
+  Update all files containing versioning during release, to be used within schemas repositories.
 
 ## Dependency graph
 
@@ -69,10 +69,11 @@ The specification of these libraries can be found in [SEP](https://s1seven.githu
 When updating the schema (links below), the tools need to be updated at the same time.
 
 Schema links:
-[EN10168](https://github.com/thematerials-network/EN10168-schemas)
-[E-CoC](https://github.com/thematerials-network/E-CoC-schemas)
-[CoA](https://github.com/thematerials-network/CoA-schemas)
-[CDN](https://github.com/thematerials-network/CDN-schemas)
+
+- [EN10168]
+- [E-CoC]
+- [CoA]
+- [CDN]
 
 Process:
 
@@ -146,3 +147,8 @@ from the root directory.
 ## PDF Generation - Making changes to a PDF
 
 To change the appearance of a PDF, make the needed changes to `generateContent.ts` for CoA and en10168, run the `build` script to generate a minified version in `dist` which can then be used following the `-g` argument in the root script `fixtures:pdf` PDF Generator.
+
+[en10168]: https://github.com/thematerials-network/EN10168-schemas
+[e-coc]: https://github.com/thematerials-network/E-CoC-schemas
+[coa]: https://github.com/thematerials-network/CoA-schemas
+[cdn]: https://github.com/thematerials-network/CDN-schemas
