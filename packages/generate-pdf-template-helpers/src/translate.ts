@@ -6,16 +6,7 @@ type ValueOf<T> = T[keyof T];
 
 export class Translate<T = Translations, E = ExternalStandardsTranslations> {
   constructor(readonly translations: T, readonly extraTranslations: E, readonly languages: Languages[] = ['EN']) {}
-  /*
-  t is [group: string]: Record<string, string>;
 
-  G extends keyof t = keyof t
-  G is a group, refers to the keys of t - [group: string]
-
-  P extends keyof t[G]
-  P is a phrase, refers to the values of t - Record<string, string>
-
-  */
   getField<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
     language: Languages,
     group: G,
