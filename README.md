@@ -104,7 +104,7 @@ npm run bootstrap
 
 ## Testing
 
-The following packages only test the latest version:
+The following packages only test the compatibility with the latest schema version:
 
 - generate-coa-pdf-template
 - generate-en10168-pdf-template
@@ -120,29 +120,31 @@ The remaining packages should be made compatible with [all schema versions](#sup
 - Add the `translations.json` - for ease of use we keep English and German translations in a single file
 - `certificate.ts`, `template_hbs.html` and `valid_cert.pdf` are dynamically generated with the following scripts:
 
-To generate `certificate.ts` (json-schema converted to Typescript interfaces), run
+#### Typescript interface
+
+To generate `certificate.ts` (json-schema converted to Typescript interfaces),from the root directory, run :
 
 ```sh
-npm run fixtures:interfaces -- -s /Users/eamon/work/CoA-schemas/schema.json -o fixtures/CoA/v0.1.1/certificate.ts
+npm run fixtures:interfaces -- -s ../CoA-schemas/schema.json -o fixtures/CoA/v0.2.0/certificate.ts
 ```
 
-from the root directory where -s indicates the path to the updated schema and -o indicates the path to the certificate to be generated.
+where -s indicates the path to the updated schema and -o indicates the path to the certificate to be generated.
 
-To generate `template_hbs.html` (HTML certificate generated from Handlebars template), run
+#### HTML certificate
+
+To generate `template_hbs.html` (HTML certificate generated from Handlebars template), from the root directory, run :
 
 ```sh
-npm run fixtures:html -- -c fixtures/CoA/v0.1.1/valid_cert.json -o fixtures/CoA/v0.1.1/template_hbs.html -t fixtures/CoA/v0.1.1/translations.json -T /Users/eamon/work/CoA-schemas/template.hbs
+npm run fixtures:html -- -c fixtures/CoA/v0.2.0/valid_cert.json -o fixtures/CoA/v0.2.0/template_hbs.html -t fixtures/CoA/v0.2.0/translations.json -T ../CoA-schemas/template.hbs
 ```
 
-from the root directory.
+#### PDF certificate
 
-To generate `valid_cert.pdf` (PDF certificate generated from JS generator), run
+To generate `valid_cert.pdf` (PDF certificate generated from JS generator), from the root directory, run :
 
 ```sh
-npm run fixtures:pdf -- -c fixtures/CoA/v0.1.1/valid_cert.json -o fixtures/CoA/v0.1.1/valid_cert.pdf -t fixtures/CoA/v0.1.1/translations.json -g /Users/eamon/work/CoA-schemas/generate-pdf.min.js -s /Users/eamon/work/CoA-schemas/generate-pdf.styles.json
+npm run fixtures:pdf -- -c fixtures/CoA/v0.2.0/valid_cert.json -o fixtures/CoA/v0.2.0/valid_cert.pdf -t fixtures/CoA/v0.2.0/translations.json -g ../CoA-schemas/generate-pdf.min.js -s ../CoA-schemas/generate-pdf.styles.json
 ```
-
-from the root directory.
 
 ## PDF Generation - Making changes to a PDF
 
