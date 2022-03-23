@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.0.20...@s1seven/schema-tools-generate-pdf@0.1.0) (2022-03-23)
+
+
+### Bug Fixes
+
+* **generate-pdf:** add missing ExtraTranslations types ([cb33bff](http://github.com/s1seven/schema-tools/commit/cb33bff7cab5aec4c16f00acca07afec6762b230))
+
+
+### Features
+
+* allow external translations in pdf generator ([d2a61b7](http://github.com/s1seven/schema-tools/commit/d2a61b79a08cfecfe4daabaedaa094a823e4caa8))
+
+
+
+
+
 ## [0.0.20](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.0.19...@s1seven/schema-tools-generate-pdf@0.0.20) (2022-03-15)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-pdf

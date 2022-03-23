@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-generate-html",
   "description": "Tool to generate html from certificates",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "getlarge <ed@getlarge.eu>",
   "license": "Apache-2.0",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/generate-html#readme",
@@ -43,8 +43,8 @@
     "example:campus": "node example_campus.js"
   },
   "dependencies": {
-    "@s1seven/schema-tools-types": "^0.3.0",
-    "@s1seven/schema-tools-utils": "^0.1.0",
+    "@s1seven/schema-tools-types": "^0.3.1",
+    "@s1seven/schema-tools-utils": "^0.1.1",
     "handlebars": "^4.7.7",
     "lodash.get": "^4.4.2",
     "lodash.merge": "^4.6.2",

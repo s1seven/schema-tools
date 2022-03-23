@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.3.0...@s1seven/schema-tools-types@0.3.1) (2022-03-23)
+
+
+### Bug Fixes
+
+* **types:** improve translations typing ([f95bbc1](http://github.com/s1seven/schema-tools/commit/f95bbc1dc0ec700c5157eb63dcc88e6fb2822b25))
+
+
+
+
+
 # [0.3.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.2.0...@s1seven/schema-tools-types@0.3.0) (2022-03-15)
 
 

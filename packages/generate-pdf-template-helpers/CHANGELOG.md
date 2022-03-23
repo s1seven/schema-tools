@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf-template-helpers@0.3.1...@s1seven/schema-tools-generate-pdf-template-helpers@0.4.0) (2022-03-23)
+
+
+### Bug Fixes
+
+* **generate-pdf-template-helpers:** add extra type checks ([6c81dab](http://github.com/s1seven/schema-tools/commit/6c81dab2ffcbbec595da86f41a33ae7a08b22b78))
+
+
+### Features
+
+* **generate-pdf-template-helpers:** add function to safely cast to enum ([3892e52](http://github.com/s1seven/schema-tools/commit/3892e52ca2bf7f41cb155cd19447572f85676b9c))
+* **generate-pdf-template-helpers:** use proper type inferrance for extra translations ([2f46f51](http://github.com/s1seven/schema-tools/commit/2f46f513180987e3e32cdb8d35198a1f9c651404))
+* allow external translations in pdf generator ([d2a61b7](http://github.com/s1seven/schema-tools/commit/d2a61b79a08cfecfe4daabaedaa094a823e4caa8))
+
+
+
+
+
 ## [0.3.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf-template-helpers@0.3.0...@s1seven/schema-tools-generate-pdf-template-helpers@0.3.1) (2022-03-15)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-pdf-template-helpers

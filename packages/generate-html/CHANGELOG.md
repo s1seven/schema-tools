@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.2.0...@s1seven/schema-tools-generate-html@0.2.1) (2022-03-23)
+
+
+### Bug Fixes
+
+* **generate-html:** update languages typing ([b9149b8](http://github.com/s1seven/schema-tools/commit/b9149b893956d5b92787f71a5e15bcbfcdcb6ac7))
+
+
+
+
+
 # [0.2.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.1.0...@s1seven/schema-tools-generate-html@0.2.0) (2022-03-15)
 
 

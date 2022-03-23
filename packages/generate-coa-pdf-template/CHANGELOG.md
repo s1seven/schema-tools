@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.2.1...@s1seven/schema-tools-generate-coa-pdf-template@0.3.0) (2022-03-23)
+
+
+### Bug Fixes
+
+* **generate-coa-pdf-template:** refine inspection translation ([db51660](http://github.com/s1seven/schema-tools/commit/db51660f673999489313392d0fe78debfa86c681))
+* **generate-coa-pdf-template:** update I18N type ([1936f3f](http://github.com/s1seven/schema-tools/commit/1936f3f84dcd9a31f8ae14d871be286a495b9677))
+
+
+### Features
+
+* allow external translations in pdf generator ([d2a61b7](http://github.com/s1seven/schema-tools/commit/d2a61b79a08cfecfe4daabaedaa094a823e4caa8))
+
+
+
+
+
 ## [0.2.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.2.0...@s1seven/schema-tools-generate-coa-pdf-template@0.2.1) (2022-03-15)
 
 

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.2](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.5.1...@s1seven/schema-tools-generate-en10168-pdf-template@0.5.2) (2022-03-23)
+
+
+### Bug Fixes
+
+* **generate-en10168-pdf-template:** load types package in build and fix translate input types ([2616908](http://github.com/s1seven/schema-tools/commit/26169086515dc94aca3bde351edb8ce147c183d3))
+* **generate-en10168-pdf-template:** update I18N type ([2a9ed06](http://github.com/s1seven/schema-tools/commit/2a9ed06df69843efc8a5ada5428f899a2e6bfb90))
+
+
+
+
+
 ## [0.5.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.5.0...@s1seven/schema-tools-generate-en10168-pdf-template@0.5.1) (2022-03-15)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-en10168-pdf-template
