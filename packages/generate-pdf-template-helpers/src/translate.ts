@@ -22,7 +22,12 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
     phrase: P,
   ) {
     const translations = this.translations;
-    if (language in translations && group in translations[language] && phrase in translations[language][group]) {
+    if (
+      typeof translations === 'object' &&
+      language in translations &&
+      group in translations[language] &&
+      phrase in translations[language][group]
+    ) {
       return translations[language][group][phrase];
     }
     return '';
@@ -77,6 +82,7 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
 
     if (
       externalStandard &&
+      typeof extraTranslations === 'object' &&
       language in extraTranslations[externalStandard] &&
       propertyId in extraTranslations[externalStandard][language] &&
       property in extraTranslations[externalStandard][language][propertyId]
