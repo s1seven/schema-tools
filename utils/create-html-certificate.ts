@@ -1,11 +1,25 @@
-'use strict';
-/* eslint-disable @typescript-eslint/no-var-requires */
+import fs from 'fs';
+import path from 'path';
+import { hideBin } from 'yargs/helpers';
+import yargs from 'yargs/yargs';
 
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
-const fs = require('fs');
-const path = require('path');
-const { generateHtml } = require('@s1seven/schema-tools-generate-html');
+import { generateHtml } from '../packages/generate-html/src';
+
+async function createHtml(options: {
+  translationsPath: string;
+  certificatePath: string;
+  templatePath: string;
+  outputPath: string;
+}) {
+  const { translationsPath, certificatePath, templatePath, outputPath } = options;
+  const translations = fs.readFileSync(translationsPath, 'utf-8');
+  const html = await generateHtml(path.resolve(certificatePath), {
+    templateType: 'hbs',
+    templatePath,
+    translations: JSON.parse(translations),
+  });
+  fs.writeFileSync(path.resolve(outputPath), html);
+}
 
 (async function () {
   // incase you run directly with node from utils, uncomment the following line:
@@ -76,13 +90,7 @@ const { generateHtml } = require('@s1seven/schema-tools-generate-html');
     }).argv;
 
   try {
-    const translations = fs.readFileSync(argv.translationsPath, 'utf-8');
-    const html = await generateHtml(path.resolve(argv.certificatePath), {
-      templateType: 'hbs',
-      templatePath: argv.templatePath,
-      translations: JSON.parse(translations),
-    });
-    fs.writeFileSync(path.resolve(argv.outputPath), html);
+    await createHtml(argv);
     console.log('HTML generated');
     process.exit(0);
   } catch (error) {

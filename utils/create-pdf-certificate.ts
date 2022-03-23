@@ -1,19 +1,70 @@
-'use strict';
-/* eslint-disable @typescript-eslint/no-var-requires */
+import fs from 'fs';
+import { createWriteStream } from 'fs';
+import path from 'path';
+import { hideBin } from 'yargs/helpers';
+import yargs from 'yargs/yargs';
 
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
-const fs = require('fs');
-const path = require('path');
-const { createWriteStream } = require('fs');
-const { generatePdf } = require('@s1seven/schema-tools-generate-pdf');
+import { generatePdf, TDocumentDefinitions } from '../packages/generate-pdf/src';
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
-(async function () {
-  // incase you run directly with node from utils, uncomment the following line:
-  // process.chdir('../');
+const fonts = {
+  Lato: {
+    normal: './node_modules/lato-font/fonts/lato-normal/lato-normal.woff',
+    bold: './node_modules/lato-font/fonts/lato-bold/lato-bold.woff',
+    italics: './node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff',
+    light: './node_modules/lato-font/fonts/lato-light/lato-light.woff',
+  },
+};
 
-  const argv = yargs(hideBin(process.argv))
+async function createPdf(options: {
+  stylesPath: string;
+  translationsPath: string;
+  certificatePath: string;
+  generatorPath: string;
+  outputPath: string;
+}) {
+  const { stylesPath, translationsPath, certificatePath, generatorPath, outputPath } = options;
+  const docDefinition: Omit<TDocumentDefinitions, 'content'> = {
+    pageSize: 'A4',
+    pageMargins: [20, 20, 20, 40],
+    footer: (currentPage, pageCount) => ({
+      text: currentPage.toString() + ' / ' + pageCount,
+      style: 'footer',
+      alignment: 'center',
+    }),
+    defaultStyle: {
+      font: 'Lato',
+      fontSize: 10,
+    },
+    styles: JSON.parse(fs.readFileSync(stylesPath, 'utf8')),
+  };
+
+  const translations = fs.readFileSync(translationsPath, 'utf-8');
+
+  const pdfDoc = await generatePdf(path.resolve(certificatePath), {
+    docDefinition,
+    outputType: 'stream',
+    fonts,
+    translations: JSON.parse(translations),
+    generatorPath,
+  });
+
+  const writeStream = createWriteStream(outputPath);
+  pdfDoc.pipe(writeStream);
+  pdfDoc.end();
+
+  await new Promise((resolve, reject) => {
+    writeStream
+      .on('finish', () => {
+        resolve(true);
+      })
+      .on('error', (err) => {
+        reject(err);
+      });
+  });
+}
+
+const getCliArgs = () =>
+  yargs(hideBin(process.argv))
     .usage('Usage: $0 -c [certificatePath] -o [outputPath] -t [translationsPath] -g [generatorPath] -s [styles')
     .options({
       certificatePath: {
@@ -90,52 +141,12 @@ const { generatePdf } = require('@s1seven/schema-tools-generate-pdf');
       description: 'Run with verbose logging',
     }).argv;
 
+(async function () {
+  // incase you run directly with node from utils, uncomment the following line:
+  // process.chdir('../');
+  const argv = getCliArgs();
   try {
-    const fonts = {
-      Lato: {
-        normal: './node_modules/lato-font/fonts/lato-normal/lato-normal.woff',
-        bold: './node_modules/lato-font/fonts/lato-bold/lato-bold.woff',
-        italics: './node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff',
-        light: './node_modules/lato-font/fonts/lato-light/lato-light.woff',
-      },
-    };
-
-    const docDefinition = {
-      pageSize: 'A4',
-      pageMargins: [20, 20, 20, 40],
-      footer: function (currentPage, pageCount) {
-        return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
-      },
-      defaultStyle: {
-        font: 'Lato',
-        fontSize: 10,
-      },
-      styles: JSON.parse(fs.readFileSync(argv.stylesPath, 'utf8')),
-    };
-
-    const translations = fs.readFileSync(argv.translationsPath, 'utf-8');
-
-    const pdfDoc = await generatePdf(path.resolve(argv.certificatePath), {
-      docDefinition,
-      outputType: 'stream',
-      fonts,
-      translations: JSON.parse(translations),
-      generatorPath: argv.generatorPath,
-    });
-
-    const writeStream = createWriteStream(argv.outputPath);
-    pdfDoc.pipe(writeStream);
-    pdfDoc.end();
-
-    await new Promise((resolve, reject) => {
-      writeStream
-        .on('finish', () => {
-          resolve(true);
-        })
-        .on('error', (err) => {
-          reject(err);
-        });
-    });
+    await createPdf(argv);
     console.log('PDF generated');
     process.exit(0);
   } catch (error) {
