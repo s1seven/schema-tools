@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.1.0...@s1seven/schema-tools-generate-pdf@0.1.1) (2022-03-23)
+
+
+### Bug Fixes
+
+* **generate-pdf:** generate hidden useless log ([5f79c64](http://github.com/s1seven/schema-tools/commit/5f79c64cfac67224734f43f5dffd574849ab13c0))
+
+
+
+
+
 # [0.1.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.0.20...@s1seven/schema-tools-generate-pdf@0.1.0) (2022-03-23)
 
 
