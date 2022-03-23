@@ -1,11 +1,9 @@
-'use strict';
-/* eslint-disable @typescript-eslint/no-var-requires */
+import fs from 'fs';
+import path from 'path';
+import { hideBin } from 'yargs/helpers';
+import yargs from 'yargs/yargs';
 
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
-const fs = require('fs');
-const path = require('path');
-const { generate } = require('@s1seven/schema-tools-generate-interfaces');
+import { generate } from '../packages/generate-interfaces/src';
 
 (async function () {
   // incase you run directly with node from utils, uncomment the following line:

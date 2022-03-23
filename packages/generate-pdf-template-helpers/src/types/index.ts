@@ -1,5 +1,7 @@
 import { Margins, Table, TableLayout } from 'pdfmake/interfaces';
 
+import { Languages } from '@s1seven/schema-tools-types';
+
 export interface TableElement {
   style: string;
   table: Table;
@@ -12,6 +14,6 @@ export interface Translation {
   [group: string]: Record<string, string>;
 }
 
-export interface Translations {
-  [ln: string]: Translation;
-}
+export type Translations = {
+  [ln in Languages]: Translation;
+};

@@ -4,18 +4,19 @@ import {
   computeTextStyle,
   createEmptyColumns,
   createFooter,
+  enumFromString,
   localizeDate,
   localizeNumber,
   TableElement,
   tableLayout,
   Translate,
 } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { ExternalStandardsEnum, ExternalStandardsTranslations } from '@s1seven/schema-tools-types';
 
 import {
   Attachment,
   BusinessTransaction,
   Certificate,
-  CoACertificateTranslations,
   CoATranslations,
   Company,
   DeclarationOfConformity,
@@ -25,7 +26,7 @@ import {
   Product,
 } from './types';
 
-type I18N = Translate<CoATranslations, CoACertificateTranslations>;
+type I18N = Translate<CoATranslations, ExternalStandardsTranslations>;
 
 function createManufacturerHeader(parties: Parties, logo: string): TableCell[][] {
   const manufacturerLogo: TableCell[] = logo ? [{ image: logo, width: 150 }] : [];
@@ -261,7 +262,7 @@ export function createProductDescription(product: Product, i18n: I18N): [Content
   ];
 }
 
-function createInspection(inspection: Inspection, i18n: I18N): TableCell[] {
+function createInspection(inspection: Inspection, i18n: I18N, PropertiesStandard?: ExternalStandardsEnum): TableCell[] {
   const textFields: { name: string; format?: 'Number' }[] = [
     { name: 'Property' },
     { name: 'Method' },
@@ -272,18 +273,24 @@ function createInspection(inspection: Inspection, i18n: I18N): TableCell[] {
     { name: 'TestConditions' },
   ];
 
-  return textFields.map(
-    (field) => ({ text: computeTextStyle(inspection[field.name], field.format, i18n.languages), style: 'caption' }),
-    [],
-  );
+  return textFields.map((field) => {
+    const { name } = field;
+    if (name === 'Property' || name === 'TestConditions') {
+      return {
+        text: computeTextStyle(
+          i18n.extraTranslate(PropertiesStandard, inspection.PropertyId, name, inspection[name]),
+          field.format,
+          i18n.languages,
+        ),
+        style: 'caption',
+      };
+    }
+    return { text: computeTextStyle(inspection[name], field.format, i18n.languages), style: 'caption' };
+  }, []);
 }
 
 export function createAnalysis(
-  analysis: {
-    LotId?: string;
-    Inspections?: Inspection[];
-    AdditionalInformation?: string[];
-  },
+  analysis: Certificate['Certificate']['Analysis'],
   i18n: I18N,
 ): [ContentText, ContentCanvas, TableElement, TableElement] {
   const lotIdRow = analysis.LotId
@@ -316,7 +323,9 @@ export function createAnalysis(
 
   const body = [headerRow];
   if (analysis.Inspections?.length) {
-    const inspectionsRows = analysis.Inspections.map((inspection) => createInspection(inspection, i18n));
+    const inspectionsRows = analysis.Inspections.map((inspection) =>
+      createInspection(inspection, i18n, enumFromString(ExternalStandardsEnum, analysis.PropertiesStandard)),
+    );
     body.push(...inspectionsRows);
   }
   if (analysis.AdditionalInformation?.length) {
@@ -460,8 +469,12 @@ export function createAttachments(attachments: Attachment[], i18n: I18N): [Conte
   ];
 }
 
-export function generateContent(certificate: Certificate, translations: CoATranslations): Content {
-  const i18n = new Translate(translations, certificate.Certificate.CertificateLanguages);
+export function generateContent(
+  certificate: Certificate,
+  translations: CoATranslations,
+  extraTranslations: ExternalStandardsTranslations,
+): Content {
+  const i18n = new Translate(translations, extraTranslations, certificate.Certificate.CertificateLanguages);
   const header = createHeader(certificate.Certificate.Parties, certificate.Certificate.Logo || '');
   const receivers = createReceivers(certificate.Certificate.Parties, i18n);
   const generalInfo = createGeneralInfo(certificate, i18n);

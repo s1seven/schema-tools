@@ -6,6 +6,7 @@ import mjml2html from 'mjml';
 import { URL } from 'url';
 
 import {
+  CertificateLanguages,
   ExternalStandards,
   ExternalStandardsEnum,
   ExternalStandardsTranslations,
@@ -234,7 +235,7 @@ export async function generateHtml(
   }
 
   const { certificate, type } = castCertificate(rawCert);
-  const certificateLanguages = getCertificateLanguages(certificate) || ['EN'];
+  const certificateLanguages = getCertificateLanguages(certificate) || [CertificateLanguages.EN];
 
   const externalStandards: ExternalStandards[] =
     schemaToExternalStandardsMap[type]

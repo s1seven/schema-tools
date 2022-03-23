@@ -5,8 +5,9 @@ const Module = require('module');
 const path = require('path');
 const vm = require('vm');
 const styles = require('./styles');
-const certificate = require('../../../fixtures/CoA/v0.1.0/valid_cert.json');
-const translations = require('../../../fixtures/CoA/v0.1.0/translations.json');
+const certificate = require('../../../fixtures/CoA/v0.2.0/valid_cert.json');
+const translations = require('../../../fixtures/CoA/v0.2.0/translations.json');
+const extraTranslations = require('../../../fixtures/CoA/v0.2.0/extra_translations.json');
 
 const fonts = {
   Lato: {
@@ -25,17 +26,18 @@ function buildModule(filePath) {
   return _module.exports;
 }
 
-async function generateInSandbox(certificate, translations) {
+async function generateInSandbox(certificate, translations, extraTranslations) {
   const { generateContent } = buildModule(path.resolve('./dist/generateContent.js'));
 
   const code = `(async function () {
-    content = await generateContent(certificate, translations);
+    content = await generateContent(certificate, translations, extraTranslations);
   }())`;
 
   const script = new vm.Script(code);
   const context = {
     certificate,
     translations,
+    extraTranslations,
     generateContent,
     content: {},
   };
@@ -45,10 +47,10 @@ async function generateInSandbox(certificate, translations) {
   return content;
 }
 
-async function generateExample(certificate, translations) {
+async function generateExample(certificate, translations, extraTranslations) {
   const printer = new PdfPrinter(fonts);
 
-  const content = await generateInSandbox(certificate, translations);
+  const content = await generateInSandbox(certificate, translations, extraTranslations);
 
   const docDefinition = {
     pageSize: 'A4',
@@ -73,5 +75,5 @@ async function generateExample(certificate, translations) {
 }
 
 (async function () {
-  await generateExample(certificate, translations);
+  await generateExample(certificate, translations, extraTranslations);
 })();

@@ -73,30 +73,6 @@ export class CertificateDocumentMetadata {
   state?: CertificateDocumentMetadataState;
 }
 
-export type Languages = `${CertificateLanguages}`;
-
-export type Translations = {
-  [key in Languages]?: Record<string, any>;
-};
-
-export type ExternalStandards = `${ExternalStandardsEnum}`;
-
-export enum ExternalStandardsEnum {
-  CAMPUS = 'CAMPUS',
-}
-
-export type CampusTranslations = {
-  [key in Languages]?: { [Id: string]: { Property: string; TestConditions: string } };
-};
-
-export type ExternalStandardsTranslations = {
-  [ExternalStandardsEnum.CAMPUS]?: CampusTranslations;
-};
-
-export type ExtraTranslations = {
-  [key in ExternalStandardsEnum]?: ExternalStandardsTranslations[key];
-};
-
 export enum CertificateLanguages {
   CN = 'CN',
   DE = 'DE',
@@ -108,6 +84,38 @@ export enum CertificateLanguages {
   IT = 'IT',
   TR = 'TR',
 }
+
+export type Languages = `${CertificateLanguages}`;
+
+export interface Translation<S = string> {
+  [group: string]: Record<string, S>;
+}
+
+export type Translations = {
+  [ln in Languages]?: Translation;
+};
+
+export type ExternalStandards = `${ExternalStandardsEnum}`;
+
+export enum ExternalStandardsEnum {
+  CAMPUS = 'CAMPUS',
+}
+
+export type ExtraTranslation = { [Id: string]: Record<string, string> };
+
+export type CampusTranslation = { Property: string; TestConditions: string };
+
+export type CampusTranslations = {
+  [ln in Languages]?: { [Id: string]: CampusTranslation };
+};
+
+export type ExternalStandardsTranslations = {
+  [ExternalStandardsEnum.CAMPUS]?: CampusTranslations;
+};
+
+export type ExtraTranslations = {
+  [key in ExternalStandardsEnum]?: ExternalStandardsTranslations[key];
+};
 
 export class EN10168SchemaCertificate {
   @IsEnum(CertificateLanguages, { each: true })

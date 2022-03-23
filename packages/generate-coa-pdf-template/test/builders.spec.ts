@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { localizeDate, localizeNumber, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { Languages } from '@s1seven/schema-tools-types';
 
 import {
   createAnalysis,
@@ -11,20 +11,21 @@ import {
   createProductDescription,
   createReceivers,
 } from '../src/generateContent';
-import { CoACertificateTranslations, CoATranslations, Product } from '../src/types';
+import { CoATranslations, Product } from '../src/types';
 import { certificate, defaultSchemaUrl } from './constants';
 import { getTranslations } from './getTranslations';
 
-const getI18N = (translations: CoATranslations, languages: string[] = ['EN', 'DE']) => {
+const getI18N = (translations: CoATranslations, languages: Languages[] = ['EN', 'DE']) => {
   translations = languages.reduce((acc, key) => {
     acc[key] = translations[key];
     return acc;
   }, {} as CoATranslations);
-  return new Translate<CoATranslations, CoACertificateTranslations>(translations, languages);
+  return new Translate<CoATranslations>(translations, {}, languages);
 };
 
 describe('Rendering', () => {
   let translations: CoATranslations;
+
   beforeAll(async () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
   });

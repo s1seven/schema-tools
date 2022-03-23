@@ -50,6 +50,7 @@ export class SchemaRepositoryVersion {
     translations: Record<string, any>,
     docDefinition: Partial<TDocumentDefinitions>,
     fonts: TFontDictionary,
+    extraTranslations: ExtraTranslations = null,
   ): Promise<void> {
     const outputPath = certificatePath.replace('.json', '.pdf');
     const pdfDoc = await generatePdf(certificatePath, {
@@ -59,6 +60,7 @@ export class SchemaRepositoryVersion {
       outputType: 'stream',
       fonts,
       translations,
+      extraTranslations,
     });
 
     const writeStream = createWriteStream(outputPath);
@@ -134,6 +136,7 @@ export class SchemaRepositoryVersion {
           this.translations,
           docDefinition,
           fonts,
+          this.extraTranslations,
         ),
       ),
     );

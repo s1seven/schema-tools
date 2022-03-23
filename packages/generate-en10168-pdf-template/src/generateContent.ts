@@ -8,13 +8,10 @@ import { createOtherTests } from './lib/createOtherTests';
 import { createProductDescription } from './lib/createProductDescription';
 import { createTransactionParties } from './lib/createTransactionParties';
 import { createValidation } from './lib/createValidation';
-import { Certificate, EN10168CertificateTranslations, EN10168Translations } from './types';
+import { Certificate, EN10168Translations } from './types';
 
 export function generateContent(certificate: Certificate, translations: EN10168Translations): Content {
-  const i18n = new Translate<EN10168Translations, EN10168CertificateTranslations>(
-    translations,
-    certificate.Certificate.CertificateLanguages,
-  );
+  const i18n = new Translate<EN10168Translations>(translations, {}, certificate.Certificate.CertificateLanguages);
   const commercialParties = createTransactionParties(certificate.Certificate.CommercialTransaction, i18n);
   const commercialTransaction = createCommercialTransaction(certificate.Certificate.CommercialTransaction, i18n);
   const productDescription = createProductDescription(certificate.Certificate.ProductDescription, i18n);

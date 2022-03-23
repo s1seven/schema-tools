@@ -79,7 +79,7 @@ describe('Versioning', function () {
       pageSize: 'A4',
       defaultStyle: { font: 'Lato' },
     };
-    const instance = new SchemaRepositoryVersion(serverUrl, defaultSchemaFilePaths, version, translations);
+    const instance = new SchemaRepositoryVersion(serverUrl, defaultSchemaFilePaths, version, translations, {});
     await instance.updatePdfFixturesVersion(`${pattern}.json`, generatorPath, docDefinition, fonts);
     expect(SchemaRepositoryVersion.generatePdfCertificate).toBeCalledTimes(2);
     expect(SchemaRepositoryVersion.generatePdfCertificate).toBeCalledWith(
@@ -88,6 +88,7 @@ describe('Versioning', function () {
       translations,
       docDefinition,
       fonts,
+      {},
     );
   });
 
