@@ -4,10 +4,10 @@
 const { readFileSync, writeFileSync } = require('fs');
 const { generateHtml } = require('./dist/index');
 
-const defaultExternalCertificatePath = `${__dirname}/../../fixtures/CoA/v0.1.1/valid_cert.json`;
+const defaultExternalCertificatePath = `${__dirname}/../../fixtures/CoA/v0.2.0/valid_cert.json`;
 const defaultOutputPath = `${__dirname}/template.html`;
-const defaultTranslationsPath = `${__dirname}/../../fixtures/CoA/v0.1.1/translations.json`;
-const defaultExtraTranslationsPath = `${__dirname}/../../fixtures/CoA/v0.1.1/extraTranslations.json`;
+const defaultTranslationsPath = `${__dirname}/../../fixtures/CoA/v0.2.0/translations.json`;
+const defaultExtraTranslationsPath = `${__dirname}/../../fixtures/CoA/v0.2.0/extra_translations.json`;
 const defaultTemplatePath = '/Users/eamon/work/CoA-schemas/template.hbs';
 
 (async function (argv) {

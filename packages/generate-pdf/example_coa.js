@@ -2,9 +2,9 @@
 const { createWriteStream, readFileSync } = require('fs');
 const { generatePdf } = require('./dist/index');
 
-const CoACertificate = require('../../fixtures/CoA/v0.1.1/valid_cert.json');
-const translations = JSON.parse(readFileSync('../../fixtures/CoA/v0.1.1/translations.json'));
-const extraTranslations = JSON.parse(readFileSync('../../fixtures/CoA/v0.1.1/extraTranslations.json'));
+const CoACertificate = require('../../fixtures/CoA/v0.2/valid_cert.json');
+const translations = JSON.parse(readFileSync('../../fixtures/CoA/v0.2/translations.json'));
+const extraTranslations = JSON.parse(readFileSync('../../fixtures/CoA/v0.2/extra_translations.json'));
 
 (async function () {
   try {
@@ -33,7 +33,7 @@ const extraTranslations = JSON.parse(readFileSync('../../fixtures/CoA/v0.1.1/ext
     const pdfDoc = await generatePdf(CoACertificate, {
       docDefinition,
       outputType: 'stream',
-      generatorPath: '/Users/eamon/work/schema-tools/packages/generate-coa-pdf-template/dist/generateContent.js',
+      // generatorPath: '/Users/eamon/work/schema-tools/packages/generate-coa-pdf-template/dist/generateContent.js',
       fonts,
       extraTranslations,
       translations,

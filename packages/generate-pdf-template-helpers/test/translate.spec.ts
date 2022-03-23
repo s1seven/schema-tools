@@ -5,7 +5,8 @@ import { ExternalStandardsEnum, ExtraTranslations, Translations } from '@s1seven
 import { Translate } from '../src';
 import { getTranslations } from './getTranslations';
 
-const extraTranslations = JSON.parse(readFileSync('../../fixtures/CoA/v0.1.1/extraTranslations.json', 'utf8'));
+// TODO: remove it once CoA schema v0.2 is released
+const extraTranslations = JSON.parse(readFileSync('../../fixtures/CoA/v0.2.0/extra_translations.json', 'utf8'));
 
 describe('Translate', () => {
   describe('EN10168 certificate', () => {
