@@ -7,7 +7,6 @@ import { URL } from 'url';
 
 import { extractParties, PartyEmail } from '@s1seven/schema-tools-extract-emails';
 import {
-  BaseCertificateSchema,
   JSONSchema7,
   JSONSchema7Definition,
   SchemaConfig,
@@ -22,7 +21,7 @@ import {
   getSemanticVersion,
   loadExternalFile,
 } from '@s1seven/schema-tools-utils';
-import { setValidator, ValidateFunction } from '@s1seven/schema-tools-validate';
+import { getValidator, setValidator, ValidateFunction } from '@s1seven/schema-tools-validate';
 
 export type BuildCertificateModelOptions = {
   schema?: JSONSchema7;
@@ -258,16 +257,14 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
     }
     data = data || {};
     const opts = this.getOptions(value || {});
-    if (Object.keys(data).includes('RefSchemaUrl')) {
-      this.validator = await setValidator((data as BaseCertificateSchema).RefSchemaUrl);
+    if ('RefSchemaUrl' in data && typeof data.RefSchemaUrl === 'string') {
+      this.validator = getValidator(data.RefSchemaUrl) || (await setValidator(data.RefSchemaUrl));
     }
     if (!opts.internal && opts.validate) {
       const dataToValidate = merge(this.toJSON(true), data);
       const { valid, errors } = this.validate(dataToValidate);
-      if (!valid) {
-        const validationError = errors
-          ? formatValidationErrors(errors)
-          : { validationError: 'Unknown validation error' };
+      if (!valid && errors) {
+        const validationError = formatValidationErrors(errors);
         const error = new Error(JSON.stringify(validationError, null, 2));
         if (opts.throwError) {
           throw error;
