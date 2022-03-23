@@ -99,7 +99,7 @@ export async function generateInSandbox(
     moduleName = refSchemaUrl.pathname;
   }
   const { generateContent } = await buildModule(filePath, moduleName);
-  const code = `console.log(this);
+  const code = `
   (async function () {
     content = await generateContent(certificate, translations, extraTranslations);
   }())`;
