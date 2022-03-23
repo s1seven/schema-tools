@@ -9,6 +9,7 @@ import { promisify } from 'util';
 import {
   ExternalStandards,
   ExternalStandardsTranslations,
+  Languages,
   SchemaConfig,
   Translations,
 } from '@s1seven/schema-tools-types';
@@ -51,7 +52,7 @@ export function writeFile(path: string, content: string): Promise<void> {
   return promisify(fs.writeFile)(path, content);
 }
 
-const translationsArrayToObject = function (translationsArray: { [x: string]: Record<string, unknown> }[]): {
+export function translationsArrayToObject(translationsArray: { [x: string]: Record<string, unknown> }[]): {
   [x: string]: Record<string, unknown>;
 } {
   return translationsArray.reduce((acc, translation) => {
@@ -59,22 +60,34 @@ const translationsArrayToObject = function (translationsArray: { [x: string]: Re
     acc[key] = translation[key];
     return acc;
   }, {});
-};
+}
 
-export async function getTranslations(
-  certificateLanguages: string[],
+async function getTranslation(
+  schemaConfig: SchemaConfig,
+  fileName: `${string}.json`,
+): Promise<{ result?: Record<string, unknown>; error?: Error }> {
+  const filePath = getRefSchemaUrl(schemaConfig, fileName).href;
+  try {
+    const result = await loadExternalFile(filePath, 'json');
+    return { result };
+  } catch (error: any) {
+    return { error };
+  }
+}
+
+export async function getTranslations<L extends string = Languages>(
+  certificateLanguages: L[],
   schemaConfig: SchemaConfig,
 ): Promise<Translations> {
   const errors = [];
   const translationsArray = await Promise.all(
     certificateLanguages.map(async (lang) => {
-      const filePath = getRefSchemaUrl(schemaConfig, `${lang}.json`).href;
-      try {
-        return { [lang]: await loadExternalFile(filePath, 'json') };
-      } catch (error: any) {
+      const { result, error } = await getTranslation(schemaConfig, `${lang}.json`);
+      if (error) {
         errors.push(lang);
         return null;
       }
+      return { [lang]: result };
     }),
   );
 
@@ -85,8 +98,8 @@ export async function getTranslations(
   return translationsArrayToObject(translationsArray);
 }
 
-export async function getExtraTranslations(
-  certificateLanguages: string[],
+export async function getExtraTranslations<L extends string = Languages>(
+  certificateLanguages: L[],
   schemaConfig: SchemaConfig,
   externalStandards: ExternalStandards[],
 ): Promise<ExternalStandardsTranslations> {
@@ -95,13 +108,12 @@ export async function getExtraTranslations(
     externalStandards.map(async (externalStandard) => {
       const translationsArray = await Promise.all(
         certificateLanguages.map(async (lang) => {
-          const filePath = getRefSchemaUrl(schemaConfig, `${externalStandard}/${lang}.json`).href;
-          try {
-            return { [lang]: await loadExternalFile(filePath, 'json') };
-          } catch (error: any) {
+          const { result, error } = await getTranslation(schemaConfig, `${externalStandard}/${lang}.json`);
+          if (error) {
             errors.push(`${externalStandard} - ${lang}`);
             return null;
           }
+          return { [lang]: result };
         }),
       );
 
