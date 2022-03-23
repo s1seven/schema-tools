@@ -286,7 +286,7 @@ function createInspection(inspection: Inspection, i18n: I18N, PropertiesStandard
       };
     }
     return { text: computeTextStyle(inspection[name], field.format, i18n.languages), style: 'caption' };
-  }, []);
+  });
 }
 
 export function createAnalysis(
@@ -359,7 +359,7 @@ export function createAnalysis(
     {
       style: 'table',
       table: {
-        widths: [80, 80, 50, 50, 50, 50, 100],
+        widths: [100, 80, 50, 50, 50, 50, 120],
         body,
       },
       layout: tableLayout,
