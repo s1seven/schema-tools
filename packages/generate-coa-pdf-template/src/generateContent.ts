@@ -4,6 +4,7 @@ import {
   computeTextStyle,
   createEmptyColumns,
   createFooter,
+  enumFromString,
   localizeDate,
   localizeNumber,
   TableElement,
@@ -261,11 +262,7 @@ export function createProductDescription(product: Product, i18n: I18N): [Content
   ];
 }
 
-function createInspection(
-  inspection: Inspection,
-  PropertiesStandards: ExternalStandardsEnum | undefined,
-  i18n: I18N,
-): TableCell[] {
+function createInspection(inspection: Inspection, i18n: I18N, PropertiesStandard?: ExternalStandardsEnum): TableCell[] {
   const textFields: { name: string; format?: 'Number' }[] = [
     { name: 'Property' },
     { name: 'Method' },
@@ -277,28 +274,23 @@ function createInspection(
   ];
 
   return textFields.map((field) => {
-    if (field.name === 'Property' || field.name === 'TestConditions') {
+    const { name } = field;
+    if (name === 'Property' || name === 'TestConditions') {
       return {
         text: computeTextStyle(
-          i18n.extraTranslate(PropertiesStandards, inspection.PropertyId, field.name, inspection[field.name]),
+          i18n.extraTranslate(PropertiesStandard, inspection.PropertyId, name, inspection[name]),
           field.format,
           i18n.languages,
         ),
         style: 'caption',
       };
     }
-
-    return { text: computeTextStyle(inspection[field.name], field.format, i18n.languages), style: 'caption' };
+    return { text: computeTextStyle(inspection[name], field.format, i18n.languages), style: 'caption' };
   }, []);
 }
 
 export function createAnalysis(
-  analysis: {
-    LotId?: string;
-    Inspections?: Inspection[];
-    AdditionalInformation?: string[];
-    PropertiesStandards?: ExternalStandardsEnum;
-  },
+  analysis: Certificate['Certificate']['Analysis'],
   i18n: I18N,
 ): [ContentText, ContentCanvas, TableElement, TableElement] {
   const lotIdRow = analysis.LotId
@@ -332,7 +324,7 @@ export function createAnalysis(
   const body = [headerRow];
   if (analysis.Inspections?.length) {
     const inspectionsRows = analysis.Inspections.map((inspection) =>
-      createInspection(inspection, analysis.PropertiesStandards, i18n),
+      createInspection(inspection, i18n, enumFromString(ExternalStandardsEnum, analysis.PropertiesStandard)),
     );
     body.push(...inspectionsRows);
   }

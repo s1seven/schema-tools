@@ -31,7 +31,8 @@
       "outputFormat": "commonjs",
       "sourceMap": false,
       "includeNodeModules": {
-        "@s1seven/schema-tools-generate-pdf-template-helpers": true
+        "@s1seven/schema-tools-generate-pdf-template-helpers": true,
+        "@s1seven/schema-tools-types": true
       }
     }
   },
