@@ -64,7 +64,13 @@ const baseDocDefinition = (content: TDocumentDefinitions['content']): TDocumentD
 export async function buildModule(
   filePath: string,
   moduleName?: string,
-): Promise<{ generateContent: (certificate: Schemas, translations: Translations, extraTranslations) => Content[] }> {
+): Promise<{
+  generateContent: (
+    certificate: Schemas,
+    translations: Translations,
+    extraTranslations?: ExtraTranslations,
+  ) => Content[];
+}> {
   const code = await loadExternalFile(filePath, 'text');
   const fileName = moduleName || filePath;
   const _module = new Module(fileName);
@@ -79,7 +85,7 @@ export async function generateInSandbox(
   certificate: Schemas,
   translations: Record<string, unknown>,
   generatorPath?: string,
-  extraTranslations?,
+  extraTranslations: ExtraTranslations = {},
 ): Promise<Content[]> {
   let filePath: string;
   let moduleName: string;
@@ -122,7 +128,7 @@ async function getPdfMakeContentFromObject(
   certificate: Schemas,
   generatorPath: string = null,
   translations: Translations = null,
-  extraTranslations: ExtraTranslations,
+  extraTranslations: ExtraTranslations = null,
 ): Promise<TDocumentDefinitions['content']> {
   const refSchemaUrl = new URL(certificate.RefSchemaUrl);
   const schemaConfig = getSchemaConfig(refSchemaUrl);
@@ -139,9 +145,10 @@ async function getPdfMakeContentFromObject(
       .filter((externalStandards) => externalStandards) || [];
 
   if (!extraTranslations) {
-    extraTranslations = certificateLanguages?.length
-      ? await getExtraTranslations(certificateLanguages, schemaConfig, externalStandards)
-      : {};
+    extraTranslations =
+      certificateLanguages?.length && externalStandards?.length
+        ? await getExtraTranslations(certificateLanguages, schemaConfig, externalStandards)
+        : {};
   }
   return generateInSandbox(certificate, translations, generatorPath, extraTranslations);
 }
