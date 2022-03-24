@@ -8,7 +8,7 @@ const defaultExternalCertificatePath = `${__dirname}/../../fixtures/CoA/v0.2.0/v
 const defaultOutputPath = `${__dirname}/template.html`;
 const defaultTranslationsPath = `${__dirname}/../../fixtures/CoA/v0.2.0/translations.json`;
 const defaultExtraTranslationsPath = `${__dirname}/../../fixtures/CoA/v0.2.0/extra_translations.json`;
-const defaultTemplatePath = '/Users/eamon/work/CoA-schemas/template.hbs';
+const defaultTemplatePath = '../../../CoA-schemas/template.hbs';
 
 (async function (argv) {
   try {
