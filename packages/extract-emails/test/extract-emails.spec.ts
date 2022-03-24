@@ -60,6 +60,28 @@ describe('ExtractEmails', function () {
       },
     },
     {
+      version: 'v0.2.0',
+      type: SupportedSchemas.EN10168,
+      certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.2.0/valid_cert.json`,
+      certificate: require('../../../fixtures/EN10168/v0.2.0/valid_cert.json'),
+      expectedSenders: {
+        [SenderRoles.Seller]: {
+          emails: ['sbs.steelfactory@gmail.com'],
+          name: 'Steel Mill SE',
+          role: 'Seller',
+          vatId: 'AT123456789',
+        },
+      },
+      expectedReceivers: {
+        [ReceiverRoles.Buyer]: {
+          emails: ['sbs.steeltrader@gmail.com'],
+          name: 'Steel Trading AG',
+          role: 'Buyer',
+          vatId: 'DE12234567890',
+        },
+      },
+    },
+    {
       version: 'v0.0.2',
       type: SupportedSchemas.ECOC,
       certificatePath: `${__dirname}/../../../fixtures/E-CoC/v0.0.2/valid_cert.json`,
@@ -130,6 +152,34 @@ describe('ExtractEmails', function () {
       type: SupportedSchemas.COA,
       certificatePath: `${__dirname}/../../../fixtures/CoA/v0.1.0/valid_cert.json`,
       certificate: require('../../../fixtures/CoA/v0.1.0/valid_cert.json'),
+      expectedSenders: {
+        [SenderRoles.Manufacturer]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Green Plastics AG',
+          role: 'Manufacturer',
+          vatId: '',
+        },
+      },
+      expectedReceivers: {
+        [ReceiverRoles.Customer]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Plastic Processor SE',
+          role: 'Customer',
+          vatId: '',
+        },
+        [ReceiverRoles.Receiver]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Plastic Processor SE',
+          role: 'Receiver',
+          vatId: '',
+        },
+      },
+    },
+    {
+      version: 'v0.2.0',
+      type: SupportedSchemas.COA,
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.2.0/valid_cert.json`,
+      certificate: require('../../../fixtures/CoA/v0.2.0/valid_cert.json'),
       expectedSenders: {
         [SenderRoles.Manufacturer]: {
           emails: ['s1seven.certificates@gmail.com'],
