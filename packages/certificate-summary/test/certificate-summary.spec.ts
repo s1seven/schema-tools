@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { SupportedSchemas } from '@s1seven/schema-tools-types';
 
@@ -26,6 +27,22 @@ describe('CertificateSummary', function () {
       type: SupportedSchemas.EN10168,
       certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.json`,
       certificate: require('../../../fixtures/EN10168/v0.1.0/valid_cert.json'),
+      expectedSummary: {
+        sellerName: 'Steel Mill SE',
+        buyerName: 'Steel Trading AG',
+        certificateIdentifier: '1866645/001',
+        productDescription: 'Seamleass Steel Tubes Hot Roild',
+        purchaseDeliveryNumber: 'DN-1583836',
+        purchaseDeliveryPosition: undefined,
+        purchaseOrderNumber: '0334/2019/ZZS',
+        purchaseOrderPosition: '1',
+      },
+    },
+    {
+      version: 'v0.2.0',
+      type: SupportedSchemas.EN10168,
+      certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.2.0/valid_cert.json`,
+      certificate: require('../../../fixtures/EN10168/v0.2.0/valid_cert.json'),
       expectedSummary: {
         sellerName: 'Steel Mill SE',
         buyerName: 'Steel Trading AG',
@@ -90,6 +107,22 @@ describe('CertificateSummary', function () {
       type: SupportedSchemas.COA,
       certificatePath: `${__dirname}/../../../fixtures/CoA/v0.1.0/valid_cert.json`,
       certificate: require('../../../fixtures/CoA/v0.1.0/valid_cert.json'),
+      expectedSummary: {
+        sellerName: 'Green Plastics AG',
+        buyerName: 'Plastic Processor SE',
+        certificateIdentifier: '43',
+        productDescription: 'Manufactured Product Name',
+        purchaseDeliveryNumber: '3000/20',
+        purchaseDeliveryPosition: '1',
+        purchaseOrderNumber: '1000/12/12/2021',
+        purchaseOrderPosition: '000010',
+      },
+    },
+    {
+      version: 'v0.2.0',
+      type: SupportedSchemas.COA,
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.2.0/valid_cert.json`,
+      certificate: require('../../../fixtures/CoA/v0.2.0/valid_cert.json'),
       expectedSummary: {
         sellerName: 'Green Plastics AG',
         buyerName: 'Plastic Processor SE',
