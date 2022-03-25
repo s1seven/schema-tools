@@ -20,7 +20,7 @@ describe('GeneratePDF', function () {
     },
   };
 
-  const docDefinition: Partial<TDocumentDefinitions> = {
+  const docDefinition: Omit<TDocumentDefinitions, 'content'> = {
     pageSize: 'A4',
     pageMargins: [20, 20, 20, 40],
     footer: (currentPage, pageCount) => ({
@@ -40,6 +40,7 @@ describe('GeneratePDF', function () {
     version: string;
     generatorPath?: string;
     styles: StyleDictionary;
+    extraTranslationsPath?: string;
     translationsPath: string;
     certificateHtmlPath: string;
     expectedPdfPath: string;
@@ -87,17 +88,18 @@ describe('GeneratePDF', function () {
       validCertificate: require('../../../fixtures/CoA/v0.1.0/valid_cert.json'),
       docDefinition,
     },
-    // {
-    //   type: SupportedSchemas.COA,
-    //   version: 'v0.2.0',
-    //   generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
-    //   styles: require('../../generate-coa-pdf-template/utils/styles.js'),
-    //   translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/translations.json`),
-    //   certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/template_hbs.html`),
-    //   expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/valid_cert.pdf`),
-    //   validCertificate: require('../../../fixtures/CoA/v0.2.0/valid_cert.json'),
-    //   docDefinition,
-    // },
+    {
+      type: SupportedSchemas.COA,
+      version: 'v0.2.0',
+      generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
+      styles: require('../../generate-coa-pdf-template/utils/styles.js'),
+      translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/translations.json`),
+      extraTranslationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/extra_translations.json`),
+      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/template_hbs.html`),
+      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/valid_cert.pdf`),
+      validCertificate: require('../../../fixtures/CoA/v0.2.0/valid_cert.json'),
+      docDefinition,
+    },
   ];
 
   const waitWritableStreamEnd = (writeStream: Writable, outputFilePath: string) => {
@@ -137,6 +139,7 @@ describe('GeneratePDF', function () {
       expectedPdfPath,
       generatorPath,
       styles,
+      extraTranslationsPath,
       translationsPath,
       type,
       validCertificate,
@@ -180,6 +183,7 @@ describe('GeneratePDF', function () {
           return;
         }
         const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
+        const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
         const options = {
           density: 100,
           width: 600,
@@ -189,10 +193,12 @@ describe('GeneratePDF', function () {
         //
         const pdfDoc = await generatePdf(validCertificate, {
           docDefinition: { ...docDefinition, styles },
+          // docDefinition,
           outputType: 'buffer',
           fonts,
           generatorPath,
           translations,
+          extraTranslations,
         });
 
         const expectedPDF: ToBase64Response = await fromBuffer(expectedPDFBuffer, options)(1, true);

@@ -27,6 +27,15 @@ describe('GenerateHTML', function () {
       expectedHtmlFromMjml: '',
     },
     {
+      type: SupportedSchemas.EN10168,
+      version: 'v0.2.0',
+      certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.2.0/valid_cert.json`,
+      schemaTranslationsPath: `${__dirname}/../../../fixtures/EN10168/v0.2.0/translations.json`,
+      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.2.0/certificate.ts`, 'utf-8'),
+      expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.2.0/template_hbs.html`, 'utf-8'),
+      expectedHtmlFromMjml: '',
+    },
+    {
       type: SupportedSchemas.COA,
       version: 'v0.0.4',
       certificatePath: `${__dirname}/../../../fixtures/CoA/v0.0.4/valid_cert.json`,
@@ -44,6 +53,16 @@ describe('GenerateHTML', function () {
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.1.0/template_hbs.html`, 'utf-8'),
       expectedHtmlFromMjml: '',
     },
+    {
+      type: SupportedSchemas.COA,
+      version: 'v0.2.0',
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v0.2.0/valid_cert.json`,
+      schemaTranslationsPath: `${__dirname}/../../../fixtures/CoA/v0.2.0/translations.json`,
+      schemaExtraTranslationsPath: `${__dirname}/../../../fixtures/CoA/v0.2.0/extra_translations.json`,
+      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.2.0/certificate.ts`, 'utf-8'),
+      expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v0.2.0/template_hbs.html`, 'utf-8'),
+      expectedHtmlFromMjml: '',
+    },
   ];
 
   const htmlDifferOptions = {
@@ -55,8 +74,15 @@ describe('GenerateHTML', function () {
   };
 
   testsMap.forEach((testSuite) => {
-    const { certificatePath, expectedHtmlFromHbs, expectedHtmlFromMjml, schemaTranslationsPath, type, version } =
-      testSuite;
+    const {
+      certificatePath,
+      expectedHtmlFromHbs,
+      expectedHtmlFromMjml,
+      schemaExtraTranslationsPath,
+      schemaTranslationsPath,
+      type,
+      version,
+    } = testSuite;
     describe(`For ${type} - version ${version}`, () => {
       it('should render HTML certificate using certificate local path and HBS template', async () => {
         const html = await generateHtml(certificatePath);
@@ -86,7 +112,10 @@ describe('GenerateHTML', function () {
       it('should render HTML certificate using local translations', async () => {
         const certificate = JSON.parse(readFileSync(certificatePath, 'utf8'));
         const translations = JSON.parse(readFileSync(schemaTranslationsPath, 'utf8'));
-        const html = await generateHtml(certificate, { translations });
+        const extraTranslations = schemaExtraTranslationsPath
+          ? JSON.parse(readFileSync(schemaExtraTranslationsPath, 'utf8'))
+          : {};
+        const html = await generateHtml(certificate, { translations, extraTranslations });
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
         const isEqual = await htmlDiffer.isEqual(expectedHtmlFromHbs, html);

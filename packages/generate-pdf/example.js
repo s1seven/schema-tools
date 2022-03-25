@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { createWriteStream } = require('fs');
+const { createWriteStream, readFileSync } = require('fs');
 const { generatePdf } = require('./dist/index');
-const en10168Certificate = require('../../fixtures/EN10168/v0.0.2/valid_cert.json');
+const styles = require(`${__dirname}/../generate-en10168-pdf-template/utils/styles.js`);
+
+const en10168Certificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.2.0/valid_cert.json`));
+const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.2.0/translations.json`));
+const generatorPath = '../generate-en10168-pdf-template/dist/generateContent.js';
 
 (async function () {
   try {
@@ -14,23 +18,28 @@ const en10168Certificate = require('../../fixtures/EN10168/v0.0.2/valid_cert.jso
       },
     };
 
-    en10168Certificate.RefSchemaUrl = 'https://schemas.s1seven.com/en10168-schemas/v0.0.3-2/schema.json';
+    // en10168Certificate.RefSchemaUrl = 'https://schemas.s1seven.com/en10168-schemas/v0.0.3-2/schema.json';
     const docDefinition = {
       pageSize: 'A4',
       pageMargins: [20, 20, 20, 40],
-      footer: function (currentPage, pageCount) {
-        return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
-      },
+      footer: (currentPage, pageCount) => ({
+        text: currentPage.toString() + ' / ' + pageCount,
+        style: 'footer',
+        alignment: 'center',
+      }),
       defaultStyle: {
         font: 'Lato',
         fontSize: 10,
       },
+      styles,
     };
 
     const pdfDoc = await generatePdf(en10168Certificate, {
       docDefinition,
       outputType: 'stream',
       fonts,
+      generatorPath,
+      translations,
     });
 
     const outputFilePath = './test.pdf';

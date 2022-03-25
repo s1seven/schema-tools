@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { createWriteStream, readFileSync } = require('fs');
 const { generatePdf } = require('./dist/index');
+const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.js`);
 
-const CoACertificate = require('../../fixtures/CoA/v0.2/valid_cert.json');
-const translations = JSON.parse(readFileSync('../../fixtures/CoA/v0.2/translations.json'));
-const extraTranslations = JSON.parse(readFileSync('../../fixtures/CoA/v0.2/extra_translations.json'));
+const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v0.2.0/valid_cert.json`));
+const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v0.2.0/translations.json`));
+const extraTranslations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v0.2.0/extra_translations.json`));
+const generatorPath = '../generate-coa-pdf-template/dist/generateContent.js';
 
 (async function () {
   try {
@@ -17,23 +19,26 @@ const extraTranslations = JSON.parse(readFileSync('../../fixtures/CoA/v0.2/extra
       },
     };
 
-    CoACertificate.RefSchemaUrl = 'https://schemas.s1seven.com/coa-schemas/v0.1.0/schema.json';
+    // CoACertificate.RefSchemaUrl = 'https://schemas.s1seven.com/coa-schemas/v0.2.0/schema.json';
     const docDefinition = {
       pageSize: 'A4',
       pageMargins: [20, 20, 20, 40],
-      footer: function (currentPage, pageCount) {
-        return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
-      },
+      footer: (currentPage, pageCount) => ({
+        text: currentPage.toString() + ' / ' + pageCount,
+        style: 'footer',
+        alignment: 'center',
+      }),
       defaultStyle: {
         font: 'Lato',
         fontSize: 10,
       },
+      styles,
     };
 
     const pdfDoc = await generatePdf(CoACertificate, {
       docDefinition,
       outputType: 'stream',
-      // generatorPath: '/Users/eamon/work/schema-tools/packages/generate-coa-pdf-template/dist/generateContent.js',
+      generatorPath,
       fonts,
       extraTranslations,
       translations,

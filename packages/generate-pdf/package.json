@@ -38,7 +38,9 @@
     "test": "jest",
     "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
     "test:staged": "jest --runInBand --onlyChanged",
-    "scan:deps": "audit-ci --config ../../audit-ci.json"
+    "scan:deps": "audit-ci --config ../../audit-ci.json",
+    "example:en10168": "node example.js",
+    "example:coa": "node example_coa.js"
   },
   "dependencies": {
     "@s1seven/schema-tools-types": "^0.3.1",

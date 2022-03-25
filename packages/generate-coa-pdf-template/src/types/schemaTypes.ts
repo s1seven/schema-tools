@@ -69,7 +69,7 @@ export interface Certificate {
  */
 export interface CertificateType {
   /**
-   * The standard on which the certificate is based. Not rendered on the certificate.
+   * The standard on which the certificate is based.
    */
   Norm: string;
   /**

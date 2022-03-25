@@ -45,7 +45,7 @@
     "test:staged": "jest --runInBand --onlyChanged",
     "scan:deps": "audit-ci --config ../../audit-ci.json",
     "create-example": "node ./utils/create-example.js",
-    "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.s1seven.com/coa-schemas/v0.1.0/schema.json ./src/types/schemaTypes.ts",
+    "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.s1seven.com/coa-schemas/v0.2.0/schema.json ./src/types/schemaTypes.ts",
     "create-interfaces-interactive": "node ../../utils/create-schema-interfaces-interactive.js ./src/types/schemaTypes.ts"
   },
   "dependencies": {
