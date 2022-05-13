@@ -262,7 +262,11 @@ export function createProductDescription(product: Product, i18n: I18N): [Content
   ];
 }
 
-function createInspection(inspection: Inspection, i18n: I18N, PropertiesStandard?: ExternalStandardsEnum): TableCell[] {
+export function createInspection(
+  inspection: Inspection,
+  i18n: I18N,
+  PropertiesStandard?: ExternalStandardsEnum,
+): TableCell[] {
   const textFields: { name: string; format?: 'Number' }[] = [
     { name: 'Property' },
     { name: 'Method' },
