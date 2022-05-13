@@ -274,7 +274,8 @@ function createInspection(inspection: Inspection, i18n: I18N, PropertiesStandard
   ];
 
   return textFields.map((field) => {
-    const { name } = field;
+    const { name, format } = field;
+
     if (name === 'Property' || name === 'TestConditions') {
       return {
         text: computeTextStyle(
@@ -284,7 +285,15 @@ function createInspection(inspection: Inspection, i18n: I18N, PropertiesStandard
         ),
         style: 'caption',
       };
+    } else if (format === 'Number' && !Number.isNaN(Number(inspection[name]))) {
+      const localizedNumber = localizeNumber(inspection[name], i18n.languages);
+
+      return {
+        text: computeTextStyle(localizedNumber, field.format, i18n.languages),
+        style: 'caption',
+      };
     }
+
     return { text: computeTextStyle(inspection[name], field.format, i18n.languages), style: 'caption' };
   });
 }
