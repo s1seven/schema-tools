@@ -160,7 +160,6 @@ describe('Rendering', () => {
   });
 
   it('createInspection() - should correctly localize inspections', () => {
-    const i18n = getI18N(translations, ['DE', 'EN']);
     const analysis = {
       PropertyId: '1038',
       Property: 'MFR',
@@ -172,12 +171,32 @@ describe('Rendering', () => {
       Maximum: '35.4',
       TestConditions: 'According customer specification',
     };
-    // Ensures that localization works irrespective of whether the value is a number or string
-    const inspection = createInspection(analysis as any, i18n);
 
+    const i18n = getI18N(translations, ['DE', 'EN']);
+    const inspection = createInspection(analysis as any, i18n);
     expect(inspection[3]).toEqual(expect.objectContaining({ text: '31,5', style: 'caption' }));
     expect(inspection[4]).toEqual(expect.objectContaining({ text: '15,1', style: 'caption' }));
     expect(inspection[5]).toEqual(expect.objectContaining({ text: '35,4', style: 'caption' }));
+
+    const i18n2 = getI18N(translations, ['EN', 'DE']);
+    const inspection2 = createInspection(analysis as any, i18n2);
+    expect(inspection2[3]).toEqual(expect.objectContaining({ text: '31.5', style: 'caption' }));
+    expect(inspection2[4]).toEqual(expect.objectContaining({ text: '15.1', style: 'caption' }));
+    expect(inspection2[5]).toEqual(expect.objectContaining({ text: '35.4', style: 'caption' }));
+  });
+
+  it('createInspection() - if Value is not a number, it should not localize it', () => {
+    const analysis = {
+      PropertyId: '239',
+      Property: 'Type of failure',
+      Method: 'ISO 179/1eU',
+      Value: 'C',
+      ValueType: 'string',
+    };
+
+    const i18n = getI18N(translations, ['DE', 'EN']);
+    const inspection = createInspection(analysis as any, i18n);
+    expect(inspection[3]).toEqual(expect.objectContaining({ text: 'C', style: 'caption' }));
   });
 
   it('createContacts() - should correctly render contact details', () => {
