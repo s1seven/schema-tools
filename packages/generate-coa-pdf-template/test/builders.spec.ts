@@ -8,6 +8,7 @@ import {
   createContacts,
   createGeneralInfo,
   createHeader,
+  createInspection,
   createProductDescription,
   createReceivers,
 } from '../src/generateContent';
@@ -156,6 +157,46 @@ describe('Rendering', () => {
       expect.objectContaining({ text: i18n.translate('AdditionalInformation', 'Certificate') }),
     );
     expect(tableBody[4][0]).toEqual(expect.objectContaining({ text: AdditionalInformation.join('\n') }));
+  });
+
+  it('createInspection() - should correctly localize inspections', () => {
+    const analysis = {
+      PropertyId: '1038',
+      Property: 'MFR',
+      Method: 'DIN EN ISO 1133',
+      Unit: 'g/10m_',
+      Value: 31.5,
+      ValueType: 'number',
+      Minimum: '15.1',
+      Maximum: '35.4',
+      TestConditions: 'According customer specification',
+    };
+
+    const i18n = getI18N(translations, ['DE', 'EN']);
+    const inspection = createInspection(analysis as any, i18n);
+    expect(inspection[3]).toEqual(expect.objectContaining({ text: '31,5', style: 'caption' }));
+    expect(inspection[4]).toEqual(expect.objectContaining({ text: '15,1', style: 'caption' }));
+    expect(inspection[5]).toEqual(expect.objectContaining({ text: '35,4', style: 'caption' }));
+
+    const i18n2 = getI18N(translations, ['EN', 'DE']);
+    const inspection2 = createInspection(analysis as any, i18n2);
+    expect(inspection2[3]).toEqual(expect.objectContaining({ text: '31.5', style: 'caption' }));
+    expect(inspection2[4]).toEqual(expect.objectContaining({ text: '15.1', style: 'caption' }));
+    expect(inspection2[5]).toEqual(expect.objectContaining({ text: '35.4', style: 'caption' }));
+  });
+
+  it('createInspection() - if Value is not a number, it should not localize it', () => {
+    const analysis = {
+      PropertyId: '239',
+      Property: 'Type of failure',
+      Method: 'ISO 179/1eU',
+      Value: 'C',
+      ValueType: 'string',
+    };
+
+    const i18n = getI18N(translations, ['DE', 'EN']);
+    const inspection = createInspection(analysis as any, i18n);
+    expect(inspection[3]).toEqual(expect.objectContaining({ text: 'C', style: 'caption' }));
   });
 
   it('createContacts() - should correctly render contact details', () => {

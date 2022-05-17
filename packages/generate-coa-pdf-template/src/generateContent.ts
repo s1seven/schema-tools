@@ -262,7 +262,11 @@ export function createProductDescription(product: Product, i18n: I18N): [Content
   ];
 }
 
-function createInspection(inspection: Inspection, i18n: I18N, PropertiesStandard?: ExternalStandardsEnum): TableCell[] {
+export function createInspection(
+  inspection: Inspection,
+  i18n: I18N,
+  PropertiesStandard?: ExternalStandardsEnum,
+): TableCell[] {
   const textFields: { name: string; format?: 'Number' }[] = [
     { name: 'Property' },
     { name: 'Method' },
@@ -275,6 +279,7 @@ function createInspection(inspection: Inspection, i18n: I18N, PropertiesStandard
 
   return textFields.map((field) => {
     const { name } = field;
+
     if (name === 'Property' || name === 'TestConditions') {
       return {
         text: computeTextStyle(
@@ -285,6 +290,7 @@ function createInspection(inspection: Inspection, i18n: I18N, PropertiesStandard
         style: 'caption',
       };
     }
+
     return { text: computeTextStyle(inspection[name], field.format, i18n.languages), style: 'caption' };
   });
 }

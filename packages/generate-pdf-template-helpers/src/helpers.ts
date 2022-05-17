@@ -33,6 +33,8 @@ export function computeTextStyle(
     return value.join(', ');
   } else if (format === 'Number' && typeof value === 'number') {
     return localizeNumber(value, locales);
+  } else if (format === 'Number' && typeof value === 'string' && !Number.isNaN(Number(value))) {
+    return localizeNumber(value, locales);
   }
   return value;
 }
