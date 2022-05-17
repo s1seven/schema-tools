@@ -278,7 +278,7 @@ export function createInspection(
   ];
 
   return textFields.map((field) => {
-    const { name, format } = field;
+    const { name } = field;
 
     if (name === 'Property' || name === 'TestConditions') {
       return {
@@ -287,13 +287,6 @@ export function createInspection(
           field.format,
           i18n.languages,
         ),
-        style: 'caption',
-      };
-    } else if (format === 'Number' && !Number.isNaN(Number(inspection[name]))) {
-      const localizedNumber = localizeNumber(inspection[name], i18n.languages);
-
-      return {
-        text: computeTextStyle(localizedNumber, field.format, i18n.languages),
         style: 'caption',
       };
     }
