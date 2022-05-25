@@ -64,10 +64,11 @@ jobs:
       - name: Build packages
         run: npm run build
 
-      - name: Add, commit and push changes to minified dist/generateContents.js
+      # update to only run on PR, not push to main
+      - name: Commit changes to dist/generateContents.js
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: 'docs: update minified generateContents.js [ci]'
+          commit_message: 'chore: update minified generateContents.js [ci]'
           file_pattern: packages/generate-coa-pdf-template/dist/generateContent.js packages/generate-en10168-pdf-template/dist/generateContent.js
 
       # TODO: only run tests on changed code
