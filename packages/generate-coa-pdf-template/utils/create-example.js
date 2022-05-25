@@ -16,6 +16,12 @@ const fonts = {
     italics: 'node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff',
     light: 'node_modules/lato-font/fonts/lato-light/lato-light.woff',
   },
+  NotoSansSC: {
+    normal: 'Noto_Sans_SC/NotoSansSC-Regular.otf',
+    bold: 'Noto_Sans_SC/NotoSansSC-Bold.otf',
+    italics: 'Noto_Sans_SC/NotoSansSC-Thin.otf',
+    light: 'Noto_Sans_SC/NotoSansSC-Thin.otf',
+  }
 };
 
 function buildModule(filePath) {
@@ -61,7 +67,7 @@ async function generateExample(certificate, translations, extraTranslations) {
     content,
     styles,
     defaultStyle: {
-      font: 'Lato',
+      font: 'NotoSansSC',
       fontSize: 10,
     },
     // pageBreakBefore: function (currentNode) {
