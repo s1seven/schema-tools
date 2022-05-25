@@ -64,8 +64,8 @@ jobs:
       - name: Build packages
         run: npm run build
 
-      # update to only run on PR, not push to main
-      - name: Commit changes to dist/generateContents.js
+      - name: Add, commit and push changes to dist/generateContents.js
+        if: github.event_name == 'push'
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'chore: update minified generateContents.js [ci]'
