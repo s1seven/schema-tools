@@ -1,0 +1,7 @@
+thematerials-network/CoA-schemas@main:
+  - source: packages/generate-coa-pdf-template/dist/generateContent.js
+    dest: generate-pdf.min.js
+
+thematerials-network/EN10168-schemas@main:
+  - source: packages/generate-en10168-pdf-template/dist/generateContent.js
+    dest: generate-pdf.min.js
