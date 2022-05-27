@@ -49,6 +49,7 @@
     "create-interfaces-interactive": "node ../../utils/create-schema-interfaces-interactive.js ./src/types/schemaTypes.ts"
   },
   "dependencies": {
+    "@expo-google-fonts/noto-sans-sc": "^0.2.2",
     "@s1seven/schema-tools-generate-pdf-template-helpers": "^0.4.0",
     "@s1seven/schema-tools-types": "^0.3.1",
     "pdfmake": "^0.2.4"

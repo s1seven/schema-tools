@@ -17,11 +17,11 @@ const fonts = {
     light: 'node_modules/lato-font/fonts/lato-light/lato-light.woff',
   },
   NotoSansSC: {
-    normal: 'Noto_Sans_SC/NotoSansSC-Regular.otf',
-    bold: 'Noto_Sans_SC/NotoSansSC-Bold.otf',
-    italics: 'Noto_Sans_SC/NotoSansSC-Thin.otf',
-    light: 'Noto_Sans_SC/NotoSansSC-Thin.otf',
-  }
+    normal: 'node_modules/@expo-google-fonts/noto-sans-sc/NotoSansSC_400Regular.ttf',
+    bold: 'node_modules/@expo-google-fonts/noto-sans-sc/NotoSansSC_700Bold.ttf',
+    italics: 'node_modules/@expo-google-fonts/noto-sans-sc/NotoSansSC_100Thin.ttf',
+    light: 'node_modules/@expo-google-fonts/noto-sans-sc/NotoSansSC_100Thin.ttf',
+  },
 };
 
 function buildModule(filePath) {
