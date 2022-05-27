@@ -31,7 +31,10 @@
     "lint:staged": "npx lint-staged",
     "lint:commit": "npx --no -- commitlint --edit $1",
     "prepare": "npm run format && npm run lint",
-    "test": "lerna run test",
+
+    "test": "nx run-many --target=test --all",
+    "lerna:test": "lerna run test",
+
     "test:cov": "lerna run test:cov && node merge-coverage.js",
     "test:coverage": "jest --ci --coverage --logHeapUsage --forceExit && node coverage-transform.js",
     "test:staged": "lerna run test:staged",
