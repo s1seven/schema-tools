@@ -96,7 +96,7 @@ jobs:
           fetch-depth: 0
 
       - name: Retrieve coverage
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: coverage
           path: ./coverage
