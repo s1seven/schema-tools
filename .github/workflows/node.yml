@@ -65,7 +65,6 @@ jobs:
         run: npm run build
 
       - name: Add, commit and push changes to dist/generateContents.js
-        if: github.event_name == 'push'
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'chore: update minified generateContents.js [ci]'
