@@ -36,6 +36,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref }}
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -62,6 +63,12 @@ jobs:
 
       - name: Build packages
         run: npm run build
+
+      - name: Add, commit and push changes to dist/generateContents.js
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'chore: update minified generateContents.js [ci]'
+          file_pattern: packages/generate-coa-pdf-template/dist/generateContent.js packages/generate-en10168-pdf-template/dist/generateContent.js
 
       # TODO: only run tests on changed code
       - name: Run Karma tests
