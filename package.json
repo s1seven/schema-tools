@@ -25,31 +25,20 @@
     "bootstrap": "npm install lerna && lerna bootstrap && npm install",
     "format": "prettier --write \"packages/**/*.{ts,json}\"",
     "reset": "npm run cleanup && rimraf -rf node_modules && npm run bootstrap",
-    
     "build": "npm run cleanup && nx run-many --target=compile --all",
     "lerna:build": "npm run cleanup && lerna run compile",
-    
+    "build:since": "npm run cleanup && nx affected --target=build",
     "cleanup": "nx run-many --target=cleanup --all --stream --parallel",
     "lerna:cleanup": "lerna run cleanup --stream --parallel",
-    
     "lint": "nx run-many --target=lint --all",
     "lerna:lint": "lerna run lint",
-    
     "lint:staged": "npx lint-staged",
     "lint:commit": "npx --no -- commitlint --edit $1",
     "prepare": "npm run format && npm run lint",
-
     "test": "nx run-many --target=test --all",
-    "lerna:test": "lerna run test",
-
     "test:cov": "nx run-many --target=test:cov --all && node merge-coverage.js",
-    "lerna:test:cov": "lerna run test:cov && node merge-coverage.js",
-    
     "test:coverage": "jest --ci --coverage --logHeapUsage --forceExit && node coverage-transform.js",
-    
     "test:staged": "nx run-many --target=test:staged --all",
-    "lerna:test:staged": "lerna run test:staged",
-
     "test:browser": "rimraf -rf ./dist && npm run test:validate:browser && npm run test:extract-emails:browser",
     "test:certificate-model": "lerna run --scope @s1seven/schema-tools-certificate-model test",
     "test:certificate-summary": "lerna run --scope @s1seven/schema-tools-certificate-summary test",
@@ -107,10 +96,11 @@
     "karma-typescript": "^5.5.2",
     "karma-webpack": "^5.0.0",
     "lato-font": "^3.0.0",
-    "lerna": "^5.0.0",
+    "lerna": "^5.1.0-alpha.0",
     "lerna-dependency-graph": "^1.1.0",
     "lint-staged": "^12.3.4",
     "node-polyfill-webpack-plugin": "^1.1.4",
+    "nx": "14.1.9",
     "prettier": "2.5.0",
     "rimraf": "^3.0.2",
     "standard-version": "^9.3.1",
@@ -123,8 +113,7 @@
     "webpack": "^5.69.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.7.4",
-    "yargs": "^17.3.1",
-    "nx": "14.1.9"
+    "yargs": "^17.3.1"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
