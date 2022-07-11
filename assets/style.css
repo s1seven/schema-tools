@@ -1,0 +1,146 @@
+@font-face {
+  font-family: NotoSansSC;
+  src: url(./Noto_Sans_SC/NotoSansSC-Regular.otf),
+  url(./Noto_Sans_SC/NotoSansSC-Black.otf),
+  url(./Noto_Sans_SC/NotoSansSC-Bold.otf),
+  url(.Noto_Sans_SC/NotoSansSC-Light.otf),
+  url(.Noto_Sans_SC/NotoSansSC-Medium.otf),
+  url(.Noto_Sans_SC/NotoSansSC-Thin.otf);
+
+}
+
+html {
+    font-family: "NotoSansSC", sans-serif;
+    font-size: 12px;
+    text-align: justify;
+    max-width: 2480px;
+    justify-content: center;
+  }
+
+  .main-title {
+    font-size: 1.5em;
+    border-bottom: 3px solid #0c2340;
+  }
+
+  .second-level-title {
+    font-size: 1.25em;
+    border-bottom: 2px solid #0c2340;
+    padding: 0px;
+    width: 100%;
+  }
+
+  .third-level-title {
+    font-size: 1em;
+  }
+
+  .no-border {
+    border: none;
+  }
+
+  .main-table {
+    border: 0px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+    margin-top: 0px;
+    /*empty-cells: show;*/
+  }
+
+  .table-cells {
+    padding: 0.325em;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .table-rows {
+    border: 0px solid #ddd;
+    padding: 0.15em;
+    vertical-align: top;
+  }
+
+  .table-headers {
+    font-weight: lighter;
+    font-style: italic;
+    font-size: 0.75em;
+    padding: 0.325em;
+    text-align: left;
+    max-width: 40%;
+    vertical-align: top;
+  }
+
+  .second-level {
+    margin-left: 10px;
+  }
+
+  .caption {
+    font-weight: lighter;
+    font-size: 11px;
+  }
+
+  .element {
+    padding: 0.325em;
+    font-size: 12px;
+  }
+
+  em {
+    font-style: normal;
+  }
+
+  ol {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  ul li {
+    display: inline;
+  }
+
+  td{
+    font-size: 0.75em;
+  }
+
+  img {
+    max-width: 20vw;
+    padding: 0;
+  }
+
+  .ce {
+    width: 8vw;
+  }
+
+  section:not(.header) {
+    margin-top: 10px;
+  }
+
+  .ce-table-cells {
+    padding: 0.325em;
+    text-align: center;
+    vertical-align: top;
+  }
+
+  .divflex{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    align-content: space-around;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    padding-top: 2%;
+  }
+  
+.linkfooter{
+text-decoration: none;
+color: #47526C;
+/* color: lightgray; */
+}
+
+hr{
+  border: 0.5px solid #F3F1F4;
+}

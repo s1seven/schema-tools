@@ -4,11 +4,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="version" content="v1.0.0" />
-  <style rel="stylesheet" type="text/css">
-    @import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
+  <link rel='stylesheet' type='text/css' href='../../../assets/style.css'>
 
+  <!-- <style rel="stylesheet" type="text/css">
+    @import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
+    @font-face {
+      font-family: NotoSansSC;
+      src: url(../../../assets/Noto_Sans_SC/NotoSansSC-Regular.otf),
+      url(../../../assets/Noto_Sans_SC/NotoSansSC-Black.otf),
+      url(../../../assets/Noto_Sans_SC/NotoSansSC-Bold.otf),
+      url(../../../assets/Noto_Sans_SC/NotoSansSC-Light.otf),
+      url(../../../assets/Noto_Sans_SC/NotoSansSC-Medium.otf),
+      url(../../../assets/Noto_Sans_SC/NotoSansSC-Thin.otf);
+}
     html {
-      font-family: "Lato", sans-serif;
+      font-family: "NotoSansSC", sans-serif;
       font-size: 14px;
       text-align: justify;
       max-width: 2480px;
@@ -115,7 +125,7 @@
     section:not(.header) {
       margin-top: 10px;
     }
-  </style>
+  </style> -->
 </head>
 
 <body>
@@ -812,10 +822,21 @@ Form und Dimensionseigenschaften
   </section>
 
   <footer>
-    <p>
+    <!-- <p>
       <em class="caption">Powered by <a href="https://s1seven.com">s1seven.com</a></em>
       <em style="color: lightgray; margin-left: 35%" class="caption">https://schemas.s1seven.com/en10168-schemas/v0.2.0/schema.json</em>
       <br>
+    </p> -->
+    <div class="divflex">
+      <em class='caption'>Powered by <a href='https://s1seven.com' class="linkfooter">S1SEVEN</a></em> <br />
+      <!-- <em style='color: lightgray;' class='caption'>https://schemas.s1seven.com/coa-schemas/v0.2.0/schema.json</em> -->
+      <em class='caption'><a href='https://schemas.s1seven.com/en10168-schemas/v0.2.0/schema.json' class="linkfooter">EN10168 schemas</a></em>
+      <em class='caption'><a href='verification.s1seven.com' class="linkfooter">Verification service</a></em>
+      <em class='caption'><a href='verification.s1seven.com' class="linkfooter">Certificates of Analysis</a></em>
+    </div>
+    <hr class="pb-2">
+    <p>
+      <em style="color:#BFC1CA; float: right;" class="caption">This is a computer-generated document. No signature is required.</em>
     </p>
   </footer>
 </body>
