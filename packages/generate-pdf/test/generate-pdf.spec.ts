@@ -68,6 +68,17 @@ describe('GeneratePDF', function () {
       validCertificate: require('../../../fixtures/EN10168/v0.2.0/valid_cert.json'),
       docDefinition,
     },
+    // {
+    //   type: SupportedSchemas.EN10168,
+    //   version: 'v0.3.0',
+    //   generatorPath: path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`),
+    //   styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
+    //   translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.3.0/translations.json`),
+    //   certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.3.0/template_hbs.html`),
+    //   expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.3.0/valid_cert.pdf`),
+    //   validCertificate: require('../../../fixtures/EN10168/v0.3.0/valid_cert.json'),
+    //   docDefinition,
+    // },
     {
       type: SupportedSchemas.COA,
       version: 'v0.0.4',
