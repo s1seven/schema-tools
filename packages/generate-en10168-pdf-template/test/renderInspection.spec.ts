@@ -279,6 +279,105 @@ describe('Rendering inspection section', () => {
     });
   });
 
+  it('correctly renders HardnessTest when SupplementaryInformation is not present', () => {
+    const i18n = getI18N(translations, ['EN', 'DE']);
+    const HardnessTest = {
+      C30: 'Method',
+      C31: [
+        {
+          Value: 5,
+          Unit: 'm',
+          Property: 'Height',
+        },
+        {
+          Value: 1,
+          Unit: 'm',
+          Property: 'Width',
+        },
+        {
+          Value: 200,
+          Unit: 'kg',
+          Property: 'Mass',
+        },
+      ],
+      C32: {
+        Value: 200,
+        Unit: 'mm',
+        Property: 'Length',
+      },
+    };
+    //
+    const hardnessTest = renderHardnessTest(HardnessTest, i18n);
+    expect(hardnessTest[3].table).toEqual({
+      body: [
+        [
+          {
+            colSpan: 4,
+            text: '',
+          },
+          {},
+          {},
+          {},
+        ],
+      ],
+      widths: [160, '*', 160, 130],
+    });
+    expect(hardnessTest[2].table).toEqual({
+      body: [
+        [
+          {
+            style: 'tableHeader',
+            text: 'C30 Method of test / Prüfverfahren',
+          },
+          {},
+          {},
+          {
+            style: 'p',
+            text: 'Method',
+          },
+        ],
+        [
+          {
+            style: 'tableHeader',
+            text: 'C31 Individual values / Einzelwerte',
+          },
+          {},
+          {},
+          {
+            style: 'p',
+            text: '5, 1, 200 m',
+          },
+        ],
+        [
+          {
+            style: 'tableHeader',
+            text: 'C32 Mean value / Mittelwert Length',
+          },
+          {},
+          {},
+          {
+            alignment: 'justify',
+            columns: [
+              {
+                style: 'p',
+                text: '200 mm',
+              },
+              {
+                style: 'p',
+                text: '',
+              },
+              {
+                style: 'p',
+                text: '',
+              },
+            ],
+          },
+        ],
+      ],
+      widths: [160, '*', '*', 300],
+    });
+  });
+
   it('correctly renders NotchedBarImpact', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
     const notchedBarImpactTest = renderNotchedBarImpactTest(
