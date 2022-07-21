@@ -10,12 +10,34 @@ import {
   IsString,
   IsUrl,
   IsUUID,
+  registerDecorator,
   ValidateIf,
   ValidateNested,
+  ValidationOptions,
 } from 'class-validator';
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export { JSONSchema7, JSONSchema7Definition } from 'json-schema';
 import { Type } from 'class-transformer';
+
+export function isNotEmptyArrayOrObject(validationOptions?: ValidationOptions) {
+  return function (object: EN10168SchemaCertificate, propertyName: string) {
+    registerDecorator({
+      name: 'isNotEmptyArrayOrObject',
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      validator: {
+        validate(value: unknown) {
+          return (
+            (Array.isArray(value) && value.length > 0) || (typeof value === 'object' && Object.keys(value)?.length > 0)
+          );
+        },
+        defaultMessage: () => {
+          return 'Inspection must be a non-empty array or object';
+        },
+      },
+    });
+  };
+}
 
 export interface ValidationError {
   root: string;
@@ -127,8 +149,8 @@ export class EN10168SchemaCertificate {
   @IsNotEmptyObject()
   ProductDescription: Record<string, any>;
 
-  @IsNotEmptyObject()
-  Inspection: Record<string, any>;
+  @isNotEmptyArrayOrObject()
+  Inspection: Record<string, any> | Record<string, any>[];
 
   @IsOptional()
   @IsNotEmptyObject()

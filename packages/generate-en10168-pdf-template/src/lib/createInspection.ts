@@ -22,6 +22,24 @@ import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
 
 export function createInspection(inspection: Inspection, i18n: I18N): (TableElement | ContentText | ContentCanvas)[] {
+  const inspections: (TableElement | ContentText | ContentCanvas)[] = [];
+  if (Array.isArray(inspection)) {
+    inspection.forEach((inspectionObject) => {
+      const inspectionContent = createInspectionFromInspectionObject(inspectionObject, i18n);
+      inspections.push(...inspectionContent);
+    });
+  } else {
+    const inspectionContent = createInspectionFromInspectionObject(inspection, i18n);
+    inspections.push(...inspectionContent);
+  }
+
+  return inspections;
+}
+
+export function createInspectionFromInspectionObject(
+  inspection: Inspection,
+  i18n: I18N,
+): (TableElement | ContentText | ContentCanvas)[] {
   const contentToRender = ['C00', 'C01', 'C02', 'C03'];
   const content = Object.keys(inspection)
     .filter((element) => contentToRender.includes(element) && inspection[element])
