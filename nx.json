@@ -4,7 +4,7 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "compile", "test", "lint", "package", "prepare"]
+        "cacheableOperations": ["bootstrap", "build", "compile", "test", "lint", "package", "prepare"]
       }
     }
   },
