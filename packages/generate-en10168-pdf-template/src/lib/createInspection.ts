@@ -121,7 +121,7 @@ export function renderTensileTest(
     });
   const suppInformation = tensileTest.SupplementaryInformation
     ? supplementaryInformation(tensileTest.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
-    : [];
+    : [[{ text: '', colSpan: 4 }, {}, {}, {}]];
 
   return [
     { text: i18n.translate('TensileTest', 'otherFields'), style: 'h4' },
@@ -163,7 +163,7 @@ export function renderHardnessTest(
   const C32 = hardnessTest.C32 ? renderMeasurement(hardnessTest.C32, 'C32', i18n) : [];
   const suppInformation = hardnessTest.SupplementaryInformation
     ? supplementaryInformation(hardnessTest.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
-    : [];
+    : [[{ text: '', colSpan: 4 }, {}, {}, {}]];
 
   return [
     { text: i18n.translate('HardnessTest', 'otherFields'), style: 'h4' },
@@ -205,7 +205,7 @@ export function renderNotchedBarImpactTest(
 
   const suppInformation = notchedBarImpactTest.SupplementaryInformation
     ? supplementaryInformation(notchedBarImpactTest.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
-    : [];
+    : [[{ text: '', colSpan: 4 }, {}, {}, {}]];
 
   return [
     { text: i18n.translate('NotchedBarImpactTest', 'otherFields'), style: 'h4' },
