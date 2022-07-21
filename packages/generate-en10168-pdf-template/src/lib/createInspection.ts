@@ -13,6 +13,7 @@ import {
   HardnessTest,
   I18N,
   Inspection,
+  InspectionUnionType,
   NotchedBarImpactTest,
   OtherMechanicalTests,
   TensileTest,
@@ -21,8 +22,8 @@ import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
 
-export function createInspection(inspection: Inspection, i18n: I18N): (TableElement | ContentText | ContentCanvas)[] {
-  const inspections: (TableElement | ContentText | ContentCanvas)[] = [];
+export function createInspection(inspection: Inspection, i18n: I18N): InspectionUnionType {
+  const inspections: InspectionUnionType = [];
   if (Array.isArray(inspection)) {
     inspection.forEach((inspectionObject) => {
       const inspectionContent = createInspectionFromInspectionObject(inspectionObject, i18n);
@@ -36,10 +37,7 @@ export function createInspection(inspection: Inspection, i18n: I18N): (TableElem
   return inspections;
 }
 
-export function createInspectionFromInspectionObject(
-  inspection: Inspection,
-  i18n: I18N,
-): (TableElement | ContentText | ContentCanvas)[] {
+export function createInspectionFromInspectionObject(inspection: Inspection, i18n: I18N): InspectionUnionType {
   const contentToRender = ['C00', 'C01', 'C02', 'C03'];
   const content = Object.keys(inspection)
     .filter((element) => contentToRender.includes(element) && inspection[element])
