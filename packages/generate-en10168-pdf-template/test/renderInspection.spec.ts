@@ -2,6 +2,7 @@
 import { TableElement } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
 import {
+  createInspection,
   renderChemicalComposition,
   renderHardnessTest,
   renderNotchedBarImpactTest,
@@ -153,6 +154,85 @@ describe('Rendering inspection section', () => {
       ],
       widths: [160, '*', '*', 300],
     });
+  });
+
+  it('correctly renders inpection object passed in an array', () => {
+    const i18n = getI18N(translations, ['EN', 'DE']);
+    const inspectionArray = [
+      {
+        C00: 'Charge Chemical Analysis',
+        ChemicalComposition: {
+          C70: 'Y',
+          C71: {
+            Actual: 0.15,
+            Symbol: 'C',
+          },
+          C72: {
+            Actual: 0.005,
+            Symbol: 'Si',
+          },
+          C73: {
+            Actual: 1,
+            Symbol: 'Mn',
+          },
+          C74: {
+            Actual: 0.014,
+            Symbol: 'P',
+          },
+          C75: {
+            Actual: 0.007,
+            Symbol: 'S',
+          },
+          C76: {
+            Actual: 0.041,
+            Symbol: 'Al',
+          },
+          C77: {
+            Actual: 0.02,
+            Symbol: 'Cr',
+          },
+          C78: {
+            Actual: 0.009,
+            Symbol: 'Ni',
+          },
+          C79: {
+            Actual: 0.002,
+            Symbol: 'Mo',
+          },
+          C80: {
+            Actual: 0.01,
+            Symbol: 'Cu',
+          },
+          C81: {
+            Actual: 0.002,
+            Symbol: 'V',
+          },
+          C82: {
+            Actual: 0.001,
+            Symbol: 'Ti',
+          },
+          C85: {
+            Actual: 0.0047,
+            Symbol: 'N',
+          },
+          C86: {
+            Actual: 0.00001,
+            Symbol: 'B',
+          },
+          C92: {
+            Actual: 0.3227,
+            Symbol: 'CEV',
+          },
+        },
+      },
+    ];
+    const inspectionContent = createInspection(inspectionArray as any, i18n);
+    expect(inspectionContent[0]).toEqual({
+      text: 'Inspection / Angaben zur Probenentnahme und Prüfung',
+      style: 'h2',
+      margin: [0, 0, 0, 4],
+    });
+    expect(inspectionContent[1]).toEqual({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] });
   });
 
   it('correctly renders HardnessTest', () => {
