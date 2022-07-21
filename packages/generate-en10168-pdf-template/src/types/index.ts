@@ -1,7 +1,6 @@
 import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
 
-import { TableElement } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { TableElement, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
 import { EN10168Translations } from './translations';
 
