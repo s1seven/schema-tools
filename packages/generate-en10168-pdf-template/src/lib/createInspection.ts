@@ -54,7 +54,7 @@ export function createInspectionFromInspectionObject(inspection: Inspection, i18
 
   const suppInformation = inspection.SupplementaryInformation
     ? supplementaryInformation(inspection.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
-    : createEmptyColumns(PRODUCT_DESCRIPTION_COLUMNS_COUNT);
+    : [];
 
   const tensileTest = inspection.TensileTest ? renderTensileTest(inspection.TensileTest, i18n) : [];
   const hardnessTest = inspection.HardnessTest ? renderHardnessTest(inspection.HardnessTest, i18n) : [];
@@ -81,14 +81,16 @@ export function createInspectionFromInspectionObject(inspection: Inspection, i18
       },
       layout: tableLayout,
     },
-    {
-      style: 'table',
-      table: {
-        widths: [160, '*', 160, 130],
-        body: suppInformation,
-      },
-      layout: tableLayout,
-    },
+    suppInformation.length > 0
+      ? {
+          style: 'table',
+          table: {
+            widths: [160, '*', 160, 130],
+            body: suppInformation,
+          },
+          layout: tableLayout,
+        }
+      : {},
     ...tensileTest,
     ...hardnessTest,
     ...notchedBarImpactTest,
