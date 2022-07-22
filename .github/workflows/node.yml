@@ -29,8 +29,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NX_CLOUD_DISTRIBUTED_EXECUTION: true
-  NX_DISTRIBUTED_TASK_EXECUTION: true
+  NX_CLOUD_DISTRIBUTED_EXECUTION: false
+  NX_DISTRIBUTED_TASK_EXECUTION: false
 
 jobs:
   setup-and-test:
@@ -43,24 +43,24 @@ jobs:
 
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
       - name: Cache Node.js modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-node-
-            ${{ runner.OS }}-
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.OS }}-node--${{ matrix.node-version }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.OS }}-node-${{ matrix.node-version }}-npm
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         id: set-sha
@@ -93,7 +93,7 @@ jobs:
           CI: true
 
       - name: Upload coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage
@@ -104,10 +104,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Retrieve coverage
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: coverage
           path: ./coverage
