@@ -2,18 +2,33 @@
   "extends": "nx/presets/npm.json",
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx/tasks-runners/default",
+      "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["bootstrap", "build", "test", "lint", "package", "prepare"]
+        "cacheableOperations": [
+          "build",
+          "clean",
+          "cleanup",
+          "compile:node",
+          "compile:browser",
+          "compile",
+          "lint",
+          "prepublishOnly",
+          "test",
+          "test:cov",
+          "test:staged",
+          "scan:deps",
+          "test:browser"
+        ],
+        "accessToken": "YmViZWE0NjUtYjAzYi00NjUzLTk0YzctNDNkMzllMTk1NTgyfHJlYWQtd3JpdGU="
       }
+    }
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
     }
   },
   "affected": {
     "defaultBase": "main"
-  },
-  "pluginsConfig": {
-    "@nrwl/js": {
-      "analyzeSourceFiles": false
-    }
   }
 }

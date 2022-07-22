@@ -6,6 +6,7 @@ on:
       - 'README.md'
       - 'renovate.json'
       - '**/package-lock.json'
+      - 'utils/**'
     branches:
       - main
   pull_request:
@@ -19,8 +20,17 @@ on:
       - 'renovate.json'
       - 'openapi.json'
       - '**/package-lock.json'
+      - 'utils/**'
     branches:
       - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NX_CLOUD_DISTRIBUTED_EXECUTION: false
+  NX_DISTRIBUTED_TASK_EXECUTION: false
 
 jobs:
   setup-and-test:
@@ -33,24 +43,28 @@ jobs:
 
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
       - name: Cache Node.js modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-node-
-            ${{ runner.OS }}-
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.OS }}-node--${{ matrix.node-version }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.OS }}-node-${{ matrix.node-version }}-npm
+
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        id: set-sha
+        uses: nrwl/nx-set-shas@v2
 
       - name: Install GraphicsMagick
         run: sudo apt-get install -y ghostscript graphicsmagick
@@ -62,25 +76,24 @@ jobs:
       #   run: npm run scan:deps
 
       - name: Build packages
-        run: npm run build
+        run: npm run build:affected
 
       - name: Add, commit and push changes to dist/generateContents.js
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: 'chore: update minified generateContents.js [ci]'
+          commit_message: 'chore: update minified generateContents.js [skip ci]'
           file_pattern: packages/generate-coa-pdf-template/dist/generateContent.js packages/generate-en10168-pdf-template/dist/generateContent.js
 
-      # TODO: only run tests on changed code
       - name: Run Karma tests
-        run: npm run test:browser
+        run: npm run test:browser:affected
 
       - name: Run Jest tests
-        run: npm run test:cov
+        run: npm run test:cov:affected
         env:
           CI: true
 
       - name: Upload coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage
@@ -91,12 +104,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v3
 
       - name: Retrieve coverage
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: coverage
           path: ./coverage
