@@ -13,6 +13,7 @@ import {
   registerDecorator,
   ValidateIf,
   ValidateNested,
+  ValidationArguments,
   ValidationOptions,
 } from 'class-validator';
 export { JSONSchema7, JSONSchema7Definition } from 'json-schema';
@@ -31,8 +32,10 @@ export function isNotEmptyArrayOrObject(validationOptions?: ValidationOptions) {
             (Array.isArray(value) && value.length > 0) || (typeof value === 'object' && Object.keys(value)?.length > 0)
           );
         },
-        defaultMessage: () => {
-          return 'Inspection must be a non-empty array or object';
+        defaultMessage(args: ValidationArguments) {
+          return validationOptions?.each
+            ? `each value in ${args.property} must be a non-empty array or object`
+            : `${args.property}  must be a non-empty array or object`;
         },
       },
     });
@@ -149,6 +152,7 @@ export class EN10168SchemaCertificate {
   @IsNotEmptyObject()
   ProductDescription: Record<string, any>;
 
+  @IsOptional()
   @isNotEmptyArrayOrObject()
   Inspection: Record<string, any> | Record<string, any>[];
 
