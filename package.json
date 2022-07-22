@@ -25,7 +25,7 @@
     "bootstrap": "npm install lerna && lerna bootstrap && npm install",
     "format": "prettier --write \"packages/**/*.{ts,json}\"",
     "reset": "npm run cleanup && rimraf -rf node_modules && npm run bootstrap",
-    "build": "npm run cleanup && lerna run compile",
+    "build": "lerna run compile",
     "cleanup": "lerna run cleanup --stream --parallel",
     "lint": "lerna run lint",
     "lint:staged": "npx lint-staged",
