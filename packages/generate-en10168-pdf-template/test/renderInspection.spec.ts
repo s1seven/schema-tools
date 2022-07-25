@@ -458,6 +458,17 @@ describe('Rendering inspection section', () => {
     });
   });
 
+  it('correctly handles inspection being undefined', () => {
+    const i18n = getI18N(translations, ['EN', 'DE']);
+    //
+    const inspectionRender = createInspection(undefined, i18n);
+    expect(inspectionRender[0]).toHaveProperty('style', 'table');
+    expect(inspectionRender[0]).toHaveProperty('id', 'Inspection');
+    expect(inspectionRender[0]).toHaveProperty('table');
+    expect(inspectionRender[0]).toHaveProperty('layout');
+    expect(inspectionRender.length).toBe(1);
+  });
+
   it('correctly renders NotchedBarImpact', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
     const notchedBarImpactTest = renderNotchedBarImpactTest(
