@@ -361,50 +361,55 @@
     {{> inspection Inspection=this CertificateLanguages=../Certificate.CertificateLanguages }}
     {{/each}}
     {{else}}
-    {{> inspection Inspection=Certificate.Inspection CertificateLanguages=Certificate.CertificateLanguages }}
-
+    {{#if Certificate.Inspection}}
+      {{> inspection Inspection=Certificate.Inspection CertificateLanguages=Certificate.CertificateLanguages }}
+    {{/if}}
     {{/if}}
   </section>
 
-  <section>
-    <h2 class="main-title">{{ i18n "OtherTests" "certificateGroups" Certificate.CertificateLanguages}}</h2>
-    {{#each Certificate.OtherTests}}
-    {{!-- OtherTests-> NonDestructiveTests, OtherProductTests --}}
-    {{#typeOf this 'object'}}
-    <h3 class="second-level-title">
-      {{ i18n @key "otherFields" ../Certificate.CertificateLanguages }}
-    </h3>
-    <table class="main-table">
-      <tbody>
-        {{#each this}}
-        <tr class="table-rows">
-          <th class="table-headers" colspan="2">{{@key}} {{this.Key}}</th>
-          <td class="table-cells">{{ localizeValue this.Value this.Type ../../Certificate.CertificateLanguages.[0] }}
-            {{this.Unit}}
-          </td>
-          <td class="table-cells">{{this.Interpretation}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-    {{!-- OtherTests-> D01 --}}
-    {{else}}
-    {{#if this}}
-    <table class="main-table">
-      <tbody>
-        <tr class="table-rows">
-          <th class="table-headers" colspan="2">{{@key}}
-            {{ i18n @key "certificateFields" ../Certificate.CertificateLanguages }}
-          </th>
-          <td class="table-cells">{{this}}</td>
-          <td class="table-cells"></td>
-        </tr>
-      </tbody>
-    </table>
-    {{/if}}
-    {{/typeOf}}
-    {{/each}}
-  </section>
+  {{#if Certificate.OtherTests}}
+    <section>
+      <h2 class="main-title">{{ i18n "OtherTests" "certificateGroups" Certificate.CertificateLanguages}}</h2>
+      {{#each Certificate.OtherTests}}
+      {{!-- OtherTests-> NonDestructiveTests, OtherProductTests --}}
+      {{#typeOf this 'object'}}
+      <h3 class="second-level-title">
+        {{ i18n @key "otherFields" ../Certificate.CertificateLanguages }}
+      </h3>
+      <table class="main-table">
+        <tbody>
+          {{#each this}}
+          <tr class="table-rows">
+            <th class="table-headers" colspan="2">{{@key}} {{this.Key}}</th>
+            <td class="table-cells">{{ localizeValue this.Value this.Type ../../Certificate.CertificateLanguages.[0] }}
+              {{this.Unit}}
+            </td>
+            <td class="table-cells">{{this.Interpretation}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      {{!-- OtherTests-> D01 --}}
+      {{else}}
+      {{#if this}}
+      <table class="main-table">
+        <tbody>
+          <tr class="table-rows">
+            <th class="table-headers" colspan="2">{{@key}}
+              {{ i18n @key "certificateFields" ../Certificate.CertificateLanguages }}
+            </th>
+            <td class="table-cells">{{this}}</td>
+            <td class="table-cells"></td>
+          </tr>
+        </tbody>
+      </table>
+      {{/if}}
+      {{/typeOf}}
+      {{/each}}
+    </section>
+  {{/if}}
+
+  {{!-- PRODUCT --}}
 
   {{!-- VALIDATION --}}
 
