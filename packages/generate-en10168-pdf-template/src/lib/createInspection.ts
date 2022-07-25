@@ -22,7 +22,21 @@ import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
 
-export function createInspection(inspection: Inspection, i18n: I18N): InspectionUnionType {
+export function createInspection(inspection: Inspection | undefined, i18n: I18N): InspectionUnionType {
+  if (!inspection) {
+    return [
+      {
+        style: 'table',
+        id: 'Inspection',
+        table: {
+          widths: [160, '*', '*', 300],
+          body: [createEmptyColumns(PRODUCT_DESCRIPTION_COLUMNS_COUNT)],
+        },
+        layout: tableLayout,
+      },
+    ];
+  }
+
   const inspections: InspectionUnionType = [];
   if (Array.isArray(inspection)) {
     inspection.forEach((inspectionObject) => {
