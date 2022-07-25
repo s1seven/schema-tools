@@ -8,7 +8,7 @@ import { Writable } from 'stream';
 
 import { EN10168Schema, Schemas, SupportedSchemas } from '@s1seven/schema-tools-types';
 
-import { buildModule, generateInSandbox, generatePdf } from '../src/index';
+import { buildModule, generateInSandbox, generatePdf, GeneratePdfOptionsExtended } from '../src/index';
 
 describe('GeneratePDF', function () {
   const fonts = {
@@ -34,7 +34,7 @@ describe('GeneratePDF', function () {
     },
   };
 
-  //! only include local generator path for latest version
+  //! only include local generator path and localOnly for latest version
   const testMaps: {
     type: SupportedSchemas;
     version: string;
@@ -46,6 +46,7 @@ describe('GeneratePDF', function () {
     expectedPdfPath: string;
     validCertificate: Schemas;
     docDefinition: Partial<TDocumentDefinitions>;
+    localOnly?: boolean;
   }[] = [
     {
       type: SupportedSchemas.EN10168,
@@ -60,7 +61,6 @@ describe('GeneratePDF', function () {
     {
       type: SupportedSchemas.EN10168,
       version: 'v0.2.0',
-      generatorPath: path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`),
       styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
       translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.2.0/translations.json`),
       certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.2.0/template_hbs.html`),
@@ -68,17 +68,18 @@ describe('GeneratePDF', function () {
       validCertificate: require('../../../fixtures/EN10168/v0.2.0/valid_cert.json'),
       docDefinition,
     },
-    // {
-    //   type: SupportedSchemas.EN10168,
-    //   version: 'v0.3.0',
-    //   generatorPath: path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`),
-    //   styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
-    //   translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.3.0/translations.json`),
-    //   certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.3.0/template_hbs.html`),
-    //   expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.3.0/valid_cert.pdf`),
-    //   validCertificate: require('../../../fixtures/EN10168/v0.3.0/valid_cert.json'),
-    //   docDefinition,
-    // },
+    {
+      type: SupportedSchemas.EN10168,
+      version: 'v0.3.0',
+      generatorPath: path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`),
+      styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
+      translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.3.0/translations.json`),
+      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.3.0/template_hbs.html`),
+      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.3.0/valid_cert.pdf`),
+      validCertificate: require('../../../fixtures/EN10168/v0.3.0/valid_cert.json'),
+      docDefinition,
+      localOnly: true,
+    },
     {
       type: SupportedSchemas.COA,
       version: 'v0.0.4',
@@ -155,16 +156,27 @@ describe('GeneratePDF', function () {
       type,
       validCertificate,
       version,
+      localOnly,
     } = testSuite;
 
     describe(`${type} - version ${version}`, () => {
       it('should render PDF certificate using certificate object and remote PDF generator script', async () => {
         const outputFilePath = `./${type}-${version}-test.pdf`;
+        const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
+        const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = localOnly
+          ? {
+              docDefinition: { ...docDefinition, styles },
+              outputType: 'stream',
+              fonts,
+              generatorPath,
+              translations,
+            }
+          : {
+              outputType: 'stream',
+              fonts,
+            };
         //
-        const pdfDoc = await generatePdf(validCertificate, {
-          outputType: 'stream',
-          fonts,
-        });
+        const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
         const writeStream = createWriteStream(outputFilePath);
         pdfDoc.pipe(writeStream);
         pdfDoc.end();
@@ -173,16 +185,26 @@ describe('GeneratePDF', function () {
 
       it('should render PDF certificate using certificate object and local PDF generator script', async () => {
         const outputFilePath = `./${type}-${version}-test2.pdf`;
+        const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
         if (!generatorPath) {
           return;
         }
+        const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = localOnly
+          ? {
+              docDefinition: { ...docDefinition, styles },
+              outputType: 'stream',
+              fonts,
+              generatorPath,
+              translations,
+            }
+          : {
+              docDefinition,
+              outputType: 'stream',
+              fonts,
+              generatorPath,
+            };
         //
-        const pdfDoc = await generatePdf(validCertificate, {
-          docDefinition,
-          outputType: 'stream',
-          fonts,
-          generatorPath,
-        });
+        const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
         const writeStream = createWriteStream(outputFilePath);
         pdfDoc.pipe(writeStream);
         pdfDoc.end();
