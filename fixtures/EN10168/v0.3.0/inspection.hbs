@@ -1,0 +1,329 @@
+<h2 class="main-title"> {{ i18n "Inspection" "certificateGroups" CertificateLanguages}}</h2>
+{{#each Inspection}}
+{{#typeOf this 'object'}}
+{{#ifEqual @key "ChemicalComposition"}}
+<h3 class="second-level-title">{{ i18n @key "otherFields" ../CertificateLanguages }}</h3>
+{{#ifEqual @key "C70"}}
+<table class="main-table" style="margin-top: 0px">
+  <tbody>
+    <tr class="table-rows">
+      <th class="table-headers">{{@key}} {{ i18n @key "certificateFields" ../../CertificateLanguages }}
+      </th>
+      <td class="table-cells">{{this}}</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+{{/ifEqual}}
+{{#ifEqual @key "SupplementaryInformation"}}
+<h3 class="third-level-title">
+  {{ i18n "SupplementaryInformation" "otherFields" ../../CertificateLanguages }}</h3>
+<table class="main-table">
+  <tbody>
+    {{#each this}}
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}} {{this.Key}}</th>
+      <td class="table-cells">{{localizeValue this.Value this.Type
+        ../../CertificateLanguages.[0]}}
+        {{this.Unit}}
+      </td>
+      <td class="table-cells">{{this.Interpretation}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{/ifEqual}}
+{{#each (chunk this 15 "SupplementaryInformation, C70" 1)}}
+<table class="main-table" style="justify-content: left; text-align: left; margin-top: 0px">
+  <tbody>
+    <tr class="table-rows">
+      <th style="width: 80px"></th>
+      {{#each this}}
+      <th class="element" style="width: 60px; float: left">{{this.key}}</th>
+      {{/each}}
+    </tr>
+    <tr class="table-rows">
+      <th style="width: 80px">Symbol</th>
+      {{#each this}}
+      <th class="element" style="width: 60px; float: left">{{this.value.Symbol}}</th>
+      {{/each}}
+    </tr>
+    <tr class="table-rows">
+      <th style="width: 80px">Actual [%]</th>
+      {{#each this}}
+      <th class="element" style="width: 60px; float: left">
+        {{localizeNumber this.value.Actual ../../CertificateLanguages.[0]}}
+      </th>
+      {{/each}}
+    </tr>
+    {{#some this "value.Minimum"}}
+    <tr class="table-rows">
+      <th style="width: 80px">Minimum</th>
+      {{#each this}}
+      <th class="element" style="width: 60px; float: left">
+        {{#if this.value.Minimum}}
+        {{localizeNumber this.value.Minimum ../../CertificateLanguages.[0]}}
+        {{/if}}
+      </th>
+      {{/each}}
+    </tr>
+    {{/some}}
+    {{#some this "value.Maximum"}}
+    <tr class="table-rows">
+      <th style="width: 80px">Maximum</th>
+      {{#each this}}
+      <th class="element" style="width: 60px; float: left">
+        {{#if this.value.Maximum}}
+        {{localizeNumber this.value.Maximum ../../CertificateLanguages.[0]}}
+        {{/if}}
+      </th>
+      {{/each}}
+    </tr>
+    {{/some}}
+  </tbody>
+</table>
+<br>
+{{/each}}
+{{/ifEqual}}
+{{!-- HardnessTest--}}
+{{#ifEqual @key "HardnessTest"}}
+<h3 class="second-level-title">{{ i18n @key "otherFields" ../CertificateLanguages }}</h3>
+{{#each this}}
+{{#ifEqual @key "SupplementaryInformation"}}
+<table class="main-table">
+  <tbody>
+    <h3 class="third-level-title">
+      {{ i18n @key "otherFields" ../../CertificateLanguages }}</h3>
+    {{#each this}}
+    {{!-- KeyValueObject --}}
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}} {{this.Key}}</th>
+      <td class="table-cells">{{ localizeValue this.Value this.Type
+        ../../CertificateLanguages.[0]
+        }}
+        {{this.Unit}}
+      </td>
+      <td class="table-cells">{{this.Interpretation}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{else}}
+{{#ifEqual @key "C30"}}
+<table class="main-table" style="margin-top: 0px">
+  <tbody>
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}}
+        {{ i18n @key "certificateFields" ../../CertificateLanguages }}
+      </th>
+      <td class="table-cells" colspan="2">{{this}}</td>
+    </tr>
+  </tbody>
+</table>
+{{else}}
+{{#ifEqual @key "C31"}}
+<table class="main-table" style="margin-top: 0px">
+  <tbody>
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}}
+        {{ i18n @key "certificateFields" ../../CertificateLanguages }}
+      </th>
+      <td class="table-cells" colspan="2">
+        {{ joinAndLocalizeNumber this ", " ../../CertificateLanguages.[0] "Value" }} {{
+        this.[0].Unit
+        }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+{{else}}
+<table class="main-table" style="margin-top: 0px">
+  <tbody>
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}}
+        {{ i18n @key "certificateFields" ../../CertificateLanguages }}
+      </th>
+      <td class="table-cells">
+        {{ localizeNumber this.Value ../../CertificateLanguages.[0] }} {{this.Unit}}
+      </td>
+      <td class="table-cells">
+        {{#if this.Minimum}}
+        min {{localizeNumber this.Minimum ../../CertificateLanguages.[0]}} {{this.Unit}}
+        {{/if}}
+        {{#if this.Maximum}}
+        max {{localizeNumber this.Maximum ../../CertificateLanguages.[0]}} {{this.Unit}}
+        {{/if}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+{{/ifEqual}}
+{{/ifEqual}}
+{{/ifEqual}}
+{{/each}}
+{{/ifEqual}}
+{{#ifEqual @key "TensileTest"}}
+<h3 class="second-level-title">{{ i18n @key "otherFields" ../CertificateLanguages }}</h3>
+{{#each this}}
+{{#ifEqual @key "SupplementaryInformation"}}
+<table class="main-table">
+  <tbody>
+    <h3 class="third-level-title">
+      {{ i18n @key "otherFields" ../../CertificateLanguages }}</h3>
+    {{#each this}}
+    {{!-- KeyValueObject --}}
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}} {{this.Key}}</th>
+      <td class="table-cells">{{ localizeValue this.Value this.Type
+        ../../CertificateLanguages.[0]
+        }}
+        {{this.Unit}}
+      </td>
+      <td class="table-cells">{{this.Interpretation}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{else}}
+{{#ifEqual @key "C10"}}
+<table class="main-table" style="margin-top: 0px">
+  <tbody>
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}}
+        {{ i18n @key "certificateFields" ../../CertificateLanguages }}
+      </th>
+      <td class="table-cells" colspan="2">{{this}}</td>
+    </tr>
+  </tbody>
+</table>
+{{else}}
+<table class="main-table" style="margin-top: 0px">
+  <tbody>
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}}
+        {{ i18n @key "certificateFields" ../../CertificateLanguages }}
+      </th>
+      <td class="table-cells">
+        {{ localizeNumber this.Value ../../CertificateLanguages.[0] }} {{this.Unit}}
+      </td>
+      <td class="table-cells">
+        {{#if this.Minimum}}
+        min {{localizeNumber this.Minimum ../../CertificateLanguages.[0]}} {{this.Unit}}
+        {{/if}}
+        {{#if this.Maximum}}
+        max {{localizeNumber this.Maximum ../../CertificateLanguages.[0]}} {{this.Unit}}
+        {{/if}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+{{/ifEqual}}
+{{/ifEqual}}
+{{/each}}
+{{/ifEqual}}
+{{#ifEqual @key "NotchedBarImpactTest"}}
+<h3 class="second-level-title">{{ i18n @key "otherFields" ../CertificateLanguages }}</h3>
+{{#each this}}
+{{#ifEqual @key "SupplementaryInformation"}}
+<table class="main-table">
+  <tbody>
+    <h3 class="third-level-title">
+      {{ i18n @key "otherFields" ../../CertificateLanguages }}</h3>
+    {{#each this}}
+    {{!-- KeyValueObject --}}
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}} {{this.Key}}</th>
+      <td class="table-cells">{{ localizeValue this.Value this.Type
+        ../../CertificateLanguages.[0]
+        }}
+        {{this.Unit}}
+      </td>
+      <td class="table-cells">{{this.Interpretation}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{else}}
+{{#ifEqual @key "C40"}}
+<table class="main-table" style="margin-top: 0px">
+  <tbody>
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}}
+        {{ i18n @key "certificateFields" ../../CertificateLanguages }}
+      </th>
+      <td class="table-cells" colspan="2">{{this}}</td>
+    </tr>
+  </tbody>
+</table>
+{{else}}
+{{#ifEqual @key "C42"}}
+<table class="main-table" style="margin-top: 0px">
+  <tbody>
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}}
+        {{ i18n @key "certificateFields" ../../CertificateLanguages }}
+      </th>
+      <td class="table-cells" colspan="2">
+        {{ joinAndLocalizeNumber this ", " ../../CertificateLanguages.[0] "Value" }} {{
+        this.[0].Unit
+        }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+{{else}}
+<table class="main-table" style="margin-top: 0px">
+  <tbody>
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}}
+        {{ i18n @key "certificateFields" ../../CertificateLanguages }}
+      </th>
+      <td class="table-cells">
+        {{ localizeNumber this.Value ../../CertificateLanguages.[0] }} {{this.Unit}}
+      </td>
+      <td class="table-cells">
+        {{#if this.Minimum}}
+        min {{localizeNumber this.Minimum ../../CertificateLanguages.[0]}} {{this.Unit}}
+        {{/if}}
+        {{#if this.Maximum}}
+        max {{localizeNumber this.Maximum ../../CertificateLanguages.[0]}} {{this.Unit}}
+        {{/if}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+{{/ifEqual}}
+{{/ifEqual}}
+{{/ifEqual}}
+{{/each}}
+{{/ifEqual}}
+{{#ifEqual @key "OtherMechanicalTests"}}
+<table class="main-table">
+  <tbody>
+    {{#each this}}
+    {{!-- KeyValueObject --}}
+    <tr class="table-rows">
+      <th class="table-headers" colspan="2">{{@key}} {{this.Key}}</th>
+      <td class="table-cells">{{ localizeValue this.Value this.Type ../../CertificateLanguages.[0]
+        }}
+        {{this.Unit}}
+      </td>
+      <td class="table-cells">{{this.Interpretation}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{/ifEqual}}
+{{else}}
+{{!-- C00, C01, C02, C03--}}
+<table class="main-table">
+  <tbody>
+    <tr class="table-rows">
+      <th class="table-headers">{{@key}} {{ i18n @key "certificateFields" ../CertificateLanguages }}
+      </th>
+      <td class="table-cells">{{this}}</td>
+    </tr>
+  </tbody>
+</table>
+{{/typeOf}}
+{{/each}}
