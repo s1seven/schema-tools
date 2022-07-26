@@ -40,7 +40,8 @@
     "test:staged": "jest --runInBand --onlyChanged",
     "scan:deps": "audit-ci --config ../../audit-ci.json",
     "example": "node example.js",
-    "example:campus": "node example_campus.js"
+    "example:campus": "node example_campus.js",
+    "example:partial": "node example_partial.js"
   },
   "dependencies": {
     "@s1seven/schema-tools-types": "^0.3.1",

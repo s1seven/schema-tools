@@ -3,6 +3,16 @@ export type CertificateLanguages = ['EN' | 'DE' | 'FR' | 'PL'] | ['EN' | 'DE' | 
  * List parties and details involved in the transaction
  */
 export type CommercialTransaction = CommercialTransactionBase & CommercialTransactionReceivers;
+export type Company = CompanyBase & CompanyIdentifiers;
+export type CompanyIdentifiers =
+  | {
+      VAT_Id: string;
+      [k: string]: any;
+    }
+  | {
+      DUNS: string;
+      [k: string]: any;
+    };
 export type CommercialTransactionReceivers =
   | {
       /**
@@ -39,6 +49,8 @@ export type ProductShape =
   | Sheet
   | Slab
   | Plate
+  | Scroll
+  | Strip
   | Other;
 
 export interface Certificate {
@@ -107,14 +119,30 @@ export interface CommercialTransactionBase {
   A99?: string;
   [k: string]: any;
 }
-export interface Company {
+export interface CompanyBase {
+  /**
+   * Name of the company
+   */
   CompanyName: string;
+  /**
+   * Address of the company
+   */
   Street: string;
-  ZipCode: string;
+  /**
+   * City of the company
+   */
   City: string;
+  /**
+   * Postal code of the company
+   */
+  ZipCode: string;
+  /**
+   * Country of the company
+   */
   Country: string;
-  VAT_Id?: string;
-  DUNS?: string;
+  /**
+   * Email address of the company
+   */
   Email?: string;
   /**
    * Each entry of the array is rendered as a new line in HTML and PDF
@@ -251,7 +279,7 @@ export interface Tube {
   /**
    * The unit of the dimensions.
    */
-  Unit?: string;
+  Unit: string;
 }
 export interface RectangularTube {
   /**
@@ -273,7 +301,7 @@ export interface RectangularTube {
   /**
    * The unit of the dimensions.
    */
-  Unit?: string;
+  Unit: string;
 }
 export interface QuadraticTube {
   /**
@@ -291,7 +319,7 @@ export interface QuadraticTube {
   /**
    * The unit of the dimensions.
    */
-  Unit?: string;
+  Unit: string;
 }
 export interface Pipe {
   /**
@@ -309,7 +337,7 @@ export interface Pipe {
   /**
    * The unit of the dimensions.
    */
-  Unit?: string;
+  Unit: string;
 }
 export interface RectangularPipe {
   /**
@@ -331,7 +359,7 @@ export interface RectangularPipe {
   /**
    * The unit of the dimensions.
    */
-  Unit?: string;
+  Unit: string;
   [k: string]: any;
 }
 export interface Coil {
@@ -350,7 +378,7 @@ export interface Coil {
   /**
    * The unit of the dimensions.
    */
-  Unit?: string;
+  Unit: string;
   [k: string]: any;
 }
 export interface RoundBar {
@@ -365,7 +393,7 @@ export interface RoundBar {
   /**
    * The unit of the dimensions.
    */
-  Unit?: string;
+  Unit: string;
 }
 export interface HexagonalBar {
   /**
@@ -379,7 +407,7 @@ export interface HexagonalBar {
   /**
    * The unit of the dimensions.
    */
-  Unit?: string;
+  Unit: string;
 }
 export interface FlatBar {
   /**
@@ -397,7 +425,7 @@ export interface FlatBar {
   /**
    * The unit of the dimensions.
    */
-  Unit?: string;
+  Unit: string;
 }
 export interface Sheet {
   /**
@@ -415,7 +443,7 @@ export interface Sheet {
   /**
    * The unit of the dimensions.
    */
-  Unit?: string;
+  Unit: string;
 }
 export interface Slab {
   /**
@@ -433,7 +461,7 @@ export interface Slab {
   /**
    * The unit of the dimensions.
    */
-  Unit?: string;
+  Unit: string;
 }
 export interface Plate {
   /**
@@ -451,7 +479,43 @@ export interface Plate {
   /**
    * The unit of the dimensions.
    */
-  Unit?: string;
+  Unit: string;
+}
+export interface Scroll {
+  /**
+   * Form of product
+   */
+  Form: 'Scroll';
+  /**
+   * Width of scroll
+   */
+  Width: number;
+  /**
+   * Thickness of scroll
+   */
+  Thickness: number;
+  /**
+   * The unit of the dimensions.
+   */
+  Unit: string;
+}
+export interface Strip {
+  /**
+   * Form of product
+   */
+  Form: 'Strip';
+  /**
+   * Width of strip
+   */
+  Width: number;
+  /**
+   * Thickness of strip
+   */
+  Thickness: number;
+  /**
+   * The unit of the dimensions.
+   */
+  Unit: string;
 }
 export interface Other {
   /**

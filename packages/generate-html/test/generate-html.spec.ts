@@ -1,12 +1,14 @@
 import { HtmlDiffer } from '@markedjs/html-differ';
 import logger from '@markedjs/html-differ/lib/logger';
 import { readFileSync } from 'fs';
+import { compile } from 'handlebars';
 
-import { SupportedSchemas } from '@s1seven/schema-tools-types';
+import { ExtraTranslations, SupportedSchemas, Translations } from '@s1seven/schema-tools-types';
 
-import { generateHtml } from '../src/index';
+import { generateHtml, GenerateHtmlOptions } from '../src/index';
 
 describe('GenerateHTML', function () {
+  //! only include localOnly, localTemplatePath and localTemplatePartialPath for latest (unreleased) version
   const testsMap = [
     {
       type: SupportedSchemas.EN10168,
@@ -34,6 +36,18 @@ describe('GenerateHTML', function () {
       schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.2.0/certificate.ts`, 'utf-8'),
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.2.0/template_hbs.html`, 'utf-8'),
       expectedHtmlFromMjml: '',
+    },
+    {
+      type: SupportedSchemas.EN10168,
+      version: 'v0.3.0',
+      certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.3.0/valid_cert.json`,
+      schemaTranslationsPath: `${__dirname}/../../../fixtures/EN10168/v0.3.0/translations.json`,
+      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.3.0/certificate.ts`, 'utf-8'),
+      expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.3.0/template_hbs.html`, 'utf-8'),
+      localTemplatePath: `${__dirname}/../../../../EN10168-schemas/template.hbs`,
+      localTemplatePartialPath: `${__dirname}/../../../../EN10168-schemas/inspection.hbs`,
+      expectedHtmlFromMjml: '',
+      localOnly: true,
     },
     {
       type: SupportedSchemas.COA,
@@ -73,19 +87,52 @@ describe('GenerateHTML', function () {
     ignoreDuplicateAttributes: false,
   };
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   testsMap.forEach((testSuite) => {
     const {
       certificatePath,
       expectedHtmlFromHbs,
       expectedHtmlFromMjml,
+      localOnly,
+      localTemplatePath,
+      localTemplatePartialPath,
       schemaExtraTranslationsPath,
       schemaTranslationsPath,
       type,
       version,
     } = testSuite;
     describe(`For ${type} - version ${version}`, () => {
+      let certificate: Record<string, unknown>;
+      let translations: Translations | undefined;
+      let extraTranslations: ExtraTranslations | undefined;
+      let templatePartial: HandlebarsTemplateDelegate<any> | undefined;
+      let localOnlyOptions: GenerateHtmlOptions | undefined;
+
+      beforeAll(() => {
+        certificate = JSON.parse(readFileSync(certificatePath, 'utf8'));
+        translations = JSON.parse(readFileSync(schemaTranslationsPath, 'utf8'));
+        extraTranslations = schemaExtraTranslationsPath
+          ? JSON.parse(readFileSync(schemaExtraTranslationsPath, 'utf8'))
+          : {};
+
+        if (localTemplatePartialPath) {
+          const partialString = readFileSync(localTemplatePartialPath).toString();
+          templatePartial = compile(partialString);
+        }
+
+        if (localOnly) {
+          localOnlyOptions = {
+            translations,
+            extraTranslations,
+            templatePath: localTemplatePath,
+            handlebars: { partials: { inspection: templatePartial } },
+          };
+        }
+      });
+
       it('should render HTML certificate using certificate local path and HBS template', async () => {
-        const html = await generateHtml(certificatePath);
+        const generateHtmlOptions = localOnly ? localOnlyOptions : {};
+        const html = await generateHtml(certificatePath, generateHtmlOptions);
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
         const isEqual = await htmlDiffer.isEqual(expectedHtmlFromHbs, html);
@@ -97,8 +144,8 @@ describe('GenerateHTML', function () {
       }, 8000);
 
       it('should render HTML certificate using loaded certificate and HBS template', async () => {
-        const certificate = JSON.parse(readFileSync(certificatePath, 'utf8'));
-        const html = await generateHtml(certificate);
+        const generateHtmlOptions = localOnly ? localOnlyOptions : {};
+        const html = await generateHtml(certificate, generateHtmlOptions);
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
         const isEqual = await htmlDiffer.isEqual(expectedHtmlFromHbs, html);
@@ -110,12 +157,8 @@ describe('GenerateHTML', function () {
       }, 8000);
 
       it('should render HTML certificate using local translations', async () => {
-        const certificate = JSON.parse(readFileSync(certificatePath, 'utf8'));
-        const translations = JSON.parse(readFileSync(schemaTranslationsPath, 'utf8'));
-        const extraTranslations = schemaExtraTranslationsPath
-          ? JSON.parse(readFileSync(schemaExtraTranslationsPath, 'utf8'))
-          : {};
-        const html = await generateHtml(certificate, { translations, extraTranslations });
+        const generateHtmlOptions = localOnly ? localOnlyOptions : { translations, extraTranslations };
+        const html = await generateHtml(certificate, generateHtmlOptions);
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
         const isEqual = await htmlDiffer.isEqual(expectedHtmlFromHbs, html);
