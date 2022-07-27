@@ -4,11 +4,12 @@ import { readFileSync } from 'fs';
 import { compile } from 'handlebars';
 
 import { ExtraTranslations, SupportedSchemas, Translations } from '@s1seven/schema-tools-types';
+import { loadExternalFile } from '@s1seven/schema-tools-utils';
 
 import { generateHtml, GenerateHtmlOptions } from '../src/index';
 
 describe('GenerateHTML', function () {
-  //! only include localOnly, localTemplatePath and localTemplatePartialPath for latest (unreleased) version
+  //! only include localOnly, localTemplatePath for latest (unreleased) version
   const testsMap = [
     {
       type: SupportedSchemas.EN10168,
@@ -45,7 +46,9 @@ describe('GenerateHTML', function () {
       schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.3.0/certificate.ts`, 'utf-8'),
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.3.0/template_hbs.html`, 'utf-8'),
       localTemplatePath: `${__dirname}/../../../fixtures/EN10168/v0.3.0/template.hbs`,
-      localTemplatePartialPath: `${__dirname}/../../../fixtures/EN10168/v0.3.0/inspection.hbs`,
+      templatePartialPaths: {
+        inspection: `${__dirname}/../../../fixtures/EN10168/v0.3.0/inspection.hbs`, // TODO: change to 'inspection.hbs' after schema release
+      },
       expectedHtmlFromMjml: '',
       localOnly: true,
     },
@@ -95,7 +98,7 @@ describe('GenerateHTML', function () {
       expectedHtmlFromMjml,
       localOnly,
       localTemplatePath,
-      localTemplatePartialPath,
+      templatePartialPaths,
       schemaExtraTranslationsPath,
       schemaTranslationsPath,
       type,
@@ -105,19 +108,24 @@ describe('GenerateHTML', function () {
       let certificate: Record<string, unknown>;
       let translations: Translations | undefined;
       let extraTranslations: ExtraTranslations | undefined;
-      let templatePartial: HandlebarsTemplateDelegate<any> | undefined;
       let localOnlyOptions: GenerateHtmlOptions | undefined;
+      const compiledPartials: { [name: string]: HandlebarsTemplateDelegate<any> } = {};
 
-      beforeAll(() => {
+      beforeAll(async () => {
         certificate = JSON.parse(readFileSync(certificatePath, 'utf8'));
         translations = JSON.parse(readFileSync(schemaTranslationsPath, 'utf8'));
         extraTranslations = schemaExtraTranslationsPath
           ? JSON.parse(readFileSync(schemaExtraTranslationsPath, 'utf8'))
           : {};
 
-        if (localTemplatePartialPath) {
-          const partialString = readFileSync(localTemplatePartialPath).toString();
-          templatePartial = compile(partialString);
+        if (templatePartialPaths) {
+          for (const path in templatePartialPaths) {
+            const templateFile = localOnly
+              ? readFileSync(templatePartialPaths[path]).toString()
+              : await loadExternalFile(path, 'text');
+            const templatePartial = compile<Record<string, unknown>>(templateFile);
+            compiledPartials[path] = templatePartial;
+          }
         }
 
         if (localOnly) {
@@ -125,13 +133,13 @@ describe('GenerateHTML', function () {
             translations,
             extraTranslations,
             templatePath: localTemplatePath,
-            handlebars: { partials: { inspection: templatePartial } },
+            handlebars: { partials: compiledPartials },
           };
         }
       });
 
       it('should render HTML certificate using certificate local path and HBS template', async () => {
-        const generateHtmlOptions = localOnly ? localOnlyOptions : {};
+        const generateHtmlOptions = localOnly ? localOnlyOptions : { handlebars: { partials: compiledPartials } };
         const html = await generateHtml(certificatePath, generateHtmlOptions);
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
@@ -144,7 +152,7 @@ describe('GenerateHTML', function () {
       }, 8000);
 
       it('should render HTML certificate using loaded certificate and HBS template', async () => {
-        const generateHtmlOptions = localOnly ? localOnlyOptions : {};
+        const generateHtmlOptions = localOnly ? localOnlyOptions : { handlebars: { partials: compiledPartials } };
         const html = await generateHtml(certificate, generateHtmlOptions);
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
@@ -157,7 +165,9 @@ describe('GenerateHTML', function () {
       }, 8000);
 
       it('should render HTML certificate using local translations', async () => {
-        const generateHtmlOptions = localOnly ? localOnlyOptions : { translations, extraTranslations };
+        const generateHtmlOptions = localOnly
+          ? localOnlyOptions
+          : { translations, extraTranslations, handlebars: { partials: compiledPartials } };
         const html = await generateHtml(certificate, generateHtmlOptions);
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
