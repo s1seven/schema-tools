@@ -51,13 +51,13 @@
     "lato-font": "^3.0.0",
     "lodash.clone": "^4.5.0",
     "lodash.merge": "^4.6.2",
-    "pdfmake": "^0.2.4"
+    "pdfmake": "0.2.5"
   },
   "devDependencies": {
     "@types/jsdom": "^16.2.13",
     "@types/lodash.clone": "^4.5.6",
     "@types/lodash.merge": "^4.6.6",
-    "@types/pdfmake": "^0.1.20",
+    "@types/pdfmake": "^0.2.0",
     "pdf2pic": "^2.1.4"
   },
   "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"

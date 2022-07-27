@@ -1,0 +1,3 @@
+fixtures/**/*.hbs
+fixtures/**/*.html
+packages/*/dist/**

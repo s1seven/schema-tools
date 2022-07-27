@@ -27,7 +27,7 @@ import {
 
 export { Content, StyleDictionary, TDocumentDefinitions, TFontDictionary } from 'pdfmake/interfaces';
 
-export type GeneratePdfOptions = {
+export interface GeneratePdfOptions {
   inputType?: 'json' | 'html';
   outputType?: 'buffer' | 'stream';
   generatorPath?: string;
@@ -35,7 +35,11 @@ export type GeneratePdfOptions = {
   fonts?: TFontDictionary;
   translations?: Translations;
   extraTranslations?: ExtraTranslations;
-};
+}
+
+export interface GeneratePdfOptionsExtended<T extends 'stream' | 'buffer'> extends GeneratePdfOptions {
+  outputType: T;
+}
 
 const fonts = {
   Lato: {

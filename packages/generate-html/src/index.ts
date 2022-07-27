@@ -167,10 +167,10 @@ const handlebarsBaseOptions = (data: {
         const result = lvalue ? new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(lvalue) : '';
         return new SafeString(result);
       },
-      get: function (object: Record<string, unknown>, path: string | string[]) {
+      get: function (object: Record<string, unknown>, path: string | string[], defaultValue = undefined) {
         path = typeof path === 'string' ? path.split(',').map((val) => val.trim()) : path;
-        const result = get(object, path);
-        return new SafeString(result);
+        const result = get(object, path, defaultValue);
+        return result ? new SafeString(result) : result;
       },
       chunk: function (
         elements: Record<string, unknown>[],

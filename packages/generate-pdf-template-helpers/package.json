@@ -40,10 +40,10 @@
   },
   "dependencies": {
     "@s1seven/schema-tools-types": "^0.3.1",
-    "pdfmake": "^0.2.4"
+    "pdfmake": "0.2.5"
   },
   "devDependencies": {
     "@s1seven/schema-tools-utils": "^0.1.1",
-    "@types/pdfmake": "^0.1.20"
+    "@types/pdfmake": "^0.2.0"
   }
 }

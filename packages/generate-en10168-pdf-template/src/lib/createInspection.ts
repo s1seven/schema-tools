@@ -13,6 +13,7 @@ import {
   HardnessTest,
   I18N,
   Inspection,
+  InspectionUnionType,
   NotchedBarImpactTest,
   OtherMechanicalTests,
   TensileTest,
@@ -21,7 +22,36 @@ import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
 
-export function createInspection(inspection: Inspection, i18n: I18N): (TableElement | ContentText | ContentCanvas)[] {
+export function createInspection(inspection: Inspection | undefined, i18n: I18N): InspectionUnionType {
+  if (!inspection) {
+    return [
+      {
+        style: 'table',
+        id: 'Inspection',
+        table: {
+          widths: [160, '*', '*', 300],
+          body: [createEmptyColumns(PRODUCT_DESCRIPTION_COLUMNS_COUNT)],
+        },
+        layout: tableLayout,
+      },
+    ];
+  }
+
+  const inspections: InspectionUnionType = [];
+  if (Array.isArray(inspection)) {
+    inspection.forEach((inspectionObject) => {
+      const inspectionContent = createInspectionFromInspectionObject(inspectionObject, i18n);
+      inspections.push(...inspectionContent);
+    });
+  } else {
+    const inspectionContent = createInspectionFromInspectionObject(inspection, i18n);
+    inspections.push(...inspectionContent);
+  }
+
+  return inspections;
+}
+
+export function createInspectionFromInspectionObject(inspection: Inspection, i18n: I18N): InspectionUnionType {
   const contentToRender = ['C00', 'C01', 'C02', 'C03'];
   const content = Object.keys(inspection)
     .filter((element) => contentToRender.includes(element) && inspection[element])
@@ -38,7 +68,7 @@ export function createInspection(inspection: Inspection, i18n: I18N): (TableElem
 
   const suppInformation = inspection.SupplementaryInformation
     ? supplementaryInformation(inspection.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
-    : createEmptyColumns(PRODUCT_DESCRIPTION_COLUMNS_COUNT);
+    : [];
 
   const tensileTest = inspection.TensileTest ? renderTensileTest(inspection.TensileTest, i18n) : [];
   const hardnessTest = inspection.HardnessTest ? renderHardnessTest(inspection.HardnessTest, i18n) : [];
@@ -65,14 +95,16 @@ export function createInspection(inspection: Inspection, i18n: I18N): (TableElem
       },
       layout: tableLayout,
     },
-    {
-      style: 'table',
-      table: {
-        widths: [160, '*', 160, 130],
-        body: suppInformation,
-      },
-      layout: tableLayout,
-    },
+    suppInformation.length > 0
+      ? {
+          style: 'table',
+          table: {
+            widths: [160, '*', 160, 130],
+            body: suppInformation,
+          },
+          layout: tableLayout,
+        }
+      : {},
     ...tensileTest,
     ...hardnessTest,
     ...notchedBarImpactTest,
@@ -103,7 +135,7 @@ export function renderTensileTest(
     });
   const suppInformation = tensileTest.SupplementaryInformation
     ? supplementaryInformation(tensileTest.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
-    : [];
+    : [[{ text: '', colSpan: 4 }, {}, {}, {}]];
 
   return [
     { text: i18n.translate('TensileTest', 'otherFields'), style: 'h4' },
@@ -145,7 +177,7 @@ export function renderHardnessTest(
   const C32 = hardnessTest.C32 ? renderMeasurement(hardnessTest.C32, 'C32', i18n) : [];
   const suppInformation = hardnessTest.SupplementaryInformation
     ? supplementaryInformation(hardnessTest.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
-    : [];
+    : [[{ text: '', colSpan: 4 }, {}, {}, {}]];
 
   return [
     { text: i18n.translate('HardnessTest', 'otherFields'), style: 'h4' },
@@ -187,7 +219,7 @@ export function renderNotchedBarImpactTest(
 
   const suppInformation = notchedBarImpactTest.SupplementaryInformation
     ? supplementaryInformation(notchedBarImpactTest.SupplementaryInformation, i18n, PRODUCT_DESCRIPTION_COLUMNS_COUNT)
-    : [];
+    : [[{ text: '', colSpan: 4 }, {}, {}, {}]];
 
   return [
     { text: i18n.translate('NotchedBarImpactTest', 'otherFields'), style: 'h4' },
