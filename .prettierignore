@@ -1,3 +1,3 @@
 fixtures/**/*.hbs
 fixtures/**/*.html
-dist/**
+packages/*/dist/**
