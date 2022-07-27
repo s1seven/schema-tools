@@ -84,8 +84,14 @@ export interface EN10168CertificateTranslations {
     RoundBar: string;
     HexagonalBar: string;
     FlatBar: string;
+    Sheet: string;
+    Slab: string;
+    Plate: string;
+    Strip: string;
+    Scroll: string;
     Validation: string;
     Other: string;
+    Description: string;
     Width: string;
     Thickness: string;
     OuterDiameter: string;
