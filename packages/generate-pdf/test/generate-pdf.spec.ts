@@ -2,8 +2,8 @@ import { createHash } from 'crypto';
 import { createWriteStream, existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
 import path from 'path';
 import { fromBuffer } from 'pdf2pic';
-import { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
-import { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
+import type { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
+import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
 import { Writable } from 'stream';
 
 import { EN10168Schema, Schemas, SupportedSchemas } from '@s1seven/schema-tools-types';
