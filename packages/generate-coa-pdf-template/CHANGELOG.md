@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.3.0...@s1seven/schema-tools-generate-coa-pdf-template@0.3.1) (2022-07-27)
+
+
+### Bug Fixes
+
+* add localization for Value, Minimum and Maximum in inspections for generatePdf ([757805e](https://github.com/s1seven/schema-tools/commit/757805e27e71ca080efb2c17fb5907b4a5f5e48d))
+* **generate-coa-pdf-template:** increase `Property` and `Test Conditions` columns width ([aa38ee7](https://github.com/s1seven/schema-tools/commit/aa38ee793b930d0551c780cf5c6c0b0ba171a682))
+
+
+
+
+
 # [0.3.0](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.2.1...@s1seven/schema-tools-generate-coa-pdf-template@0.3.0) (2022-03-23)
 
 

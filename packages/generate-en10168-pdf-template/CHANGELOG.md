@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.5.2...@s1seven/schema-tools-generate-en10168-pdf-template@0.6.0) (2022-07-27)
+
+
+### Bug Fixes
+
+* fix bug where pdf wouldn't render when SupplementaryInformation was not present ([c5d14b8](https://github.com/s1seven/schema-tools/commit/c5d14b882fbf3adc4932d19fd0ea6fdc08501786))
+* remove the empty row caused when suppInformation is not present ([8c42610](https://github.com/s1seven/schema-tools/commit/8c426102d8ea3b7b9e0445780966ffc00c05e506))
+* update createInspection to handle case where inspection can be undefined ([ff8215d](https://github.com/s1seven/schema-tools/commit/ff8215dc2cb21fe02af74580353fb725bb403124))
+
+
+### Features
+
+* allow createInspection to receive an array or object. Add custom decorator to validate inspection. ([09dd2c1](https://github.com/s1seven/schema-tools/commit/09dd2c1ab739b026f70c1608a398a5aeb2e76f91))
+
+
+
+
+
 ## [0.5.2](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.5.1...@s1seven/schema-tools-generate-en10168-pdf-template@0.5.2) (2022-03-23)
 
 

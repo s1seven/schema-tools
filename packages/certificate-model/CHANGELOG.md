@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.10](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.2.9...@s1seven/schema-tools-certificate-model@0.2.10) (2022-07-27)
+
+**Note:** Version bump only for package @s1seven/schema-tools-certificate-model
+
+
+
+
+
 ## [0.2.9](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.2.8...@s1seven/schema-tools-certificate-model@0.2.9) (2022-03-23)
 
 

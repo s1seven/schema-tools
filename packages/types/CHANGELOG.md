@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.3.1...@s1seven/schema-tools-types@0.4.0) (2022-07-27)
+
+
+### Features
+
+* allow createInspection to receive an array or object. Add custom decorator to validate inspection. ([09dd2c1](https://github.com/s1seven/schema-tools/commit/09dd2c1ab739b026f70c1608a398a5aeb2e76f91))
+
+
+
+
+
 ## [0.3.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.3.0...@s1seven/schema-tools-types@0.3.1) (2022-03-23)
 
 

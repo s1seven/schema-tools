@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.2.1...@s1seven/schema-tools-generate-html@0.2.2) (2022-07-27)
+
+
+### Bug Fixes
+
+* **generate-html:** allow default value in `get` HBS helper ([858c8d1](https://github.com/s1seven/schema-tools/commit/858c8d155d860aa3e6249ebe3b14ab20e4c942ee))
+
+
+
+
+
 ## [0.2.1](http://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.2.0...@s1seven/schema-tools-generate-html@0.2.1) (2022-03-23)
 
 
