@@ -108,7 +108,7 @@ describe('GenerateHTML', function () {
       let certificate: Record<string, unknown>;
       let translations: Translations | undefined;
       let extraTranslations: ExtraTranslations | undefined;
-      let localOnlyOptions: GenerateHtmlOptions | undefined;
+      let localExtraOptions: GenerateHtmlOptions | undefined;
       const compiledPartials: { [name: string]: HandlebarsTemplateDelegate<any> } = {};
 
       beforeAll(async () => {
@@ -129,7 +129,7 @@ describe('GenerateHTML', function () {
         }
 
         if (localOnly) {
-          localOnlyOptions = {
+          localExtraOptions = {
             translations,
             extraTranslations,
             templatePath: localTemplatePath,
@@ -139,7 +139,7 @@ describe('GenerateHTML', function () {
       });
 
       it('should render HTML certificate using certificate local path and HBS template', async () => {
-        const generateHtmlOptions = localOnly ? localOnlyOptions : { handlebars: { partials: compiledPartials } };
+        const generateHtmlOptions = localOnly ? localExtraOptions : { handlebars: { partials: compiledPartials } };
         const html = await generateHtml(certificatePath, generateHtmlOptions);
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
@@ -152,7 +152,7 @@ describe('GenerateHTML', function () {
       }, 8000);
 
       it('should render HTML certificate using loaded certificate and HBS template', async () => {
-        const generateHtmlOptions = localOnly ? localOnlyOptions : { handlebars: { partials: compiledPartials } };
+        const generateHtmlOptions = localOnly ? localExtraOptions : { handlebars: { partials: compiledPartials } };
         const html = await generateHtml(certificate, generateHtmlOptions);
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
         //
@@ -166,7 +166,7 @@ describe('GenerateHTML', function () {
 
       it('should render HTML certificate using local translations', async () => {
         const generateHtmlOptions = localOnly
-          ? localOnlyOptions
+          ? localExtraOptions
           : { translations, extraTranslations, handlebars: { partials: compiledPartials } };
         const html = await generateHtml(certificate, generateHtmlOptions);
         const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
