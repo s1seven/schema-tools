@@ -21,7 +21,7 @@ const updater = new SchemaRepositoryVersion(
 ```
 
 `SchemaRepositoryVersion` contains several methods, such as `updateSchemasVersion` which updates the `$id` in the schemas in the repository on which it is used.
-The `updateJsonFixturesVersion` method updates the `RefSchemaUrl` in the sammple certificates in `test/fixtures`.
+The `updateJsonFixturesVersion` method updates the `RefSchemaUrl` in the sample certificates in `test/fixtures`.
 
 ## Usage
 
