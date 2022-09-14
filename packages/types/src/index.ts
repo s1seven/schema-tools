@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import {
+  ArrayNotEmpty,
   IsArray,
   IsDateString,
   IsEnum,
@@ -20,7 +21,7 @@ export { JSONSchema7, JSONSchema7Definition } from 'json-schema';
 import { Type } from 'class-transformer';
 
 export function isNotEmptyArrayOrObject(validationOptions?: ValidationOptions) {
-  return function (object: EN10168SchemaCertificate, propertyName: string) {
+  return function (object: EN10168SchemaCertificate | TKRSchemaCertificate, propertyName: string) {
     registerDecorator({
       name: 'isNotEmptyArrayOrObject',
       target: object.constructor,
@@ -53,6 +54,7 @@ export interface ValidationError {
 export type SchemaTypes = `${SupportedSchemas}-schemas`;
 
 export enum SupportedSchemas {
+  TKR = 'tkr',
   EN10168 = 'en10168',
   'ECOC' = 'e-coc',
   COA = 'coa',
@@ -64,6 +66,7 @@ export const schemaToExternalStandardsMap = {
   [SupportedSchemas.EN10168]: [],
   [SupportedSchemas.ECOC]: [],
   [SupportedSchemas.CDN]: [],
+  [SupportedSchemas.TKR]: [],
 };
 
 export interface SchemaConfig {
@@ -163,6 +166,33 @@ export class EN10168SchemaCertificate {
   @IsNotEmptyObject()
   Validation: Record<string, any>;
 }
+export class TKRSchemaCertificate {
+  @IsEnum(CertificateLanguages, { each: true })
+  CertificateLanguages: CertificateLanguages[];
+
+  @IsNotEmptyObject()
+  CommercialTransaction: Record<string, any>;
+
+  @IsNotEmptyObject()
+  ProductDescription: Record<string, any>;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  MaterialIdentifiers?: Record<string, any>[];
+
+  @IsOptional()
+  @isNotEmptyArrayOrObject()
+  ChemicalComposition?: Record<string, any> | Record<string, any>[];
+
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  Inspection?: Record<string, any>[];
+
+  @IsNotEmptyObject()
+  Validation: Record<string, any>;
+}
 
 export const PartialsMapFileName = 'partials-map.json';
 
@@ -177,6 +207,12 @@ export class EN10168Schema extends BaseCertificateSchema {
   @Type(() => EN10168SchemaCertificate)
   @ValidateNested()
   Certificate: EN10168SchemaCertificate;
+}
+export class TKRSchema extends BaseCertificateSchema {
+  @IsNotEmptyObject()
+  @Type(() => TKRSchemaCertificate)
+  @ValidateNested()
+  Certificate: TKRSchemaCertificate;
 }
 
 export class ECoCSchema extends BaseCertificateSchema {
@@ -294,4 +330,4 @@ export class CDNSchema extends BaseCertificateSchema {
   CertificateDeliveryNote: CDNSchemaCertificate;
 }
 
-export type Schemas = EN10168Schema | CoASchema | CDNSchema | ECoCSchema;
+export type Schemas = TKRSchema | EN10168Schema | CoASchema | CDNSchema | ECoCSchema;
