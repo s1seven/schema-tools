@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { compile, RuntimeOptions, SafeString } from 'handlebars';
+import { compile, RuntimeOptions, SafeString, TemplateDelegate } from 'handlebars';
 import get from 'lodash.get';
 import merge from 'lodash.merge';
 import mjml2html from 'mjml';
@@ -20,6 +20,7 @@ import {
   castCertificate,
   getCertificateLanguages,
   getExtraTranslations,
+  getPartials,
   getRefSchemaUrl,
   getSchemaConfig,
   getTranslations,
@@ -43,6 +44,7 @@ export type GenerateHtmlOptions = {
   templatePath?: string;
   translations?: Translations;
   extraTranslations?: ExtraTranslations;
+  partialsMap?: Record<string, string>;
 };
 
 function languagesStringToArray(languages: string | string[]): string[] {
@@ -256,7 +258,16 @@ export async function generateHtml(
       (await getExtraTranslations(certificateLanguages, options.schemaConfig, externalStandards))
     : {};
 
-  options.handlebars = merge(options.handlebars || {}, handlebarsBaseOptions({ translations, extraTranslations }));
+  const partials: false | Record<string, TemplateDelegate<any>> = await getPartials(
+    options.partialsMap,
+    options.schemaConfig,
+  );
+
+  options.handlebars = merge(
+    options.handlebars || {},
+    partials ? { partials } : {},
+    handlebarsBaseOptions({ translations, extraTranslations }),
+  );
 
   return options.templateType === 'mjml'
     ? parseMjmlTemplate(certificate, options)
