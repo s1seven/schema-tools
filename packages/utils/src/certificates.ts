@@ -8,7 +8,6 @@ import {
   EN10168Schema,
   Schemas,
   SupportedSchemas,
-  TKRSchema,
 } from '@s1seven/schema-tools-types';
 
 function preValidateCertificate<T extends Schemas>(certificate: T, throwError?: boolean): T {
@@ -35,14 +34,6 @@ export function asEN10168Certificate(value: unknown, throwError?: boolean): EN10
   return preValidateCertificate(certificate, throwError);
 }
 
-export function asTKRCertificate(value: unknown, throwError?: boolean): TKRSchema {
-  const certificate = plainToInstance(TKRSchema, value, {
-    enableImplicitConversion: true,
-    exposeDefaultValues: true,
-  });
-  return preValidateCertificate(certificate, throwError);
-}
-
 export function asECoCCertificate(value: unknown, throwError?: boolean): ECoCSchema {
   const certificate = plainToInstance(ECoCSchema, value, { enableImplicitConversion: true, exposeDefaultValues: true });
   return preValidateCertificate(certificate, throwError);
@@ -60,7 +51,6 @@ export function asCDNCertificate(value: unknown, throwError?: boolean): CDNSchem
 
 export const castCertificatesMap = {
   [SupportedSchemas.EN10168]: asEN10168Certificate,
-  [SupportedSchemas.TKR]: asTKRCertificate,
   [SupportedSchemas.ECOC]: asECoCCertificate,
   [SupportedSchemas.COA]: asCoACertificate,
   [SupportedSchemas.CDN]: asCDNCertificate,
