@@ -12,7 +12,6 @@ import vm from 'vm';
 import {
   ExternalStandards,
   ExtraTranslations,
-  // SchemaConfig,
   Schemas,
   schemaToExternalStandardsMap,
   Translations,
