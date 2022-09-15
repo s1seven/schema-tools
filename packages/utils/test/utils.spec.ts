@@ -19,6 +19,7 @@ import {
 import { axiosInstance, cache } from '../src/loaders';
 
 const baseUrl = 'https://schemas.s1seven.com';
+const en10168SchemaType = 'en10168-schemas';
 const version = 'v0.0.5';
 
 describe('Utils', function () {
@@ -30,7 +31,7 @@ describe('Utils', function () {
   const refSchemaUrl = new URL('https://schemas.s1seven.com/en10168-schemas/v0.1.0/schema.json');
   const schemaConf: SchemaConfig = {
     baseUrl,
-    schemaType: 'en10168-schemas',
+    schemaType: en10168SchemaType,
     version: '0.1.0',
   };
 
@@ -173,7 +174,7 @@ describe('Utils', function () {
 
     const schemaConfig: SchemaConfig = {
       baseUrl,
-      schemaType: 'tkr-schemas',
+      schemaType: en10168SchemaType,
       version,
     };
 
@@ -189,7 +190,7 @@ describe('Utils', function () {
     it('when partialsMap is undefined, a remote file is requested', async () => {
       (axiosInstance as any).get.mockResolvedValue({ data: partialsMap, status: 200 });
       const partials = await getPartials(undefined, schemaConfig);
-      expect(axiosInstance.get).toBeCalledWith('https://schemas.s1seven.com/tkr-schemas/v0.0.5/partials-map.json', {
+      expect(axiosInstance.get).toBeCalledWith('https://schemas.s1seven.com/en10168-schemas/v0.0.5/partials-map.json', {
         responseType: 'json',
       });
       expect(partials).toHaveProperty('inspection');
@@ -206,12 +207,7 @@ describe('Utils', function () {
     const schemaConfigs: SchemaConfig[] = [
       {
         baseUrl,
-        schemaType: 'tkr-schemas',
-        version,
-      },
-      {
-        baseUrl,
-        schemaType: 'en10168-schemas',
+        schemaType: en10168SchemaType,
         version,
       },
       {
@@ -225,7 +221,7 @@ describe('Utils', function () {
         version,
       },
     ];
-    const expectedResults: string[] = ['tkr', 'en10168', 'e-coc', 'coa'];
+    const expectedResults: string[] = ['en10168', 'e-coc', 'coa'];
 
     schemaConfigs.forEach((schemaConfig, index) => {
       it(`${schemaConfig.schemaType} returns the certificate type ${expectedResults[index]}`, async () => {
