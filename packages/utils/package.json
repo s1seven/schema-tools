@@ -49,11 +49,11 @@
     "class-validator": "^0.13.2",
     "node-cache": "^5.1.2",
     "reflect-metadata": "^0.1.13",
-    "semver-lite": "0.0.6"
-  },
-  "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179",
-  "devDependencies": {
-    "@types/debug": "^4.1.7",
+    "semver-lite": "0.0.6",
     "debug": "^4.3.4"
-  }
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.7"
+  },
+  "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
 }
