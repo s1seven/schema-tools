@@ -58,7 +58,6 @@
     "@types/lodash.clone": "^4.5.6",
     "@types/lodash.merge": "^4.6.6",
     "@types/pdfmake": "^0.2.0",
-    "debug": "^4.3.4",
     "pdf2pic": "^2.1.4"
   },
   "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
