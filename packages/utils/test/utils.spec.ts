@@ -9,6 +9,7 @@ import {
   asECoCCertificate,
   asEN10168Certificate,
   getExtraTranslations,
+  getPartials,
   getRefSchemaUrl,
   getSchemaConfig,
   getTranslations,
@@ -158,6 +159,42 @@ describe('Utils', function () {
       await expect(getExtraTranslations(certificateLanguages, schemaConf, externalStandards)).rejects.toThrow(
         'these languages have errors: CAMPUS - DE',
       );
+    });
+  });
+
+  describe('getPartials()', function () {
+    const partialsMap = {
+      inspection: `${__dirname}/../../../fixtures/EN10168/v0.3.0/inspection.hbs`,
+    };
+
+    const schemaConfig: SchemaConfig = {
+      baseUrl: 'https://schemas.s1seven.com',
+      schemaType: 'tkr-schemas',
+      version: 'v0.0.5',
+    };
+
+    beforeEach(() => {
+      (axiosInstance as any).get.mockClear();
+    });
+
+    it('returns an object with one property for each property in partials map', async () => {
+      const partials = await getPartials(partialsMap, schemaConfig);
+      expect(partials).toHaveProperty('inspection');
+    });
+
+    it('when partialsMap is undefined, a remote file is requested', async () => {
+      (axiosInstance as any).get.mockResolvedValue({ data: partialsMap, status: 200 });
+      const partials = await getPartials(undefined, schemaConfig);
+      expect(axiosInstance.get).toBeCalledWith('https://schemas.s1seven.com/tkr-schemas/v0.0.5/partials-map.json', {
+        responseType: 'json',
+      });
+      expect(partials).toHaveProperty('inspection');
+    });
+
+    it('no partials map exists, false is returned', async () => {
+      (axiosInstance as any).get.mockRejectedValueOnce();
+      const partials = await getPartials(undefined, schemaConfig);
+      expect(partials).toBe(false);
     });
   });
 });
