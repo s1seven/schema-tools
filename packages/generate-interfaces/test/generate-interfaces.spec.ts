@@ -35,12 +35,6 @@ describe('GenerateInterfaces', function () {
     },
     {
       type: SupportedSchemas.ECOC,
-      schemaPath: 'https://schemas.s1seven.com/e-coc-schemas/v0.0.2/schema.json',
-      version: 'v0.0.2',
-      certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/E-CoC/v0.0.2/certificate.ts`),
-    },
-    {
-      type: SupportedSchemas.ECOC,
       schemaPath: 'https://schemas.s1seven.com/e-coc-schemas/v1.0.0/schema.json',
       version: 'v1.0.0',
       certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/E-CoC/v1.0.0/certificate.ts`),

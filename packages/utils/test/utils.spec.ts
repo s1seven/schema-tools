@@ -18,7 +18,7 @@ import { axiosInstance, cache } from '../src/loaders';
 
 describe('Utils', function () {
   const EN_10168_CERT_PATH = `${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.json`;
-  const ECOC_CERT_PATH = `${__dirname}/../../../fixtures/E-CoC/v0.0.2/valid_cert.json`;
+  const ECOC_CERT_PATH = `${__dirname}/../../../fixtures/E-CoC/v1.0.0/valid_cert.json`;
   const COA_CERT_PATH = `${__dirname}/../../../fixtures/CoA/v0.0.4/valid_cert.json`;
   const MOCK_CERT = 'cert';
 

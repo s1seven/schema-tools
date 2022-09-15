@@ -67,6 +67,7 @@ describe('Versioning', function () {
       translations,
       extraTranslations,
       {},
+      undefined,
     );
   });
 
