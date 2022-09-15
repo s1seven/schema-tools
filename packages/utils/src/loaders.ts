@@ -19,7 +19,7 @@ import {
 
 import { getRefSchemaUrl } from './helpers';
 
-const debug = Debug('utils');
+const debug = Debug('schema-tools-utils');
 
 export const cache = new NodeCache({
   stdTTL: 60 * 60,
