@@ -12,13 +12,14 @@ import vm from 'vm';
 import {
   ExternalStandards,
   ExtraTranslations,
+  SchemaConfig,
   Schemas,
   schemaToExternalStandardsMap,
   Translations,
 } from '@s1seven/schema-tools-types';
 import {
-  castCertificate,
   getCertificateLanguages,
+  getCertificateType,
   getExtraTranslations,
   getSchemaConfig,
   getTranslations,
@@ -135,14 +136,13 @@ async function getPdfMakeContentFromObject(
   extraTranslations: ExtraTranslations = null,
 ): Promise<TDocumentDefinitions['content']> {
   const refSchemaUrl = new URL(certificate.RefSchemaUrl);
-  const schemaConfig = getSchemaConfig(refSchemaUrl);
+  const schemaConfig: SchemaConfig = getSchemaConfig(refSchemaUrl);
   const certificateLanguages = getCertificateLanguages(certificate);
   if (!translations) {
     translations = certificateLanguages?.length ? await getTranslations(certificateLanguages, schemaConfig) : {};
   }
 
-  const { type } = castCertificate(certificate);
-
+  const type = getCertificateType(schemaConfig);
   const externalStandards: ExternalStandards[] =
     schemaToExternalStandardsMap[type]
       .map((schemaType) => get(certificate, schemaType, undefined))
