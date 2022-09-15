@@ -2,13 +2,12 @@
 
 const { readFileSync, writeFileSync } = require('fs');
 const { generateHtml } = require('./dist/index');
-const { compile } = require('handlebars');
 
 const defaultExternalCertificatePath = `${__dirname}/../../fixtures/EN10168/v0.3.0/valid_cert.json`;
 const defaultTranslationsPath = `${__dirname}/../../fixtures/EN10168/v0.3.0/translations.json`;
 const defaultOutputPath = `${__dirname}/template.html`;
-const defaultTemplatePath = '../../../EN10168-schemas/template.hbs';
-const defaultTemplatePartialPath = '../../../EN10168-schemas/inspection.hbs';
+const defaultTemplatePath = `${__dirname}/../../fixtures/EN10168/v0.3.0/template.hbs`;
+const defaultTemplatePartialPath = `${__dirname}/../../fixtures/EN10168/v0.3.0/inspection.hbs`;
 
 (async function (argv) {
   try {
@@ -18,13 +17,14 @@ const defaultTemplatePartialPath = '../../../EN10168-schemas/inspection.hbs';
     const templatePath = argv[5] || defaultTemplatePath;
     const templatePartialPath = argv[6] || defaultTemplatePartialPath;
     const translations = JSON.parse(readFileSync(translationsPath).toString());
-    const templatePartial = readFileSync(templatePartialPath).toString();
 
     const html = await generateHtml(certificatePath, {
       translations,
       templatePath,
       templateType: 'hbs',
-      handlebars: { partials: { inspection: (ctx, opts) => compile(templatePartial)(ctx, opts) } },
+      partialsMap: {
+        inspection: templatePartialPath,
+      },
     });
     writeFileSync(outputPath, html);
     console.log('HTML generated');
