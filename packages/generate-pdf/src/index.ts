@@ -143,10 +143,11 @@ async function getPdfMakeContentFromObject(
   }
 
   const type = getCertificateType(schemaConfig);
-  const externalStandards: ExternalStandards[] =
-    schemaToExternalStandardsMap[type]
-      .map((schemaType) => get(certificate, schemaType, undefined))
-      .filter((externalStandards) => externalStandards) || [];
+  const externalStandards: ExternalStandards[] = schemaToExternalStandardsMap[type]
+    ? schemaToExternalStandardsMap[type]
+        .map((schemaType) => get(certificate, schemaType, undefined))
+        .filter((externalStandards) => externalStandards) || []
+    : [];
 
   if (!extraTranslations) {
     extraTranslations =
