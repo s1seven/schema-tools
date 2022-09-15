@@ -183,13 +183,13 @@ describe('Utils', function () {
     });
 
     it('returns an object with one property for each property in partials map', async () => {
-      const partials = await getPartials(partialsMap, schemaConfig);
+      const partials = await getPartials(schemaConfig, partialsMap);
       expect(partials).toHaveProperty('inspection');
     });
 
     it('when partialsMap is undefined, a remote file is requested', async () => {
       (axiosInstance as any).get.mockResolvedValue({ data: partialsMap, status: 200 });
-      const partials = await getPartials(undefined, schemaConfig);
+      const partials = await getPartials(schemaConfig, undefined);
       expect(axiosInstance.get).toBeCalledWith('https://schemas.s1seven.com/en10168-schemas/v0.0.5/partials-map.json', {
         responseType: 'json',
       });
@@ -198,7 +198,7 @@ describe('Utils', function () {
 
     it('no partials map exists, false is returned', async () => {
       (axiosInstance as any).get.mockRejectedValueOnce();
-      const partials = await getPartials(undefined, schemaConfig);
+      const partials = await getPartials(schemaConfig, undefined);
       expect(partials).toBe(false);
     });
   });

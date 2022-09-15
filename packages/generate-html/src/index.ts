@@ -261,8 +261,8 @@ export async function generateHtml(
     : {};
 
   const partials: false | Record<string, TemplateDelegate<any>> = await getPartials(
-    options.partialsMap,
     options.schemaConfig,
+    options.partialsMap,
   );
 
   options.handlebars = merge(

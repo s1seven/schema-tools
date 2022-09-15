@@ -118,8 +118,8 @@ async function populatePartialsObject(
 }
 
 export async function getPartials(
-  partialsMap: Record<string, string>,
   schemaConfig: SchemaConfig,
+  partialsMap?: Record<string, string>,
 ): Promise<false | Record<string, TemplateDelegate<any>>> {
   try {
     if (partialsMap) {
