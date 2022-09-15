@@ -12,7 +12,7 @@ import vm from 'vm';
 import {
   ExternalStandards,
   ExtraTranslations,
-  SchemaConfig,
+  // SchemaConfig,
   Schemas,
   schemaToExternalStandardsMap,
   Translations,
@@ -136,7 +136,7 @@ async function getPdfMakeContentFromObject(
   extraTranslations: ExtraTranslations = null,
 ): Promise<TDocumentDefinitions['content']> {
   const refSchemaUrl = new URL(certificate.RefSchemaUrl);
-  const schemaConfig: SchemaConfig = getSchemaConfig(refSchemaUrl);
+  const schemaConfig = getSchemaConfig(refSchemaUrl);
   const certificateLanguages = getCertificateLanguages(certificate);
   if (!translations) {
     translations = certificateLanguages?.length ? await getTranslations(certificateLanguages, schemaConfig) : {};
@@ -227,6 +227,11 @@ export async function generatePdf(
   },
 ): Promise<PDFKit.PDFDocument>;
 
+/**
+ * generatePdf
+ * @param certificateInput - The certificate must be validated before being passed in
+ * as it is no longer validated in generatePdf
+ */
 export async function generatePdf(
   certificateInput: Record<string, unknown> | string,
   options: GeneratePdfOptions = {},
