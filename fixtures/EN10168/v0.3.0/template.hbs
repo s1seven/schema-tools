@@ -358,7 +358,7 @@
   <section class="pdf-pagebreak-before">
     {{#if Certificate.Inspection.length}}
     {{#each Certificate.Inspection}}
-    {{> inspection Inspection=this CertificateLanguages=../Certificate.CertificateLanguages }}
+      {{> inspection Inspection=this CertificateLanguages=../Certificate.CertificateLanguages }}
     {{/each}}
     {{else}}
     {{#if Certificate.Inspection}}
