@@ -17,8 +17,8 @@ import {
   Translations,
 } from '@s1seven/schema-tools-types';
 import {
-  castCertificate,
   getCertificateLanguages,
+  getCertificateType,
   getExtraTranslations,
   getPartials,
   getRefSchemaUrl,
@@ -236,18 +236,19 @@ export async function generateHtml(
     throw new Error(`Invalid input type : ${typeof certificateInput}`);
   }
 
-  const { certificate, type } = castCertificate(rawCert);
+  const certificate = rawCert as Schemas;
+  if (!options.schemaConfig) {
+    const refSchemaUrl = new URL(certificate.RefSchemaUrl);
+    options.schemaConfig = getSchemaConfig(refSchemaUrl);
+  }
+
+  const type = getCertificateType(options.schemaConfig);
   const certificateLanguages = getCertificateLanguages(certificate) || [CertificateLanguages.EN];
 
   const externalStandards: ExternalStandards[] =
     schemaToExternalStandardsMap[type]
       .map((schemaType) => get(certificate, schemaType, undefined))
       .filter((externalStandards) => externalStandards) || [];
-
-  if (!options.schemaConfig) {
-    const refSchemaUrl = new URL(certificate.RefSchemaUrl);
-    options.schemaConfig = getSchemaConfig(refSchemaUrl);
-  }
 
   const translations = certificateLanguages?.length
     ? options.translations || (await getTranslations(certificateLanguages, options.schemaConfig))
