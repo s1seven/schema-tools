@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import Debug from 'debug';
 import * as fs from 'fs';
 import { compile, TemplateDelegate } from 'handlebars';
 import { Agent as HttpAgent } from 'http';
@@ -17,6 +18,8 @@ import {
 } from '@s1seven/schema-tools-types';
 
 import { getRefSchemaUrl } from './helpers';
+
+const debug = Debug('utils');
 
 export const cache = new NodeCache({
   stdTTL: 60 * 60,
@@ -73,6 +76,7 @@ async function getTranslation(
     const result = await loadExternalFile(filePath, 'json');
     return { result };
   } catch (error: any) {
+    debug(error);
     return { error };
   }
 }
@@ -127,6 +131,7 @@ export async function getPartials(
     const remotePartialsMap = await loadExternalFile(partialsMapUrl, 'json');
     return await populatePartialsObject(remotePartialsMap as Record<string, string>);
   } catch (error) {
+    debug(error);
     return false;
   }
 }

@@ -73,6 +73,7 @@
     "@lerna/publish": "^5.1.8",
     "@lerna/run": "^5.1.8",
     "@nrwl/nx-cloud": "latest",
+    "@types/debug": "^4.1.7",
     "@types/jest": "^27.4.0",
     "@types/node": "^16.11.11",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
