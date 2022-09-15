@@ -223,6 +223,11 @@ async function parseHbsTemplate(certificate: any, options: GenerateHtmlOptions):
   return template(certificate, options?.handlebars);
 }
 
+/**
+ * generateHtml
+ * @param certificateInput - The certificate must be validated before being passed in
+ * as it is no longer validated in generateHtml
+ */
 export async function generateHtml(
   certificateInput: string | Record<string, unknown>,
   options: GenerateHtmlOptions = {},
