@@ -8,6 +8,7 @@ import {
   asCoACertificate,
   asECoCCertificate,
   asEN10168Certificate,
+  getCertificateType,
   getExtraTranslations,
   getPartials,
   getRefSchemaUrl,
@@ -17,6 +18,9 @@ import {
 } from '../src/index';
 import { axiosInstance, cache } from '../src/loaders';
 
+const baseUrl = 'https://schemas.s1seven.com';
+const version = 'v0.0.5';
+
 describe('Utils', function () {
   const EN_10168_CERT_PATH = `${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.json`;
   const ECOC_CERT_PATH = `${__dirname}/../../../fixtures/E-CoC/v1.0.0/valid_cert.json`;
@@ -25,7 +29,7 @@ describe('Utils', function () {
 
   const refSchemaUrl = new URL('https://schemas.s1seven.com/en10168-schemas/v0.1.0/schema.json');
   const schemaConf: SchemaConfig = {
-    baseUrl: 'https://schemas.s1seven.com',
+    baseUrl,
     schemaType: 'en10168-schemas',
     version: '0.1.0',
   };
@@ -168,9 +172,9 @@ describe('Utils', function () {
     };
 
     const schemaConfig: SchemaConfig = {
-      baseUrl: 'https://schemas.s1seven.com',
+      baseUrl,
       schemaType: 'tkr-schemas',
-      version: 'v0.0.5',
+      version,
     };
 
     beforeEach(() => {
@@ -195,6 +199,39 @@ describe('Utils', function () {
       (axiosInstance as any).get.mockRejectedValueOnce();
       const partials = await getPartials(undefined, schemaConfig);
       expect(partials).toBe(false);
+    });
+  });
+
+  describe('getCertificateType()', function () {
+    const schemaConfigs: SchemaConfig[] = [
+      {
+        baseUrl,
+        schemaType: 'tkr-schemas',
+        version,
+      },
+      {
+        baseUrl,
+        schemaType: 'en10168-schemas',
+        version,
+      },
+      {
+        baseUrl,
+        schemaType: 'e-coc-schemas',
+        version,
+      },
+      {
+        baseUrl,
+        schemaType: 'coa-schemas',
+        version,
+      },
+    ];
+    const expectedResults: string[] = ['tkr', 'en10168', 'e-coc', 'coa'];
+
+    schemaConfigs.forEach((schemaConfig, index) => {
+      it(`${schemaConfig.schemaType} returns the certificate type ${expectedResults[index]}`, async () => {
+        const type = getCertificateType(schemaConfig);
+        expect(expectedResults[index]).toBe(type);
+      });
     });
   });
 });
