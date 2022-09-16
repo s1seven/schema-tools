@@ -1,4 +1,6 @@
-import Ajv, { ValidateFunction } from 'ajv';
+import { Options as AjvOptions, ValidateFunction } from 'ajv';
+import Ajv2019 from 'ajv/dist/2019';
+import draft7MetaSchema from 'ajv/dist/refs/json-schema-draft-07.json';
 import addFormats from 'ajv-formats';
 import { promises as fs } from 'fs';
 import flatten from 'lodash.flatten';
@@ -69,7 +71,7 @@ async function* loadLocalCertificates(
 
 export async function setValidator(refSchemaUrl: string): Promise<ValidateFunction> {
   const schema = await loadExternalFile(refSchemaUrl, 'json');
-  const ajv = new Ajv({
+  const ajvOptions: AjvOptions = {
     loadSchema: (uri) => loadExternalFile(uri, 'json'),
     discriminator: true,
     strictSchema: true,
@@ -78,8 +80,10 @@ export async function setValidator(refSchemaUrl: string): Promise<ValidateFuncti
     // TODO: strictTypes: true,
     strictTypes: false,
     allErrors: true,
-  });
+  };
+  const ajv = new Ajv2019(ajvOptions);
   ajv.addKeyword('meta:license');
+  ajv.addMetaSchema(draft7MetaSchema);
   addFormats(ajv);
   const validator = await ajv.compileAsync(schema);
   const cacheKey = `validator-${refSchemaUrl}`;
