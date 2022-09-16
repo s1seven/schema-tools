@@ -78,18 +78,6 @@ jobs:
       - name: Build packages
         run: npm run build:affected
 
-      - name: Extract branch name
-        id: extract-branch
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-
-      - name: Add, commit and push changes to dist/generateContents.js
-        if: steps.extract-branch.outputs.branch != 'main'
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'chore: update minified generateContents.js [skip ci]'
-          file_pattern: packages/generate-coa-pdf-template/dist/generateContent.js packages/generate-en10168-pdf-template/dist/generateContent.js
-
       - name: Run Karma tests
         run: npm run test:browser:affected
 
@@ -104,6 +92,18 @@ jobs:
           name: coverage
           path: ./coverage
           retention-days: 2
+
+      - name: Extract branch name
+        id: extract-branch
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+
+      - name: Add, commit and push changes to dist/generateContents.js
+        if: steps.extract-branch.outputs.branch != 'main'
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'chore: update minified generateContents.js [skip ci]'
+          file_pattern: packages/generate-coa-pdf-template/dist/generateContent.js packages/generate-en10168-pdf-template/dist/generateContent.js
 
   scan:
     needs: setup-and-test
