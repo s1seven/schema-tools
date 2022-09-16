@@ -37,7 +37,7 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
   ) {
     // specific to EN10168
     if (group === 'certificateFields') {
-      return `${phrase} ${this.getTranslation(group, phrase)}`;
+      return `${phrase as string} ${this.getTranslation(group, phrase)}`;
     }
     return this.getTranslation(group, phrase);
   }
