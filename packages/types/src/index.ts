@@ -164,6 +164,8 @@ export class EN10168SchemaCertificate {
   Validation: Record<string, any>;
 }
 
+export const PartialsMapFileName = 'partials-map.json';
+
 export class EN10168Schema extends BaseCertificateSchema {
   @IsOptional()
   @Type(() => CertificateDocumentMetadata)

@@ -30,6 +30,7 @@ export class SchemaRepositoryVersion {
     translations: Translations,
     extraTranslations: ExtraTranslations = null,
     handlebars: RuntimeOptions = {},
+    partialsMap?: Record<string, string>,
   ): Promise<void> {
     const outputPath = certificatePath.replace('.json', '.html');
     const rawHtml = await generateHtml(certificatePath, {
@@ -38,6 +39,7 @@ export class SchemaRepositoryVersion {
       translations,
       handlebars,
       extraTranslations,
+      partialsMap,
     });
 
     const html = prettier.format(rawHtml, { parser: 'html' });
@@ -106,6 +108,7 @@ export class SchemaRepositoryVersion {
     pattern: CertificatePattern,
     templatePath: string,
     handlebars: RuntimeOptions = {},
+    partialsMap?: Record<string, string>,
   ): Promise<void> {
     const filePaths = glob.sync(pattern);
     await Promise.all(
@@ -116,6 +119,7 @@ export class SchemaRepositoryVersion {
           this.translations,
           this.extraTranslations,
           handlebars,
+          partialsMap,
         ),
       ),
     );

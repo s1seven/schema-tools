@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { compile, RuntimeOptions, SafeString } from 'handlebars';
+import { compile, RuntimeOptions, SafeString, TemplateDelegate } from 'handlebars';
 import get from 'lodash.get';
 import merge from 'lodash.merge';
 import mjml2html from 'mjml';
@@ -17,9 +17,10 @@ import {
   Translations,
 } from '@s1seven/schema-tools-types';
 import {
-  castCertificate,
   getCertificateLanguages,
+  getCertificateType,
   getExtraTranslations,
+  getPartials,
   getRefSchemaUrl,
   getSchemaConfig,
   getTranslations,
@@ -43,6 +44,7 @@ export type GenerateHtmlOptions = {
   templatePath?: string;
   translations?: Translations;
   extraTranslations?: ExtraTranslations;
+  partialsMap?: Record<string, string>;
 };
 
 function languagesStringToArray(languages: string | string[]): string[] {
@@ -221,6 +223,11 @@ async function parseHbsTemplate(certificate: any, options: GenerateHtmlOptions):
   return template(certificate, options?.handlebars);
 }
 
+/**
+ * generateHtml
+ * @param certificateInput - The certificate must be validated before being passed in
+ * as it is no longer validated in generateHtml
+ */
 export async function generateHtml(
   certificateInput: string | Record<string, unknown>,
   options: GenerateHtmlOptions = {},
@@ -234,18 +241,20 @@ export async function generateHtml(
     throw new Error(`Invalid input type : ${typeof certificateInput}`);
   }
 
-  const { certificate, type } = castCertificate(rawCert);
-  const certificateLanguages = getCertificateLanguages(certificate) || [CertificateLanguages.EN];
-
-  const externalStandards: ExternalStandards[] =
-    schemaToExternalStandardsMap[type]
-      .map((schemaType) => get(certificate, schemaType, undefined))
-      .filter((externalStandards) => externalStandards) || [];
-
+  const certificate = rawCert as Schemas;
   if (!options.schemaConfig) {
     const refSchemaUrl = new URL(certificate.RefSchemaUrl);
     options.schemaConfig = getSchemaConfig(refSchemaUrl);
   }
+
+  const type = getCertificateType(options.schemaConfig);
+  const certificateLanguages = getCertificateLanguages(certificate) || [CertificateLanguages.EN];
+
+  const externalStandards: ExternalStandards[] = schemaToExternalStandardsMap[type]
+    ? schemaToExternalStandardsMap[type]
+        .map((schemaType) => get(certificate, schemaType, undefined))
+        .filter((externalStandards) => externalStandards) || []
+    : [];
 
   const translations = certificateLanguages?.length
     ? options.translations || (await getTranslations(certificateLanguages, options.schemaConfig))
@@ -256,7 +265,16 @@ export async function generateHtml(
       (await getExtraTranslations(certificateLanguages, options.schemaConfig, externalStandards))
     : {};
 
-  options.handlebars = merge(options.handlebars || {}, handlebarsBaseOptions({ translations, extraTranslations }));
+  const partials: false | Record<string, TemplateDelegate<any>> = await getPartials(
+    options.schemaConfig,
+    options.partialsMap,
+  );
+
+  options.handlebars = merge(
+    options.handlebars || {},
+    partials ? { partials } : {},
+    handlebarsBaseOptions({ translations, extraTranslations }),
+  );
 
   return options.templateType === 'mjml'
     ? parseMjmlTemplate(certificate, options)

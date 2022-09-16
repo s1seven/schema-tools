@@ -63,3 +63,8 @@ export function getSchemaConfig(refSchemaUrl: URL): SchemaConfig {
 export function getCertificateLanguages(certificate: Schemas): CertificateLanguages[] | null {
   return certificate?.Certificate?.CertificateLanguages || null;
 }
+
+export function getCertificateType(schemaConfig: SchemaConfig): string {
+  const { schemaType } = schemaConfig;
+  return schemaType.replace('-schemas', '');
+}

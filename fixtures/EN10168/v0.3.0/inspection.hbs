@@ -1,5 +1,5 @@
 <h2 class="main-title"> {{ i18n "Inspection" "certificateGroups" CertificateLanguages}}</h2>
-{{#each Inspection}}
+{{#each this}}
 {{#typeOf this 'object'}}
 {{#ifEqual @key "ChemicalComposition"}}
 <h3 class="second-level-title">{{ i18n @key "otherFields" ../CertificateLanguages }}</h3>

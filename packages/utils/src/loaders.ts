@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import Debug from 'debug';
 import * as fs from 'fs';
+import { compile, TemplateDelegate } from 'handlebars';
 import { Agent as HttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
 import NodeCache from 'node-cache';
@@ -10,11 +12,14 @@ import {
   ExternalStandards,
   ExternalStandardsTranslations,
   Languages,
+  PartialsMapFileName,
   SchemaConfig,
   Translations,
 } from '@s1seven/schema-tools-types';
 
 import { getRefSchemaUrl } from './helpers';
+
+const debug = Debug('schema-tools-utils');
 
 export const cache = new NodeCache({
   stdTTL: 60 * 60,
@@ -71,6 +76,7 @@ async function getTranslation(
     const result = await loadExternalFile(filePath, 'json');
     return { result };
   } catch (error: any) {
+    debug(error);
     return { error };
   }
 }
@@ -96,6 +102,38 @@ export async function getTranslations<L extends string = Languages>(
   }
 
   return translationsArrayToObject(translationsArray);
+}
+
+async function populatePartialsObject(
+  partialsMap: Record<string, string>,
+): Promise<Record<string, TemplateDelegate<any>>> {
+  const partials = {};
+
+  for (const partial in partialsMap) {
+    const loadedTemplate = await loadExternalFile(partialsMap[partial], 'text');
+    partials[partial] = (ctx, opts) => compile(loadedTemplate)(ctx, opts);
+  }
+
+  return partials;
+}
+
+export async function getPartials(
+  schemaConfig: SchemaConfig,
+  partialsMap?: Record<string, string>,
+): Promise<false | Record<string, TemplateDelegate<any>>> {
+  try {
+    if (partialsMap) {
+      return await populatePartialsObject(partialsMap);
+    }
+
+    const { baseUrl, schemaType, version } = schemaConfig;
+    const partialsMapUrl = `${baseUrl}/${schemaType}/${version}/${PartialsMapFileName}`;
+    const remotePartialsMap = await loadExternalFile(partialsMapUrl, 'json');
+    return await populatePartialsObject(remotePartialsMap as Record<string, string>);
+  } catch (error) {
+    debug(error);
+    return false;
+  }
 }
 
 export async function getExtraTranslations<L extends string = Languages>(

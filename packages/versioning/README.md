@@ -23,6 +23,13 @@ const updater = new SchemaRepositoryVersion(
 `SchemaRepositoryVersion` contains several methods, such as `updateSchemasVersion` which updates the `$id` in the schemas in the repository on which it is used.
 The `updateJsonFixturesVersion` method updates the `RefSchemaUrl` in the sample certificates in `test/fixtures`.
 
+## Patials support
+
+`updateHtmlFixturesVersion` has been updated to support partials. A `partialsMap` can be passed in as the fourth argument as you can see in the following example:
+`await updater.updateHtmlFixturesVersion(certificatePattern, htmlTemplatePath, {}, partialsMap);`
+
+For more information on using partials, look at https://github.com/s1seven/schema-tools/blob/main/packages/generate-html/README.md#using-partials
+
 ## Usage
 
 ```

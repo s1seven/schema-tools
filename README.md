@@ -14,9 +14,13 @@ The specification of these libraries can be found in [SEP](https://s1seven.githu
 | Name      | Version range |
 | --------- | :-----------: |
 | [EN10168] | 0.0.2 - 0.2.x |
-| [E-CoC]   | 0.0.2 - 1.0.0 |
+| [E-CoC]   |     1.0.0     |
 | [CoA]     | 0.0.3 - 0.2.x |
 | [CDN]     |      xx       |
+
+### Deprecations
+
+E-CoC v0.0.2 has been deprecated.
 
 ## List of packages
 

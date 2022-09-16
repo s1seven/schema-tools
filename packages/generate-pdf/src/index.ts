@@ -17,8 +17,8 @@ import {
   Translations,
 } from '@s1seven/schema-tools-types';
 import {
-  castCertificate,
   getCertificateLanguages,
+  getCertificateType,
   getExtraTranslations,
   getSchemaConfig,
   getTranslations,
@@ -141,12 +141,12 @@ async function getPdfMakeContentFromObject(
     translations = certificateLanguages?.length ? await getTranslations(certificateLanguages, schemaConfig) : {};
   }
 
-  const { type } = castCertificate(certificate);
-
-  const externalStandards: ExternalStandards[] =
-    schemaToExternalStandardsMap[type]
-      .map((schemaType) => get(certificate, schemaType, undefined))
-      .filter((externalStandards) => externalStandards) || [];
+  const type = getCertificateType(schemaConfig);
+  const externalStandards: ExternalStandards[] = schemaToExternalStandardsMap[type]
+    ? schemaToExternalStandardsMap[type]
+        .map((schemaType) => get(certificate, schemaType, undefined))
+        .filter((externalStandards) => externalStandards) || []
+    : [];
 
   if (!extraTranslations) {
     extraTranslations =
@@ -226,6 +226,11 @@ export async function generatePdf(
   },
 ): Promise<PDFKit.PDFDocument>;
 
+/**
+ * generatePdf
+ * @param certificateInput - The certificate must be validated before being passed in
+ * as it is no longer validated in generatePdf
+ */
 export async function generatePdf(
   certificateInput: Record<string, unknown> | string,
   options: GeneratePdfOptions = {},
