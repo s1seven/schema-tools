@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-validate@0.2.11...@s1seven/schema-tools-validate@0.3.0) (2022-09-16)
+
+
+### Features
+
+* **validate:** use latest JSON schema features in AJV ([a594549](https://github.com/s1seven/schema-tools/commit/a594549cabed1bf7561e0492e63598103d3b13b0))
+
+
+
+
+
 ## [0.2.11](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-validate@0.2.10...@s1seven/schema-tools-validate@0.2.11) (2022-09-16)
 
 **Note:** Version bump only for package @s1seven/schema-tools-validate

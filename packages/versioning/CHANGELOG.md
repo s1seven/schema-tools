@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-versioning@0.3.0...@s1seven/schema-tools-versioning@0.4.0) (2022-09-16)
+
+
+### Features
+
+* **versioning:** add methods to update partials maps ([4bb36be](https://github.com/s1seven/schema-tools/commit/4bb36bebf55ba0dbe583b9d9f947e26651e1009c))
+
+
+
+
+
 # [0.3.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-versioning@0.2.3...@s1seven/schema-tools-versioning@0.3.0) (2022-09-16)
 
 
