@@ -1,18 +1,28 @@
+import Debug from 'debug';
 import { createWriteStream } from 'fs';
 import glob from 'glob';
 import type { RuntimeOptions } from 'handlebars';
 import get from 'lodash.get';
 import set from 'lodash.set';
+import { resolve } from 'path';
 import prettier from 'prettier';
+import { URL } from 'url';
 
 import { generateHtml } from '@s1seven/schema-tools-generate-html';
 import { generatePdf, TDocumentDefinitions, TFontDictionary } from '@s1seven/schema-tools-generate-pdf';
-import type { ExtraTranslations, Translations } from '@s1seven/schema-tools-types';
+import { ExtraTranslations, PartialsMapFileName, Translations } from '@s1seven/schema-tools-types';
 import { loadExternalFile, writeFile } from '@s1seven/schema-tools-utils';
+
+const debug = Debug('schema-tools-versioning');
 
 export interface SchemaFileProperties {
   filePath: string;
   properties: { path: string | string[]; value: string }[];
+}
+
+export interface PartialsMapProperties {
+  filePath?: string;
+  properties: { path: string | string[]; schemaType?: string; version?: string; value: string }[];
 }
 
 export type CertificatePattern = `${string}.json` | string;
@@ -22,6 +32,10 @@ export class SchemaRepositoryVersion {
 
   static buildRefSchemaUrl(serverUrl: string, version: string, schemaName: string): string {
     return `${serverUrl}/${version}/${schemaName}`;
+  }
+
+  static buildCustomRefSchemaUrl(originUrl: string, schemaType: string, version: string, fileName: string): string {
+    return `${originUrl}/${schemaType}/${version}/${fileName}`;
   }
 
   static async generateHtmlCertificate(
@@ -87,6 +101,11 @@ export class SchemaRepositoryVersion {
     return SchemaRepositoryVersion.buildRefSchemaUrl(this.serverUrl, this.version, schemaName);
   }
 
+  buildCustomRefSchemaUrl(schemaType: string, version: string, fileName: string): string {
+    const originUrl = new URL(this.serverUrl).origin;
+    return SchemaRepositoryVersion.buildCustomRefSchemaUrl(originUrl, schemaType, version, fileName);
+  }
+
   async updateJsonFixturesVersion(pattern: CertificatePattern): Promise<void> {
     const filePaths = glob.sync(pattern);
     await Promise.all(
@@ -146,6 +165,37 @@ export class SchemaRepositoryVersion {
     );
   }
 
+  async updatePartialsMapVersion(opts: PartialsMapProperties): Promise<void> {
+    const filePath = opts.filePath || resolve(PartialsMapFileName);
+    const partialsMap: Record<string, string> | null = await loadExternalFile(filePath, 'json', false).catch((e) => {
+      debug(e);
+      return null;
+    });
+
+    if (!partialsMap) {
+      return;
+    }
+    let partialsMapHasChanged = false;
+    for (const { value, path, schemaType, version } of opts.properties) {
+      if (typeof get(partialsMap, path, undefined) === 'string') {
+        const newValue =
+          schemaType && version
+            ? this.buildCustomRefSchemaUrl(schemaType, version, value)
+            : this.buildRefSchemaUrl(value);
+        set(partialsMap, path, newValue);
+        partialsMapHasChanged = true;
+      }
+    }
+    if (partialsMapHasChanged) {
+      const prettierOptions = await prettier.resolveConfig(filePath);
+      const newPartialsMap = prettier.format(JSON.stringify(partialsMap, null, 2), {
+        ...(prettierOptions || {}),
+        parser: 'json',
+      });
+      await writeFile(filePath, newPartialsMap);
+    }
+  }
+
   async updateSchemasVersion(): Promise<void> {
     await Promise.all(
       this.schemaFilePaths.map(async ({ filePath, properties }) => {
@@ -159,7 +209,12 @@ export class SchemaRepositoryVersion {
           }
         }
         if (schemaHasChanged) {
-          await writeFile(filePath, JSON.stringify(schema, null, 2));
+          const prettierOptions = await prettier.resolveConfig(filePath);
+          const jsonSchema = prettier.format(JSON.stringify(schema, null, 2), {
+            ...(prettierOptions || {}),
+            parser: 'json',
+          });
+          await writeFile(filePath, jsonSchema);
         }
       }),
     );

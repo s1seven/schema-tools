@@ -2,7 +2,7 @@
 import type { TDocumentDefinitions } from '@s1seven/schema-tools-generate-pdf';
 import { loadExternalFile, removeFile, writeFile } from '@s1seven/schema-tools-utils';
 
-import { SchemaFileProperties, SchemaRepositoryVersion } from '../src/index';
+import { PartialsMapProperties, SchemaFileProperties, SchemaRepositoryVersion } from '../src/index';
 
 describe('Versioning', function () {
   const serverUrl = 'https://schemas.s1seven.com';
@@ -15,6 +15,7 @@ describe('Versioning', function () {
   const fixtures = {
     'certificate-1.json': { RefSchemaUrl: '' },
     'certificate-2.json': { RefSchemaUrl: '' },
+    'partials-map.json': { company: '', group: '' },
     'schema.json': { $id: '', prop: { subschema: '' } },
     'sub-schema.json': { $id: '' },
   };
@@ -90,6 +91,35 @@ describe('Versioning', function () {
       docDefinition,
       fonts,
       {},
+    );
+  });
+
+  it('should update Partials map version(s)', async () => {
+    const partialsMapPaths: PartialsMapProperties = {
+      filePath: `${__dirname}/partials-map.json`,
+      properties: [
+        {
+          path: 'company',
+          schemaType: 'schema-definitions',
+          version: 'v0.0.0',
+          value: 'company/company.hbs',
+        },
+        {
+          path: 'group',
+          value: 'group/group.hbs',
+        },
+      ],
+    };
+
+    const instance = new SchemaRepositoryVersion(serverUrl, [], version);
+    await instance.updatePartialsMapVersion(partialsMapPaths);
+
+    const partialsMapFixtures = await loadExternalFile(`${__dirname}/partials-map.json`, 'json');
+    expect(partialsMapFixtures).toHaveProperty('company');
+    expect(partialsMapFixtures).toHaveProperty('group');
+    expect(partialsMapFixtures['group']).toBe(instance.buildRefSchemaUrl('group/group.hbs'));
+    expect(partialsMapFixtures['company']).toBe(
+      instance.buildCustomRefSchemaUrl('schema-definitions', 'v0.0.0', 'company/company.hbs'),
     );
   });
 
