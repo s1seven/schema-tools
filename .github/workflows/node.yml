@@ -84,7 +84,7 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
 
       - name: Add, commit and push changes to dist/generateContents.js
-        if: steps.extract-branch.outputs.branch !== 'main'
+        if: steps.extract-branch.outputs.branch != 'main'
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'chore: update minified generateContents.js [skip ci]'
