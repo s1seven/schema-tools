@@ -22,7 +22,7 @@
     "npm": ">=6"
   },
   "scripts": {
-    "bootstrap": "npm install lerna && lerna bootstrap && npm install",
+    "bootstrap": "lerna bootstrap && npm install",
     "format": "nx format",
     "format:all": "prettier --write \"packages/**/*.{ts,json}\"",
     "cleanup": "nx run-many --target=cleanup --all",
