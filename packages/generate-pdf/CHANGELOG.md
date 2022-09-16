@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.1.2...@s1seven/schema-tools-generate-pdf@0.2.0) (2022-09-16)
+
+
+### Bug Fixes
+
+* add check before mapping over externalStandards to ensure compatability with tkr schema ([4bbf325](https://github.com/s1seven/schema-tools/commit/4bbf325dfc094c9139b825ff2610fbf9591052c6))
+
+
+### Features
+
+* add debug library and error logging for utils package ([17cf852](https://github.com/s1seven/schema-tools/commit/17cf8522705c9a797819392f8f97c113f307a380))
+
+
+
+
+
 ## [0.1.2](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.1.1...@s1seven/schema-tools-generate-pdf@0.1.2) (2022-07-27)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-pdf

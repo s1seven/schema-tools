@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.4.0...@s1seven/schema-tools-types@0.5.0) (2022-09-16)
+
+
+### Features
+
+* add support for hbs partials in generate-html ([a4c1739](https://github.com/s1seven/schema-tools/commit/a4c1739e21d55ceb9f0f48d01656bf56940f33f7))
+* add support for tkr schema ([c69eaa7](https://github.com/s1seven/schema-tools/commit/c69eaa7dd20e04d62d344ef6775dac9ebc68bfca))
+
+
+### Reverts
+
+* c69eaa7dd20e04d62d344ef6775dac9ebc68bfca ([5960471](https://github.com/s1seven/schema-tools/commit/596047173b661f04ae64086eb94de98e411eddfc))
+
+
+
+
+
 # [0.4.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-types@0.3.1...@s1seven/schema-tools-types@0.4.0) (2022-07-27)
 
 

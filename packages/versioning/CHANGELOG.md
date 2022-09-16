@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-versioning@0.2.3...@s1seven/schema-tools-versioning@0.3.0) (2022-09-16)
+
+
+### Features
+
+* add support for hbs partials in generate-html ([a4c1739](https://github.com/s1seven/schema-tools/commit/a4c1739e21d55ceb9f0f48d01656bf56940f33f7))
+
+
+
+
+
 ## [0.2.3](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-versioning@0.2.2...@s1seven/schema-tools-versioning@0.2.3) (2022-07-27)
 
 **Note:** Version bump only for package @s1seven/schema-tools-versioning

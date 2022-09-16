@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.1.2...@s1seven/schema-tools-utils@0.2.0) (2022-09-16)
+
+
+### Features
+
+* add debug library and error logging for utils package ([17cf852](https://github.com/s1seven/schema-tools/commit/17cf8522705c9a797819392f8f97c113f307a380))
+* add new getCertificateType function in helpers ([be2e235](https://github.com/s1seven/schema-tools/commit/be2e235b21e482bf1088cd482df2f5d55fc436b7))
+* add support for hbs partials in generate-html ([a4c1739](https://github.com/s1seven/schema-tools/commit/a4c1739e21d55ceb9f0f48d01656bf56940f33f7))
+* add support for tkr schema ([c69eaa7](https://github.com/s1seven/schema-tools/commit/c69eaa7dd20e04d62d344ef6775dac9ebc68bfca))
+
+
+### Reverts
+
+* c69eaa7dd20e04d62d344ef6775dac9ebc68bfca ([5960471](https://github.com/s1seven/schema-tools/commit/596047173b661f04ae64086eb94de98e411eddfc))
+
+
+
+
+
 ## [0.1.2](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.1.1...@s1seven/schema-tools-utils@0.1.2) (2022-07-27)
 
 **Note:** Version bump only for package @s1seven/schema-tools-utils
