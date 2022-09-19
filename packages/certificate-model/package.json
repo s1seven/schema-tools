@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-certificate-model",
   "description": "Tool to create class / instances specific to a schema",
-  "version": "0.2.12",
+  "version": "0.3.0",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/certificate-model#readme",

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.2.12...@s1seven/schema-tools-certificate-model@0.3.0) (2022-09-19)
+
+
+### Features
+
+* **certificate-model:** add AJV 2019 ([4c1eff5](https://github.com/s1seven/schema-tools/commit/4c1eff55ed5dcae457d524a3f393067095f223cb))
+
+
+
+
+
 ## [0.2.12](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-model@0.2.11...@s1seven/schema-tools-certificate-model@0.2.12) (2022-09-16)
 
 **Note:** Version bump only for package @s1seven/schema-tools-certificate-model
