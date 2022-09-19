@@ -1,4 +1,6 @@
-import Ajv, { ErrorObject } from 'ajv';
+import Ajv, { ErrorObject, Options as AjvOptions, ValidateFunction } from 'ajv';
+import Ajv2019 from 'ajv/dist/2019';
+import draft7MetaSchema from 'ajv/dist/refs/json-schema-draft-07.json';
 import addFormats from 'ajv-formats';
 import { EventEmitter } from 'events';
 import cloneDeepWith from 'lodash.clonedeepwith';
@@ -21,7 +23,7 @@ import {
   getSemanticVersion,
   loadExternalFile,
 } from '@s1seven/schema-tools-utils';
-import { getValidator, setValidator, ValidateFunction } from '@s1seven/schema-tools-validate';
+import { getValidator, setValidator } from '@s1seven/schema-tools-validate';
 
 export type BuildCertificateModelOptions = {
   schema?: JSONSchema7;
@@ -118,14 +120,17 @@ function set<T extends Schemas>(scope: CertificateModel<T>, data: Record<string,
 function getProperties(schema: JSONSchema7, validator?: Ajv) {
   const root = !validator;
   if (root || !validator) {
-    const ajv = new Ajv({
+    const ajvOptions: AjvOptions = {
       discriminator: true,
       strictSchema: true,
       strictNumbers: true,
       strictRequired: true,
       strictTypes: true,
       allErrors: true,
-    });
+    };
+    const ajv = new Ajv2019(ajvOptions);
+    ajv.addKeyword('meta:license');
+    ajv.addMetaSchema(draft7MetaSchema);
     addFormats(ajv);
     validator = ajv.addSchema(schema, '');
   }
@@ -156,7 +161,7 @@ function getProperties(schema: JSONSchema7, validator?: Ajv) {
 export class CertificateModel<T extends Schemas> extends EventEmitter {
   static symbols: any;
 
-  _validator: ValidateFunction = new Ajv({ strict: true }).compile({});
+  _validator: ValidateFunction = new Ajv2019({ strict: true }).compile({});
 
   static merge(obj1: Record<string, unknown>, obj2: Record<string, unknown>) {
     return merge(obj1, obj2);
