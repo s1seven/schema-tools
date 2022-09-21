@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.4](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.6.3...@s1seven/schema-tools-generate-en10168-pdf-template@0.6.4) (2022-09-21)
+
+**Note:** Version bump only for package @s1seven/schema-tools-generate-en10168-pdf-template
+
+
+
+
+
 ## [0.6.3](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.6.2...@s1seven/schema-tools-generate-en10168-pdf-template@0.6.3) (2022-09-16)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-en10168-pdf-template
