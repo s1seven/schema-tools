@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-versioning@0.4.1...@s1seven/schema-tools-versioning@0.5.0) (2022-09-21)
+
+
+### Features
+
+* **versioning:** allow to update remote schema-definitions in `updateSchemasVersion` ([f88bc4b](https://github.com/s1seven/schema-tools/commit/f88bc4b5bb253dd5e0ff097af1138c6e779509b7))
+
+
+
+
+
 ## [0.4.1](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-versioning@0.4.0...@s1seven/schema-tools-versioning@0.4.1) (2022-09-21)
 
 **Note:** Version bump only for package @s1seven/schema-tools-versioning
