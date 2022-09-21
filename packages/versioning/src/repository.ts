@@ -17,7 +17,7 @@ const debug = Debug('schema-tools-versioning');
 
 export interface SchemaFileProperties {
   filePath: string;
-  properties: { path: string | string[]; value: string }[];
+  properties: { path: string | string[]; schemaType?: string; version?: string; value: string }[];
 }
 
 export interface PartialsMapProperties {
@@ -97,15 +97,6 @@ export class SchemaRepositoryVersion {
     readonly schemaName = 'schema.json',
   ) {}
 
-  buildRefSchemaUrl(schemaName = this.schemaName): string {
-    return SchemaRepositoryVersion.buildRefSchemaUrl(this.serverUrl, this.version, schemaName);
-  }
-
-  buildCustomRefSchemaUrl(schemaType: string, version: string, fileName: string): string {
-    const originUrl = new URL(this.serverUrl).origin;
-    return SchemaRepositoryVersion.buildCustomRefSchemaUrl(originUrl, schemaType, version, fileName);
-  }
-
   async updateJsonFixturesVersion(pattern: CertificatePattern): Promise<void> {
     const filePaths = glob.sync(pattern);
     await Promise.all(
@@ -165,6 +156,21 @@ export class SchemaRepositoryVersion {
     );
   }
 
+  buildRefSchemaUrl(schemaName = this.schemaName): string {
+    return SchemaRepositoryVersion.buildRefSchemaUrl(this.serverUrl, this.version, schemaName);
+  }
+
+  buildCustomRefSchemaUrl(schemaType: string, version: string, fileName: string): string {
+    const originUrl = new URL(this.serverUrl).origin;
+    return SchemaRepositoryVersion.buildCustomRefSchemaUrl(originUrl, schemaType, version, fileName);
+  }
+
+  updateRefSchemaUrl(value: string, schemaType?: string, version?: string) {
+    return schemaType && version
+      ? this.buildCustomRefSchemaUrl(schemaType, version, value)
+      : this.buildRefSchemaUrl(value);
+  }
+
   async updatePartialsMapVersion(opts: PartialsMapProperties): Promise<void> {
     const filePath = opts.filePath || resolve(PartialsMapFileName);
     const partialsMap: Record<string, string> | null = await loadExternalFile(filePath, 'json', false).catch((e) => {
@@ -178,10 +184,7 @@ export class SchemaRepositoryVersion {
     let partialsMapHasChanged = false;
     for (const { value, path, schemaType, version } of opts.properties) {
       if (typeof get(partialsMap, path, undefined) === 'string') {
-        const newValue =
-          schemaType && version
-            ? this.buildCustomRefSchemaUrl(schemaType, version, value)
-            : this.buildRefSchemaUrl(value);
+        const newValue = this.updateRefSchemaUrl(value, schemaType, version);
         set(partialsMap, path, newValue);
         partialsMapHasChanged = true;
       }
@@ -201,9 +204,9 @@ export class SchemaRepositoryVersion {
       this.schemaFilePaths.map(async ({ filePath, properties }) => {
         const schema = await loadExternalFile(filePath, 'json', false);
         let schemaHasChanged = false;
-        for (const { value, path } of properties) {
+        for (const { value, path, schemaType, version } of properties) {
           if (typeof get(schema, path, undefined) === 'string') {
-            const newValue = this.buildRefSchemaUrl(value);
+            const newValue = this.updateRefSchemaUrl(value, schemaType, version);
             set(schema, path, newValue);
             schemaHasChanged = true;
           }
