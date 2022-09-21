@@ -125,9 +125,7 @@ export async function getPartials(
     if (partialsMap) {
       return await populatePartialsObject(partialsMap);
     }
-
-    const { baseUrl, schemaType, version } = schemaConfig;
-    const partialsMapUrl = `${baseUrl}/${schemaType}/${version}/${PartialsMapFileName}`;
+    const partialsMapUrl = getRefSchemaUrl(schemaConfig, PartialsMapFileName).href;
     const remotePartialsMap = await loadExternalFile(partialsMapUrl, 'json');
     return await populatePartialsObject(remotePartialsMap as Record<string, string>);
   } catch (error) {

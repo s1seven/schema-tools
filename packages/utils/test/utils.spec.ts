@@ -175,7 +175,7 @@ describe('Utils', function () {
     const schemaConfig: SchemaConfig = {
       baseUrl,
       schemaType: en10168SchemaType,
-      version,
+      version: version.replace('v', ''),
     };
 
     beforeEach(() => {
