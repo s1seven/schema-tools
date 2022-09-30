@@ -51,7 +51,7 @@ function languagesStringToArray(languages: string | string[]): string[] {
   return typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
 }
 
-const handlebarsBaseOptions = (data: {
+export const handlebarsBaseOptions = (data: {
   translations: Translations;
   extraTranslations: ExternalStandardsTranslations;
 }): RuntimeOptions => {
@@ -140,6 +140,16 @@ const handlebarsBaseOptions = (data: {
           }).format(new Date(value));
         };
 
+        const localizeNumber = (lvalue: string, locales: string | string[] = 'EN') => {
+          const numbersAfterDecimal = lvalue.includes('.') ? lvalue.split('.').slice(-1)[0].length : 0;
+
+          return lvalue
+            ? new Intl.NumberFormat(locales, {
+                minimumFractionDigits: numbersAfterDecimal,
+              }).format(Number(lvalue))
+            : '';
+        };
+
         switch (type) {
           case 'number':
             result = value ? new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(Number(value)) : '';
@@ -149,6 +159,13 @@ const handlebarsBaseOptions = (data: {
             break;
           case 'date-time':
             result = localizeDate();
+            break;
+          case 'string':
+            if (Number.isNaN(Number(value))) {
+              result = value;
+            } else {
+              result = localizeNumber(value, locales);
+            }
             break;
           default:
             result = value;
@@ -165,9 +182,28 @@ const handlebarsBaseOptions = (data: {
         const result = new Intl.DateTimeFormat(locales, options).format(event);
         return new SafeString(result);
       },
-      localizeNumber: function (lvalue: number, locales: string | string[] = 'EN') {
-        const result = lvalue ? new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(lvalue) : '';
-        return new SafeString(result);
+      localizeNumber: function (lvalue: number | string, locales: string | string[] = 'EN') {
+        if (typeof lvalue === 'number') {
+          const result = lvalue
+            ? new Intl.NumberFormat(locales, {
+                maximumSignificantDigits: 6,
+              }).format(+lvalue)
+            : '';
+
+          return new SafeString(result);
+        } else if (typeof lvalue === 'string') {
+          const numbersAfterDecimal = lvalue.includes('.') ? lvalue.split('.').slice(-1)[0].length : 0;
+
+          const result = lvalue
+            ? new Intl.NumberFormat(locales, {
+                minimumFractionDigits: numbersAfterDecimal,
+              }).format(Number(lvalue))
+            : '';
+
+          return new SafeString(result);
+        }
+
+        return undefined;
       },
       get: function (object: Record<string, unknown>, path: string | string[], defaultValue = undefined) {
         path = typeof path === 'string' ? path.split(',').map((val) => val.trim()) : path;
