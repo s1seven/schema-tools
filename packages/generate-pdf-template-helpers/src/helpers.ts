@@ -73,10 +73,15 @@ export function localizeDate(lvalue: string | number | Date, locales: string | s
 }
 
 export function localizeNumber(lvalue: number | string, locales: string | string[] = 'EN') {
+  const options: Intl.NumberFormatOptions = {};
   if (typeof lvalue === 'string') {
+    const decimalNumbersToDisplay = lvalue.includes('.') ? lvalue.split('.').at(-1).length : 0;
+    options.minimumFractionDigits = decimalNumbersToDisplay;
     lvalue = Number(lvalue);
+  } else {
+    options.maximumSignificantDigits = 6;
   }
-  return new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(lvalue);
+  return new Intl.NumberFormat(locales, options).format(lvalue);
 }
 
 export function createFooter(RefSchemaUrl: string): TableElement {
