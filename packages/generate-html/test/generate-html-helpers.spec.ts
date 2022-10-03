@@ -183,41 +183,23 @@ const inpsections = [
   },
 ];
 
-describe('LocalizeNumber renders strings and numbers correctly with English localization', () => {
+describe('LocalizeNumber renders strings and numbers correctly with localization', () => {
   inpsections.forEach((object) => {
-    const Maximum = object.inspection.Maximum;
+    const { Maximum, Value, ValueType } = object.inspection;
 
-    it(`should render ${Maximum} as a SafeString`, () => {
+    it(`should render ${Maximum} as a SafeString with English localization`, () => {
       expect(localizeNumber(Maximum)).toEqual(object.localizeMaximumExpectedResult.EN);
     });
-  });
-});
 
-describe('LocalizeNumber renders strings and numbers correctly with German localization', () => {
-  inpsections.forEach((object) => {
-    const Maximum = object.inspection.Maximum;
-
-    it(`should render ${Maximum} as a SafeString`, () => {
+    it(`should render ${Maximum} as a SafeString with German localization`, () => {
       expect(localizeNumber(Maximum, ['DE'])).toEqual(object.localizeMaximumExpectedResult.DE);
     });
-  });
-});
 
-describe('LocalizeValue renders strings and numbers correctly with English localization', () => {
-  inpsections.forEach((object) => {
-    const { Value, ValueType } = object.inspection;
-
-    it(`should render ${Value} as a SafeString`, () => {
+    it(`should render ${Value} as a SafeString with English localization`, () => {
       expect(localizeValue(Value, ValueType)).toEqual(object.localizeValueExpectedResult.EN);
     });
-  });
-});
 
-describe('LocalizeValue renders strings and numbers correctly with German localization', () => {
-  inpsections.forEach((object) => {
-    const { Value, ValueType } = object.inspection;
-
-    it(`should render ${Value} as a SafeString`, () => {
+    it(`should render ${Value} as a SafeString with German localization`, () => {
       expect(localizeValue(Value, ValueType, ['DE'])).toEqual(object.localizeValueExpectedResult.DE);
     });
   });
