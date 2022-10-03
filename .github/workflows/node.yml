@@ -67,7 +67,7 @@ jobs:
         uses: nrwl/nx-set-shas@v2
 
       - name: Install GraphicsMagick
-        run: sudo apt-get install -y ghostscript graphicsmagick
+        run: sudo apt-get update && sudo apt-get install -y ghostscript graphicsmagick
 
       - name: Install dependencies
         run: npm run bootstrap
