@@ -141,7 +141,7 @@ export const handlebarsBaseOptions = (data: {
         };
 
         const localizeNumber = (lvalue: string, locales: string | string[] = 'EN') => {
-          const numbersAfterDecimal = lvalue.includes('.') ? lvalue.split('.').slice(-1)[0].length : 0;
+          const numbersAfterDecimal = lvalue.includes('.') ? lvalue.split('.').at(-1).length : 0;
 
           return lvalue
             ? new Intl.NumberFormat(locales, {
@@ -183,27 +183,16 @@ export const handlebarsBaseOptions = (data: {
         return new SafeString(result);
       },
       localizeNumber: function (lvalue: number | string, locales: string | string[] = 'EN') {
-        if (typeof lvalue === 'number') {
-          const result = lvalue
-            ? new Intl.NumberFormat(locales, {
-                maximumSignificantDigits: 6,
-              }).format(+lvalue)
-            : '';
-
-          return new SafeString(result);
-        } else if (typeof lvalue === 'string') {
-          const numbersAfterDecimal = lvalue.includes('.') ? lvalue.split('.').slice(-1)[0].length : 0;
-
-          const result = lvalue
-            ? new Intl.NumberFormat(locales, {
-                minimumFractionDigits: numbersAfterDecimal,
-              }).format(Number(lvalue))
-            : '';
-
-          return new SafeString(result);
+        if (!lvalue) return undefined;
+        const options: Intl.NumberFormatOptions = {};
+        if (typeof lvalue === 'string') {
+          options.minimumFractionDigits = lvalue.includes('.') ? lvalue.split('.').at(-1).length : 0;
+          lvalue = Number(lvalue);
+        } else {
+          options.maximumSignificantDigits = 6;
         }
-
-        return undefined;
+        const result = new Intl.NumberFormat(locales, options).format(lvalue);
+        return new SafeString(result);
       },
       get: function (object: Record<string, unknown>, path: string | string[], defaultValue = undefined) {
         path = typeof path === 'string' ? path.split(',').map((val) => val.trim()) : path;
