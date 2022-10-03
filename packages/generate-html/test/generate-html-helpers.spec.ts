@@ -19,7 +19,7 @@ const inpsections = [
       Minimum: '15',
       Maximum: '35',
     },
-    localizeNumberExpectedResult: {
+    localizeMaximumExpectedResult: {
       EN: { string: '35' },
       DE: { string: '35' },
     },
@@ -35,7 +35,7 @@ const inpsections = [
       Minimum: '15',
       Maximum: 35,
     },
-    localizeNumberExpectedResult: {
+    localizeMaximumExpectedResult: {
       EN: { string: '35' },
       DE: { string: '35' },
     },
@@ -51,7 +51,7 @@ const inpsections = [
       Minimum: '85',
       Maximum: '89',
     },
-    localizeNumberExpectedResult: {
+    localizeMaximumExpectedResult: {
       EN: { string: '89' },
       DE: { string: '89' },
     },
@@ -66,7 +66,7 @@ const inpsections = [
       ValueType: 'string',
       Maximum: '4.9',
     },
-    localizeNumberExpectedResult: {
+    localizeMaximumExpectedResult: {
       EN: { string: '4.9' },
       DE: { string: '4,9' },
     },
@@ -81,7 +81,7 @@ const inpsections = [
       ValueType: 'string',
       Maximum: '4.9',
     },
-    localizeNumberExpectedResult: {
+    localizeMaximumExpectedResult: {
       EN: { string: '4.9' },
       DE: { string: '4,9' },
     },
@@ -96,7 +96,7 @@ const inpsections = [
       ValueType: 'string',
       Maximum: 4.9,
     },
-    localizeNumberExpectedResult: {
+    localizeMaximumExpectedResult: {
       EN: { string: '4.9' },
       DE: { string: '4,9' },
     },
@@ -111,7 +111,7 @@ const inpsections = [
       ValueType: 'string',
       Maximum: 4.0,
     },
-    localizeNumberExpectedResult: {
+    localizeMaximumExpectedResult: {
       EN: { string: '4' }, // Because Maximum is a number, the trailing 0 is lost
       DE: { string: '4' },
     },
@@ -126,13 +126,59 @@ const inpsections = [
       ValueType: 'number',
       Maximum: '4.0',
     },
-    localizeNumberExpectedResult: {
+    localizeMaximumExpectedResult: {
       EN: { string: '4.0' },
       DE: { string: '4,0' },
     },
     localizeValueExpectedResult: {
       EN: { string: '4.1' },
       DE: { string: '4,1' },
+    },
+  },
+  {
+    inspection: {
+      Value: '49.7',
+      ValueType: 'number',
+      Maximum: '52.0',
+    },
+    localizeMaximumExpectedResult: {
+      EN: { string: '52.0' },
+      DE: { string: '52,0' },
+    },
+    localizeValueExpectedResult: {
+      EN: { string: '49.7' },
+      DE: { string: '49,7' },
+    },
+  },
+  {
+    // test cases from https://github.com/thematerials-network/CoA-schemas/issues/57
+    inspection: {
+      Value: '0.08',
+      ValueType: 'number',
+      Maximum: '0.15',
+    },
+    localizeMaximumExpectedResult: {
+      EN: { string: '0.15' },
+      DE: { string: '0,15' },
+    },
+    localizeValueExpectedResult: {
+      EN: { string: '0.08' },
+      DE: { string: '0,08' },
+    },
+  },
+  {
+    inspection: {
+      Value: '0.00',
+      ValueType: 'string',
+      Maximum: '0.15',
+    },
+    localizeMaximumExpectedResult: {
+      EN: { string: '0.15' },
+      DE: { string: '0,15' },
+    },
+    localizeValueExpectedResult: {
+      EN: { string: '0.00' },
+      DE: { string: '0,00' },
     },
   },
 ];
@@ -142,7 +188,7 @@ describe('LocalizeNumber renders strings and numbers correctly with English loca
     const Maximum = object.inspection.Maximum;
 
     it(`should render ${Maximum} as a SafeString`, () => {
-      expect(localizeNumber(Maximum)).toEqual(object.localizeNumberExpectedResult.EN);
+      expect(localizeNumber(Maximum)).toEqual(object.localizeMaximumExpectedResult.EN);
     });
   });
 });
@@ -152,7 +198,7 @@ describe('LocalizeNumber renders strings and numbers correctly with German local
     const Maximum = object.inspection.Maximum;
 
     it(`should render ${Maximum} as a SafeString`, () => {
-      expect(localizeNumber(Maximum, ['DE'])).toEqual(object.localizeNumberExpectedResult.DE);
+      expect(localizeNumber(Maximum, ['DE'])).toEqual(object.localizeMaximumExpectedResult.DE);
     });
   });
 });
