@@ -18,11 +18,12 @@ const fonts = {
 async function createPdf(options: {
   stylesPath: string;
   translationsPath: string;
+  extraTranslationsPath: string | undefined;
   certificatePath: string;
   generatorPath: string;
   outputPath: string;
 }) {
-  const { stylesPath, translationsPath, certificatePath, generatorPath, outputPath } = options;
+  const { stylesPath, translationsPath, extraTranslationsPath, certificatePath, generatorPath, outputPath } = options;
   const docDefinition: Omit<TDocumentDefinitions, 'content'> = {
     pageSize: 'A4',
     pageMargins: [20, 20, 20, 40],
@@ -39,12 +40,14 @@ async function createPdf(options: {
   };
 
   const translations = fs.readFileSync(translationsPath, 'utf-8');
+  const extraTranslations = extraTranslationsPath ? fs.readFileSync(extraTranslationsPath, 'utf-8') : undefined;
 
   const pdfDoc = await generatePdf(path.resolve(certificatePath), {
     docDefinition,
     outputType: 'stream',
     fonts,
     translations: JSON.parse(translations),
+    extraTranslations: extraTranslations ? JSON.parse(extraTranslations) : undefined,
     generatorPath,
   });
 
@@ -107,6 +110,19 @@ const getCliArgs = () =>
           }
         },
         alias: 't',
+      },
+      extraTranslationsPath: {
+        description: 'The path to the external translations file',
+        demandOption: false,
+        type: 'string',
+        coerce: (extraTranslationsPath) => {
+          if (!fs.existsSync(path.resolve(extraTranslationsPath))) {
+            throw new Error('This filePath does not exist.');
+          } else {
+            return path.resolve(extraTranslationsPath);
+          }
+        },
+        alias: 'e',
       },
       generatorPath: {
         description: 'The path to the javascript file that will generate the PDF',
