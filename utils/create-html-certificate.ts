@@ -7,20 +7,29 @@ import { generateHtml } from '../packages/generate-html/src';
 
 async function createHtml(options: {
   translationsPath: string;
+  extraTranslationsPath: string | undefined;
+  partialsMapPath: string | undefined;
   certificatePath: string;
   templatePath: string;
   outputPath: string;
 }) {
-  const { translationsPath, certificatePath, templatePath, outputPath } = options;
+  const { translationsPath, extraTranslationsPath, certificatePath, partialsMapPath, templatePath, outputPath } =
+    options;
   const translations = fs.readFileSync(translationsPath, 'utf-8');
+  const extraTranslations = extraTranslationsPath ? fs.readFileSync(extraTranslationsPath, 'utf-8') : undefined;
+  const partialsMap = partialsMapPath ? fs.readFileSync(partialsMapPath, 'utf-8') : undefined;
+
   const html = await generateHtml(path.resolve(certificatePath), {
     templateType: 'hbs',
     templatePath,
     translations: JSON.parse(translations),
+    extraTranslations: extraTranslations ? JSON.parse(extraTranslations) : undefined,
+    partialsMap: partialsMap ? JSON.parse(partialsMap) : undefined,
   });
   fs.writeFileSync(path.resolve(outputPath), html);
 }
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 (async function () {
   // incase you run directly with node from utils, uncomment the following line:
   // process.chdir('../');
@@ -68,6 +77,32 @@ async function createHtml(options: {
           }
         },
         alias: 't',
+      },
+      extraTranslationsPath: {
+        description: 'The path to the external translations file',
+        demandOption: false,
+        type: 'string',
+        coerce: (extraTranslationsPath) => {
+          if (!fs.existsSync(path.resolve(extraTranslationsPath))) {
+            throw new Error('This external translation filePath does not exist.');
+          } else {
+            return path.resolve(extraTranslationsPath);
+          }
+        },
+        alias: 'e',
+      },
+      partialsMapPath: {
+        description: 'The path to the external translations file',
+        demandOption: false,
+        type: 'string',
+        coerce: (partialsMapPath) => {
+          if (!fs.existsSync(path.resolve(partialsMapPath))) {
+            throw new Error('This external partials map filePath does not exist.');
+          } else {
+            return path.resolve(partialsMapPath);
+          }
+        },
+        alias: 'p',
       },
       templatePath: {
         description: 'The path to the handlebars template file in the Schema directory',
