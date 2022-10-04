@@ -126,7 +126,7 @@ The remaining packages should be made compatible with [all schema versions](#sup
 
 #### Typescript interface
 
-To generate `certificate.ts` (json-schema converted to Typescript interfaces),from the root directory, run :
+To generate `certificate.ts` (json-schema converted to Typescript interfaces),from the root directory, run the following command, updating the version number and schema name :
 
 ```sh
 npm run fixtures:interfaces -- -s ../CoA-schemas/schema.json -o fixtures/CoA/v0.2.0/certificate.ts
@@ -136,19 +136,24 @@ where -s indicates the path to the updated schema and -o indicates the path to t
 
 #### HTML certificate
 
-To generate `template_hbs.html` (HTML certificate generated from Handlebars template), from the root directory, run :
+To generate `template_hbs.html` (HTML certificate generated from Handlebars template), from the root directory, run the following command, updating the version number and schema name :
 
 ```sh
-npm run fixtures:html -- -c fixtures/CoA/v0.2.0/valid_cert.json -o fixtures/CoA/v0.2.0/template_hbs.html -t fixtures/CoA/v0.2.0/translations.json -T ../CoA-schemas/template.hbs
+npm run fixtures:html -- -c fixtures/CoA/v1.0.0/valid_cert.json -o fixtures/CoA/v1.0.0/template_hbs.html -t fixtures/CoA/v1.0.0/translations.json -T ../CoA-schemas/template.hbs -e fixtures/CoA/v1.0.0/extra_translations.json -p ../CoA-schemas/partials-map.json
 ```
+
+If external translations are not needed, remove the `-e` command from the above command.
+If partial maps are not needed, remove the `-p` command from the above command.
 
 #### PDF certificate
 
-To generate `valid_cert.pdf` (PDF certificate generated from JS generator), from the root directory, run :
+To generate `valid_cert.pdf` (PDF certificate generated from JS generator), from the root directory, run the following command, updating the version number and schema name :
 
 ```sh
-npm run fixtures:pdf -- -c fixtures/CoA/v0.2.0/valid_cert.json -o fixtures/CoA/v0.2.0/valid_cert.pdf -t fixtures/CoA/v0.2.0/translations.json -g ../CoA-schemas/generate-pdf.min.js -s ../CoA-schemas/generate-pdf.styles.json
+npm run fixtures:pdf -- -c fixtures/CoA/v1.0.0/valid_cert.json -o fixtures/CoA/v1.0.0/valid_cert.pdf -t fixtures/CoA/v1.0.0/translations.json -g ../CoA-schemas/generate-pdf.min.js -s ../CoA-schemas/generate-pdf.styles.json -e fixtures/CoA/v1.0.0/extra_translations.json
 ```
+
+If external translations are not needed, remove the `-e` command from the above command.
 
 ## PDF Generation - Making changes to a PDF
 
