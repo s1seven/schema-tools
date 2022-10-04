@@ -34,6 +34,12 @@ describe('GenerateInterfaces', function () {
       certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/EN10168/v0.2.0/certificate.ts`),
     },
     {
+      type: SupportedSchemas.EN10168,
+      schemaPath: 'https://schemas.s1seven.com/en10168-schemas/v0.3.0/schema.json',
+      version: 'v0.3.0',
+      certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/EN10168/v0.3.0/certificate.ts`),
+    },
+    {
       type: SupportedSchemas.ECOC,
       schemaPath: 'https://schemas.s1seven.com/e-coc-schemas/v1.0.0/schema.json',
       version: 'v1.0.0',
@@ -57,6 +63,12 @@ describe('GenerateInterfaces', function () {
       version: 'v0.2.0',
       certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/CoA/v0.2.0/certificate.ts`),
     },
+    // {
+    //   type: SupportedSchemas.COA,
+    //   schemaPath: 'https://schemas.s1seven.com/coa-schemas/v1.0.0/schema.json',
+    //   version: 'v1.0.0',
+    //   certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/CoA/v1.0.0/certificate.ts`),
+    // },
   ];
 
   const generateOptions = {
