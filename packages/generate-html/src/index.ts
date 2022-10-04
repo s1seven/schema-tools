@@ -51,6 +51,20 @@ function languagesStringToArray(languages: string | string[]): string[] {
   return typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
 }
 
+function localizeNumber(lvalue: number | string, locales: string | string[] = 'EN', returnSafeString = true) {
+  if (lvalue === undefined) return returnSafeString ? new SafeString('') : '';
+
+  const options: Intl.NumberFormatOptions = {};
+  if (typeof lvalue === 'string') {
+    options.minimumFractionDigits = lvalue.includes('.') ? lvalue.split('.').at(-1).length : 0;
+    lvalue = Number(lvalue);
+  } else {
+    options.maximumSignificantDigits = 6;
+  }
+  const result = new Intl.NumberFormat(locales, options).format(lvalue);
+  return returnSafeString ? new SafeString(result) : result;
+}
+
 export const handlebarsBaseOptions = (data: {
   translations: Translations;
   extraTranslations: ExternalStandardsTranslations;
@@ -129,7 +143,7 @@ export const handlebarsBaseOptions = (data: {
 
         return new SafeString(result);
       },
-      localizeValue: function (value: string, type: string, locales = ['EN']) {
+      localizeValue: function (value: string, type: string, locales: string | string[] = ['EN']) {
         let result: any;
 
         const localizeDate = () => {
@@ -140,32 +154,15 @@ export const handlebarsBaseOptions = (data: {
           }).format(new Date(value));
         };
 
-        const localizeNumber = (lvalue: string, locales: string | string[] = 'EN') => {
-          const numbersAfterDecimal = lvalue.includes('.') ? lvalue.split('.').at(-1).length : 0;
-
-          return lvalue
-            ? new Intl.NumberFormat(locales, {
-                minimumFractionDigits: numbersAfterDecimal,
-              }).format(Number(lvalue))
-            : '';
-        };
-
         switch (type) {
           case 'number':
-            result = value ? new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(Number(value)) : '';
+            result = value ? localizeNumber(value, locales, false) : '';
             break;
           case 'date':
             result = localizeDate();
             break;
           case 'date-time':
             result = localizeDate();
-            break;
-          case 'string':
-            if (Number.isNaN(Number(value))) {
-              result = value;
-            } else {
-              result = localizeNumber(value, locales);
-            }
             break;
           default:
             result = value;
@@ -182,18 +179,7 @@ export const handlebarsBaseOptions = (data: {
         const result = new Intl.DateTimeFormat(locales, options).format(event);
         return new SafeString(result);
       },
-      localizeNumber: function (lvalue: number | string, locales: string | string[] = 'EN') {
-        if (!lvalue) return undefined;
-        const options: Intl.NumberFormatOptions = {};
-        if (typeof lvalue === 'string') {
-          options.minimumFractionDigits = lvalue.includes('.') ? lvalue.split('.').at(-1).length : 0;
-          lvalue = Number(lvalue);
-        } else {
-          options.maximumSignificantDigits = 6;
-        }
-        const result = new Intl.NumberFormat(locales, options).format(lvalue);
-        return new SafeString(result);
-      },
+      localizeNumber,
       get: function (object: Record<string, unknown>, path: string | string[], defaultValue = undefined) {
         path = typeof path === 'string' ? path.split(',').map((val) => val.trim()) : path;
         const result = get(object, path, defaultValue);
