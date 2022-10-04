@@ -63,7 +63,7 @@ const inpsections = [
   {
     inspection: {
       Value: '4.0',
-      ValueType: 'string',
+      ValueType: 'number',
       Maximum: '4.9',
     },
     localizeMaximumExpectedResult: {
@@ -93,7 +93,7 @@ const inpsections = [
   {
     inspection: {
       Value: '4.0',
-      ValueType: 'string',
+      ValueType: 'number',
       Maximum: 4.9,
     },
     localizeMaximumExpectedResult: {
@@ -108,7 +108,7 @@ const inpsections = [
   {
     inspection: {
       Value: '4.0',
-      ValueType: 'string',
+      ValueType: 'number',
       Maximum: 4.0,
     },
     localizeMaximumExpectedResult: {
@@ -169,7 +169,7 @@ const inpsections = [
   {
     inspection: {
       Value: '0.00',
-      ValueType: 'string',
+      ValueType: 'number',
       Maximum: '0.15',
     },
     localizeMaximumExpectedResult: {
@@ -183,23 +183,23 @@ const inpsections = [
   },
 ];
 
-describe('LocalizeNumber renders strings and numbers correctly with localization', () => {
+describe('renders strings and numbers correctly with localization', () => {
   inpsections.forEach((object) => {
     const { Maximum, Value, ValueType } = object.inspection;
 
-    it(`should render ${Maximum} as a SafeString with English localization`, () => {
+    it(`localizeNumber should render ${Maximum} as a SafeString with English localization`, () => {
       expect(localizeNumber(Maximum)).toEqual(object.localizeMaximumExpectedResult.EN);
     });
 
-    it(`should render ${Maximum} as a SafeString with German localization`, () => {
+    it(`localizeNumber should render ${Maximum} as a SafeString with German localization`, () => {
       expect(localizeNumber(Maximum, ['DE'])).toEqual(object.localizeMaximumExpectedResult.DE);
     });
 
-    it(`should render ${Value} as a SafeString with English localization`, () => {
+    it(`localizeValue should render ${Value} as a SafeString with English localization`, () => {
       expect(localizeValue(Value, ValueType)).toEqual(object.localizeValueExpectedResult.EN);
     });
 
-    it(`should render ${Value} as a SafeString with German localization`, () => {
+    it(`localizeValue should render ${Value} as a SafeString with German localization`, () => {
       expect(localizeValue(Value, ValueType, ['DE'])).toEqual(object.localizeValueExpectedResult.DE);
     });
   });
