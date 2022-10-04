@@ -40,14 +40,14 @@ async function createPdf(options: {
   };
 
   const translations = fs.readFileSync(translationsPath, 'utf-8');
-  const extraTranslations = extraTranslationsPath ? fs.readFileSync(extraTranslationsPath, 'utf-8') : undefined;
+  const extraTranslations = extraTranslationsPath ? JSON.parse(fs.readFileSync(extraTranslationsPath, 'utf-8')) : {};
 
   const pdfDoc = await generatePdf(path.resolve(certificatePath), {
     docDefinition,
     outputType: 'stream',
     fonts,
     translations: JSON.parse(translations),
-    extraTranslations: extraTranslations ? JSON.parse(extraTranslations) : undefined,
+    extraTranslations,
     generatorPath,
   });
 
