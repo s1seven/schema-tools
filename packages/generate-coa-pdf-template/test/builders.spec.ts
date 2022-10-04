@@ -1,5 +1,6 @@
-import { localizeDate, localizeNumber, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { localizeDate, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { Languages } from '@s1seven/schema-tools-types';
+import { localizeNumber } from '@s1seven/schema-tools-utils';
 
 import {
   createAnalysis,

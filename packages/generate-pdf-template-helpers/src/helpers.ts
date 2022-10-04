@@ -1,5 +1,7 @@
 import { TableLayout } from 'pdfmake/interfaces';
 
+import { localizeNumber } from '@s1seven/schema-tools-utils';
+
 import { TableElement } from './types';
 
 export function fillTableRow(arr: any[], colCounts: number, fill = {}) {
@@ -70,18 +72,6 @@ export function localizeDate(lvalue: string | number | Date, locales: string | s
     day: 'numeric',
   };
   return new Intl.DateTimeFormat(locales, options).format(event);
-}
-
-export function localizeNumber(lvalue: number | string, locales: string | string[] = 'EN') {
-  const options: Intl.NumberFormatOptions = {};
-  if (typeof lvalue === 'string') {
-    const decimalNumbersToDisplay = lvalue.includes('.') ? lvalue.split('.').at(-1).length : 0;
-    options.minimumFractionDigits = decimalNumbersToDisplay;
-    lvalue = Number(lvalue);
-  } else {
-    options.maximumSignificantDigits = 6;
-  }
-  return new Intl.NumberFormat(locales, options).format(lvalue);
 }
 
 export function createFooter(RefSchemaUrl: string): TableElement {

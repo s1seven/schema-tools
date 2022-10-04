@@ -1,11 +1,7 @@
 import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
 
-import {
-  createEmptyColumns,
-  localizeNumber,
-  TableElement,
-  tableLayout,
-} from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { createEmptyColumns, TableElement, tableLayout } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import { localizeNumber } from '@s1seven/schema-tools-utils';
 
 import {
   ChemicalComposition,

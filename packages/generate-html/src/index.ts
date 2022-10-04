@@ -25,6 +25,7 @@ import {
   getSchemaConfig,
   getTranslations,
   loadExternalFile,
+  localizeNumber,
 } from '@s1seven/schema-tools-utils';
 
 interface MJMLParsingOpts {
@@ -49,20 +50,6 @@ export type GenerateHtmlOptions = {
 
 function languagesStringToArray(languages: string | string[]): string[] {
   return typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
-}
-
-function localizeNumber(lvalue: number | string, locales: string | string[] = 'EN', returnSafeString = true) {
-  if (lvalue === undefined) return returnSafeString ? new SafeString('') : '';
-
-  const options: Intl.NumberFormatOptions = {};
-  if (typeof lvalue === 'string') {
-    options.minimumFractionDigits = lvalue.includes('.') ? lvalue.split('.').at(-1).length : 0;
-    lvalue = Number(lvalue);
-  } else {
-    options.maximumSignificantDigits = 6;
-  }
-  const result = new Intl.NumberFormat(locales, options).format(lvalue);
-  return returnSafeString ? new SafeString(result) : result;
 }
 
 export const handlebarsBaseOptions = (data: {
@@ -156,7 +143,7 @@ export const handlebarsBaseOptions = (data: {
 
         switch (type) {
           case 'number':
-            result = value ? localizeNumber(value, locales, false) : '';
+            result = value ? localizeNumber(value, locales) : '';
             break;
           case 'date':
             result = localizeDate();
@@ -179,7 +166,10 @@ export const handlebarsBaseOptions = (data: {
         const result = new Intl.DateTimeFormat(locales, options).format(event);
         return new SafeString(result);
       },
-      localizeNumber,
+      localizeNumber(lvalue: number | string, locales: string | string[] = 'EN'): SafeString {
+        const result = localizeNumber(lvalue, locales);
+        return new SafeString(result);
+      },
       get: function (object: Record<string, unknown>, path: string | string[], defaultValue = undefined) {
         path = typeof path === 'string' ? path.split(',').map((val) => val.trim()) : path;
         const result = get(object, path, defaultValue);
