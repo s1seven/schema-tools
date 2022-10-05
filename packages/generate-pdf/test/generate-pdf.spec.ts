@@ -103,6 +103,7 @@ describe('GeneratePDF', function () {
     {
       type: SupportedSchemas.COA,
       version: 'v0.2.0',
+      generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
       styles: require('../../generate-coa-pdf-template/utils/styles.js'),
       translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/translations.json`),
       extraTranslationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/extra_translations.json`),
