@@ -85,7 +85,7 @@ Process:
 2. Check and update the types using the `create-schema-interfaces` CLI tool
 3. If necessary, make changes in `generateContent.ts` in `schema-tools/packages/generate-coa-pdf-template/src/generateContent.ts` or `schema-tools/packages/generate-en10168-pdf-template/src/generateContent.ts` and run `npm run build`.
    If `generateContent.ts` has been changed and built, copy the contents of `dist/generateContent.js` to the schema repository and replace the contents of `generate-pdf.min.js` with the new minified code. Edit: this step has been automated as of PR #147 - https://github.com/s1seven/schema-tools/pull/147
-4. For a new Release Candidate, add a new fixture (used for testing)
+4. For a new Release Candidate, add a new fixture (used for testing) using the method outlined [below:](#fixtures)
 
 ## Starting out
 
@@ -122,7 +122,9 @@ The remaining packages should be made compatible with [all schema versions](#sup
 - Add a valid json certificate with the name `valid_cert.json`
 - Add an invalid json certificate with the name `invalid_cert.json`
 - Add the `translations.json` - for ease of use we keep English and German translations in a single file
-- `certificate.ts`, `template_hbs.html` and `valid_cert.pdf` are dynamically generated with the following scripts:
+- Add the `extraTranslations.json` if necessary (for use with CoA) - for ease of use we keep English and German translations in a single file
+- Add a copy of the `template.hbs` from the schema repo (for use with the local rendering tests until the version is released)
+- `certificate.ts`, `schemaTypes.ts`, `template_hbs.html` and `valid_cert.pdf` should be dynamically generated using the following scripts:
 
 #### Typescript interface
 
@@ -133,6 +135,14 @@ npm run fixtures:interfaces -- -s ../CoA-schemas/schema.json -o fixtures/CoA/v0.
 ```
 
 where -s indicates the path to the updated schema and -o indicates the path to the certificate to be generated.
+
+#### schemaTypes.ts
+
+`generate-<en10168/coa>-pdf-template/src/types/schemaTypes.ts` also needs to be updated. The above command can be run again with the output replaced by the path to the `schemaTypes.ts` in question, for example:
+
+```sh
+npm run fixtures:interfaces -- -s ../CoA-schemas/schema.json -o packages/generate-coa-pdf-template/src/types/schemaTypes.ts
+```
 
 #### HTML certificate
 
