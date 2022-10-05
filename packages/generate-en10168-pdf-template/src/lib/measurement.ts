@@ -1,6 +1,6 @@
 import { TableCell } from 'pdfmake/interfaces';
 
-import { localizeNumber } from '@s1seven/schema-tools-utils';
+import { localizeNumber } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
 import { EN10168CertificateTranslations, I18N, Measurement } from '../types';
 

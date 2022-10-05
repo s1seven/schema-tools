@@ -6,12 +6,12 @@ import {
   createFooter,
   enumFromString,
   localizeDate,
+  localizeNumber,
   TableElement,
   tableLayout,
   Translate,
 } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { ExternalStandardsEnum, ExternalStandardsTranslations } from '@s1seven/schema-tools-types';
-import { localizeNumber } from '@s1seven/schema-tools-utils';
 
 import {
   Attachment,

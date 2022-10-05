@@ -1,6 +1,4 @@
-import { localizeNumber } from '@s1seven/schema-tools-utils';
-
-import { localizeDate, localizeValue } from '../src';
+import { localizeDate, localizeNumber, localizeValue } from '../src';
 
 describe('Localize', () => {
   const testNumber = 12000;
