@@ -1,9 +1,49 @@
 /**
- * The languages in which the certificate should be rendered in HTML and PDF.
+ * For a JSON document one or two translations used in the rendering of HTML and PDF documents can be specificed.
  */
 export type CertificateLanguages =
   | ['EN' | 'DE' | 'FR' | 'ES' | 'PL' | 'CN' | 'TR' | 'IT']
   | ['EN' | 'DE' | 'FR' | 'ES' | 'PL' | 'CN' | 'TR' | 'IT', 'EN' | 'DE' | 'FR' | 'ES' | 'PL' | 'CN' | 'TR' | 'IT'];
+/**
+ * The party manufacturing the goods and selling them to the customer.
+ */
+export type Company = Company1;
+export type Company1 = (
+  | {
+      Name: string;
+      [k: string]: any;
+    }
+  | {
+      CompanyName: string;
+      [k: string]: any;
+    }
+) & {
+  /**
+   * Address of the company
+   */
+  Street: [string] | [string, string] | [string, string, string] | string;
+  [k: string]: any;
+} & {
+  Identifiers:
+    | {
+        VAT: string;
+        [k: string]: any;
+      }
+    | {
+        DUNS: string;
+        [k: string]: any;
+      };
+  [k: string]: any;
+};
+/**
+ * The party buying the goods from the manufacturer.
+ */
+export type Company2 = Company1;
+/**
+ * The party receiving the goods for the customer, e.g. a freight fowarding agent or a subsisduary of the customer.
+ */
+export type Company3 = Company1;
+export type Attachment = Attachment1;
 
 /**
  * Certificates of Analysis for plastics and other materials.
@@ -17,6 +57,9 @@ export interface Certificate {
    * The certificate information object
    */
   Certificate: {
+    /**
+     * The languages in which the certificate should be rendered in HTML and PDF.
+     */
     CertificateLanguages: CertificateLanguages;
     /**
      * The certificate identifier, usually a number.
@@ -99,88 +142,8 @@ export interface Person {
  */
 export interface Parties {
   Manufacturer: Company;
-  Customer: Company1;
-  Receiver?: Company2;
-}
-/**
- * The party manufacturing the goods and selling them to the customer.
- */
-export interface Company {
-  Name: string;
-  AddressLine1: string;
-  AddressLine2?: string;
-  ZipCode: string;
-  City: string;
-  /**
-   * The two-letter ISO country code according https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2.
-   */
-  Country: string;
-  Email: string;
-  Identifier: Identifier;
-  /**
-   * An array of additional free text information on the company.
-   */
-  AdditionalInformation?: [string, ...string[]];
-  [k: string]: any;
-}
-/**
- * One or more unique company identifiers.
- */
-export interface Identifier {
-  /**
-   * This is the unique number that identifies a taxable person (business) or non-taxable legal entity that is registered for VAT, see https://ec.europa.eu/taxation_customs/business/vat/eu-vat-rules-topic/vat-identification-numbers_en
-   */
-  VAT: string;
-  /**
-   * The Dun & Bradstreet D-U-N-S Number is a unique nine-digit identifier for businesses, https://www.dnb.com/duns-number.html
-   */
-  DUNS?: string;
-  /**
-   * The Commercial and Government Entity Code (short CAG), is a unique identifier assigned to suppliers to various government or defense agencies, https://en.wikipedia.org/wiki/Commercial_and_Government_Entity_code
-   */
-  CageCode?: string;
-}
-/**
- * The party buying the goods from the manufacturer.
- */
-export interface Company1 {
-  Name: string;
-  AddressLine1: string;
-  AddressLine2?: string;
-  ZipCode: string;
-  City: string;
-  /**
-   * The two-letter ISO country code according https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2.
-   */
-  Country: string;
-  Email: string;
-  Identifier: Identifier;
-  /**
-   * An array of additional free text information on the company.
-   */
-  AdditionalInformation?: [string, ...string[]];
-  [k: string]: any;
-}
-/**
- * The party receiving the goods for the customer, e.g. a freight fowarding agent or a subsisduary of the customer.
- */
-export interface Company2 {
-  Name: string;
-  AddressLine1: string;
-  AddressLine2?: string;
-  ZipCode: string;
-  City: string;
-  /**
-   * The two-letter ISO country code according https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2.
-   */
-  Country: string;
-  Email: string;
-  Identifier: Identifier;
-  /**
-   * An array of additional free text information on the company.
-   */
-  AdditionalInformation?: [string, ...string[]];
-  [k: string]: any;
+  Customer: Company2;
+  Receiver?: Company3;
 }
 /**
  * References to order and delivery.
@@ -353,11 +316,11 @@ export interface Inspection {
   /**
    * The lower limit according the specification. If a numeric value and not provided it can be 0 or -∞.
    */
-  Minimum?: number;
+  Minimum?: string;
   /**
    * The upper limit according the specification. If a numeric value and not provided it can be ∞.
    */
-  Maximum?: number;
+  Maximum?: string;
   /**
    * The unit of the value.
    */
@@ -401,7 +364,7 @@ export interface CEMarking {
 /**
  * Additional data in any kind of format attached to JSON document.
  */
-export interface Attachment {
+export interface Attachment1 {
   Hash: Hash;
   /**
    * The name of the file.
