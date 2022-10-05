@@ -18,4 +18,10 @@ npm install @s1seven/schema-tools-generate-pdf
 
 ## Troubleshooting
 
+### Dependencies
+
 If the tests pass locally but fail in the CI, try updating the dependencies (including Ghostscript and GraphicsMagick). Ensure that the dependencies are the same locally as in the CI.
+
+### Styles
+
+The styles (specifically the margins) at `generate-coa-pdf-template/utils/styles.js` are slightly different from the styles in the `CoA-schemas` repo. This should be obvious when visually comparing the fixture with the PDF created by the final `should render PDF certificate using certificate object, local PDF generator script, styles and translations` test. If this is the case, run the `fixtures:pdf` command again, using the styles from `generate-coa-pdf-template/utils/styles.js`.
