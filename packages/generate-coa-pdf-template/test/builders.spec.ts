@@ -1,5 +1,5 @@
 import { localizeDate, localizeNumber, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { Languages } from '@s1seven/schema-tools-types';
+import { CampusTranslations, ExternalStandardsTranslations, Languages } from '@s1seven/schema-tools-types';
 
 import {
   createAnalysis,
@@ -12,27 +12,33 @@ import {
   createProductDescription,
   createReceivers,
 } from '../src/generateContent';
-import { CoATranslations, Product } from '../src/types';
+import { CoATranslations, Parties, Product } from '../src/types';
 import { certificate, defaultSchemaUrl } from './constants';
-import { getTranslations } from './getTranslations';
+import { getExtraTranslations, getTranslations } from './getTranslations';
 
-const getI18N = (translations: CoATranslations, languages: Languages[] = ['EN', 'DE']) => {
+const getI18N = (
+  translations: CoATranslations,
+  extraTranslations: CampusTranslations,
+  languages: Languages[] = ['EN', 'DE'],
+) => {
   translations = languages.reduce((acc, key) => {
     acc[key] = translations[key];
     return acc;
   }, {} as CoATranslations);
-  return new Translate<CoATranslations>(translations, {}, languages);
+  return new Translate<CoATranslations>(translations, extraTranslations as ExternalStandardsTranslations, languages);
 };
 
 describe('Rendering', () => {
   let translations: CoATranslations;
+  let extraTranslations: CampusTranslations;
 
   beforeAll(async () => {
     translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
+    extraTranslations = await getExtraTranslations(['EN', 'DE'], defaultSchemaUrl, ['CAMPUS']);
   });
 
   it('createHeader() - should correctly render manufacturer details', () => {
-    const header = createHeader(certificate.Certificate.Parties, certificate.Certificate.Logo);
+    const header = createHeader(certificate.Certificate.Parties as unknown as Parties, certificate.Certificate.Logo);
     const tableBody = header.table.body;
     expect(tableBody[0].length).toEqual(2);
     expect(tableBody[0][0][0]).toEqual(expect.objectContaining({ image: certificate.Certificate.Logo }));
@@ -42,8 +48,8 @@ describe('Rendering', () => {
   });
 
   it('createReceivers() - should correctly render receivers details', () => {
-    const i18n = getI18N(translations, ['EN', 'DE']);
-    const receivers = createReceivers(certificate.Certificate.Parties, i18n);
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
+    const receivers = createReceivers(certificate.Certificate.Parties as unknown as Parties, i18n);
     const tableBody = receivers.table.body;
     const titles = tableBody[0];
     expect(tableBody[0].length).toEqual(2);
@@ -62,7 +68,7 @@ describe('Rendering', () => {
   });
 
   it('createGeneralInfo() - should correctly render certificate Id and Date', () => {
-    const i18n = getI18N(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
     const generalInfo = createGeneralInfo(certificate as any, i18n);
     const tableBody = generalInfo[2].table.body;
     expect(tableBody[0].length).toEqual(4);
@@ -80,7 +86,7 @@ describe('Rendering', () => {
   });
 
   it('createBusinessReferences() - should correctly render titles', () => {
-    const i18n = getI18N(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
     const businessTransaction = createBusinessReferences(certificate.Certificate.BusinessTransaction, i18n);
     const tableBody = businessTransaction[2].table.body;
     expect(tableBody[0][0]).toEqual(
@@ -92,7 +98,7 @@ describe('Rendering', () => {
   });
 
   it('createBusinessReferences() - should correctly render quantities', () => {
-    const i18n = getI18N(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
     const businessTransaction = createBusinessReferences(certificate.Certificate.BusinessTransaction, i18n);
     const tableBody = businessTransaction[2].table.body;
     const { Order, Delivery } = certificate.Certificate.BusinessTransaction;
@@ -109,7 +115,7 @@ describe('Rendering', () => {
   });
 
   it('createProductDescription() - should correctly render product', () => {
-    const i18n = getI18N(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
     const productDescription = createProductDescription(certificate.Certificate.Product as Product, i18n);
     const tableBody = productDescription[2].table.body;
     const { Id, ProductionBatchId, AdditionalInformation } = certificate.Certificate.Product;
@@ -125,7 +131,7 @@ describe('Rendering', () => {
   });
 
   it('createAnalysis() - should correctly render inspections', () => {
-    const i18n = getI18N(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
     const analysis = createAnalysis(certificate.Certificate.Analysis as any, i18n);
     const lotIdRow = analysis[2].table.body;
     const tableBody = analysis[3].table.body;
@@ -149,14 +155,15 @@ describe('Rendering', () => {
   });
 
   it('createAnalysis() - should correctly render AdditionalInformation', () => {
-    const i18n = getI18N(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
     const analysis = createAnalysis(certificate.Certificate.Analysis as any, i18n);
     const tableBody = analysis[3].table.body;
     const { AdditionalInformation } = certificate.Certificate.Analysis;
-    expect(tableBody[3][0]).toEqual(
+    expect(tableBody[10][0]).toEqual(
       expect.objectContaining({ text: i18n.translate('AdditionalInformation', 'Certificate') }),
     );
-    expect(tableBody[4][0]).toEqual(expect.objectContaining({ text: AdditionalInformation.join('\n') }));
+    console.log(tableBody[11][0]);
+    expect(tableBody[11][0]).toEqual(expect.objectContaining({ text: AdditionalInformation.join('\n') }));
   });
 
   it('createInspection() - should correctly localize inspections', () => {
@@ -165,20 +172,20 @@ describe('Rendering', () => {
       Property: 'MFR',
       Method: 'DIN EN ISO 1133',
       Unit: 'g/10m_',
-      Value: 31.5,
+      Value: '31.5',
       ValueType: 'number',
       Minimum: '15.1',
       Maximum: '35.4',
       TestConditions: 'According customer specification',
     };
 
-    const i18n = getI18N(translations, ['DE', 'EN']);
+    const i18n = getI18N(translations, extraTranslations, ['DE', 'EN']);
     const inspection = createInspection(analysis as any, i18n);
     expect(inspection[3]).toEqual(expect.objectContaining({ text: '31,5', style: 'caption' }));
     expect(inspection[4]).toEqual(expect.objectContaining({ text: '15,1', style: 'caption' }));
     expect(inspection[5]).toEqual(expect.objectContaining({ text: '35,4', style: 'caption' }));
 
-    const i18n2 = getI18N(translations, ['EN', 'DE']);
+    const i18n2 = getI18N(translations, extraTranslations, ['EN', 'DE']);
     const inspection2 = createInspection(analysis as any, i18n2);
     expect(inspection2[3]).toEqual(expect.objectContaining({ text: '31.5', style: 'caption' }));
     expect(inspection2[4]).toEqual(expect.objectContaining({ text: '15.1', style: 'caption' }));
@@ -194,13 +201,13 @@ describe('Rendering', () => {
       ValueType: 'string',
     };
 
-    const i18n = getI18N(translations, ['DE', 'EN']);
+    const i18n = getI18N(translations, extraTranslations, ['DE', 'EN']);
     const inspection = createInspection(analysis as any, i18n);
     expect(inspection[3]).toEqual(expect.objectContaining({ text: 'C', style: 'caption' }));
   });
 
   it('createContacts() - should correctly render contact details', () => {
-    const i18n = getI18N(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
     const contacts = createContacts(certificate.Certificate.Contacts, i18n);
     const tableBody = contacts[2].table.body;
     const { Contacts } = certificate.Certificate;
@@ -215,7 +222,7 @@ describe('Rendering', () => {
   });
 
   it('createAttachments() - should correctly render attachment name', () => {
-    const i18n = getI18N(translations, ['EN', 'DE']);
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
     const attachments = createAttachments(certificate.Certificate.Attachments as any, i18n);
     const tableBody = attachments[2].table.body;
     const [{ FileName }] = certificate.Certificate.Attachments;
