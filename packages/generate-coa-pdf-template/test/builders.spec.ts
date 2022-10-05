@@ -162,7 +162,6 @@ describe('Rendering', () => {
     expect(tableBody[10][0]).toEqual(
       expect.objectContaining({ text: i18n.translate('AdditionalInformation', 'Certificate') }),
     );
-    console.log(tableBody[11][0]);
     expect(tableBody[11][0]).toEqual(expect.objectContaining({ text: AdditionalInformation.join('\n') }));
   });
 
