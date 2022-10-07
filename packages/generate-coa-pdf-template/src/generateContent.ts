@@ -476,17 +476,15 @@ export function generateContent(
   const generalInfo = createGeneralInfo(certificate, i18n);
   const businessReferences = createBusinessReferences(certificate.Certificate.BusinessTransaction, i18n);
   const productDescription = createProductDescription(certificate.Certificate.Product, i18n);
-  const analysis = createAnalysis(certificate.Certificate.Analysis, i18n);
+  const content: Content = [header, receivers, generalInfo, businessReferences, productDescription];
+
+  if (certificate.Certificate.Analysis) {
+    const analysis = createAnalysis(certificate.Certificate.Analysis, i18n);
+    content.push(analysis);
+  }
+
   const declarationOfConformity = createDeclarationOfConformity(certificate.Certificate.DeclarationOfConformity, i18n);
-  const content: Content = [
-    header,
-    receivers,
-    generalInfo,
-    businessReferences,
-    productDescription,
-    analysis,
-    declarationOfConformity,
-  ];
+  content.push(declarationOfConformity);
 
   if (certificate.Certificate.Contacts?.length) {
     const contacts = createContacts(certificate.Certificate.Contacts, i18n);
