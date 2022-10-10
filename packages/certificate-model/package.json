@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-certificate-model",
   "description": "Tool to create class / instances specific to a schema",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/certificate-model#readme",
@@ -44,10 +44,10 @@
     "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
   "dependencies": {
-    "@s1seven/schema-tools-extract-emails": "^0.3.5",
+    "@s1seven/schema-tools-extract-emails": "^0.3.6",
     "@s1seven/schema-tools-types": "^0.5.0",
-    "@s1seven/schema-tools-utils": "^0.2.1",
-    "@s1seven/schema-tools-validate": "^0.3.1",
+    "@s1seven/schema-tools-utils": "^0.2.2",
+    "@s1seven/schema-tools-validate": "^0.3.2",
     "ajv": "^8.10.0",
     "ajv-formats": "^2.1.1",
     "lodash.clonedeepwith": "^4.5.0",

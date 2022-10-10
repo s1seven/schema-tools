@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.6](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.3.5...@s1seven/schema-tools-generate-coa-pdf-template@0.3.6) (2022-10-10)
+
+
+### Bug Fixes
+
+* update coa pdf generator to handle Street property ([a083186](https://github.com/s1seven/schema-tools/commit/a083186f26eebb0a8621cd139fc4b4839be99153))
+
+
+
+
+
 ## [0.3.5](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.3.4...@s1seven/schema-tools-generate-coa-pdf-template@0.3.5) (2022-09-21)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-coa-pdf-template

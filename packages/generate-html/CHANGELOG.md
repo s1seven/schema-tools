@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.3.1...@s1seven/schema-tools-generate-html@0.4.0) (2022-10-10)
+
+
+### Features
+
+* update localizeNumber and localizeValue to allow for trailing zeros ([44c6957](https://github.com/s1seven/schema-tools/commit/44c695716367d7f82b44121974bda39bfc0197ff))
+
+
+
+
+
 ## [0.3.1](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.3.0...@s1seven/schema-tools-generate-html@0.3.1) (2022-09-21)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-html
