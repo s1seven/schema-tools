@@ -20,6 +20,7 @@ import {
   CoATranslations,
   Company,
   DeclarationOfConformity,
+  Disclaimer,
   Inspection,
   Parties,
   Person,
@@ -445,6 +446,21 @@ export function createContacts(contacts: Person[], i18n: I18N): [ContentText, Co
   ];
 }
 
+export function createDisclaimer(disclaimer: Disclaimer): [ContentColumns] {
+  const columns: Column[] = [
+    {
+      style: 'table',
+      table: {
+        widths: [160, '*', 180],
+        body: [[{ text: disclaimer, style: 'disclaimer', colSpan: 3 }, {}]],
+      },
+      layout: tableLayout,
+    },
+  ];
+
+  return [{ columns }];
+}
+
 export function createAttachments(attachments: Attachment[], i18n: I18N): [ContentText, ContentCanvas, TableElement] {
   const attachmentsRows: TableCell[][] = attachments.map((attachment) => [{ text: attachment.FileName, style: 'p' }]);
   return [
@@ -486,6 +502,10 @@ export function generateContent(
   const declarationOfConformity = createDeclarationOfConformity(certificate.Certificate.DeclarationOfConformity, i18n);
   content.push(declarationOfConformity);
 
+  if (certificate.Certificate.Disclaimer) {
+    const disclaimer = createDisclaimer(certificate.Certificate.Disclaimer);
+    content.push(disclaimer);
+  }
   if (certificate.Certificate.Contacts?.length) {
     const contacts = createContacts(certificate.Certificate.Contacts, i18n);
     content.push(contacts);
