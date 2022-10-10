@@ -14,7 +14,7 @@ describe('Localize', () => {
     expect(result).toBe('12.000');
   });
 
-  // Issue with string comparison in Jest, but value appears coorect
+  // Issue with string comparison in Jest, but value appears correct
   it.skip('correctly localize number for FR', () => {
     const result = localizeNumber(testNumber, ['FR']);
     expect(result).toBe('12 000');
@@ -43,5 +43,19 @@ describe('Localize', () => {
   it('correctly localize value based on its type and languages - date - EN', () => {
     const result = localizeValue(testDate.toString(), 'date', ['EN']);
     expect(result).toBe('8/2/2021');
+  });
+});
+
+describe('Localize decimals', () => {
+  const testNumber = '4.0';
+
+  it('correctly localize number for EN', () => {
+    const result = localizeNumber(testNumber, ['EN']);
+    expect(result).toBe('4.0');
+  });
+
+  it('correctly localize number for DE', () => {
+    const result = localizeNumber(testNumber, ['DE']);
+    expect(result).toBe('4,0');
   });
 });

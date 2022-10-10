@@ -25,6 +25,7 @@ import {
   getSchemaConfig,
   getTranslations,
   loadExternalFile,
+  localizeNumber,
 } from '@s1seven/schema-tools-utils';
 
 interface MJMLParsingOpts {
@@ -51,7 +52,7 @@ function languagesStringToArray(languages: string | string[]): string[] {
   return typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
 }
 
-const handlebarsBaseOptions = (data: {
+export const handlebarsBaseOptions = (data: {
   translations: Translations;
   extraTranslations: ExternalStandardsTranslations;
 }): RuntimeOptions => {
@@ -129,7 +130,7 @@ const handlebarsBaseOptions = (data: {
 
         return new SafeString(result);
       },
-      localizeValue: function (value: string, type: string, locales = ['EN']) {
+      localizeValue: function (value: string, type: string, locales: string | string[] = ['EN']) {
         let result: any;
 
         const localizeDate = () => {
@@ -142,7 +143,7 @@ const handlebarsBaseOptions = (data: {
 
         switch (type) {
           case 'number':
-            result = value ? new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(Number(value)) : '';
+            result = value ? localizeNumber(value, locales) : '';
             break;
           case 'date':
             result = localizeDate();
@@ -165,8 +166,8 @@ const handlebarsBaseOptions = (data: {
         const result = new Intl.DateTimeFormat(locales, options).format(event);
         return new SafeString(result);
       },
-      localizeNumber: function (lvalue: number, locales: string | string[] = 'EN') {
-        const result = lvalue ? new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(lvalue) : '';
+      localizeNumber(lvalue: number | string, locales: string | string[] = 'EN'): SafeString {
+        const result = localizeNumber(lvalue, locales);
         return new SafeString(result);
       },
       get: function (object: Record<string, unknown>, path: string | string[], defaultValue = undefined) {

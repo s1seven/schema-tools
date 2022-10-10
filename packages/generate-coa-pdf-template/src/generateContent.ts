@@ -28,21 +28,24 @@ import {
 
 type I18N = Translate<CoATranslations, ExternalStandardsTranslations>;
 
+function createPartyColumn(party: Company): TableCell[] {
+  return [
+    { text: party.Name, style: 'h4' },
+    Array.isArray(party.Street)
+      ? party.Street.map((street) => ({ text: street, style: 'p' }))
+      : { text: party.Street, style: 'p' },
+    {
+      text: `${party.ZipCode} ${party.City}, ${party.Country}`,
+      style: 'p',
+    },
+    { text: party.Email, style: 'p' },
+  ];
+}
+
 function createManufacturerHeader(parties: Parties, logo: string): TableCell[][] {
   const manufacturerLogo: TableCell[] = logo ? [{ image: logo, width: 150 }] : [];
   const { Manufacturer } = parties;
-  const manufacturerInfo: TableCell[] = [
-    { text: Manufacturer.Name, style: 'h4' },
-    { text: Manufacturer.AddressLine1, style: 'p' },
-    { text: Manufacturer.AddressLine2 || ' ', style: 'p' },
-    {
-      text: `${Manufacturer.ZipCode} ${Manufacturer.City}, ${Manufacturer.Country}`,
-      style: 'p',
-    },
-    // { text: commercialTransaction[element]?.VAT_Id || '', style: 'p' },
-    { text: Manufacturer.Email, style: 'p' },
-  ];
-
+  const manufacturerInfo: TableCell[] = createPartyColumn(Manufacturer);
   return [manufacturerLogo, manufacturerInfo];
 }
 
@@ -57,19 +60,6 @@ export function createHeader(parties: Parties, logo: string): TableElement {
     },
     layout: tableLayout,
   };
-}
-
-function createPartyColumn(party: Company): TableCell[] {
-  return [
-    { text: party.Name, style: 'h4' },
-    { text: party.AddressLine1, style: 'p' },
-    { text: party.AddressLine2 || ' ', style: 'p' },
-    {
-      text: `${party.ZipCode} ${party.City}, ${party.Country}`,
-      style: 'p',
-    },
-    { text: party.Email, style: 'p' },
-  ];
 }
 
 export function createReceivers(parties: Parties, i18n: I18N): TableElement {
@@ -486,17 +476,15 @@ export function generateContent(
   const generalInfo = createGeneralInfo(certificate, i18n);
   const businessReferences = createBusinessReferences(certificate.Certificate.BusinessTransaction, i18n);
   const productDescription = createProductDescription(certificate.Certificate.Product, i18n);
-  const analysis = createAnalysis(certificate.Certificate.Analysis, i18n);
+  const content: Content = [header, receivers, generalInfo, businessReferences, productDescription];
+
+  if (certificate.Certificate.Analysis) {
+    const analysis = createAnalysis(certificate.Certificate.Analysis, i18n);
+    content.push(analysis);
+  }
+
   const declarationOfConformity = createDeclarationOfConformity(certificate.Certificate.DeclarationOfConformity, i18n);
-  const content: Content = [
-    header,
-    receivers,
-    generalInfo,
-    businessReferences,
-    productDescription,
-    analysis,
-    declarationOfConformity,
-  ];
+  content.push(declarationOfConformity);
 
   if (certificate.Certificate.Contacts?.length) {
     const contacts = createContacts(certificate.Certificate.Contacts, i18n);

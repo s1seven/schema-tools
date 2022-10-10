@@ -2,6 +2,25 @@ import { TableLayout } from 'pdfmake/interfaces';
 
 import { TableElement } from './types';
 
+/* This localizeNumber function is an exact copy of the function by the same name found at
+packages/utils/src/helpers.ts.
+This is to avoid having to import the entire utils package for only one function.
+If the utils package at some stage in the future needs to be imported for another reason,
+the function here can be removed and instead imported from packages/utils/src/helpers.ts*/
+export function localizeNumber(lvalue: number | string, locales: string | string[] = 'EN'): string {
+  if (lvalue === undefined) return '';
+
+  const options: Intl.NumberFormatOptions = {};
+  if (typeof lvalue === 'string') {
+    const decimalNumbersToDisplay = lvalue.includes('.') ? lvalue.split('.').at(-1).length : 0;
+    options.minimumFractionDigits = decimalNumbersToDisplay;
+    lvalue = Number(lvalue);
+  } else {
+    options.maximumSignificantDigits = 6;
+  }
+  return new Intl.NumberFormat(locales, options).format(lvalue);
+}
+
 export function fillTableRow(arr: any[], colCounts: number, fill = {}) {
   if (arr.length === colCounts) {
     return arr;
@@ -70,13 +89,6 @@ export function localizeDate(lvalue: string | number | Date, locales: string | s
     day: 'numeric',
   };
   return new Intl.DateTimeFormat(locales, options).format(event);
-}
-
-export function localizeNumber(lvalue: number | string, locales: string | string[] = 'EN') {
-  if (typeof lvalue === 'string') {
-    lvalue = Number(lvalue);
-  }
-  return new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(lvalue);
 }
 
 export function createFooter(RefSchemaUrl: string): TableElement {

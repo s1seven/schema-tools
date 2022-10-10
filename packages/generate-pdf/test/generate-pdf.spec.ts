@@ -112,6 +112,19 @@ describe('GeneratePDF', function () {
       validCertificate: require('../../../fixtures/CoA/v0.2.0/valid_cert.json'),
       docDefinition,
     },
+    {
+      type: SupportedSchemas.COA,
+      version: 'v1.0.0',
+      generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
+      styles: require('../../generate-coa-pdf-template/utils/styles.js'),
+      translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.0/translations.json`),
+      extraTranslationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.0/extra_translations.json`),
+      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.0/template_hbs.html`),
+      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.0/valid_cert.pdf`),
+      validCertificate: require('../../../fixtures/CoA/v1.0.0/valid_cert.json'),
+      docDefinition,
+      localOnly: true,
+    },
   ];
 
   const waitWritableStreamEnd = (writeStream: Writable, outputFilePath: string) => {
@@ -144,6 +157,7 @@ describe('GeneratePDF', function () {
     expect(content[0]).toHaveProperty('layout');
   }, 8000);
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   testMaps.forEach((testSuite) => {
     const {
       certificateHtmlPath,
@@ -163,6 +177,7 @@ describe('GeneratePDF', function () {
       it('should render PDF certificate using certificate object and remote PDF generator script', async () => {
         const outputFilePath = `./${type}-${version}-test.pdf`;
         const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
+        const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
         const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = localOnly
           ? {
               docDefinition: { ...docDefinition, styles },
@@ -170,6 +185,7 @@ describe('GeneratePDF', function () {
               fonts,
               generatorPath,
               translations,
+              extraTranslations,
             }
           : {
               outputType: 'stream',
@@ -186,6 +202,7 @@ describe('GeneratePDF', function () {
       it('should render PDF certificate using certificate object and local PDF generator script', async () => {
         const outputFilePath = `./${type}-${version}-test2.pdf`;
         const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
+        const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
         if (!generatorPath) {
           return;
         }
@@ -196,6 +213,7 @@ describe('GeneratePDF', function () {
               fonts,
               generatorPath,
               translations,
+              extraTranslations,
             }
           : {
               docDefinition,

@@ -4,6 +4,20 @@ import { URL } from 'url';
 
 import { CertificateLanguages, SchemaConfig, Schemas, SchemaTypes, ValidationError } from '@s1seven/schema-tools-types';
 
+export function localizeNumber(lvalue: number | string, locales: string | string[] = 'EN'): string {
+  if (lvalue === undefined) return '';
+
+  const options: Intl.NumberFormatOptions = {};
+  if (typeof lvalue === 'string') {
+    const decimalNumbersToDisplay = lvalue.includes('.') ? lvalue.split('.').at(-1).length : 0;
+    options.minimumFractionDigits = decimalNumbersToDisplay;
+    lvalue = Number(lvalue);
+  } else {
+    options.maximumSignificantDigits = 6;
+  }
+  return new Intl.NumberFormat(locales, options).format(lvalue);
+}
+
 export function getErrorPaths(filePath?: string): { path: string; root: string } {
   if (typeof filePath == 'string') {
     const filePathParts = filePath.split('/');
