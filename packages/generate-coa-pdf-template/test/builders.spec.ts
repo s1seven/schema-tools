@@ -6,13 +6,14 @@ import {
   createAttachments,
   createBusinessReferences,
   createContacts,
+  createDisclaimer,
   createGeneralInfo,
   createHeader,
   createInspection,
   createProductDescription,
   createReceivers,
 } from '../src/generateContent';
-import { CoATranslations, Parties, Product } from '../src/types';
+import { CoATranslations, Disclaimer, Parties, Product } from '../src/types';
 import { certificate, defaultSchemaUrl } from './constants';
 import { getExtraTranslations, getTranslations } from './getTranslations';
 
@@ -226,5 +227,12 @@ describe('Rendering', () => {
     const tableBody = attachments[2].table.body;
     const [{ FileName }] = certificate.Certificate.Attachments;
     expect(tableBody[0][0]).toEqual(expect.objectContaining({ text: FileName, style: 'p' }));
+  });
+
+  it('createDisclaimer() - should correctly render the disclaimer', () => {
+    const disclaimer = createDisclaimer(certificate.Certificate.Disclaimer as Disclaimer);
+    const tableBody = disclaimer[0].columns[0]['table']['body'];
+    const { Disclaimer } = certificate.Certificate;
+    expect(tableBody[0][0]).toEqual(expect.objectContaining({ text: Disclaimer, style: 'disclaimer' }));
   });
 });
