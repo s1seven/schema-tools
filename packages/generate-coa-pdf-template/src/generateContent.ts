@@ -446,7 +446,7 @@ export function createContacts(contacts: Person[], i18n: I18N): [ContentText, Co
   ];
 }
 
-export function createDisclaimer(disclaimer: Disclaimer): [ContentColumns] {
+export function createDisclaimer(disclaimer: Disclaimer): [ContentCanvas, ContentColumns] {
   const columns: Column[] = [
     {
       style: 'table',
@@ -458,7 +458,7 @@ export function createDisclaimer(disclaimer: Disclaimer): [ContentColumns] {
     },
   ];
 
-  return [{ columns }];
+  return [{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] }, { columns }];
 }
 
 export function createAttachments(attachments: Attachment[], i18n: I18N): [ContentText, ContentCanvas, TableElement] {
@@ -502,13 +502,13 @@ export function generateContent(
   const declarationOfConformity = createDeclarationOfConformity(certificate.Certificate.DeclarationOfConformity, i18n);
   content.push(declarationOfConformity);
 
-  if (certificate.Certificate.Disclaimer) {
-    const disclaimer = createDisclaimer(certificate.Certificate.Disclaimer);
-    content.push(disclaimer);
-  }
   if (certificate.Certificate.Contacts?.length) {
     const contacts = createContacts(certificate.Certificate.Contacts, i18n);
     content.push(contacts);
+  }
+  if (certificate.Certificate.Disclaimer) {
+    const disclaimer = createDisclaimer(certificate.Certificate.Disclaimer);
+    content.push(disclaimer);
   }
   if (certificate.Certificate.Attachments?.length) {
     const attachments = createAttachments(certificate.Certificate.Attachments, i18n);
