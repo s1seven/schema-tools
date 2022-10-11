@@ -231,7 +231,7 @@ describe('Rendering', () => {
 
   it('createDisclaimer() - should correctly render the disclaimer', () => {
     const disclaimer = createDisclaimer(certificate.Certificate.Disclaimer as Disclaimer);
-    const tableBody = disclaimer[0].columns[0]['table']['body'];
+    const tableBody = disclaimer[1].columns[0]['table']['body'];
     const { Disclaimer } = certificate.Certificate;
     expect(tableBody[0][0]).toEqual(expect.objectContaining({ text: Disclaimer, style: 'disclaimer' }));
   });
