@@ -17,14 +17,14 @@ async function createHtml(options: {
     options;
   const translations = fs.readFileSync(translationsPath, 'utf-8');
   const extraTranslations = extraTranslationsPath ? JSON.parse(fs.readFileSync(extraTranslationsPath, 'utf-8')) : {};
-  const partialsMap = partialsMapPath ? fs.readFileSync(partialsMapPath, 'utf-8') : undefined;
+  const partialsMap = partialsMapPath ? JSON.parse(fs.readFileSync(partialsMapPath, 'utf-8')) : undefined;
 
   const html = await generateHtml(path.resolve(certificatePath), {
     templateType: 'hbs',
     templatePath,
     translations: JSON.parse(translations),
     extraTranslations,
-    partialsMap: partialsMap ? JSON.parse(partialsMap) : undefined,
+    partialsMap,
   });
   fs.writeFileSync(path.resolve(outputPath), html);
 }
