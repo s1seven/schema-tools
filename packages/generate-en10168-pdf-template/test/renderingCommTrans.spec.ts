@@ -177,4 +177,57 @@ describe('Rendering transaction parties', () => {
       '',
     ]);
   });
+
+  it('correctly renders both Name and CompanyName, with and without email address', () => {
+    const i18n = getI18N(translations, ['EN', 'DE']);
+    const parties = {
+      A01: {
+        Name: 'Steel Factory',
+        Street: 'Stahlstrasse 1',
+        ZipCode: '4010',
+        City: 'Linz',
+        Country: 'ZZ',
+        Identifiers: {
+          VAT: 'U12345678',
+        },
+        Email: 'steelbutsmart@protonmail.com',
+      },
+      A06: {
+        CompanyName: 'Steel Traadaing',
+        Street: 'Handelsgasse 1',
+        ZipCode: '10115',
+        City: 'Berlin',
+        Country: 'DE',
+        Identifiers: {
+          VAT: 'DE12234567890',
+        },
+      },
+    };
+    const transactionParties = createTransactionParties(parties as unknown as CommercialTransaction, i18n);
+    const tableBody = transactionParties.table.body;
+    expect(tableBody.length).toEqual(2);
+    expect(tableBody[0]).toEqual([
+      [{ text: "A01 Manufacturer's plant / Herstellerwerk", style: 'tableHeader' }], // eslint-disable-line
+      [{ text: 'A06 Purchaser / Besteller', style: 'tableHeader' }],
+      '',
+    ]);
+    expect(tableBody[1][0][0]).toEqual(
+      expect.objectContaining({
+        text: parties.A01.Name,
+        style: 'p',
+      }),
+    );
+    expect(tableBody[1][0][3]).toEqual(
+      expect.objectContaining({
+        text: parties.A01.Email,
+        style: 'p',
+      }),
+    );
+    expect(tableBody[1][1][0]).toEqual(
+      expect.objectContaining({
+        text: parties.A06.CompanyName,
+        style: 'p',
+      }),
+    );
+  });
 });
