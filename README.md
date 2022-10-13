@@ -152,6 +152,12 @@ To generate `template_hbs.html` (HTML certificate generated from Handlebars temp
 npm run fixtures:html -- -c fixtures/CoA/v1.0.0/valid_cert.json -o fixtures/CoA/v1.0.0/template_hbs.html -t fixtures/CoA/v1.0.0/translations.json -T ../CoA-schemas/template.hbs -e fixtures/CoA/v1.0.0/extra_translations.json -p ../CoA-schemas/partials-map.json
 ```
 
+For EN10168
+
+```sh
+npm run fixtures:html -- -c fixtures/EN10168/v0.3.0/valid_cert.json -o fixtures/EN10168/v0.3.0/template_hbs.html -t fixtures/EN10168/v0.3.0/translations.json -T ../EN10168-schemas/template.hbs -p ../EN10168-schemas/partials-map.json
+```
+
 If external translations are not needed, remove the `-e` command from the above command.
 If partial maps are not needed, remove the `-p` command from the above command.
 
