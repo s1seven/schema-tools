@@ -82,6 +82,37 @@ describe('ExtractEmails', function () {
       },
     },
     {
+      version: 'v0.3.0',
+      type: SupportedSchemas.EN10168,
+      certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.3.0/valid_cert.json`,
+      certificate: require('../../../fixtures/EN10168/v0.3.0/valid_cert.json'),
+      expectedSenders: {
+        [SenderRoles.Seller]: {
+          emails: [undefined],
+          name: 'Steel Mill SE',
+          role: 'Seller',
+          vatId: 'AT123456789',
+          dunsId: undefined,
+        },
+      },
+      expectedReceivers: {
+        [ReceiverRoles.Buyer]: {
+          emails: ['sbs.steeltrader@gmail.com'],
+          name: 'Steel Trading AG',
+          role: 'Buyer',
+          vatId: 'DE12234567890',
+          dunsId: undefined,
+        },
+        [ReceiverRoles.CertificateConsignee]: {
+          emails: ['sbs.steeltrader@gmail.com'],
+          vatId: undefined,
+          dunsId: '12234567890',
+          name: 'Steel Trading AG',
+          role: 'CertificateConsignee',
+        },
+      },
+    },
+    {
       version: 'v1.0.0',
       type: SupportedSchemas.ECOC,
       certificatePath: `${__dirname}/../../../fixtures/E-CoC/v1.0.0/valid_cert.json`,
@@ -114,6 +145,7 @@ describe('ExtractEmails', function () {
           name: 'Green Plastics AG',
           role: 'Manufacturer',
           vatId: '',
+          dunsId: '',
         },
       },
       expectedReceivers: {
@@ -136,6 +168,7 @@ describe('ExtractEmails', function () {
           name: 'Green Plastics AG',
           role: 'Manufacturer',
           vatId: '',
+          dunsId: '',
         },
       },
       expectedReceivers: {
@@ -164,6 +197,7 @@ describe('ExtractEmails', function () {
           name: 'Green Plastics AG',
           role: 'Manufacturer',
           vatId: '',
+          dunsId: '',
         },
       },
       expectedReceivers: {
@@ -178,6 +212,37 @@ describe('ExtractEmails', function () {
           name: 'Plastic Processor SE',
           role: 'Receiver',
           vatId: '',
+        },
+      },
+    },
+    {
+      version: 'v1.0.0',
+      type: SupportedSchemas.COA,
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v1.0.0/valid_cert.json`,
+      certificate: require('../../../fixtures/CoA/v1.0.0/valid_cert.json'),
+      expectedSenders: {
+        [SenderRoles.Manufacturer]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Green Plastics AG',
+          role: 'Manufacturer',
+          vatId: 'AT123456789',
+          dunsId: '',
+        },
+      },
+      expectedReceivers: {
+        [ReceiverRoles.Customer]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Plastic Processor SE',
+          role: 'Customer',
+          vatId: 'AT123456789',
+          dunsId: undefined,
+        },
+        [ReceiverRoles.Receiver]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Plastic Processor SE',
+          role: 'Receiver',
+          vatId: 'AT123456789',
+          dunsId: undefined,
         },
       },
     },
