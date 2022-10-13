@@ -31,7 +31,7 @@ type I18N = Translate<CoATranslations, ExternalStandardsTranslations>;
 
 function createPartyColumn(party: Company): TableCell[] {
   return [
-    { text: party.Name, style: 'h4' },
+    { text: party.Name || party.CompanyName, style: 'h4' },
     Array.isArray(party.Street)
       ? party.Street.map((street) => ({ text: street, style: 'p' }))
       : { text: party.Street, style: 'p' },
