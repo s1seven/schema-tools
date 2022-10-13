@@ -12,7 +12,7 @@ describe('Product norms', () => {
 
   it('works for example certificate', async () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
-    const norms = productNorms(certificate.Certificate.ProductDescription.B02, i18n);
+    const norms = productNorms(certificate.Certificate.ProductDescription.B02 as any, i18n);
     const expected = [
       [
         {
