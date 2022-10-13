@@ -2,7 +2,7 @@ import { ContentCanvas, ContentText, TableCell } from 'pdfmake/interfaces';
 
 import { createEmptyColumns, TableElement, tableLayout } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
-import { I18N, ProductDescription, ProductShape } from '../types';
+import { EN10168CertificateTranslations, I18N, ProductDescription, ProductShape } from '../types';
 import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { renderMeasurement } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
@@ -38,7 +38,7 @@ export function productShape(productShape: ProductShape, i18n: I18N): TableCell[
         text:
           key === 'Form'
             ? i18n.translate(productShape[key], 'otherFields')
-            : `${productShape[key]} ${productShape.Unit || ''}`,
+            : `${productShape[key]} ${productShape['Unit'] || ''}`,
         style: 'p',
       },
     ]);
@@ -53,7 +53,7 @@ export function createProductDescription(
     ProductDescription,
     'B01' | 'B02' | 'B09' | 'B10' | 'B11' | 'B12' | 'B12' | 'B13' | 'SupplementaryInformation'
   >;
-  const B02ProductNorms = productNorms(productDescription.B02, i18n);
+  const B02ProductNorms = productNorms(productDescription.B02 as ProductNorms, i18n);
   const contentToOmit: KeysToOmit[] = [
     'B01',
     'B02',
@@ -68,7 +68,11 @@ export function createProductDescription(
   const content = Object.keys(productDescription)
     .filter((element: keyof ProductDescription) => !contentToOmit.includes(element as KeysToOmit))
     .map((element: keyof Omit<ProductDescription, KeysToOmit>) => [
-      { text: i18n.translate(element, 'certificateFields'), style: 'tableHeader', colSpan: 3 },
+      {
+        text: i18n.translate(element as keyof EN10168CertificateTranslations['certificateFields'], 'certificateFields'),
+        style: 'tableHeader',
+        colSpan: 3,
+      },
       {},
       {},
       { text: productDescription[element], style: 'p' },

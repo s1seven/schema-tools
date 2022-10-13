@@ -13,6 +13,7 @@ import {
   HardnessTest,
   I18N,
   Inspection,
+  Inspection1,
   InspectionUnionType,
   NotchedBarImpactTest,
   OtherMechanicalTests,
@@ -22,7 +23,10 @@ import { PRODUCT_DESCRIPTION_COLUMNS_COUNT } from './constants';
 import { renderMeasurement, renderMeasurementArray } from './measurement';
 import { supplementaryInformation } from './supplementaryInformation';
 
-export function createInspection(inspection: Inspection | undefined, i18n: I18N): InspectionUnionType {
+export function createInspection(
+  inspection: Inspection | [Inspection1, ...Inspection1[]] | undefined,
+  i18n: I18N,
+): InspectionUnionType {
   if (!inspection) {
     return [
       {
