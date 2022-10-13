@@ -68,6 +68,69 @@ describe('Rendering', () => {
     );
   });
 
+  it('createReceivers() - renders correctly with both CompanyName and Name', () => {
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
+    const parties: Parties = {
+      Manufacturer: {
+        CompanyName: 'Green Plastics AG',
+        Street: 'Kunststoffgasse 1',
+        ZipCode: '10003',
+        City: 'Berlin',
+        Country: 'DE',
+        Email: 's1seven.certificates@gmail.com',
+        Identifiers: {
+          VAT: 'AT123456789',
+          DUNS: '',
+          CageCode: '',
+        },
+      },
+      Customer: {
+        CompanyName: 'Plastic Processor SE',
+        Street: 'Plastik Street 1',
+        ZipCode: '1230',
+        City: 'Wien',
+        Country: 'AT',
+        Email: 's1seven.certificates1@gmail.com',
+        Identifiers: {
+          VAT: 'AT123456789',
+        },
+      },
+      Receiver: {
+        Name: 'Plastic Processor SE',
+        Street: ['Plastik Street 1', 'Werk 1'],
+        ZipCode: '1230',
+        City: 'Wien',
+        Country: 'AT',
+        Email: 's1seven.certificates2@gmail.com',
+        Identifiers: {
+          VAT: 'AT123456789',
+        },
+      },
+    };
+    const receivers = createReceivers(parties, i18n);
+    const tableBody = receivers.table.body;
+    const titles = tableBody[0];
+    expect(tableBody[0].length).toEqual(2);
+    expect(titles[0][0]).toEqual(
+      expect.objectContaining({
+        text: i18n.translate('Customer', 'Certificate'),
+        style: { bold: true, fontSize: 10, margin: [0, 4, 0, 4] },
+      }),
+    );
+    expect(tableBody[1][0][0]).toEqual(
+      expect.objectContaining({
+        text: parties.Customer.CompanyName,
+        style: 'h4',
+      }),
+    );
+    expect(tableBody[1][1][0]).toEqual(
+      expect.objectContaining({
+        text: parties.Receiver?.Name,
+        style: 'h4',
+      }),
+    );
+  });
+
   it('createGeneralInfo() - should correctly render certificate Id and Date', () => {
     const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
     const generalInfo = createGeneralInfo(certificate as any, i18n);
