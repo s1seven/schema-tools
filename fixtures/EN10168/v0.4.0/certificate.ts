@@ -1,18 +1,43 @@
-export type CertificateLanguages = ['EN' | 'DE' | 'FR' | 'PL'] | ['EN' | 'DE' | 'FR' | 'PL', 'EN' | 'DE' | 'FR' | 'PL'];
+export type RefSchemaUrl = string;
+export type CertificateLanguages = CertificateLanguages1;
+/**
+ * For a JSON document one or two translations used in the rendering of HTML and PDF documents can be specificed.
+ */
+export type CertificateLanguages1 =
+  | ['EN' | 'DE' | 'FR' | 'ES' | 'PL' | 'CN' | 'TR' | 'IT']
+  | ['EN' | 'DE' | 'FR' | 'ES' | 'PL' | 'CN' | 'TR' | 'IT', 'EN' | 'DE' | 'FR' | 'ES' | 'PL' | 'CN' | 'TR' | 'IT'];
+export type CommercialTransaction = CommercialTransaction1 & CommercialTransactionReceivers1;
 /**
  * List parties and details involved in the transaction
  */
-export type CommercialTransaction = CommercialTransactionBase & CommercialTransactionReceivers;
-export type Company = CompanyBase & CompanyIdentifiers;
-export type CompanyIdentifiers =
+export type CommercialTransaction1 = CommercialTransactionBase & CommercialTransactionReceivers;
+export type Company = (
   | {
-      VAT_Id: string;
+      Name: string;
       [k: string]: any;
     }
   | {
-      DUNS: string;
+      CompanyName: string;
       [k: string]: any;
-    };
+    }
+) & {
+  /**
+   * Address of the company
+   */
+  Street: [string] | [string, string] | [string, string, string] | string;
+  [k: string]: any;
+} & {
+  Identifiers:
+    | {
+        VAT: string;
+        [k: string]: any;
+      }
+    | {
+        DUNS: string;
+        [k: string]: any;
+      };
+  [k: string]: any;
+};
 export type CommercialTransactionReceivers =
   | {
       /**
@@ -36,6 +61,114 @@ export type CommercialTransactionReceivers =
       'A06.3'?: Company;
       [k: string]: any;
     };
+/**
+ * This interface was referenced by `CommercialTransactionSupplementaryInformation`'s JSON-Schema definition
+ * via the `patternProperty` "^A1[0-9]|^A[2-8][0-9]|^A[2-9][0-6]".
+ *
+ * This interface was referenced by `InspectionSupplementaryInformation`'s JSON-Schema definition
+ * via the `patternProperty` "^C0[4-9]".
+ *
+ * This interface was referenced by `TensileTestSupplementaryInformation`'s JSON-Schema definition
+ * via the `patternProperty` "^C1[4-9]|^C2[0-9]".
+ *
+ * This interface was referenced by `HardnessTestSupplementaryInformation`'s JSON-Schema definition
+ * via the `patternProperty` "^C3[3-9]".
+ *
+ * This interface was referenced by `NotchedBarImpactTestSupplementaryInformation`'s JSON-Schema definition
+ * via the `patternProperty` "^C4[4-9]".
+ *
+ * This interface was referenced by `OtherMechanicalTests`'s JSON-Schema definition
+ * via the `patternProperty` "^C[5-6][0-9]".
+ *
+ * This interface was referenced by `ChemicalCompositionSupplementaryInformation`'s JSON-Schema definition
+ * via the `patternProperty` "".
+ *
+ * This interface was referenced by `NonDestructiveTests`'s JSON-Schema definition
+ * via the `patternProperty` "^D[0][2-9]|^D[1-4]D[0-9]|^D50".
+ *
+ * This interface was referenced by `OtherProductTests`'s JSON-Schema definition
+ * via the `patternProperty` "^D[5][1-9]|^D[6-9][0-9]".
+ */
+export type KeyValueObject = KeyValueObject1;
+export type ProductDescription = ProductDescription1;
+export type ProductDescription1 = {
+  /**
+   * The product
+   */
+  B01?: string;
+  /**
+   * Any supplementary requirements
+   */
+  B03?: string;
+  /**
+   * The delivery conditions for the product
+   */
+  B04?: string;
+  /**
+   * Reference heat treatment of samples
+   */
+  B05?: string;
+  /**
+   * Marking of the product
+   */
+  B06?: string;
+  /**
+   * Identification of the product, usually batch, charge or lot number
+   */
+  B07?: string;
+  /**
+   * Number of pieces of the product.
+   */
+  B08?: number;
+  [k: string]: any;
+} & (
+  | {
+      B02: {
+        /**
+         * The product norm designation
+         */
+        ProductNorm?: string[];
+        /**
+         * The material norm(s)
+         */
+        MaterialNorm?: string[];
+        /**
+         * The mass norm(s)
+         */
+        MassNorm?: string[];
+        /**
+         * The steel designation(s)
+         */
+        SteelDesignation?: string[];
+      };
+      /**
+       * Product type and its describing dimensional parameters
+       */
+      B09: ProductShape;
+      /**
+       * Product dimensions - length of the product
+       */
+      B10?: Measurement;
+      /**
+       * Product dimensions
+       */
+      B11?: Measurement;
+      /**
+       * Theoretical mass
+       */
+      B12?: Measurement;
+      /**
+       * Actual mass
+       */
+      B13?: Measurement;
+      SupplementaryInformation?: ProductDescriptionSupplementaryInformation;
+      [k: string]: any;
+    }
+  | {
+      B02: string;
+      [k: string]: any;
+    }
+);
 export type ProductShape =
   | Tube
   | RectangularTube
@@ -52,9 +185,60 @@ export type ProductShape =
   | Scroll
   | Strip
   | Other;
+export type Measurement1 = Measurement;
+export type ChemicalElement = ChemicalElement1;
+export type Validation = ProductDescription2;
+export type ProductDescription2 = Validation1 &
+  (
+    | {
+        /**
+         * Date of issue and validation
+         */
+        Z02: string;
+        /**
+         * CE marking
+         */
+        Z04?: {
+          /**
+           * The CE image as base64 encoded png file. A default with size 90x65 is provided by example
+           */
+          CE_Image: string;
+          /**
+           * The identification number of the Notified body. Refer to https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=CELEX:31993L0068:en:HTML and https://ec.europa.eu/growth/tools-databases/nando/index.cfm?fuseaction=notifiedbody.main
+           */
+          NotifiedBodyNumber: string;
+          /**
+           * The year when the declaration of conformance was issued
+           */
+          DoCYear: string;
+          /**
+           * The declaration of conformance document number
+           */
+          DoCNumber: string;
+          [k: string]: any;
+        };
+        SupplementaryInformation?: ValidationSupplementaryInformation;
+        [k: string]: any;
+      }
+    | {
+        /**
+         * Title of inspection representative
+         */
+        Z02: string;
+        /**
+         * Disclaimer
+         */
+        Z04?: string;
+        /**
+         * Standard
+         */
+        Z05?: string;
+        [k: string]: any;
+      }
+  );
 
 export interface Certificate {
-  RefSchemaUrl: string;
+  RefSchemaUrl: RefSchemaUrl;
   DocumentMetadata?: MetaData;
   Certificate: {
     CertificateLanguages: CertificateLanguages;
@@ -93,10 +277,6 @@ export interface CommercialTransactionBase {
    */
   A05: string;
   /**
-   * Purchase number
-   */
-  A07: string;
-  /**
    * Manufacturer's work number
    */
   A08?: string;
@@ -104,6 +284,13 @@ export interface CommercialTransactionBase {
    * The article number used by the purchaser
    */
   A09?: string;
+  [k: string]: any;
+}
+export interface CommercialTransactionReceivers1 {
+  /**
+   * Purchase number
+   */
+  A07: string;
   SupplementaryInformation?: CommercialTransactionSupplementaryInformation;
   /**
    * A custom field for the position number in the order
@@ -119,149 +306,15 @@ export interface CommercialTransactionBase {
   A99?: string;
   [k: string]: any;
 }
-export interface CompanyBase {
-  /**
-   * Name of the company
-   */
-  CompanyName: string;
-  /**
-   * Address of the company
-   */
-  Street: string;
-  /**
-   * City of the company
-   */
-  City: string;
-  /**
-   * Postal code of the company
-   */
-  ZipCode: string;
-  /**
-   * Country of the company
-   */
-  Country: string;
-  /**
-   * Email address of the company
-   */
-  Email?: string;
-  /**
-   * Each entry of the array is rendered as a new line in HTML and PDF
-   */
-  AdditionalInformation?: string[];
-  [k: string]: any;
-}
 export interface CommercialTransactionSupplementaryInformation {
   [k: string]: KeyValueObject;
 }
-/**
- * This interface was referenced by `CommercialTransactionSupplementaryInformation`'s JSON-Schema definition
- * via the `patternProperty` "^A1[0-9]|^A[2-8][0-9]|^A[2-9][0-6]".
- *
- * This interface was referenced by `ProductDescriptionSupplementaryInformation`'s JSON-Schema definition
- * via the `patternProperty` "^B1[4-9]|^B[2-9][0-9]".
- *
- * This interface was referenced by `InspectionSupplementaryInformation`'s JSON-Schema definition
- * via the `patternProperty` "^C0[4-9]".
- *
- * This interface was referenced by `TensileTestSupplementaryInformation`'s JSON-Schema definition
- * via the `patternProperty` "^C1[4-9]|^C2[0-9]".
- *
- * This interface was referenced by `HardnessTestSupplementaryInformation`'s JSON-Schema definition
- * via the `patternProperty` "^C3[3-9]".
- *
- * This interface was referenced by `NotchedBarImpactTestSupplementaryInformation`'s JSON-Schema definition
- * via the `patternProperty` "^C4[4-9]".
- *
- * This interface was referenced by `OtherMechanicalTests`'s JSON-Schema definition
- * via the `patternProperty` "^C[5-6][0-9]".
- *
- * This interface was referenced by `ChemicalCompositionSupplementaryInformation`'s JSON-Schema definition
- * via the `patternProperty` "".
- *
- * This interface was referenced by `NonDestructiveTests`'s JSON-Schema definition
- * via the `patternProperty` "^D[0][2-9]|^D[1-4]D[0-9]|^D50".
- *
- * This interface was referenced by `OtherProductTests`'s JSON-Schema definition
- * via the `patternProperty` "^D[5][1-9]|^D[6-9][0-9]".
- *
- * This interface was referenced by `ValidationSupplementaryInformation`'s JSON-Schema definition
- * via the `patternProperty` "^Z0[5-9]|^Z[1-9][0-9]".
- */
-export interface KeyValueObject {
+export interface KeyValueObject1 {
   Key: string;
   Value?: string;
   Unit?: string;
   Interpretation?: string;
   Type?: 'string' | 'number' | 'date' | 'date-time' | 'boolean';
-}
-export interface ProductDescription {
-  /**
-   * The product
-   */
-  B01: string;
-  B02: {
-    /**
-     * The product norm designation
-     */
-    ProductNorm?: string[];
-    /**
-     * The material norm(s)
-     */
-    MaterialNorm?: string[];
-    /**
-     * The mass norm(s)
-     */
-    MassNorm?: string[];
-    /**
-     * The steel designation(s)
-     */
-    SteelDesignation?: string[];
-  };
-  /**
-   * Any supplementary requirements
-   */
-  B03?: string;
-  /**
-   * The delivery conditions for the product
-   */
-  B04?: string;
-  /**
-   * Reference heat treatment of samples
-   */
-  B05?: string;
-  /**
-   * Marking of the product
-   */
-  B06?: string;
-  /**
-   * Identification of the product, usually batch, charge or lot number
-   */
-  B07: string;
-  /**
-   * Number of pieces of the product.
-   */
-  B08: number;
-  /**
-   * Product type and its describing dimensional parameters
-   */
-  B09: ProductShape;
-  /**
-   * Product dimensions - length of the product
-   */
-  B10: Measurement;
-  /**
-   * Product dimensions
-   */
-  B11?: Measurement;
-  /**
-   * Theoretical mass
-   */
-  B12?: Measurement;
-  /**
-   * Actual mass
-   */
-  B13: Measurement;
-  SupplementaryInformation?: ProductDescriptionSupplementaryInformation;
 }
 export interface Tube {
   /**
@@ -553,7 +606,11 @@ export interface Measurement {
   Unit?: string;
 }
 export interface ProductDescriptionSupplementaryInformation {
-  [k: string]: KeyValueObject;
+  /**
+   * This interface was referenced by `ProductDescriptionSupplementaryInformation`'s JSON-Schema definition
+   * via the `patternProperty` "^B1[4-9]|^B[2-9][0-9]".
+   */
+  [k: string]: KeyValueObject1;
 }
 export interface Inspection {
   /**
@@ -590,15 +647,15 @@ export interface TensileTest {
   /**
    * Yield or proof strength
    */
-  C11?: Measurement;
+  C11?: Measurement1;
   /**
    * Tensile strength
    */
-  C12?: Measurement;
+  C12?: Measurement1;
   /**
    * Elongation after fracture
    */
-  C13?: Measurement;
+  C13?: Measurement1;
   SupplementaryInformation?: TensileTestSupplementaryInformation;
 }
 export interface TensileTestSupplementaryInformation {
@@ -612,11 +669,11 @@ export interface HardnessTest {
   /**
    * The individual values measured
    */
-  C31?: Measurement[];
+  C31?: Measurement1[];
   /**
    * The average value of the individual values measured
    */
-  C32?: Measurement;
+  C32?: Measurement1;
   SupplementaryInformation?: HardnessTestSupplementaryInformation;
 }
 export interface HardnessTestSupplementaryInformation {
@@ -630,15 +687,15 @@ export interface NotchedBarImpactTest {
   /**
    * Width of test piece
    */
-  C41?: Measurement;
+  C41?: Measurement1;
   /**
    * Individual values
    */
-  C42?: Measurement[];
+  C42?: Measurement1[];
   /**
    * Mean value
    */
-  C43?: Measurement;
+  C43?: Measurement1;
   SupplementaryInformation?: NotchedBarImpactTestSupplementaryInformation;
 }
 export interface NotchedBarImpactTestSupplementaryInformation {
@@ -813,7 +870,7 @@ export interface ChemicalComposition {
 /**
  * The chemical composition of the product.
  */
-export interface ChemicalElement {
+export interface ChemicalElement1 {
   /**
    * The symbol of the element
    */
@@ -872,43 +929,21 @@ export interface NonDestructiveTests {
 export interface OtherProductTests {
   [k: string]: KeyValueObject;
 }
-export interface Validation {
+export interface Validation1 {
   /**
    * Statement of compliance
    */
-  Z01: string;
-  /**
-   * Date of issue and validation
-   */
-  Z02: string;
+  Z01?: string;
   /**
    * Stamp of the inspection representative
    */
   Z03?: string;
-  /**
-   * CE marking
-   */
-  Z04?: {
-    /**
-     * The CE image as base64 encoded png file. A default with size 90x65 is provided by example
-     */
-    CE_Image: string;
-    /**
-     * The identification number of the Notified body. Refer to https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=CELEX:31993L0068:en:HTML and https://ec.europa.eu/growth/tools-databases/nando/index.cfm?fuseaction=notifiedbody.main
-     */
-    NotifiedBodyNumber: string;
-    /**
-     * The year when the declaration of conformance was issued
-     */
-    DoCYear: string;
-    /**
-     * The declaration of conformance document number
-     */
-    DoCNumber: string;
-    [k: string]: any;
-  };
-  SupplementaryInformation?: ValidationSupplementaryInformation;
+  [k: string]: any;
 }
 export interface ValidationSupplementaryInformation {
-  [k: string]: KeyValueObject;
+  /**
+   * This interface was referenced by `ValidationSupplementaryInformation`'s JSON-Schema definition
+   * via the `patternProperty` "^Z0[5-9]|^Z[1-9][0-9]".
+   */
+  [k: string]: KeyValueObject1;
 }
