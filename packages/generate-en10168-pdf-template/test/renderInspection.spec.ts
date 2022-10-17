@@ -8,7 +8,7 @@ import {
   renderNotchedBarImpactTest,
   renderTensileTest,
 } from '../src/lib/createInspection';
-import { EN10168Translations } from '../src/types';
+import { EN10168Translations, Inspection } from '../src/types';
 import { defaultSchemaUrl } from './constants';
 import { getI18N, getTranslations } from './getTranslations';
 
@@ -50,7 +50,7 @@ describe('Rendering inspection section', () => {
             Type: 'string',
           },
         },
-      } as any,
+      },
       i18n,
     );
     expect(tensileTest[3].table).toEqual({
@@ -189,7 +189,7 @@ describe('Rendering inspection section', () => {
 
   it('correctly renders inpection object passed in an array', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
-    const inspectionArray = [
+    const inspectionArray: [Inspection] = [
       {
         C00: 'Charge Chemical Analysis',
         ChemicalComposition: {
@@ -257,7 +257,7 @@ describe('Rendering inspection section', () => {
         },
       },
     ];
-    const inspectionContent = createInspection(inspectionArray as any, i18n);
+    const inspectionContent = createInspection(inspectionArray, i18n);
     expect(inspectionContent[0]).toEqual({
       text: 'Inspection / Angaben zur Probenentnahme und Prüfung',
       style: 'h2',
@@ -537,7 +537,7 @@ describe('Rendering inspection section', () => {
             Type: 'string',
           },
         },
-      } as any,
+      },
       i18n,
     );
     expect(notchedBarImpactTest[3].table).toEqual({

@@ -14,7 +14,7 @@ export function generateContent(certificate: Certificate, translations: EN10168T
   const i18n = new Translate<EN10168Translations>(translations, {}, certificate.Certificate.CertificateLanguages);
   const commercialParties = createTransactionParties(certificate.Certificate.CommercialTransaction, i18n);
   const commercialTransaction = createCommercialTransaction(certificate.Certificate.CommercialTransaction, i18n);
-  const productDescription = createProductDescription(certificate.Certificate.ProductDescription, i18n);
+  const productDescription = createProductDescription(certificate.Certificate.ProductDescription, i18n) || [];
   const inspection = createInspection(certificate.Certificate.Inspection, i18n);
   const otherTests = createOtherTests(certificate.Certificate.OtherTests, i18n);
   const validation = createValidation(certificate.Certificate.Validation, i18n);

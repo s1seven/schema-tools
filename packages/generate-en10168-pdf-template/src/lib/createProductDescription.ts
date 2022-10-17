@@ -49,11 +49,14 @@ export function createProductDescription(
   productDescription: ProductDescription,
   i18n: I18N,
 ): [ContentText, ContentCanvas, TableElement, TableElement] {
+  if (typeof productDescription.B02 === 'string') {
+    return null;
+  }
   type KeysToOmit = keyof Pick<
     ProductDescription,
     'B01' | 'B02' | 'B09' | 'B10' | 'B11' | 'B12' | 'B12' | 'B13' | 'SupplementaryInformation'
   >;
-  const B02ProductNorms = productNorms(productDescription.B02 as ProductNorms, i18n);
+  const B02ProductNorms = productNorms(productDescription.B02, i18n);
   const contentToOmit: KeysToOmit[] = [
     'B01',
     'B02',
