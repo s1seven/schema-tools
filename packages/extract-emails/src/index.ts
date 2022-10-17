@@ -74,8 +74,8 @@ export function extractPartiesFromEN10168(certificate: EN10168Schema): PartyEmai
       if (validKeys.includes(key)) {
         return {
           emails: [company.Email],
-          vatId: company.Identifiers ? company.Identifiers.VAT : company.VAT_Id,
-          dunsId: company.Identifiers ? company.Identifiers.DUNS : company.DUNS,
+          vatId: company.Identifiers?.VAT || company.VAT_Id,
+          dunsId: company.Identifiers?.DUNS || company.DUNS,
           name: company.CompanyName || company.Name,
           role: en10168CompanyRole[key],
         };
@@ -128,8 +128,8 @@ export function extractPartiesFromCoA(certificate: CoASchema): PartyEmail[] {
         // Checks for both options to maintain compatability with older versions
         return {
           emails: [company.Email],
-          vatId: company.Identifiers ? company.Identifiers.VAT : company.Identifier.VAT,
-          dunsId: company.Identifiers ? company.Identifiers.DUNS : company.Identifier.DUNS,
+          vatId: company.Identifiers?.VAT || company.Identifier?.VAT,
+          dunsId: company.Identifiers?.DUNS || company.Identifier?.DUNS,
           name: company.Name || company.CompanyName,
           role: coaCompanyRole[key],
         };
