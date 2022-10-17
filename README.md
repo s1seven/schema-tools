@@ -152,8 +152,6 @@ To generate `template_hbs.html` (HTML certificate generated from Handlebars temp
 npm run fixtures:html -- -c fixtures/CoA/v1.0.0/valid_cert.json -o fixtures/CoA/v1.0.0/template_hbs.html -t fixtures/CoA/v1.0.0/translations.json -T ../CoA-schemas/template.hbs -e fixtures/CoA/v1.0.0/extra_translations.json -p ../CoA-schemas/partials-map.json
 ```
 
-npm run fixtures:html -- -c fixtures/EN10168/v0.3.0/valid_cert.json -o fixtures/CoA/v1.0.0/template_hbs.html -t fixtures/CoA/v1.0.0/translations.json -T ../CoA-schemas/template.hbs -e fixtures/CoA/v1.0.0/extra_translations.json -p ../CoA-schemas/partials-map.json
-
 For EN10168
 
 ```sh
@@ -169,6 +167,9 @@ To generate `valid_cert.pdf` (PDF certificate generated from JS generator), from
 
 ```sh
 npm run fixtures:pdf -- -c fixtures/CoA/v1.0.0/valid_cert.json -o fixtures/CoA/v1.0.0/valid_cert.pdf -t fixtures/CoA/v1.0.0/translations.json -g ../CoA-schemas/generate-pdf.min.js -s ../CoA-schemas/generate-pdf.styles.json -e fixtures/CoA/v1.0.0/extra_translations.json
+
+# or using remote resources
+npm run fixtures:pdf -- -c fixtures/EN10168/v0.3.0/valid_cert.json -o fixtures/EN10168/v0.3.0/valid_cert.pdf -t 'fixtures/EN10168/v0.3.0/translations.json' -g 'https://schemas.s1seven.com/en10168-schemas/v0.3.0/generate-pdf.min.js' -s 'https://schemas.s1seven.com/en10168-schemas/v0.3.0/generate-pdf.styles.json'
 ```
 
 If external translations are not needed, remove the `-e` command from the above command.

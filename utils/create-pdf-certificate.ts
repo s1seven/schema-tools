@@ -102,13 +102,7 @@ const getCliArgs = () =>
         description: 'The path to the translations file',
         demandOption: true,
         type: 'string',
-        coerce: (translationsPath) => {
-          if (!fs.existsSync(path.resolve(translationsPath))) {
-            throw new Error('This filePath does not exist.');
-          } else {
-            return path.resolve(translationsPath);
-          }
-        },
+        coerce: (val) => normalizePath(val),
         alias: 't',
       },
       extraTranslationsPath: {
