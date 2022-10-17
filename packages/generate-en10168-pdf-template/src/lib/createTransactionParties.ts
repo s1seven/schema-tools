@@ -18,16 +18,22 @@ function separateCommercialParties(commercialTransaction: CommercialTransaction,
   const keys = commercialTransactionParties.map((element) => [
     { text: i18n.translate(element, 'certificateFields'), style: 'tableHeader' },
   ]);
-  const values = commercialTransactionParties.map((element) => [
-    { text: commercialTransaction[element].CompanyName, style: 'p' },
-    { text: commercialTransaction[element].Street, style: 'p' },
-    {
-      text: `${commercialTransaction[element].City},${commercialTransaction[element].ZipCode},${commercialTransaction[element].Country}`,
-      style: 'p',
-    },
-    { text: commercialTransaction[element]?.VAT_Id || '', style: 'p' },
-    { text: commercialTransaction[element].Email, style: 'p' },
-  ]);
+  const values = commercialTransactionParties.map((element) =>
+    [
+      {
+        text: commercialTransaction[element].CompanyName || commercialTransaction[element].Name,
+        style: 'p',
+      },
+      Array.isArray(commercialTransaction[element].Street)
+        ? commercialTransaction[element].Street.map((street) => ({ text: street, style: 'p' }))
+        : { text: commercialTransaction[element].Street, style: 'p' },
+      {
+        text: `${commercialTransaction[element].City},${commercialTransaction[element].ZipCode},${commercialTransaction[element].Country}`,
+        style: 'p',
+      },
+      commercialTransaction[element].Email ? { text: commercialTransaction[element].Email, style: 'p' } : undefined,
+    ].filter(Boolean),
+  );
 
   return [
     [...initKeys, ...keys],

@@ -53,4 +53,7 @@ module.exports = {
     alignment: 'center',
     margin: [0, 50, 0, 0],
   },
+  disclaimer: {
+    fontSize: 7,
+  },
 };

@@ -8,7 +8,9 @@ export function localizeNumber(lvalue: number | string, locales: string | string
   if (lvalue === undefined) return '';
 
   const options: Intl.NumberFormatOptions = {};
-  if (typeof lvalue === 'string') {
+  if (typeof lvalue === 'string' && Number.isNaN(Number(lvalue))) {
+    return lvalue;
+  } else if (typeof lvalue === 'string') {
     const decimalNumbersToDisplay = lvalue.includes('.') ? lvalue.split('.').at(-1).length : 0;
     options.minimumFractionDigits = decimalNumbersToDisplay;
     lvalue = Number(lvalue);

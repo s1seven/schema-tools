@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { createCommercialTransaction } from '../src/lib/commercialTransaction';
 import { createTransactionParties } from '../src/lib/createTransactionParties';
 import { CommercialTransaction, EN10168Translations } from '../src/types';
@@ -76,7 +77,7 @@ describe('Rendering transaction parties', () => {
     const transactionParties = createTransactionParties(certificate.Certificate.CommercialTransaction as any, i18n);
     const tableBody = transactionParties.table.body;
 
-    expect(tableBody.length).toEqual(2);
+    expect(tableBody.length).toEqual(4);
     expect(tableBody[0]).toEqual([
       [
         {
@@ -92,7 +93,7 @@ describe('Rendering transaction parties', () => {
       ],
       [
         {
-          text: 'A06 Purchaser / Besteller',
+          text: 'A06.1 Purchaser / Besteller',
           style: 'tableHeader',
         },
       ],
@@ -106,49 +107,34 @@ describe('Rendering transaction parties', () => {
         },
       ],
       [
-        {
-          text: 'Steel Mill SE',
-          style: 'p',
-        },
-        {
-          text: 'Stahlstrasse 1',
-          style: 'p',
-        },
-        {
-          text: 'Linz,4040,AT',
-          style: 'p',
-        },
-        {
-          style: 'p',
-          text: 'AT123456789',
-        },
-        {
-          text: 'sbs.steelfactory@gmail.com',
-          style: 'p',
-        },
+        { text: 'Steel Mill SE', style: 'p' },
+        [
+          { text: 'Stahlstrasse 1', style: 'p' },
+          { text: 'Street 2', style: 'p' },
+        ],
+        { text: 'Linz,4040,AT', style: 'p' },
       ],
       [
-        {
-          text: 'Steel Trading AG',
-          style: 'p',
-        },
-        {
-          text: 'Handelsgasse 1',
-          style: 'p',
-        },
-        {
-          text: 'Berlin,10115,DE',
-          style: 'p',
-        },
-        {
-          text: 'DE12234567890',
-          style: 'p',
-        },
-        {
-          text: 'sbs.steeltrader@gmail.com',
-          style: 'p',
-        },
+        { text: 'Steel Trading AG', style: 'p' },
+        { text: 'Handelsgasse 1', style: 'p' },
+        { text: 'Berlin,10115,DE', style: 'p' },
+        { text: 'sbs.steeltrader@gmail.com', style: 'p' },
       ],
+    ]);
+    expect(tableBody[2]).toEqual([
+      [{ text: 'A06.3 Recipient of the test certificate / Empfänger der Prüfbescheinigung', style: 'tableHeader' }],
+      '',
+      '',
+    ]);
+    expect(tableBody[3]).toEqual([
+      [
+        { text: 'Steel Trading AG', style: 'p' },
+        { text: 'Handelsgasse 1', style: 'p' },
+        { text: 'Berlin,10115,DE', style: 'p' },
+        { text: 'sbs.steeltrader@gmail.com', style: 'p' },
+      ],
+      '',
+      '',
     ]);
   });
 
@@ -163,7 +149,9 @@ describe('Rendering transaction parties', () => {
           ZipCode: '4010',
           City: 'Linz',
           Country: 'ZZ',
-          VAT_Id: 'U12345678',
+          Identifiers: {
+            VAT: 'U12345678',
+          },
           Email: 'steelbutsmart@protonmail.com',
         },
         A06: {
@@ -172,10 +160,12 @@ describe('Rendering transaction parties', () => {
           ZipCode: '10115',
           City: 'Berlin',
           Country: 'DE',
-          VAT_Id: 'DE12234567890',
+          Identifiers: {
+            VAT: 'DE12234567890',
+          },
           Email: 'steelbutsmart@protonmail.com',
         },
-      } as CommercialTransaction,
+      } as unknown as CommercialTransaction,
       i18n,
     );
     const tableBody = transactionParties.table.body;
@@ -186,5 +176,58 @@ describe('Rendering transaction parties', () => {
       [{ text: 'A06 Purchaser / Besteller', style: 'tableHeader' }],
       '',
     ]);
+  });
+
+  it('correctly renders both Name and CompanyName, with and without email address', () => {
+    const i18n = getI18N(translations, ['EN', 'DE']);
+    const parties = {
+      A01: {
+        Name: 'Steel Factory',
+        Street: 'Stahlstrasse 1',
+        ZipCode: '4010',
+        City: 'Linz',
+        Country: 'ZZ',
+        Identifiers: {
+          VAT: 'U12345678',
+        },
+        Email: 'steelbutsmart@protonmail.com',
+      },
+      A06: {
+        CompanyName: 'Steel Traadaing',
+        Street: 'Handelsgasse 1',
+        ZipCode: '10115',
+        City: 'Berlin',
+        Country: 'DE',
+        Identifiers: {
+          VAT: 'DE12234567890',
+        },
+      },
+    };
+    const transactionParties = createTransactionParties(parties as unknown as CommercialTransaction, i18n);
+    const tableBody = transactionParties.table.body;
+    expect(tableBody.length).toEqual(2);
+    expect(tableBody[0]).toEqual([
+      [{ text: "A01 Manufacturer's plant / Herstellerwerk", style: 'tableHeader' }], // eslint-disable-line
+      [{ text: 'A06 Purchaser / Besteller', style: 'tableHeader' }],
+      '',
+    ]);
+    expect(tableBody[1][0][0]).toEqual(
+      expect.objectContaining({
+        text: parties.A01.Name,
+        style: 'p',
+      }),
+    );
+    expect(tableBody[1][0][3]).toEqual(
+      expect.objectContaining({
+        text: parties.A01.Email,
+        style: 'p',
+      }),
+    );
+    expect(tableBody[1][1][0]).toEqual(
+      expect.objectContaining({
+        text: parties.A06.CompanyName,
+        style: 'p',
+      }),
+    );
   });
 });

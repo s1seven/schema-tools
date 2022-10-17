@@ -20,6 +20,7 @@ import {
   CoATranslations,
   Company,
   DeclarationOfConformity,
+  Disclaimer,
   Inspection,
   Parties,
   Person,
@@ -30,7 +31,7 @@ type I18N = Translate<CoATranslations, ExternalStandardsTranslations>;
 
 function createPartyColumn(party: Company): TableCell[] {
   return [
-    { text: party.Name, style: 'h4' },
+    { text: party.Name || party.CompanyName, style: 'h4' },
     Array.isArray(party.Street)
       ? party.Street.map((street) => ({ text: street, style: 'p' }))
       : { text: party.Street, style: 'p' },
@@ -445,6 +446,21 @@ export function createContacts(contacts: Person[], i18n: I18N): [ContentText, Co
   ];
 }
 
+export function createDisclaimer(disclaimer: Disclaimer): [ContentCanvas, ContentColumns] {
+  const columns: Column[] = [
+    {
+      style: 'table',
+      table: {
+        widths: [160, '*', 180],
+        body: [[{ text: disclaimer, style: 'disclaimer', colSpan: 3 }, {}]],
+      },
+      layout: tableLayout,
+    },
+  ];
+
+  return [{ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] }, { columns }];
+}
+
 export function createAttachments(attachments: Attachment[], i18n: I18N): [ContentText, ContentCanvas, TableElement] {
   const attachmentsRows: TableCell[][] = attachments.map((attachment) => [{ text: attachment.FileName, style: 'p' }]);
   return [
@@ -489,6 +505,10 @@ export function generateContent(
   if (certificate.Certificate.Contacts?.length) {
     const contacts = createContacts(certificate.Certificate.Contacts, i18n);
     content.push(contacts);
+  }
+  if (certificate.Certificate.Disclaimer) {
+    const disclaimer = createDisclaimer(certificate.Certificate.Disclaimer);
+    content.push(disclaimer);
   }
   if (certificate.Certificate.Attachments?.length) {
     const attachments = createAttachments(certificate.Certificate.Attachments, i18n);

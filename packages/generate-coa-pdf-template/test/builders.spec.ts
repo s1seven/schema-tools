@@ -6,13 +6,14 @@ import {
   createAttachments,
   createBusinessReferences,
   createContacts,
+  createDisclaimer,
   createGeneralInfo,
   createHeader,
   createInspection,
   createProductDescription,
   createReceivers,
 } from '../src/generateContent';
-import { CoATranslations, Parties, Product } from '../src/types';
+import { CoATranslations, Disclaimer, Parties, Product } from '../src/types';
 import { certificate, defaultSchemaUrl } from './constants';
 import { getExtraTranslations, getTranslations } from './getTranslations';
 
@@ -62,6 +63,69 @@ describe('Rendering', () => {
     expect(tableBody[1][0][0]).toEqual(
       expect.objectContaining({
         text: certificate.Certificate.Parties.Customer.Name,
+        style: 'h4',
+      }),
+    );
+  });
+
+  it('createReceivers() - renders correctly with both CompanyName and Name', () => {
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
+    const parties: Parties = {
+      Manufacturer: {
+        CompanyName: 'Green Plastics AG',
+        Street: 'Kunststoffgasse 1',
+        ZipCode: '10003',
+        City: 'Berlin',
+        Country: 'DE',
+        Email: 's1seven.certificates@gmail.com',
+        Identifiers: {
+          VAT: 'AT123456789',
+          DUNS: '',
+          CageCode: '',
+        },
+      },
+      Customer: {
+        CompanyName: 'Plastic Processor SE',
+        Street: 'Plastik Street 1',
+        ZipCode: '1230',
+        City: 'Wien',
+        Country: 'AT',
+        Email: 's1seven.certificates1@gmail.com',
+        Identifiers: {
+          VAT: 'AT123456789',
+        },
+      },
+      Receiver: {
+        Name: 'Plastic Processor SE',
+        Street: ['Plastik Street 1', 'Werk 1'],
+        ZipCode: '1230',
+        City: 'Wien',
+        Country: 'AT',
+        Email: 's1seven.certificates2@gmail.com',
+        Identifiers: {
+          VAT: 'AT123456789',
+        },
+      },
+    };
+    const receivers = createReceivers(parties, i18n);
+    const tableBody = receivers.table.body;
+    const titles = tableBody[0];
+    expect(tableBody[0].length).toEqual(2);
+    expect(titles[0][0]).toEqual(
+      expect.objectContaining({
+        text: i18n.translate('Customer', 'Certificate'),
+        style: { bold: true, fontSize: 10, margin: [0, 4, 0, 4] },
+      }),
+    );
+    expect(tableBody[1][0][0]).toEqual(
+      expect.objectContaining({
+        text: parties.Customer.CompanyName,
+        style: 'h4',
+      }),
+    );
+    expect(tableBody[1][1][0]).toEqual(
+      expect.objectContaining({
+        text: parties.Receiver?.Name,
         style: 'h4',
       }),
     );
@@ -226,5 +290,12 @@ describe('Rendering', () => {
     const tableBody = attachments[2].table.body;
     const [{ FileName }] = certificate.Certificate.Attachments;
     expect(tableBody[0][0]).toEqual(expect.objectContaining({ text: FileName, style: 'p' }));
+  });
+
+  it('createDisclaimer() - should correctly render the disclaimer', () => {
+    const disclaimer = createDisclaimer(certificate.Certificate.Disclaimer as Disclaimer);
+    const tableBody = disclaimer[1].columns[0]['table']['body'];
+    const { Disclaimer } = certificate.Certificate;
+    expect(tableBody[0][0]).toEqual(expect.objectContaining({ text: Disclaimer, style: 'disclaimer' }));
   });
 });

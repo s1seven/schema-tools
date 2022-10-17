@@ -15,6 +15,7 @@ import {
   getSchemaConfig,
   getTranslations,
   loadExternalFile,
+  localizeNumber,
 } from '../src/index';
 import { axiosInstance, cache } from '../src/loaders';
 
@@ -227,6 +228,50 @@ describe('Utils', function () {
       it(`${schemaConfig.schemaType} returns the certificate type ${expectedResults[index]}`, async () => {
         const type = getCertificateType(schemaConfig);
         expect(expectedResults[index]).toBe(type);
+      });
+    });
+  });
+
+  describe('localizeNumber()', function () {
+    const testValues = [
+      {
+        inspection: {
+          Value: '31.01',
+        },
+        localizeValueExpectedResult: {
+          EN: '31.01',
+          DE: '31,01',
+        },
+      },
+      {
+        inspection: {
+          Value: 31,
+        },
+        localizeValueExpectedResult: {
+          EN: '31',
+          DE: '31',
+        },
+      },
+      {
+        inspection: {
+          Value: 'C',
+        },
+        localizeValueExpectedResult: {
+          EN: 'C',
+          DE: 'C',
+        },
+      },
+    ];
+
+    testValues.forEach((object) => {
+      const { Value } = object.inspection;
+
+      it(`localizeNumber should render ${Value} as a SafeString with English localization`, () => {
+        expect(localizeNumber(Value)).toEqual(object.localizeValueExpectedResult.EN);
+      });
+
+      it(`localizeNumber should render ${Value} as a SafeString with German localization`, () => {
+        expect(localizeNumber(Value, ['DE'])).toEqual(object.localizeValueExpectedResult.DE);
       });
     });
   });

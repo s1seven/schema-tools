@@ -8,8 +8,8 @@ import {
   renderNotchedBarImpactTest,
   renderTensileTest,
 } from '../src/lib/createInspection';
-import { EN10168Translations } from '../src/types';
-import { certificate, defaultSchemaUrl } from './constants';
+import { EN10168Translations, Inspection } from '../src/types';
+import { defaultSchemaUrl } from './constants';
 import { getI18N, getTranslations } from './getTranslations';
 
 describe('Rendering inspection section', () => {
@@ -21,7 +21,38 @@ describe('Rendering inspection section', () => {
 
   it('correctly renders TensileTest', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
-    const tensileTest = renderTensileTest(certificate.Certificate.Inspection.TensileTest as any, i18n);
+    const tensileTest = renderTensileTest(
+      {
+        C11: {
+          Property: 'Streckgrenze ReH/RP0,2',
+          Value: 377.12,
+          Unit: 'MPa',
+        },
+        C12: {
+          Property: 'Zugfestigkeit Rm',
+          Value: 456.18,
+          Unit: 'MPa',
+        },
+        C13: {
+          Property: 'Bruchdehnung A5/A80',
+          Value: 29.7,
+          Unit: '%',
+        },
+        SupplementaryInformation: {
+          C14: {
+            Key: 'Re/Rm',
+            Value: '0.83',
+            Type: 'number',
+          },
+          C15: {
+            Key: 'Sample Identifier',
+            Value: '10001011/175508',
+            Type: 'string',
+          },
+        },
+      },
+      i18n,
+    );
     expect(tensileTest[3].table).toEqual({
       body: [
         [
@@ -158,7 +189,7 @@ describe('Rendering inspection section', () => {
 
   it('correctly renders inpection object passed in an array', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
-    const inspectionArray = [
+    const inspectionArray: [Inspection] = [
       {
         C00: 'Charge Chemical Analysis',
         ChemicalComposition: {
@@ -226,7 +257,7 @@ describe('Rendering inspection section', () => {
         },
       },
     ];
-    const inspectionContent = createInspection(inspectionArray as any, i18n);
+    const inspectionContent = createInspection(inspectionArray, i18n);
     expect(inspectionContent[0]).toEqual({
       text: 'Inspection / Angaben zur Probenentnahme und Prüfung',
       style: 'h2',
@@ -472,7 +503,41 @@ describe('Rendering inspection section', () => {
   it('correctly renders NotchedBarImpact', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
     const notchedBarImpactTest = renderNotchedBarImpactTest(
-      certificate.Certificate.Inspection.NotchedBarImpactTest as any,
+      {
+        C40: '0001 längs',
+        C41: {
+          Property: 'Width',
+          Value: 5,
+          Unit: 'mm',
+        },
+        C42: [
+          {
+            Value: 71.2,
+            Unit: 'J',
+          },
+          {
+            Value: 84.2,
+            Unit: 'J',
+          },
+          {
+            Value: 85.2,
+            Unit: 'J',
+          },
+        ],
+        C43: {
+          Value: 80.3,
+          Unit: 'J',
+          Minimum: 78.5,
+          Maximum: 90.6,
+        },
+        SupplementaryInformation: {
+          C44: {
+            Key: 'Sample Identifier',
+            Value: '10001011/175508',
+            Type: 'string',
+          },
+        },
+      },
       i18n,
     );
     expect(notchedBarImpactTest[3].table).toEqual({
@@ -592,7 +657,71 @@ describe('Rendering inspection section', () => {
 
   it('correctly renders ChemicalComposition', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
-    const chemicalComposition = renderChemicalComposition(certificate.Certificate.Inspection.ChemicalComposition, i18n);
+    const chemicalComposition = renderChemicalComposition(
+      {
+        C71: {
+          Actual: 0.15,
+          Symbol: 'C',
+        },
+        C72: {
+          Actual: 0.005,
+          Symbol: 'Si',
+        },
+        C73: {
+          Actual: 1,
+          Symbol: 'Mn',
+        },
+        C74: {
+          Actual: 0.014,
+          Symbol: 'P',
+        },
+        C75: {
+          Actual: 0.007,
+          Symbol: 'S',
+        },
+        C76: {
+          Actual: 0.041,
+          Symbol: 'Al',
+        },
+        C77: {
+          Actual: 0.02,
+          Symbol: 'Cr',
+        },
+        C78: {
+          Actual: 0.009,
+          Symbol: 'Ni',
+        },
+        C79: {
+          Actual: 0.002,
+          Symbol: 'Mo',
+        },
+        C80: {
+          Actual: 0.01,
+          Symbol: 'Cu',
+        },
+        C81: {
+          Actual: 0.002,
+          Symbol: 'V',
+        },
+        C82: {
+          Actual: 0.001,
+          Symbol: 'Ti',
+        },
+        C85: {
+          Actual: 0.0047,
+          Symbol: 'N',
+        },
+        C86: {
+          Actual: 0.00001,
+          Symbol: 'B',
+        },
+        C92: {
+          Actual: 0.3227,
+          Symbol: 'CEV',
+        },
+      },
+      i18n,
+    );
 
     expect((chemicalComposition[3] as TableElement).table).toEqual({
       widths: [45, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25],

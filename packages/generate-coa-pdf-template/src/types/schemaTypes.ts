@@ -44,6 +44,10 @@ export type Company2 = Company1;
  */
 export type Company3 = Company1;
 export type Attachment = Attachment1;
+/**
+ * A general disclaimer for the entire document
+ */
+export type Disclaimer = string;
 
 /**
  * Certificates of Analysis for plastics and other materials.
@@ -105,6 +109,7 @@ export interface Certificate {
          * The logo of the manufacturer as base64 png file.
          */
         Logo: string;
+        Disclaimer?: Disclaimer;
     };
 }
 /**

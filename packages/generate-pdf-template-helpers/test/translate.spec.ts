@@ -1,16 +1,11 @@
-import { readFileSync } from 'fs';
-
 import { ExternalStandardsEnum, ExtraTranslations, Translations } from '@s1seven/schema-tools-types';
 
 import { Translate } from '../src';
-import { getTranslations } from './getTranslations';
-
-// TODO: remove it once CoA schema v0.2 is released
-const extraTranslations = JSON.parse(readFileSync('../../fixtures/CoA/v0.2.0/extra_translations.json', 'utf8'));
+import { getExtraTranslations, getTranslations } from './getTranslations';
 
 describe('Translate', () => {
   describe('EN10168 certificate', () => {
-    const defaultSchemaUrl = 'https://schemas.s1seven.com/en10168-schemas/v0.1.0/schema.json';
+    const defaultSchemaUrl = 'https://schemas.s1seven.com/en10168-schemas/v0.3.0/schema.json';
 
     it('correctly translate certificateFields into 2 languages', async () => {
       const translations = await getTranslations(['DE', 'EN'], defaultSchemaUrl);
@@ -35,7 +30,7 @@ describe('Translate', () => {
   });
 
   describe('CoA certificate', () => {
-    const defaultSchemaUrl = 'https://schemas.s1seven.com/coa-schemas/v0.1.0/schema.json';
+    const defaultSchemaUrl = 'https://schemas.s1seven.com/coa-schemas/v0.2.0/schema.json';
 
     it('correctly translate Certificate into 2 languages', async () => {
       const translations = await getTranslations(['DE', 'EN'], defaultSchemaUrl);
@@ -53,6 +48,9 @@ describe('Translate', () => {
 
     it('correctly translate a Property into 2 languages when externalStandard is CAMPUS', async () => {
       const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
+      const extraTranslations = await getExtraTranslations(['EN', 'DE'], defaultSchemaUrl, [
+        ExternalStandardsEnum.CAMPUS,
+      ]);
       const i18n = new Translate(translations, extraTranslations, ['EN', 'DE']);
       const translation = i18n.extraTranslate(ExternalStandardsEnum.CAMPUS, '1', 'Property', 'Yield stress');
       expect(translation).toEqual('Yield stress / Streckspannung');
@@ -60,6 +58,7 @@ describe('Translate', () => {
 
     it('correctly translate a Property into 2 languages when externalStandard is CAMPUS', async () => {
       const translations = await getTranslations(['DE'], defaultSchemaUrl);
+      const extraTranslations = await getExtraTranslations(['DE'], defaultSchemaUrl, [ExternalStandardsEnum.CAMPUS]);
       const i18n = new Translate(translations, extraTranslations, ['DE']);
       const translation = i18n.extraTranslate(ExternalStandardsEnum.CAMPUS, '1', 'Property', 'Yield stress');
       expect(translation).toEqual('Streckspannung');
@@ -67,6 +66,9 @@ describe('Translate', () => {
 
     it('correctly translate a TestCondition into 2 languages when externalStandard is CAMPUS', async () => {
       const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
+      const extraTranslations = await getExtraTranslations(['EN', 'DE'], defaultSchemaUrl, [
+        ExternalStandardsEnum.CAMPUS,
+      ]);
       const i18n = new Translate<Translations, ExtraTranslations>(translations, extraTranslations, ['EN', 'DE']);
       const translation = i18n.extraTranslate(ExternalStandardsEnum.CAMPUS, '785', 'TestConditions', 'of test plate');
       expect(translation).toEqual('of test plate / der Testplatte');
@@ -75,6 +77,9 @@ describe('Translate', () => {
     it('returns the default translation when externalStandard is undefined', async () => {
       const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
       const defaultTranslation = 'of test';
+      const extraTranslations = await getExtraTranslations(['EN', 'DE'], defaultSchemaUrl, [
+        ExternalStandardsEnum.CAMPUS,
+      ]);
       const i18n = new Translate<Translations, ExtraTranslations>(translations, extraTranslations, ['EN', 'DE']);
       const translation = i18n.extraTranslate(undefined, '785', 'TestConditions', defaultTranslation);
       expect(translation).toEqual(defaultTranslation);

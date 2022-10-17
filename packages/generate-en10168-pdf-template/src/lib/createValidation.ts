@@ -49,7 +49,7 @@ export function createValidation(
     },
   ];
 
-  if (validation.Z04) {
+  if (validation.Z04 && typeof validation.Z04 !== 'string') {
     const z04Column: Column = {
       width: 100,
       style: 'table',
