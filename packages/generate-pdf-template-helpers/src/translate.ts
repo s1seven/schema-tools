@@ -1,6 +1,4 @@
-import { ExternalStandardsTranslations, Languages } from '@s1seven/schema-tools-types';
-
-import { Translations } from './types';
+import { ExternalStandardsTranslations, Languages, Translations } from '@s1seven/schema-tools-types';
 
 type ValueOf<T> = T[keyof T];
 
