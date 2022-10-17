@@ -94,7 +94,7 @@ describe('ExtractEmails', function () {
       certificate: require('../../../fixtures/EN10168/v0.3.0/valid_cert.json'),
       expectedSenders: {
         [SenderRoles.Seller]: {
-          emails: [undefined],
+          emails: [],
           name: 'Steel Mill SE',
           role: 'Seller',
           vatId: 'AT123456789',
@@ -125,7 +125,7 @@ describe('ExtractEmails', function () {
       certificate: require('../../../fixtures/E-CoC/v1.0.0/valid_cert.json'),
       expectedSenders: {
         [SenderRoles.Manufacturer]: {
-          emails: null,
+          emails: [],
           name: 'Material Manufacturing SE',
           role: 'Manufacturer',
           vatId: 'AT123456789',
@@ -133,7 +133,7 @@ describe('ExtractEmails', function () {
       },
       expectedReceivers: {
         [ReceiverRoles.Recipient]: {
-          emails: null,
+          emails: [],
           name: 'Material Trading AG',
           role: 'Recipient',
           vatId: 'DE12234567890',
@@ -150,8 +150,8 @@ describe('ExtractEmails', function () {
           emails: ['s1seven.certificates@gmail.com'],
           name: 'Green Plastics AG',
           role: 'Manufacturer',
-          vatId: '',
-          dunsId: '',
+          vatId: undefined,
+          dunsId: undefined,
         },
       },
       expectedReceivers: {
@@ -159,7 +159,7 @@ describe('ExtractEmails', function () {
           emails: ['s1seven.certificates@gmail.com'],
           name: 'Plastic Processor SE',
           role: 'Customer',
-          vatId: '',
+          vatId: undefined,
           dunsId: undefined,
         },
       },
@@ -174,8 +174,8 @@ describe('ExtractEmails', function () {
           emails: ['s1seven.certificates@gmail.com'],
           name: 'Green Plastics AG',
           role: 'Manufacturer',
-          vatId: '',
-          dunsId: '',
+          vatId: undefined,
+          dunsId: undefined,
         },
       },
       expectedReceivers: {
@@ -183,14 +183,14 @@ describe('ExtractEmails', function () {
           emails: ['s1seven.certificates@gmail.com'],
           name: 'Plastic Processor SE',
           role: 'Customer',
-          vatId: '',
+          vatId: undefined,
           dunsId: undefined,
         },
         [ReceiverRoles.Receiver]: {
           emails: ['s1seven.certificates@gmail.com'],
           name: 'Plastic Processor SE',
           role: 'Receiver',
-          vatId: '',
+          vatId: undefined,
           dunsId: undefined,
         },
       },
@@ -205,8 +205,8 @@ describe('ExtractEmails', function () {
           emails: ['s1seven.certificates@gmail.com'],
           name: 'Green Plastics AG',
           role: 'Manufacturer',
-          vatId: '',
-          dunsId: '',
+          vatId: undefined,
+          dunsId: undefined,
         },
       },
       expectedReceivers: {
@@ -214,14 +214,14 @@ describe('ExtractEmails', function () {
           emails: ['s1seven.certificates@gmail.com'],
           name: 'Plastic Processor SE',
           role: 'Customer',
-          vatId: '',
+          vatId: undefined,
           dunsId: undefined,
         },
         [ReceiverRoles.Receiver]: {
           emails: ['s1seven.certificates@gmail.com'],
           name: 'Plastic Processor SE',
           role: 'Receiver',
-          vatId: '',
+          vatId: undefined,
           dunsId: undefined,
         },
       },
@@ -237,7 +237,7 @@ describe('ExtractEmails', function () {
           name: 'Green Plastics AG',
           role: 'Manufacturer',
           vatId: 'AT123456789',
-          dunsId: '',
+          dunsId: undefined,
         },
       },
       expectedReceivers: {

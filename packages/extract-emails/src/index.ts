@@ -5,8 +5,8 @@ export interface PartyEmail {
   emails: string[];
   role: SenderRoles | ReceiverRoles;
   name: string;
-  vatId: string;
-  dunsId: string;
+  vatId?: string;
+  dunsId?: string;
 }
 
 export enum SenderRoles {
@@ -71,11 +71,11 @@ export function extractPartiesFromEN10168(certificate: EN10168Schema): PartyEmai
   return Object.entries(CommercialTransaction)
     .map(([key, company]: [string, any]) => {
       // we keep compatability with previous versions by checking for both options
-      if (validKeys.includes(key)) {
+      if (validKeys.includes(key) && company) {
         return {
-          emails: [company.Email],
-          vatId: company.Identifiers?.VAT || company.VAT_Id,
-          dunsId: company.Identifiers?.DUNS || company.DUNS,
+          emails: company.Email ? [company.Email] : [],
+          vatId: company?.Identifiers?.VAT || company.VAT_Id || undefined,
+          dunsId: company?.Identifiers?.DUNS || company.DUNS || undefined,
           name: company.CompanyName || company.Name,
           role: en10168CompanyRole[key],
         };
@@ -102,7 +102,7 @@ export function extractPartiesFromECoC(certificate: ECoCSchema): PartyEmail[] {
       ? {
           name: party.PartyName,
           role: party.PartyRole,
-          emails: emailProp?.Value || null,
+          emails: emailProp?.Value || [],
           vatId: vatIdProp?.ValueOfIdentifier,
         }
       : null;
@@ -124,12 +124,12 @@ export function extractPartiesFromCoA(certificate: CoASchema): PartyEmail[] {
   const validKeys = Object.keys(coaCompanyRole);
   return Object.entries(Parties)
     .map(([key, company]: [string, any]) => {
-      if (validKeys.includes(key)) {
+      if (validKeys.includes(key) && company) {
         // Checks for both options to maintain compatability with older versions
         return {
-          emails: [company.Email],
-          vatId: company.Identifiers?.VAT || company.Identifier?.VAT,
-          dunsId: company.Identifiers?.DUNS || company.Identifier?.DUNS,
+          emails: company.Email ? [company.Email] : [],
+          vatId: company?.Identifiers?.VAT || company?.Identifier?.VAT || undefined,
+          dunsId: company?.Identifiers?.DUNS || company?.Identifier?.DUNS || undefined,
           name: company.Name || company.CompanyName,
           role: coaCompanyRole[key],
         };
