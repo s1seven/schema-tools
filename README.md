@@ -118,7 +118,7 @@ The remaining packages should be made compatible with [all schema versions](#sup
 ### Fixtures
 
 - Create or use a folder following the schema name
-- Create a subfolder following the version of the release candidate
+- ⚠️ Create a subfolder following the version of the release candidate
 - Add a valid json certificate with the name `valid_cert.json`
 - Add an invalid json certificate with the name `invalid_cert.json`
 - Add the `translations.json` - for ease of use we keep English and German translations in a single file
@@ -151,6 +151,8 @@ To generate `template_hbs.html` (HTML certificate generated from Handlebars temp
 ```sh
 npm run fixtures:html -- -c fixtures/CoA/v1.0.0/valid_cert.json -o fixtures/CoA/v1.0.0/template_hbs.html -t fixtures/CoA/v1.0.0/translations.json -T ../CoA-schemas/template.hbs -e fixtures/CoA/v1.0.0/extra_translations.json -p ../CoA-schemas/partials-map.json
 ```
+
+npm run fixtures:html -- -c fixtures/EN10168/v0.3.0/valid_cert.json -o fixtures/CoA/v1.0.0/template_hbs.html -t fixtures/CoA/v1.0.0/translations.json -T ../CoA-schemas/template.hbs -e fixtures/CoA/v1.0.0/extra_translations.json -p ../CoA-schemas/partials-map.json
 
 For EN10168
 

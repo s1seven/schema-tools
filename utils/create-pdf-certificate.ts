@@ -5,6 +5,7 @@ import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 
 import { generatePdf, TDocumentDefinitions } from '../packages/generate-pdf/src';
+import { fileExists, normalizePath } from './helpers';
 
 const fonts = {
   Lato: {
@@ -75,7 +76,7 @@ const getCliArgs = () =>
         demandOption: true,
         type: 'string',
         coerce: (certificatePath) => {
-          if (!fs.existsSync(path.resolve(certificatePath))) {
+          if (!fileExists(certificatePath)) {
             throw new Error('Certificate Path does not exist.');
           } else {
             return path.resolve(certificatePath);
@@ -89,8 +90,7 @@ const getCliArgs = () =>
         type: 'string',
         coerce: (outputPath) => {
           const directoryPath = path.dirname(outputPath);
-
-          if (!fs.existsSync(path.resolve(directoryPath))) {
+          if (!fileExists(directoryPath)) {
             throw new Error('Output directory does not exist.');
           } else {
             return path.resolve(outputPath);
@@ -115,39 +115,21 @@ const getCliArgs = () =>
         description: 'The path to the external translations file',
         demandOption: false,
         type: 'string',
-        coerce: (extraTranslationsPath) => {
-          if (!fs.existsSync(path.resolve(extraTranslationsPath))) {
-            throw new Error('This filePath does not exist.');
-          } else {
-            return path.resolve(extraTranslationsPath);
-          }
-        },
+        coerce: (val) => normalizePath(val),
         alias: 'e',
       },
       generatorPath: {
         description: 'The path to the javascript file that will generate the PDF',
         demandOption: true,
         type: 'string',
-        coerce: (generatorPath) => {
-          if (!fs.existsSync(path.resolve(generatorPath))) {
-            throw new Error('This generator script filePath does not exist.');
-          } else {
-            return path.resolve(generatorPath);
-          }
-        },
+        coerce: (val) => normalizePath(val),
         alias: 'g',
       },
       stylesPath: {
         description: 'The path to the styles file used for the PDF generation from the Schema repository',
         demandOption: true,
         type: 'string',
-        coerce: (stylesPath) => {
-          if (!fs.existsSync(path.resolve(stylesPath))) {
-            throw new Error('This styles filePath does not exist.');
-          } else {
-            return path.resolve(stylesPath);
-          }
-        },
+        coerce: (val) => normalizePath(val),
         alias: 's',
       },
     })

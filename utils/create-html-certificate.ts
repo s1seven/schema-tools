@@ -4,6 +4,7 @@ import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 
 import { generateHtml } from '../packages/generate-html/src';
+import { fileExists, normalizePath } from './helpers';
 
 async function createHtml(options: {
   translationsPath: string;
@@ -56,8 +57,7 @@ async function createHtml(options: {
         type: 'string',
         coerce: (outputPath) => {
           const directoryPath = path.dirname(outputPath);
-
-          if (!fs.existsSync(path.resolve(directoryPath))) {
+          if (!fileExists(directoryPath)) {
             throw new Error('Output directory does not exist.');
           } else {
             return path.resolve(outputPath);
@@ -69,52 +69,28 @@ async function createHtml(options: {
         description: 'The path to the translations file',
         demandOption: true,
         type: 'string',
-        coerce: (translationsPath) => {
-          if (!fs.existsSync(path.resolve(translationsPath))) {
-            throw new Error('This translation filePath does not exist.');
-          } else {
-            return path.resolve(translationsPath);
-          }
-        },
+        coerce: (val) => normalizePath(val),
         alias: 't',
       },
       extraTranslationsPath: {
         description: 'The path to the external translations file',
         demandOption: false,
         type: 'string',
-        coerce: (extraTranslationsPath) => {
-          if (!fs.existsSync(path.resolve(extraTranslationsPath))) {
-            throw new Error('This external translation filePath does not exist.');
-          } else {
-            return path.resolve(extraTranslationsPath);
-          }
-        },
+        coerce: (val) => normalizePath(val),
         alias: 'e',
       },
       partialsMapPath: {
         description: 'The path to the external translations file',
         demandOption: false,
         type: 'string',
-        coerce: (partialsMapPath) => {
-          if (!fs.existsSync(path.resolve(partialsMapPath))) {
-            throw new Error('This external partials map filePath does not exist.');
-          } else {
-            return path.resolve(partialsMapPath);
-          }
-        },
+        coerce: (val) => normalizePath(val),
         alias: 'p',
       },
       templatePath: {
         description: 'The path to the handlebars template file in the Schema directory',
         demandOption: true,
         type: 'string',
-        coerce: (templatePath) => {
-          if (!fs.existsSync(path.resolve(templatePath))) {
-            throw new Error('This template filePath does not exist.');
-          } else {
-            return path.resolve(templatePath);
-          }
-        },
+        coerce: (val) => normalizePath(val),
         alias: 'T',
       },
     })

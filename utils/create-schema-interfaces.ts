@@ -1,9 +1,9 @@
-import fs from 'fs';
 import path from 'path';
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 
 import { generate } from '../packages/generate-interfaces/src';
+import { fileExists, normalizePath } from './helpers';
 
 (async function () {
   // incase you run directly with node from utils, uncomment the following line:
@@ -16,13 +16,7 @@ import { generate } from '../packages/generate-interfaces/src';
         description: 'Path to the schema',
         demandOption: true,
         type: 'string',
-        coerce: (schemaPath) => {
-          if (!fs.existsSync(path.resolve(schemaPath))) {
-            throw new Error('FilePath does not exist.');
-          } else {
-            return path.resolve(schemaPath);
-          }
-        },
+        coerce: (val) => normalizePath(val),
         alias: 's',
       },
       outputPath: {
@@ -31,8 +25,7 @@ import { generate } from '../packages/generate-interfaces/src';
         type: 'string',
         coerce: (outputPath) => {
           const directoryPath = path.dirname(outputPath);
-
-          if (!fs.existsSync(path.resolve(directoryPath))) {
+          if (!fileExists(directoryPath)) {
             throw new Error('Output directory does not exist.');
           } else {
             return path.resolve(outputPath);
@@ -49,7 +42,7 @@ import { generate } from '../packages/generate-interfaces/src';
 
   try {
     await generate(argv.schemaPath, argv.outputPath);
-    console.log('Certificate generated');
+    console.log('Certificate interface generated');
     process.exit(0);
   } catch (error) {
     console.error(error);
