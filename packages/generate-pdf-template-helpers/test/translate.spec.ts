@@ -48,7 +48,7 @@ describe('Translate', () => {
 
     it('correctly translate a Property into 2 languages when externalStandard is CAMPUS', async () => {
       const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
-      const extraTranslations: any = await getExtraTranslations(['EN', 'DE'], defaultSchemaUrl, [
+      const extraTranslations = await getExtraTranslations(['EN', 'DE'], defaultSchemaUrl, [
         ExternalStandardsEnum.CAMPUS,
       ]);
       const i18n = new Translate(translations, extraTranslations, ['EN', 'DE']);
@@ -58,9 +58,7 @@ describe('Translate', () => {
 
     it('correctly translate a Property into 2 languages when externalStandard is CAMPUS', async () => {
       const translations = await getTranslations(['DE'], defaultSchemaUrl);
-      const extraTranslations: any = await getExtraTranslations(['DE'], defaultSchemaUrl, [
-        ExternalStandardsEnum.CAMPUS,
-      ]);
+      const extraTranslations = await getExtraTranslations(['DE'], defaultSchemaUrl, [ExternalStandardsEnum.CAMPUS]);
       const i18n = new Translate(translations, extraTranslations, ['DE']);
       const translation = i18n.extraTranslate(ExternalStandardsEnum.CAMPUS, '1', 'Property', 'Yield stress');
       expect(translation).toEqual('Streckspannung');
@@ -68,7 +66,7 @@ describe('Translate', () => {
 
     it('correctly translate a TestCondition into 2 languages when externalStandard is CAMPUS', async () => {
       const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
-      const extraTranslations: any = await getExtraTranslations(['EN', 'DE'], defaultSchemaUrl, [
+      const extraTranslations = await getExtraTranslations(['EN', 'DE'], defaultSchemaUrl, [
         ExternalStandardsEnum.CAMPUS,
       ]);
       const i18n = new Translate<Translations, ExtraTranslations>(translations, extraTranslations, ['EN', 'DE']);
@@ -79,7 +77,7 @@ describe('Translate', () => {
     it('returns the default translation when externalStandard is undefined', async () => {
       const translations = await getTranslations(['EN', 'DE'], defaultSchemaUrl);
       const defaultTranslation = 'of test';
-      const extraTranslations: any = await getExtraTranslations(['EN', 'DE'], defaultSchemaUrl, [
+      const extraTranslations = await getExtraTranslations(['EN', 'DE'], defaultSchemaUrl, [
         ExternalStandardsEnum.CAMPUS,
       ]);
       const i18n = new Translate<Translations, ExtraTranslations>(translations, extraTranslations, ['EN', 'DE']);

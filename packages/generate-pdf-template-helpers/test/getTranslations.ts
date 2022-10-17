@@ -1,17 +1,14 @@
 import { URL } from 'url';
 
-import { CampusTranslations } from '@s1seven/schema-tools-types';
 import {
   getExtraTranslations as loadExtraTranslations,
   getSchemaConfig,
   getTranslations as loadTranslations,
 } from '@s1seven/schema-tools-utils';
 
-import { Translations } from '../src/types';
-
 export async function getTranslations(certificateLanguages: string[], refSchemaUrl: string) {
   const schemaConfig = getSchemaConfig(new URL(refSchemaUrl));
-  return loadTranslations(certificateLanguages, schemaConfig) as Promise<Translations>;
+  return loadTranslations(certificateLanguages, schemaConfig);
 }
 export function getExtraTranslations(
   certificateLanguages: string[],
@@ -19,5 +16,5 @@ export function getExtraTranslations(
   externalStandards: 'CAMPUS'[],
 ) {
   const schemaConfig = getSchemaConfig(new URL(refSchemaUrl));
-  return loadExtraTranslations(certificateLanguages, schemaConfig, externalStandards) as Promise<CampusTranslations>;
+  return loadExtraTranslations(certificateLanguages, schemaConfig, externalStandards);
 }
