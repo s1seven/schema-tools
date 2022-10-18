@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.6](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.6.5...@s1seven/schema-tools-generate-en10168-pdf-template@0.6.6) (2022-10-18)
+
+
+### Bug Fixes
+
+* **generate-en10168-pdf-template:** increase type safety ([6b68437](https://github.com/s1seven/schema-tools/commit/6b684378a154a9016d9fda8e8f62d2c2e7a9ed4c))
+
+
+
+
+
 ## [0.6.5](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.6.4...@s1seven/schema-tools-generate-en10168-pdf-template@0.6.5) (2022-10-10)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-en10168-pdf-template

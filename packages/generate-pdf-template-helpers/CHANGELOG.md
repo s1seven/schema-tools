@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.6](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf-template-helpers@0.4.5...@s1seven/schema-tools-generate-pdf-template-helpers@0.4.6) (2022-10-18)
+
+
+### Bug Fixes
+
+* add NaN check to localizeNumber ([b301f04](https://github.com/s1seven/schema-tools/commit/b301f0472ad2c9f13aa2fd6d357d15533e6e9b1e))
+* **generate-pdf-template-helpers:** remove duplicate types ([0e934da](https://github.com/s1seven/schema-tools/commit/0e934da259c704605a4b7b62faa89b74849f40c4))
+
+
+
+
+
 ## [0.4.5](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf-template-helpers@0.4.4...@s1seven/schema-tools-generate-pdf-template-helpers@0.4.5) (2022-10-10)
 
 **Note:** Version bump only for package @s1seven/schema-tools-generate-pdf-template-helpers

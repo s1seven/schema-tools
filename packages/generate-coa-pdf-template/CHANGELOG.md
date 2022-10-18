@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.3.6...@s1seven/schema-tools-generate-coa-pdf-template@0.4.0) (2022-10-18)
+
+
+### Features
+
+* add PDF rendering for disclamier ([2e434b1](https://github.com/s1seven/schema-tools/commit/2e434b165be16b84a335047bab844401a3fa2094))
+
+
+
+
+
 ## [0.3.6](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-coa-pdf-template@0.3.5...@s1seven/schema-tools-generate-coa-pdf-template@0.3.6) (2022-10-10)
 
 

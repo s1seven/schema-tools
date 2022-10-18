@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.7](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.3.6...@s1seven/schema-tools-extract-emails@0.3.7) (2022-10-18)
+
+
+### Bug Fixes
+
+* **extract-emails:** make empty return types more predictable ([335cf47](https://github.com/s1seven/schema-tools/commit/335cf47015af032f1d649ca6b73e71557695b344))
+* **extract-emails:** simplify vatId and dunsId assignment ([486d2f1](https://github.com/s1seven/schema-tools/commit/486d2f109181fe7081a2c0c56fe7e14e7801c80c))
+
+
+
+
+
 ## [0.3.6](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.3.5...@s1seven/schema-tools-extract-emails@0.3.6) (2022-10-10)
 
 **Note:** Version bump only for package @s1seven/schema-tools-extract-emails

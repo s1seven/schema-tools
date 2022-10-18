@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.2.2...@s1seven/schema-tools-utils@0.2.3) (2022-10-18)
+
+
+### Bug Fixes
+
+* add NaN check to localizeNumber ([b301f04](https://github.com/s1seven/schema-tools/commit/b301f0472ad2c9f13aa2fd6d357d15533e6e9b1e))
+
+
+
+
+
 ## [0.2.2](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.2.1...@s1seven/schema-tools-utils@0.2.2) (2022-10-10)
 
 **Note:** Version bump only for package @s1seven/schema-tools-utils
