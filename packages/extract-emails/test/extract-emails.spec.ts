@@ -103,6 +103,37 @@ describe('ExtractEmails', function () {
       },
       expectedReceivers: {
         [ReceiverRoles.Buyer]: {
+          emails: [],
+          name: 'Steel Trading AG',
+          role: 'Buyer',
+          vatId: 'DE12234567890',
+          dunsId: undefined,
+        },
+        [ReceiverRoles.CertificateConsignee]: {
+          emails: [],
+          vatId: undefined,
+          dunsId: '123456789',
+          name: 'Steel User AG',
+          role: 'CertificateConsignee',
+        },
+      },
+    },
+    {
+      version: 'v0.4.0',
+      type: SupportedSchemas.EN10168,
+      certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.0/valid_cert.json`,
+      certificate: require('../../../fixtures/EN10168/v0.4.0/valid_cert.json'),
+      expectedSenders: {
+        [SenderRoles.Seller]: {
+          emails: [],
+          name: 'Steel Mill SE',
+          role: 'Seller',
+          vatId: 'AT123456789',
+          dunsId: undefined,
+        },
+      },
+      expectedReceivers: {
+        [ReceiverRoles.Buyer]: {
           emails: ['sbs.steeltrader@gmail.com'],
           name: 'Steel Trading AG',
           role: 'Buyer',

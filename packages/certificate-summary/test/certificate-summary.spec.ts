@@ -71,6 +71,22 @@ describe('CertificateSummary', function () {
       },
     },
     {
+      version: 'v0.4.0',
+      type: SupportedSchemas.EN10168,
+      certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.0/valid_cert.json`,
+      certificate: require('../../../fixtures/EN10168/v0.4.0/valid_cert.json'),
+      expectedSummary: {
+        sellerName: 'Steel Mill SE',
+        buyerName: 'Steel Trading AG',
+        certificateIdentifier: '1866645/001',
+        productDescription: 'Seamleass Steel Tubes Hot Roild',
+        purchaseDeliveryNumber: 'DN-1583836',
+        purchaseDeliveryPosition: undefined,
+        purchaseOrderNumber: '0334/2019/ZZS',
+        purchaseOrderPosition: '1',
+      },
+    },
+    {
       version: 'v1.0.0',
       type: SupportedSchemas.ECOC,
       certificatePath: `${__dirname}/../../../fixtures/E-CoC/v1.0.0/valid_cert.json`,

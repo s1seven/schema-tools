@@ -118,7 +118,7 @@ The remaining packages should be made compatible with [all schema versions](#sup
 ### Fixtures
 
 - Create or use a folder following the schema name
-- Create a subfolder following the version of the release candidate
+- ⚠️ Create a subfolder following the version of the release candidate
 - Add a valid json certificate with the name `valid_cert.json`
 - Add an invalid json certificate with the name `invalid_cert.json`
 - Add the `translations.json` - for ease of use we keep English and German translations in a single file
@@ -167,6 +167,9 @@ To generate `valid_cert.pdf` (PDF certificate generated from JS generator), from
 
 ```sh
 npm run fixtures:pdf -- -c fixtures/CoA/v1.0.0/valid_cert.json -o fixtures/CoA/v1.0.0/valid_cert.pdf -t fixtures/CoA/v1.0.0/translations.json -g ../CoA-schemas/generate-pdf.min.js -s ../CoA-schemas/generate-pdf.styles.json -e fixtures/CoA/v1.0.0/extra_translations.json
+
+# or using remote resources
+npm run fixtures:pdf -- -c fixtures/EN10168/v0.3.0/valid_cert.json -o fixtures/EN10168/v0.3.0/valid_cert.pdf -t 'fixtures/EN10168/v0.3.0/translations.json' -g 'https://schemas.s1seven.com/en10168-schemas/v0.3.0/generate-pdf.min.js' -s 'https://schemas.s1seven.com/en10168-schemas/v0.3.0/generate-pdf.styles.json'
 ```
 
 If external translations are not needed, remove the `-e` command from the above command.

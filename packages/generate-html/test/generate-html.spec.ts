@@ -48,8 +48,21 @@ describe('GenerateHTML', function () {
         inspection: 'https://schemas.s1seven.com/en10168-schemas/v0.3.0/inspection.hbs',
       },
       expectedHtmlFromMjml: '',
-      localOnly: true,
     },
+    // {
+    //   type: SupportedSchemas.EN10168,
+    //   version: 'v0.4.0',
+    //   certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.0/valid_cert.json`,
+    //   schemaTranslationsPath: `${__dirname}/../../../fixtures/EN10168/v0.4.0/translations.json`,
+    //   schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.4.0/certificate.ts`, 'utf-8'),
+    //   expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.4.0/template_hbs.html`, 'utf-8'),
+    //   localTemplatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.0/template.hbs`,
+    //   partialsMap: {
+    //     inspection: 'https://schemas.s1seven.com/en10168-schemas/v0.4.0/inspection.hbs',
+    //   },
+    //   expectedHtmlFromMjml: '',
+    //   localOnly: true,
+    // },
     {
       type: SupportedSchemas.COA,
       version: 'v0.0.4',
