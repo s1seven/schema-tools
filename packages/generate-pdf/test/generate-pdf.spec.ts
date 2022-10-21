@@ -88,7 +88,7 @@ describe('GeneratePDF', function () {
       expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.4.0/valid_cert.pdf`),
       validCertificate: require('../../../fixtures/EN10168/v0.4.0/valid_cert.json'),
       docDefinition,
-      localOnly: true,
+      localOnly: false,
     },
     {
       type: SupportedSchemas.COA,
@@ -133,7 +133,7 @@ describe('GeneratePDF', function () {
       expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.0/valid_cert.pdf`),
       validCertificate: require('../../../fixtures/CoA/v1.0.0/valid_cert.json'),
       docDefinition,
-      localOnly: true,
+      localOnly: false,
     },
   ];
 

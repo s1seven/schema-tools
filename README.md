@@ -13,9 +13,9 @@ The specification of these libraries can be found in [SEP](https://s1seven.githu
 
 | Name      | Version range |
 | --------- | :-----------: |
-| [EN10168] | 0.0.2 - 0.2.x |
+| [EN10168] | 0.0.2 - 0.4.x |
 | [E-CoC]   |     1.0.0     |
-| [CoA]     | 0.0.3 - 0.2.x |
+| [CoA]     | 0.0.3 - 1.x.x |
 | [CDN]     |      xx       |
 
 ### Deprecations
