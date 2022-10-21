@@ -39,13 +39,12 @@ describe('GenerateInterfaces', function () {
       version: 'v0.3.0',
       certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/EN10168/v0.3.0/certificate.ts`),
     },
-    // TODO: enable once EN10168 v0.4.0 is released
-    // {
-    //   type: SupportedSchemas.EN10168,
-    //   schemaPath: 'https://schemas.s1seven.com/en10168-schemas/v0.4.0/schema.json',
-    //   version: 'v0.4.0',
-    //   certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/EN10168/v0.4.0/certificate.ts`),
-    // },
+    {
+      type: SupportedSchemas.EN10168,
+      schemaPath: 'https://schemas.s1seven.com/en10168-schemas/v0.4.0/schema.json',
+      version: 'v0.4.0',
+      certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/EN10168/v0.4.0/certificate.ts`),
+    },
     {
       type: SupportedSchemas.ECOC,
       schemaPath: 'https://schemas.s1seven.com/e-coc-schemas/v1.0.0/schema.json',
