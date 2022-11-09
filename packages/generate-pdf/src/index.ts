@@ -1,7 +1,7 @@
 import htmlToPdfmake from 'html-to-pdfmake';
 import jsdom from 'jsdom';
-import { get } from 'lodash';
 import clone from 'lodash.clone';
+import get from 'lodash.get';
 import merge from 'lodash.merge';
 import Module from 'module';
 import PdfPrinter from 'pdfmake';
