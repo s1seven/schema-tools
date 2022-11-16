@@ -64,7 +64,7 @@ jobs:
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         id: set-sha
-        uses: nrwl/nx-set-shas@v2
+        uses: nrwl/nx-set-shas@v3
 
       - name: Install GraphicsMagick
         run: sudo apt-get update && sudo apt-get install -y ghostscript graphicsmagick
