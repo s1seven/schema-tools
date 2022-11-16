@@ -96,15 +96,7 @@ jobs:
       - name: Extract branch name
         id: extract-branch
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-
-      # - name: Extract branch name
-      #   id: extract-branch
-      #   shell: bash
-      #   run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
-
-      - name: Print output
-        run: echo "${{ steps.extract-branch.outputs.branch }}"
+        run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
 
       - name: Add, commit and push changes to dist/generateContents.js
         if: steps.extract-branch.outputs.branch != 'main'
