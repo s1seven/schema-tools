@@ -240,7 +240,7 @@ async function populatePartialsObject(
   return partials;
 }
 
-async function getPartials(
+export async function getPartials(
   schemaConfig: SchemaConfig,
   partialsMap?: Record<string, string>,
 ): Promise<false | Record<string, TemplateDelegate<any>>> {
