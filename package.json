@@ -63,6 +63,7 @@
     "version": "lerna version",
     "release": "npm run version && lerna publish from-package",
     "publish": "lerna publish",
+    "repair": "lerna repair",
     "fixtures:interfaces": "ts-node ./utils/create-schema-interfaces.ts",
     "fixtures:html": "ts-node ./utils/create-html-certificate.ts",
     "fixtures:pdf": "ts-node ./utils/create-pdf-certificate.ts"
