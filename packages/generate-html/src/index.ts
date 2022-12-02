@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import Debug from 'debug';
 import { compile, RuntimeOptions, SafeString, TemplateDelegate } from 'handlebars';
 import get from 'lodash.get';
 import merge from 'lodash.merge';
@@ -11,6 +12,7 @@ import {
   ExternalStandardsEnum,
   ExternalStandardsTranslations,
   ExtraTranslations,
+  PartialsMapFileName,
   SchemaConfig,
   Schemas,
   schemaToExternalStandardsMap,
@@ -20,7 +22,6 @@ import {
   getCertificateLanguages,
   getCertificateType,
   getExtraTranslations,
-  getPartials,
   getRefSchemaUrl,
   getSchemaConfig,
   getTranslations,
@@ -47,6 +48,8 @@ export type GenerateHtmlOptions = {
   extraTranslations?: ExtraTranslations;
   partialsMap?: Record<string, string>;
 };
+
+const debug = Debug('schema-tools-generate-html');
 
 function languagesStringToArray(languages: string | string[]): string[] {
   return typeof languages === 'string' ? languages.split(',').map((val) => val.trim()) : languages;
@@ -222,6 +225,36 @@ async function parseHbsTemplate(certificate: any, options: GenerateHtmlOptions):
   const templateFile = await loadExternalFile(templateFilePath, 'text');
   const template = compile<Record<string, unknown>>(templateFile);
   return template(certificate, options?.handlebars);
+}
+
+async function populatePartialsObject(
+  partialsMap: Record<string, string>,
+): Promise<Record<string, TemplateDelegate<any>>> {
+  const partials = {};
+
+  for (const partial in partialsMap) {
+    const loadedTemplate = await loadExternalFile(partialsMap[partial], 'text');
+    partials[partial] = (ctx, opts) => compile(loadedTemplate)(ctx, opts);
+  }
+
+  return partials;
+}
+
+async function getPartials(
+  schemaConfig: SchemaConfig,
+  partialsMap?: Record<string, string>,
+): Promise<false | Record<string, TemplateDelegate<any>>> {
+  try {
+    if (partialsMap) {
+      return await populatePartialsObject(partialsMap);
+    }
+    const partialsMapUrl = getRefSchemaUrl(schemaConfig, PartialsMapFileName).href;
+    const remotePartialsMap = await loadExternalFile(partialsMapUrl, 'json');
+    return await populatePartialsObject(remotePartialsMap as Record<string, string>);
+  } catch (error) {
+    debug(error);
+    return false;
+  }
 }
 
 /**
