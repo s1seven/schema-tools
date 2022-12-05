@@ -245,7 +245,7 @@ describe('getPartials()', function () {
 
   it('no partials map exists, false is returned', async () => {
     (axiosInstance as any).get.mockRejectedValueOnce();
-    const partials = await getPartials(schemaConfig, undefined);
+    const partials = await getPartials({ ...schemaConfig, version: '0.0.2' }, undefined);
     expect(partials).toBe(false);
   });
 });
