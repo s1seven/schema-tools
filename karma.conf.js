@@ -22,6 +22,9 @@ module.exports = function (config) {
         fallback: {
           fs: require.resolve('browserfs'),
         },
+        alias: {
+          handlebars: 'handlebars/dist/handlebars.js',
+        },
       },
       output: {
         path: path.resolve(process.cwd(), './build'),
