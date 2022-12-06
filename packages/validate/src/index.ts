@@ -2,6 +2,7 @@ import { Options as AjvOptions, ValidateFunction } from 'ajv';
 import Ajv2019 from 'ajv/dist/2019';
 import draft7MetaSchema from 'ajv/dist/refs/json-schema-draft-07.json';
 import addFormats from 'ajv-formats';
+import Debug from 'debug';
 import { promises as fs } from 'fs';
 import flatten from 'lodash.flatten';
 import groupBy from 'lodash.groupby';
@@ -16,6 +17,8 @@ export type ValidateOptions = {
 };
 
 export { ValidateFunction } from 'ajv';
+
+const debug = Debug('schema-tools-validate');
 
 const validateOptions: ValidateOptions = {
   ignoredPaths: ['.DS_Store', '.git', '.gitignore', 'node_modules', 'package.json', 'package-lock.json'],
@@ -62,7 +65,7 @@ async function* loadLocalCertificates(
     try {
       data = JSON.parse(await fs.readFile(filePath, 'utf8'));
     } catch (error: any) {
-      console.warn(`loadLocalCertificates error for : ${filePath} `, error?.message);
+      debug(`loadLocalCertificates error for : ${filePath} `, error?.message);
     }
     yield { data, filePath };
     index += 1;
