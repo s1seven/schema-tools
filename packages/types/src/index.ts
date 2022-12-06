@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 
+import { Type } from 'class-transformer';
 import {
   IsArray,
   IsDateString,
@@ -17,7 +18,6 @@ import {
   ValidationOptions,
 } from 'class-validator';
 export { JSONSchema7, JSONSchema7Definition } from 'json-schema';
-import { Type } from 'class-transformer';
 
 export function isNotEmptyArrayOrObject(validationOptions?: ValidationOptions) {
   return function (object: EN10168SchemaCertificate, propertyName: string) {

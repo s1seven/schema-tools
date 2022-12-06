@@ -26,7 +26,7 @@ export const cache = new NodeCache({
 });
 
 export const axiosInstance = axios.create({
-  timeout: 60000,
+  timeout: 8000,
   httpAgent: new HttpAgent({ keepAlive: true }),
   httpsAgent: new HttpsAgent({ keepAlive: true }),
   maxRedirects: 10,
