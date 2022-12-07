@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.2.3...@s1seven/schema-tools-utils@0.2.4) (2022-12-07)
+
+
+### Reverts
+
+* Revert "chore(generate-coa-pdf-template): add handlebars" ([898fbfb](https://github.com/s1seven/schema-tools/commit/898fbfb003d8cd2b2ab16b57f92817b60af29d90))
+
+
+
+
+
 ## [0.2.3](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-utils@0.2.2...@s1seven/schema-tools-utils@0.2.3) (2022-10-18)
 
 

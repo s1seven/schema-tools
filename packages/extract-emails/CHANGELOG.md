@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.3.7...@s1seven/schema-tools-extract-emails@0.3.8) (2022-12-07)
+
+**Note:** Version bump only for package @s1seven/schema-tools-extract-emails
+
+
+
+
+
 ## [0.3.7](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.3.6...@s1seven/schema-tools-extract-emails@0.3.7) (2022-10-18)
 
 

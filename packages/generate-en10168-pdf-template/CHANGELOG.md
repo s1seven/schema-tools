@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.7](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.6.6...@s1seven/schema-tools-generate-en10168-pdf-template@0.6.7) (2022-12-07)
+
+
+### Bug Fixes
+
+* **generate-en10168-pdf-template:** fix `Maximun` typo ([99f6d9b](https://github.com/s1seven/schema-tools/commit/99f6d9b1603782ac05ceff2413ad3ed855b9aa95))
+
+
+
+
+
 ## [0.6.6](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.6.5...@s1seven/schema-tools-generate-en10168-pdf-template@0.6.6) (2022-10-18)
 
 
