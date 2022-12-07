@@ -45,7 +45,7 @@ describe('GenerateHTML', function () {
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.3.0/template_hbs.html`, 'utf-8'),
       localTemplatePath: `${__dirname}/../../../fixtures/EN10168/v0.3.0/template.hbs`,
       partialsMap: {
-        inspection: 'https://schemas.s1seven.com/en10168-schemas/v0.3.0/inspection.hbs',
+        inspection: 'https://schemas.s1seven.dev/en10168-schemas/v0.3.0/inspection.hbs',
       },
       expectedHtmlFromMjml: '',
     },
@@ -58,15 +58,15 @@ describe('GenerateHTML', function () {
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.4.0/template_hbs.html`, 'utf-8'),
       localTemplatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.0/template.hbs`,
       partialsMap: {
-        inspection: 'https://schemas.s1seven.com/en10168-schemas/v0.4.0/inspection.hbs',
-        company: 'https://schemas.s1seven.com/schema-definitions/v0.0.6/company/company.hbs',
-        measurement: 'https://schemas.s1seven.com/schema-definitions/v0.0.6/measurement/measurement.hbs',
-        validation: 'https://schemas.s1seven.com/schema-definitions/v0.0.6/validation/validation.hbs',
+        inspection: 'https://schemas.s1seven.dev/en10168-schemas/v0.4.0/inspection.hbs',
+        company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/company/company.hbs',
+        measurement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/measurement/measurement.hbs',
+        validation: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/validation/validation.hbs',
         productDescription:
-          'https://schemas.s1seven.com/schema-definitions/v0.0.6/product-description/product-description.hbs',
+          'https://schemas.s1seven.dev/schema-definitions/v0.0.6/product-description/product-description.hbs',
         commercialTransaction:
-          'https://schemas.s1seven.com/schema-definitions/v0.0.6/commercial-transaction/commercial-transaction.hbs',
-        chemicalElement: 'https://schemas.s1seven.com/schema-definitions/v0.0.6/chemical-element/chemical-element.hbs',
+          'https://schemas.s1seven.dev/schema-definitions/v0.0.6/commercial-transaction/commercial-transaction.hbs',
+        chemicalElement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/chemical-element/chemical-element.hbs',
       },
       expectedHtmlFromMjml: '',
       localOnly: false,
@@ -110,7 +110,7 @@ describe('GenerateHTML', function () {
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v1.0.0/template_hbs.html`, 'utf-8'),
       expectedHtmlFromMjml: '',
       partialsMap: {
-        company: 'https://schemas.s1seven.com/schema-definitions/v0.0.5/company/company.hbs',
+        company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.5/company/company.hbs',
       },
       localOnly: false,
     },

@@ -18,7 +18,7 @@ import {
 } from '../src/index';
 import { axiosInstance, cache } from '../src/loaders';
 
-const baseUrl = 'https://schemas.s1seven.com';
+const baseUrl = 'https://schemas.s1seven.dev';
 const en10168SchemaType = 'en10168-schemas';
 const version = 'v0.0.5';
 
@@ -28,7 +28,7 @@ describe('Utils', function () {
   const COA_CERT_PATH = `${__dirname}/../../../fixtures/CoA/v0.0.4/valid_cert.json`;
   const MOCK_CERT = 'cert';
 
-  const refSchemaUrl = new URL('https://schemas.s1seven.com/en10168-schemas/v0.1.0/schema.json');
+  const refSchemaUrl = new URL('https://schemas.s1seven.dev/en10168-schemas/v0.1.0/schema.json');
   const schemaConf: SchemaConfig = {
     baseUrl,
     schemaType: en10168SchemaType,
