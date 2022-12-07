@@ -29,7 +29,7 @@ describe('Rendering measurement', () => {
     expect(measurements[0]).toEqual(expected);
   });
 
-  it('renders correctly with Maximun, Minimum and Property', async () => {
+  it('renders correctly with Maximum, Minimum and Property', async () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
     const input = {
       Value: 200,

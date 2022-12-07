@@ -333,7 +333,7 @@ function createChemicalElementTables(
       chemicalElements.some((chemicalElement) => Object.prototype.hasOwnProperty.call(chemicalElement.value, 'Maximum'))
     ) {
       const MaximumRow = [
-        { text: 'Maximun', style: 'p' },
+        { text: 'Maximum', style: 'p' },
         ...chemicalElements.map((chemicalElement) => ({
           text: chemicalElement.value?.Maximum ? localizeNumber(chemicalElement.value.Maximum, i18n.languages[0]) : '',
           style: 'caption',
