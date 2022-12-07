@@ -1,6 +1,6 @@
 # Schema-tools-validate
 
-[![npm][npm-image]][npm-url] 
+[![npm][npm-image]][npm-url]
 
 [npm-image]: https://img.shields.io/npm/v/@s1seven/schema-tools-validate.svg?style=flat
 [npm-url]: https://npmjs.org/package/@s1seven/schema-tools-validate
@@ -27,3 +27,7 @@ node ./examples/validate.js ./fixtures/en10168
 
 [ajv]: https://www.npmjs.com/package/ajv
 [json-schema-to-typescript]: https://www.npmjs.com/package/json-schema-to-typescript
+
+## Debugging
+
+Error logging has been implemented in `loadLocalCertificates`. To see the errors, run your command with the environment variable `DEBUG=schema-tools-validate`.

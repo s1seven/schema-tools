@@ -15,4 +15,4 @@ npm install @s1seven/schema-tools-utils
 
 ## Debugging
 
-Error logging has been implemented in 2 functions, `getPartials` and `getTranslations`. To see the errors, run your command with the environment variable `DEBUG=schema-tools-utils`.
+Error logging has been implemented in `getTranslations`. To see the errors, run your command with the environment variable `DEBUG=schema-tools-utils`.

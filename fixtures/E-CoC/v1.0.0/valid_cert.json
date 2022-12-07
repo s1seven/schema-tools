@@ -1,7 +1,7 @@
 {
   "Id": "89172671",
   "Uuid": "c42cf70d-042e-44e6-a918-02e57aa69982",
-  "RefSchemaUrl": "https://schemas.s1seven.com/e-coc-schemas/v1.0.0/schema.json",
+  "RefSchemaUrl": "https://schemas.s1seven.dev/e-coc-schemas/v1.0.0/schema.json",
   "EcocData": {
     "DataLevel": "C",
     "Data": {

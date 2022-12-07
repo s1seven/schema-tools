@@ -9,4 +9,8 @@ module.exports = {
   // testEnvironment: 'node',
   maxConcurrency: 2,
   moduleFileExtensions: ['js', 'ts', 'node'],
+  moduleNameMapper: {
+    // needed since axios after 1.x.x
+    '^axios$': require.resolve('axios'),
+  },
 };

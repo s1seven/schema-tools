@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import Debug from 'debug';
 import * as fs from 'fs';
-import { compile, TemplateDelegate } from 'handlebars';
 import { Agent as HttpAgent } from 'http';
 import { Agent as HttpsAgent } from 'https';
 import NodeCache from 'node-cache';
@@ -12,7 +11,6 @@ import {
   ExternalStandards,
   ExternalStandardsTranslations,
   Languages,
-  PartialsMapFileName,
   SchemaConfig,
   Translations,
 } from '@s1seven/schema-tools-types';
@@ -28,7 +26,7 @@ export const cache = new NodeCache({
 });
 
 export const axiosInstance = axios.create({
-  timeout: 60000,
+  timeout: 8000,
   httpAgent: new HttpAgent({ keepAlive: true }),
   httpsAgent: new HttpsAgent({ keepAlive: true }),
   maxRedirects: 10,
@@ -102,36 +100,6 @@ export async function getTranslations<L extends string = Languages>(
   }
 
   return translationsArrayToObject(translationsArray);
-}
-
-async function populatePartialsObject(
-  partialsMap: Record<string, string>,
-): Promise<Record<string, TemplateDelegate<any>>> {
-  const partials = {};
-
-  for (const partial in partialsMap) {
-    const loadedTemplate = await loadExternalFile(partialsMap[partial], 'text');
-    partials[partial] = (ctx, opts) => compile(loadedTemplate)(ctx, opts);
-  }
-
-  return partials;
-}
-
-export async function getPartials(
-  schemaConfig: SchemaConfig,
-  partialsMap?: Record<string, string>,
-): Promise<false | Record<string, TemplateDelegate<any>>> {
-  try {
-    if (partialsMap) {
-      return await populatePartialsObject(partialsMap);
-    }
-    const partialsMapUrl = getRefSchemaUrl(schemaConfig, PartialsMapFileName).href;
-    const remotePartialsMap = await loadExternalFile(partialsMapUrl, 'json');
-    return await populatePartialsObject(remotePartialsMap as Record<string, string>);
-  } catch (error) {
-    debug(error);
-    return false;
-  }
 }
 
 export async function getExtraTranslations<L extends string = Languages>(

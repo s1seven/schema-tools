@@ -48,6 +48,7 @@
     "@s1seven/schema-tools-utils": "^0.2.3",
     "handlebars": "^4.7.7",
     "lodash.get": "^4.4.2",
+    "debug": "^4.3.4",
     "lodash.merge": "^4.6.2",
     "mjml": "^4.12.0"
   },
@@ -55,7 +56,8 @@
     "@markedjs/html-differ": "^3.0.4",
     "@types/lodash.get": "^4.4.6",
     "@types/lodash.merge": "^4.6.6",
-    "@types/mjml": "^4.7.0"
+    "@types/mjml": "^4.7.0",
+    "@types/debug": "^4.1.7"
   },
   "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
 }

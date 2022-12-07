@@ -1,6 +1,9 @@
 import { readFileSync } from 'fs';
 
-import { handlebarsBaseOptions } from '../src/index';
+import { SchemaConfig } from '@s1seven/schema-tools-types';
+import { axiosInstance } from '@s1seven/schema-tools-utils';
+
+import { getPartials, handlebarsBaseOptions } from '../src/index';
 
 const schemaTranslationsPath = `${__dirname}/../../../fixtures/CoA/v0.2.0/translations.json`;
 const schemaExtraTranslationsPath = `${__dirname}/../../../fixtures/CoA/v0.2.0/extra_translations.json`;
@@ -183,6 +186,10 @@ const inpsections = [
   },
 ];
 
+const baseUrl = 'https://schemas.s1seven.com';
+const en10168SchemaType = 'en10168-schemas';
+const version = 'v0.0.5';
+
 describe('renders strings and numbers correctly with localization', () => {
   inpsections.forEach((object) => {
     const { Maximum, Value, ValueType } = object.inspection;
@@ -202,5 +209,46 @@ describe('renders strings and numbers correctly with localization', () => {
     it(`localizeValue should render ${Value} as a SafeString with German localization`, () => {
       expect(localizeValue(Value, ValueType, ['DE'])).toEqual(object.localizeValueExpectedResult.DE);
     });
+  });
+});
+
+describe('getPartials()', function () {
+  const partialsMap = {
+    inspection: `${__dirname}/../../../fixtures/EN10168/v0.3.0/inspection.hbs`,
+  };
+
+  const schemaConfig: SchemaConfig = {
+    baseUrl,
+    schemaType: en10168SchemaType,
+    version: version.replace('v', ''),
+  };
+
+  axiosInstance.get = jest.fn();
+
+  beforeEach(() => {
+    (axiosInstance as any).get.mockClear();
+  });
+
+  it('returns an object with one property for each property in partials map', async () => {
+    const partials = await getPartials(schemaConfig, partialsMap);
+    expect(partials).toHaveProperty('inspection');
+  });
+
+  it('when partialsMap is undefined, a remote file is requested', async () => {
+    (axiosInstance as any).get.mockResolvedValue({ data: partialsMap, status: 200 });
+    const partials = await getPartials(schemaConfig, undefined);
+    expect(axiosInstance.get).toBeCalledWith('https://schemas.s1seven.com/en10168-schemas/v0.0.5/partials-map.json', {
+      responseType: 'json',
+    });
+    expect(partials).toHaveProperty('inspection');
+  });
+
+  it('no partials map exists, false is returned', async () => {
+    (axiosInstance as any).get.mockRejectedValueOnce();
+    const partials = await getPartials({ ...schemaConfig, version: '0.0.2' }, undefined);
+    expect(axiosInstance.get).toBeCalledWith('https://schemas.s1seven.com/en10168-schemas/v0.0.2/partials-map.json', {
+      responseType: 'json',
+    });
+    expect(partials).toBe(false);
   });
 });

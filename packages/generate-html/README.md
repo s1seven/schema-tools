@@ -49,3 +49,7 @@ Example:
 If the following URL is present on a certificate:
 `https://schemas.s1seven.com/en10168-schemas/v0.3.0/schema.json`
 `getPartials` will check to see if the file `https://schemas.s1seven.com/en10168-schemas/v0.3.0/partials-map.json` exists. If not, it will fail silently and continue to generate the html file without partials. This is to maintain compatability with schemas that do not use partials.
+
+## Debugging
+
+Error logging has been implemented in `getPartials`. To see the errors, run your command with the environment variable `DEBUG=schema-tools-generate-html`.
