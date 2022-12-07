@@ -69,13 +69,12 @@ describe('GenerateInterfaces', function () {
       version: 'v0.2.0',
       certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/CoA/v0.2.0/certificate.ts`),
     },
-    // TODO: enable once CoA v1.0.0 is released
-    // {
-    //   type: SupportedSchemas.COA,
-    //   schemaPath: 'https://schemas.s1seven.dev/coa-schemas/v1.0.0/schema.json',
-    //   version: 'v1.0.0',
-    //   certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/CoA/v1.0.0/certificate.ts`),
-    // },
+    {
+      type: SupportedSchemas.COA,
+      schemaPath: 'https://schemas.s1seven.dev/coa-schemas/v1.0.0/schema.json',
+      version: 'v1.0.0',
+      certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/CoA/v1.0.0/certificate.ts`),
+    },
   ];
 
   const generateOptions = {

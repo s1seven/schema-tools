@@ -53,9 +53,6 @@ export type Disclaimer = string;
  * Certificates of Analysis for plastics and other materials.
  */
 export interface Certificate {
-    /**
-     * The URL linking to the JSON schema version the certificate JSON is based on.
-     */
     RefSchemaUrl: string;
     /**
      * The certificate information object
