@@ -161,6 +161,8 @@ npm run fixtures:html -- -c fixtures/EN10168/v0.3.0/valid_cert.json -o fixtures/
 If external translations are not needed, remove the `-e` command from the above command.
 If partial maps are not needed, remove the `-p` command from the above command.
 
+If you get an error that a partial could not be loaded, make sure that the full (absolute) filepath is included in your local `partials-map.json`.
+
 #### PDF certificate
 
 To generate `valid_cert.pdf` (PDF certificate generated from JS generator), from the root directory, run the following command, updating the version number and schema name :
