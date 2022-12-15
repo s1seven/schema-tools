@@ -176,7 +176,7 @@ npm run fixtures:pdf -- -c fixtures/EN10168/v0.3.0/valid_cert.json -o fixtures/E
 
 If external translations are not needed, remove the `-e` command from the above command.
 
-### Troubleshooting PDF tests
+##### Troubleshooting PDF tests
 
 If the PDF hashes are not matching, ensure that the styles in the filepath that you are passing to the `npm run fixtures:pdf` are the same as the ones that are used for the tests such as `packages/generate-en10168-pdf-template/utils/styles.js`.
 
@@ -188,3 +188,14 @@ To change the appearance of a PDF, make the needed changes to `generateContent.t
 [e-coc]: https://github.com/thematerials-network/E-CoC-schemas
 [coa]: https://github.com/thematerials-network/CoA-schemas
 [cdn]: https://github.com/thematerials-network/CDN-schemas
+
+## Tests to update for new releases
+
+When creating a new release, the following tests need to be updated with the latest version (usually in a `testSuitesMap` or `testMap` array):
+
+- generate-<schema>-pdf-template
+- generate-pdf
+- generate-html
+- certificate-summary
+- extract-emails
+- generate-interfaces
