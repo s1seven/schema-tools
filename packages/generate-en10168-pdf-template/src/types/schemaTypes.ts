@@ -27,7 +27,7 @@ export type Company = (
     Street: [string] | [string, string] | [string, string, string] | string;
     [k: string]: any;
 } & {
-    Identifiers:
+    Identifiers?:
         | {
               VAT: string;
               [k: string]: any;
@@ -878,15 +878,15 @@ export interface ChemicalElement1 {
     /**
      * The measured part of the element in percentage.
      */
-    Actual: number;
+    Actual: string;
     /**
      * The minimum if defined by the product specification, otherwise the element must not provided.
      */
-    Minimum?: number;
+    Minimum?: string;
     /**
      * The maximum as defined by the product specification, otherwise the element must not provided.
      */
-    Maximum?: number;
+    Maximum?: string;
 }
 export interface ChemicalCompositionSupplementaryInformation {
     [k: string]: KeyValueObject;
