@@ -80,7 +80,7 @@ async function createHtml(options: {
         alias: 'e',
       },
       partialsMapPath: {
-        description: 'The path to the external translations file',
+        description: 'The path to the partials map file',
         demandOption: false,
         type: 'string',
         coerce: (val) => normalizePath(val),
