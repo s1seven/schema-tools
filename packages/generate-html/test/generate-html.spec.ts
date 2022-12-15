@@ -58,7 +58,7 @@ describe('GenerateHTML', function () {
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.4.0/template_hbs.html`, 'utf-8'),
       localTemplatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.0/template.hbs`,
       partialsMap: {
-        inspection: 'https://schemas.s1seven.dev/en10168-schemas/v0.4.0/inspection.hbs',
+        inspection: `${__dirname}/../../../fixtures/EN10168/v0.4.1/inspection.hbs`,
         company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/company/company.hbs',
         measurement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/measurement/measurement.hbs',
         validation: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/validation/validation.hbs',
@@ -69,7 +69,28 @@ describe('GenerateHTML', function () {
         chemicalElement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/chemical-element/chemical-element.hbs',
       },
       expectedHtmlFromMjml: '',
-      localOnly: false,
+    },
+    {
+      type: SupportedSchemas.EN10168,
+      version: 'v0.4.1',
+      certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.1/valid_cert.json`,
+      schemaTranslationsPath: `${__dirname}/../../../fixtures/EN10168/v0.4.1/translations.json`,
+      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.4.1/certificate.ts`, 'utf-8'),
+      expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.4.1/template_hbs.html`, 'utf-8'),
+      localTemplatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.1/template.hbs`,
+      partialsMap: {
+        inspection: `${__dirname}/../../../fixtures/EN10168/v0.4.1/inspection.hbs`,
+        company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/company/company.hbs',
+        measurement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/measurement/measurement.hbs',
+        validation: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/validation/validation.hbs',
+        productDescription:
+          'https://schemas.s1seven.dev/schema-definitions/v0.0.6/product-description/product-description.hbs',
+        commercialTransaction:
+          'https://schemas.s1seven.dev/schema-definitions/v0.0.6/commercial-transaction/commercial-transaction.hbs',
+        chemicalElement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/chemical-element/chemical-element.hbs',
+      },
+      expectedHtmlFromMjml: '',
+      localOnly: true,
     },
     {
       type: SupportedSchemas.COA,
