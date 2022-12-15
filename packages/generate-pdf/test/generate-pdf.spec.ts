@@ -88,7 +88,18 @@ describe('GeneratePDF', function () {
       expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.4.0/valid_cert.pdf`),
       validCertificate: require('../../../fixtures/EN10168/v0.4.0/valid_cert.json'),
       docDefinition,
-      localOnly: false,
+    },
+    {
+      type: SupportedSchemas.EN10168,
+      version: 'v0.4.1',
+      generatorPath: path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`),
+      styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
+      translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.4.1/translations.json`),
+      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.4.1/template_hbs.html`),
+      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.4.1/valid_cert.pdf`),
+      validCertificate: require('../../../fixtures/EN10168/v0.4.1/valid_cert.json'),
+      docDefinition,
+      localOnly: true,
     },
     {
       type: SupportedSchemas.COA,
@@ -252,6 +263,7 @@ describe('GeneratePDF', function () {
         };
         const expectedPDFBuffer = readFileSync(expectedPdfPath);
         //
+        console.log(styles);
         const pdfDoc = await generatePdf(validCertificate, {
           docDefinition: { ...docDefinition, styles },
           // docDefinition,
