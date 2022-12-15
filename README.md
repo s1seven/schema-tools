@@ -176,6 +176,10 @@ npm run fixtures:pdf -- -c fixtures/EN10168/v0.3.0/valid_cert.json -o fixtures/E
 
 If external translations are not needed, remove the `-e` command from the above command.
 
+### Troubleshooting PDF tests
+
+If the PDF hashes are not matching, ensure that the styles in the filepath that you are passing to the `npm run fixtures:pdf` are the same as the ones that are used for the tests such as `packages/generate-en10168-pdf-template/utils/styles.js`.
+
 ## PDF Generation - Making changes to a PDF
 
 To change the appearance of a PDF, make the needed changes to `generateContent.ts` for CoA and en10168, run the `build` script to generate a minified version in `dist` which can then be used following the `-g` argument in the root script `fixtures:pdf` PDF Generator.
