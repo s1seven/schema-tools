@@ -150,6 +150,37 @@ describe('ExtractEmails', function () {
       },
     },
     {
+      version: 'v0.4.1',
+      type: SupportedSchemas.EN10168,
+      certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.1/valid_cert.json`,
+      certificate: require('../../../fixtures/EN10168/v0.4.1/valid_cert.json'),
+      expectedSenders: {
+        [SenderRoles.Seller]: {
+          emails: [],
+          name: 'Steel Mill SE',
+          role: 'Seller',
+          vatId: 'AT123456789',
+          dunsId: undefined,
+        },
+      },
+      expectedReceivers: {
+        [ReceiverRoles.Buyer]: {
+          emails: ['sbs.steeltrader@gmail.com'],
+          name: 'Steel Trading AG',
+          role: 'Buyer',
+          vatId: undefined,
+          dunsId: '12234567890',
+        },
+        [ReceiverRoles.CertificateConsignee]: {
+          emails: ['sbs.steeltrader@gmail.com'],
+          vatId: undefined,
+          dunsId: undefined,
+          name: 'Steel Trading AG',
+          role: 'CertificateConsignee',
+        },
+      },
+    },
+    {
       version: 'v1.0.0',
       type: SupportedSchemas.ECOC,
       certificatePath: `${__dirname}/../../../fixtures/E-CoC/v1.0.0/valid_cert.json`,
