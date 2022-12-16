@@ -24,7 +24,7 @@ export type Company1 = (
     Street: [string] | [string, string] | [string, string, string] | string;
     [k: string]: any;
 } & {
-    Identifiers:
+    Identifiers?:
         | {
               VAT: string;
               [k: string]: any;
@@ -40,9 +40,13 @@ export type Company1 = (
  */
 export type Company2 = Company1;
 /**
- * The party receiving the goods for the customer, e.g. a freight fowarding agent or a subsisduary of the customer.
+ * The party receiving the certificate for the customer, e.g. a freight fowarding agent or a subsidiary of the customer.
  */
 export type Company3 = Company1;
+/**
+ * The party receiving the goods for the customer, e.g. a freight fowarding agent or a subsidiary of the customer.
+ */
+export type Company4 = Company1;
 export type Attachment = Attachment1;
 /**
  * A general disclaimer for the entire document
@@ -53,9 +57,6 @@ export type Disclaimer = string;
  * Certificates of Analysis for plastics and other materials.
  */
 export interface Certificate {
-    /**
-     * The URL linking to the JSON schema version the certificate JSON is based on.
-     */
     RefSchemaUrl: string;
     /**
      * The certificate information object
@@ -149,6 +150,7 @@ export interface Parties {
     Manufacturer: Company;
     Customer: Company2;
     Receiver?: Company3;
+    GoodsReceiver?: Company4;
 }
 /**
  * References to order and delivery.
