@@ -133,7 +133,21 @@ describe('GenerateHTML', function () {
       partialsMap: {
         company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.5/company/company.hbs',
       },
-      localOnly: false,
+    },
+    {
+      type: SupportedSchemas.COA,
+      version: 'v1.0.1',
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v1.0.1/valid_cert.json`,
+      schemaTranslationsPath: `${__dirname}/../../../fixtures/CoA/v1.0.1/translations.json`,
+      schemaExtraTranslationsPath: `${__dirname}/../../../fixtures/CoA/v1.0.1/extra_translations.json`,
+      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v1.0.1/certificate.ts`, 'utf-8'),
+      localTemplatePath: `${__dirname}/../../../fixtures/CoA/v1.0.1/template.hbs`,
+      expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v1.0.1/template_hbs.html`, 'utf-8'),
+      expectedHtmlFromMjml: '',
+      partialsMap: {
+        company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.5/company/company.hbs',
+      },
+      localOnly: true,
     },
   ];
 
