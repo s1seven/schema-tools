@@ -144,7 +144,19 @@ describe('GeneratePDF', function () {
       expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.0/valid_cert.pdf`),
       validCertificate: require('../../../fixtures/CoA/v1.0.0/valid_cert.json'),
       docDefinition,
-      localOnly: false,
+    },
+    {
+      type: SupportedSchemas.COA,
+      version: 'v1.0.1',
+      generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
+      styles: require('../../generate-coa-pdf-template/utils/styles.js'),
+      translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.1/translations.json`),
+      extraTranslationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.1/extra_translations.json`),
+      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.1/template_hbs.html`),
+      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.1/valid_cert.pdf`),
+      validCertificate: require('../../../fixtures/CoA/v1.0.1/valid_cert.json'),
+      docDefinition,
+      localOnly: true,
     },
   ];
 
@@ -263,7 +275,6 @@ describe('GeneratePDF', function () {
         };
         const expectedPDFBuffer = readFileSync(expectedPdfPath);
         //
-        console.log(styles);
         const pdfDoc = await generatePdf(validCertificate, {
           docDefinition: { ...docDefinition, styles },
           // docDefinition,
