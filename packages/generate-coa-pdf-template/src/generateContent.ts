@@ -53,6 +53,8 @@ function createManufacturerHeader(parties: Parties, logo: string): TableCell[][]
 export function createHeader(parties: Parties, logo: string): TableElement {
   const values = createManufacturerHeader(parties, logo);
   const { GoodsReceiver } = parties;
+  // adds an empty column to move manufacturer to right column
+  if (GoodsReceiver) values.splice(1, 0, []);
   return {
     style: 'table',
     table: {
@@ -496,6 +498,7 @@ export function generateContent(
 ): Content {
   const i18n = new Translate(translations, extraTranslations, certificate.Certificate.CertificateLanguages);
   const header = createHeader(certificate.Certificate.Parties, certificate.Certificate.Logo || '');
+  console.log(JSON.stringify(header, null, 2));
   const receivers = createReceivers(certificate.Certificate.Parties, i18n);
   const generalInfo = createGeneralInfo(certificate, i18n);
   const businessReferences = createBusinessReferences(certificate.Certificate.BusinessTransaction, i18n);

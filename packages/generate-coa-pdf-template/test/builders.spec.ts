@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { localizeDate, localizeNumber, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { CampusTranslations, ExternalStandardsTranslations, Languages } from '@s1seven/schema-tools-types';
 
@@ -39,11 +40,59 @@ describe('Rendering', () => {
   });
 
   it('createHeader() - should correctly render manufacturer details', () => {
-    const header = createHeader(certificate.Certificate.Parties as unknown as Parties, certificate.Certificate.Logo);
+    const parties = {
+      Manufacturer: {
+        Name: 'Green Plastics AG',
+        Street: 'Kunststoffgasse 1',
+        ZipCode: '10003',
+        City: 'Berlin',
+        Country: 'DE',
+        Email: 's1seven.certificates@gmail.com',
+        Identifiers: {
+          VAT: 'AT123456789',
+          DUNS: '',
+          CageCode: '',
+        },
+      },
+      Customer: {
+        Name: 'Plastic Processor SE',
+        Street: 'Plastik Street 1',
+        ZipCode: '1230',
+        City: 'Wien',
+        Country: 'AT',
+        Email: 's1seven.certificates@gmail.com',
+        Identifiers: {
+          VAT: 'AT123456789',
+        },
+      },
+      Receiver: {
+        Name: 'Plastic Processor SE',
+        Street: ['Plastik Street 1', 'Werk 1'],
+        ZipCode: '1230',
+        City: 'Wien',
+        Country: 'AT',
+        Email: 's1seven.certificates@gmail.com',
+        Identifiers: {
+          VAT: 'AT123456789',
+        },
+      },
+    };
+    const header = createHeader(parties as unknown as Parties, certificate.Certificate.Logo);
     const tableBody = header.table.body;
     expect(tableBody[0].length).toEqual(2);
     expect(tableBody[0][0][0]).toEqual(expect.objectContaining({ image: certificate.Certificate.Logo }));
     expect(tableBody[0][1][0]).toEqual(
+      expect.objectContaining({ text: certificate.Certificate.Parties.Manufacturer.Name, style: 'h4' }),
+    );
+  });
+
+  it('createHeader() - if GoodsReceiver is present, add an empty middle row', () => {
+    const header = createHeader(certificate.Certificate.Parties as unknown as Parties, certificate.Certificate.Logo);
+    const tableBody = header.table.body;
+    expect(tableBody[0].length).toEqual(3);
+    expect(tableBody[0][0][0]).toEqual(expect.objectContaining({ image: certificate.Certificate.Logo }));
+    expect(tableBody[0][1]).toEqual([]);
+    expect(tableBody[0][2][0]).toEqual(
       expect.objectContaining({ text: certificate.Certificate.Parties.Manufacturer.Name, style: 'h4' }),
     );
   });
