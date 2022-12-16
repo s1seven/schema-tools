@@ -53,7 +53,7 @@ describe('Rendering', () => {
     const receivers = createReceivers(certificate.Certificate.Parties as unknown as Parties, i18n);
     const tableBody = receivers.table.body;
     const titles = tableBody[0];
-    expect(tableBody[0].length).toEqual(2);
+    expect(tableBody[0].length).toEqual(3);
     expect(titles[0][0]).toEqual(
       expect.objectContaining({
         text: i18n.translate('Customer', 'Certificate'),
@@ -63,6 +63,12 @@ describe('Rendering', () => {
     expect(tableBody[1][0][0]).toEqual(
       expect.objectContaining({
         text: certificate.Certificate.Parties.Customer.Name,
+        style: 'h4',
+      }),
+    );
+    expect(tableBody[1][0][0]).toEqual(
+      expect.objectContaining({
+        text: certificate.Certificate.Parties.GoodsReceiver.Name,
         style: 'h4',
       }),
     );
