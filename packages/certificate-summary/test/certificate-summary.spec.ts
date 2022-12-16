@@ -183,10 +183,10 @@ describe('CertificateSummary', function () {
       },
     },
     {
-      version: 'v1.0.1',
+      version: 'v1.1.0',
       type: SupportedSchemas.COA,
-      certificatePath: `${__dirname}/../../../fixtures/CoA/v1.0.1/valid_cert.json`,
-      certificate: require('../../../fixtures/CoA/v1.0.1/valid_cert.json'),
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v1.1.0/valid_cert.json`,
+      certificate: require('../../../fixtures/CoA/v1.1.0/valid_cert.json'),
       expectedSummary: {
         sellerName: 'Green Plastics AG',
         buyerName: 'Plastic Processor SE',

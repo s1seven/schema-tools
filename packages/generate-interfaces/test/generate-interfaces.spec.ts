@@ -77,9 +77,9 @@ describe('GenerateInterfaces', function () {
     },
     // {
     //   type: SupportedSchemas.COA,
-    //   schemaPath: 'https://schemas.s1seven.dev/coa-schemas/v1.0.1/schema.json',
-    //   version: 'v1.0.1',
-    //   certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/CoA/v1.0.1/certificate.ts`),
+    //   schemaPath: 'https://schemas.s1seven.dev/coa-schemas/v1.1.0/schema.json',
+    //   version: 'v1.1.0',
+    //   certificateInterfaces: loadCertificate(`${__dirname}/../../../fixtures/CoA/v1.1.0/certificate.ts`),
     // },
   ];
 
