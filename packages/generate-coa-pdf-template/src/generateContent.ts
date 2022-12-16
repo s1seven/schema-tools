@@ -52,11 +52,11 @@ function createManufacturerHeader(parties: Parties, logo: string): TableCell[][]
 
 export function createHeader(parties: Parties, logo: string): TableElement {
   const values = createManufacturerHeader(parties, logo);
-
+  const { GoodsReceiver } = parties;
   return {
     style: 'table',
     table: {
-      widths: [250, 300],
+      widths: GoodsReceiver ? ['33%', '33%', '33%'] : [250, 300],
       body: [values],
     },
     layout: tableLayout,
@@ -64,19 +64,27 @@ export function createHeader(parties: Parties, logo: string): TableElement {
 }
 
 export function createReceivers(parties: Parties, i18n: I18N): TableElement {
-  const receiversKeys: ['Customer', 'Receiver'] = ['Customer', 'Receiver'];
+  const { Customer, Receiver, GoodsReceiver } = parties;
+  const customerColumn = createPartyColumn(Customer);
+  const receiverColumn = Receiver ? createPartyColumn(Receiver) : [];
+  const GoodsReceiverColumn = GoodsReceiver ? createPartyColumn(GoodsReceiver) : null;
+
+  const columns = [customerColumn, receiverColumn];
+  const receiversKeys: ['Customer', 'Receiver', 'GoodsReceiver'?] = ['Customer', 'Receiver'];
+
+  if (GoodsReceiverColumn) {
+    receiversKeys.push('GoodsReceiver');
+    columns.push(GoodsReceiverColumn);
+  }
+
   const keys: TableCell[][] = receiversKeys.map((element) => [
     { text: i18n.translate(element, 'Certificate'), style: { bold: true, fontSize: 10, margin: [0, 4, 0, 4] } },
   ]);
-
-  const { Customer, Receiver } = parties;
-  const customerColumn = createPartyColumn(Customer);
-  const receiverColumn = Receiver ? createPartyColumn(Receiver) : [];
-  const contentBody = [keys, [customerColumn, receiverColumn]];
+  const contentBody = [keys, columns];
   return {
     style: 'table',
     table: {
-      widths: [250, 300],
+      widths: GoodsReceiverColumn ? ['33%', '33%', '33%'] : [250, 300],
       body: contentBody,
     },
     layout: tableLayout,
@@ -489,11 +497,13 @@ export function generateContent(
   const i18n = new Translate(translations, extraTranslations, certificate.Certificate.CertificateLanguages);
   const header = createHeader(certificate.Certificate.Parties, certificate.Certificate.Logo || '');
   const receivers = createReceivers(certificate.Certificate.Parties, i18n);
+  // console.log('receivers');
+  // console.log(receivers);
   const generalInfo = createGeneralInfo(certificate, i18n);
   const businessReferences = createBusinessReferences(certificate.Certificate.BusinessTransaction, i18n);
   const productDescription = createProductDescription(certificate.Certificate.Product, i18n);
   const content: Content = [header, receivers, generalInfo, businessReferences, productDescription];
-
+  // console.log(content);
   if (certificate.Certificate.Analysis) {
     const analysis = createAnalysis(certificate.Certificate.Analysis, i18n);
     content.push(analysis);
@@ -516,5 +526,6 @@ export function generateContent(
   }
   const footer = createFooter(certificate.RefSchemaUrl);
   content.push(footer);
+  // console.log('endof gen content');
   return content;
 }

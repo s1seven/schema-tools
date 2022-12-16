@@ -2,6 +2,7 @@ export interface CoACertificateTranslations {
   Certificate: {
     Customer: string;
     Receiver: string;
+    GoodsReceiver: string;
     Id: string;
     Certificate: string;
     Date: string;
