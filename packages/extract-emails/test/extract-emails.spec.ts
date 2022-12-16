@@ -319,6 +319,37 @@ describe('ExtractEmails', function () {
         },
       },
     },
+    {
+      version: 'v1.0.1',
+      type: SupportedSchemas.COA,
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v1.0.1/valid_cert.json`,
+      certificate: require('../../../fixtures/CoA/v1.0.1/valid_cert.json'),
+      expectedSenders: {
+        [SenderRoles.Manufacturer]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Green Plastics AG',
+          role: 'Manufacturer',
+          vatId: 'AT123456789',
+          dunsId: undefined,
+        },
+      },
+      expectedReceivers: {
+        [ReceiverRoles.Customer]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Plastic Processor SE',
+          role: 'Customer',
+          vatId: 'AT123456789',
+          dunsId: undefined,
+        },
+        [ReceiverRoles.Receiver]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Plastic Processor SE',
+          role: 'Receiver',
+          vatId: 'AT123456789',
+          dunsId: undefined,
+        },
+      },
+    },
   ];
 
   testSuitesMap.forEach((testSuite) => {

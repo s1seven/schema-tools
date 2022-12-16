@@ -182,6 +182,22 @@ describe('CertificateSummary', function () {
         purchaseOrderPosition: '000010',
       },
     },
+    {
+      version: 'v1.0.1',
+      type: SupportedSchemas.COA,
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v1.0.1/valid_cert.json`,
+      certificate: require('../../../fixtures/CoA/v1.0.1/valid_cert.json'),
+      expectedSummary: {
+        sellerName: 'Green Plastics AG',
+        buyerName: 'Plastic Processor SE',
+        certificateIdentifier: '43',
+        productDescription: 'Manufactured Product Name',
+        purchaseDeliveryNumber: '3000/20',
+        purchaseDeliveryPosition: '1',
+        purchaseOrderNumber: '1000/12/12/2021',
+        purchaseOrderPosition: '000010',
+      },
+    },
   ];
 
   testSuitesMap.forEach((testSuite) => {
