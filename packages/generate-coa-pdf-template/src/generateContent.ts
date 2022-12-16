@@ -497,13 +497,10 @@ export function generateContent(
   const i18n = new Translate(translations, extraTranslations, certificate.Certificate.CertificateLanguages);
   const header = createHeader(certificate.Certificate.Parties, certificate.Certificate.Logo || '');
   const receivers = createReceivers(certificate.Certificate.Parties, i18n);
-  // console.log('receivers');
-  // console.log(receivers);
   const generalInfo = createGeneralInfo(certificate, i18n);
   const businessReferences = createBusinessReferences(certificate.Certificate.BusinessTransaction, i18n);
   const productDescription = createProductDescription(certificate.Certificate.Product, i18n);
   const content: Content = [header, receivers, generalInfo, businessReferences, productDescription];
-  // console.log(content);
   if (certificate.Certificate.Analysis) {
     const analysis = createAnalysis(certificate.Certificate.Analysis, i18n);
     content.push(analysis);
@@ -526,6 +523,5 @@ export function generateContent(
   }
   const footer = createFooter(certificate.RefSchemaUrl);
   content.push(footer);
-  // console.log('endof gen content');
   return content;
 }
