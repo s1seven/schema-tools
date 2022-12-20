@@ -95,7 +95,8 @@ jobs:
 
       - name: Danger
         run: npx danger ci
-        env: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract branch name
         id: extract-branch
