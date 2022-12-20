@@ -348,6 +348,13 @@ describe('ExtractEmails', function () {
           vatId: 'AT123456789',
           dunsId: undefined,
         },
+        [ReceiverRoles.GoodsReceiver]: {
+          emails: ['s1seven.certificates@gmail.com'],
+          name: 'Plastic Processor SE',
+          role: 'GoodsReceiver',
+          vatId: undefined,
+          dunsId: undefined,
+        },
       },
     },
   ];
