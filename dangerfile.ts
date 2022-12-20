@@ -1,3 +1,17 @@
+/* 
+If this is your first time editing/reading a Dangerfile, here's a summary:
+It's a JS runtime which helps you provide continuous feedback inside GitHub.
+
+You can see the docs here: http://danger.systems/js
+
+If you want to test changes to Danger locally, I'd recommend checking out an existing PR
+and then running the `danger pr` command from the terminal.
+
+For example:
+
+`npx danger pr https://github.com/facebook/react/pull/11865
+*/
+
 import { danger, markdown, message, warn } from 'danger';
 
 const BIG_PR_LIMIT = 600;
