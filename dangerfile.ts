@@ -3,7 +3,7 @@ import { danger, markdown, message, warn } from 'danger';
 const BIG_PR_LIMIT = 600;
 let errorCount = 0;
 
-(async function () {
+async function splitBigPR() {
   const linesCount = await danger.git.linesOfCode('**/*');
   // exclude fixtures and auto generated files
   const excludeLinesCount = await danger.git.linesOfCode('{**/schemaTypes.ts,fixtures/**,package*.json}');
@@ -15,8 +15,27 @@ let errorCount = 0;
       `> (${errorCount}) : Pull Request size seems relatively large. If Pull Request contains multiple changes, please split each into separate PRs which will make them easier to review.`,
     );
   }
+}
 
+function updatePackageLock() {
+  const packageChanged = danger.git.modified_files.includes('package.json');
+  const lockfileChanged = danger.git.modified_files.includes('package-lock.json');
+  if (packageChanged && lockfileChanged) {
+    warn(`:exclamation: package-lock.json (${++errorCount})`);
+    markdown(
+      `> (${errorCount}) : Changes were made to package.json, but not to package-lock.json - <i>'Perhaps you need to run \`npm install\`?'</i>`,
+    );
+  }
+}
+
+function positiveFeedback() {
   if (danger.github.pr.deletions > danger.github.pr.additions) {
     message(':thumbsup: You removed more code than added!');
   }
+}
+
+(async function () {
+  await splitBigPR();
+  positiveFeedback();
+  updatePackageLock();
 })();
