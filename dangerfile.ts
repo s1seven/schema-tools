@@ -1,7 +1,14 @@
 import { danger, markdown, message, warn } from 'danger';
 
 const BIG_PR_LIMIT = 600;
+const MAX_ALLOWED_EMPTY_CHECKBOXES = 2;
 let errorNumber = 0;
+
+function warnAndGenerateMarkdown(warning: string, markdownStr: string): void {
+  errorNumber += 1;
+  warn(`${warning} (${errorNumber})`);
+  markdown(`> (${errorNumber}) : ${markdownStr}`);
+}
 
 async function splitBigPR() {
   const linesCount = await danger.git.linesOfCode('**/*');
@@ -35,9 +42,14 @@ function positiveFeedback() {
 }
 
 function checkCheckboxesAreTicked() {
-  const prDescription = danger.github.pr.body;
-  console.log(prDescription);
-  console.log(JSON.stringify(danger.github, null, 2));
+  const prDescriptionChecklist = danger.github.pr.body?.split('## Checklist:')[1];
+  const emptyCheckboxes = prDescriptionChecklist.match(/\[ \]/g).length || 0;
+  if (emptyCheckboxes > MAX_ALLOWED_EMPTY_CHECKBOXES) {
+    warnAndGenerateMarkdown(
+      ':exclamation: checkboxes',
+      `There are ${emptyCheckboxes} empty checkboxes, have you updated the checklist?`,
+    );
+  }
 }
 
 (async function () {
