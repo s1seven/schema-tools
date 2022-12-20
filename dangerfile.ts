@@ -34,8 +34,15 @@ function positiveFeedback() {
   }
 }
 
+function checkCheckboxesAreTicked() {
+  const prDescription = danger.github.pr.body;
+  console.log(prDescription);
+  console.log(JSON.stringify(danger.github, null, 2));
+}
+
 (async function () {
   await splitBigPR();
   positiveFeedback();
   updatePackageLock();
+  checkCheckboxesAreTicked();
 })();
