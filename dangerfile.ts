@@ -52,9 +52,19 @@ function checkCheckboxesAreTicked() {
   }
 }
 
+function checkDescriptionLength() {
+  const prDescription = danger.github.pr.body?.split('## Type of change')[0];
+  const descriptionLength = prDescription.replace(/<!--(.|\r\n)*-->/gm, '')?.trim()?.length || 0;
+  // 13 is the length of the string '# Description'
+  if (descriptionLength <= 13) {
+    warnAndGenerateMarkdown(':exclamation: description', 'Have you added a description?');
+  }
+}
+
 (async function () {
   await splitBigPR();
   positiveFeedback();
   updatePackageLock();
   checkCheckboxesAreTicked();
+  checkDescriptionLength();
 })();
