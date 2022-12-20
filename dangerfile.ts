@@ -6,7 +6,7 @@ let errorCount = 0;
 (async function () {
   const linesCount = await danger.git.linesOfCode('**/*');
   // exclude fixtures and auto generated files
-  const excludeLinesCount = await danger.git.linesOfCode('{**/schemaTypes.ts,fixtures/**}');
+  const excludeLinesCount = await danger.git.linesOfCode('{**/schemaTypes.ts,fixtures/**,package*.json}');
   const totalLinesCount = linesCount - excludeLinesCount;
 
   if (totalLinesCount > BIG_PR_LIMIT) {
