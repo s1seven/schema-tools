@@ -1,7 +1,7 @@
 import { danger, markdown, message, warn } from 'danger';
 
 const BIG_PR_LIMIT = 600;
-let errorCount = 0;
+let errorNumber = 0;
 
 async function splitBigPR() {
   const linesCount = await danger.git.linesOfCode('**/*');
@@ -10,9 +10,9 @@ async function splitBigPR() {
   const totalLinesCount = linesCount - excludeLinesCount;
 
   if (totalLinesCount > BIG_PR_LIMIT) {
-    warn(`:exclamation: Big PR (${++errorCount})`);
+    warn(`:exclamation: Big PR (${++errorNumber})`);
     markdown(
-      `> (${errorCount}) : Pull Request size seems relatively large. If Pull Request contains multiple changes, please split each into separate PRs which will make them easier to review.`,
+      `> (${errorNumber}) : Pull Request size seems relatively large. If Pull Request contains multiple changes, please split each into separate PRs which will make them easier to review.`,
     );
   }
 }
@@ -20,10 +20,10 @@ async function splitBigPR() {
 function updatePackageLock() {
   const packageChanged = danger.git.modified_files.includes('package.json');
   const lockfileChanged = danger.git.modified_files.includes('package-lock.json');
-  if (packageChanged && lockfileChanged) {
-    warn(`:exclamation: package-lock.json (${++errorCount})`);
+  if (packageChanged && !lockfileChanged) {
+    warn(`:exclamation: package-lock.json (${++errorNumber})`);
     markdown(
-      `> (${errorCount}) : Changes were made to package.json, but not to package-lock.json - <i>'Perhaps you need to run \`npm install\`?'</i>`,
+      `> (${errorNumber}) : Changes were made to package.json, but not to package-lock.json - <i>'Perhaps you need to run \`npm install\`?'</i>`,
     );
   }
 }
