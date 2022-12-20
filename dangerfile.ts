@@ -2,6 +2,7 @@ import { danger, markdown, message, warn } from 'danger';
 
 const BIG_PR_LIMIT = 600;
 const MAX_ALLOWED_EMPTY_CHECKBOXES = 2;
+const MIN_TICKED_CHECKBOXES_FOR_PRAISE = 6;
 let errorNumber = 0;
 
 function warnAndGenerateMarkdown(warning: string, markdownStr: string): void {
@@ -44,17 +45,23 @@ function positiveFeedback() {
 function checkCheckboxesAreTicked() {
   const prDescriptionChecklist = danger.github.pr.body?.split('## Checklist:')[1];
   const emptyCheckboxes = prDescriptionChecklist.match(/\[ \]/g).length || 0;
+  const tickedCheckboxes = prDescriptionChecklist.match(/\[x\]/g).length || 0;
+
   if (emptyCheckboxes > MAX_ALLOWED_EMPTY_CHECKBOXES) {
     warnAndGenerateMarkdown(
       ':exclamation: checkboxes',
       `There are ${emptyCheckboxes} empty checkboxes, have you updated the checklist?`,
     );
   }
+
+  if (tickedCheckboxes >= MIN_TICKED_CHECKBOXES_FOR_PRAISE) {
+    message(':thumbsup: You ticked most of the checkboxes!');
+  }
 }
 
 function checkDescriptionLength() {
   const prDescription = danger.github.pr.body?.split('## Type of change')[0];
-  const descriptionLength = prDescription.replace(/<!--(.|\r\n)*-->/gm, '')?.trim()?.length || 0;
+  const descriptionLength = prDescription.replace(/<!--(.|\r\n)*-->/gm, '').trim().length || 0;
   // 13 is the length of the string '# Description'
   if (descriptionLength <= 13) {
     warnAndGenerateMarkdown(':exclamation: description', 'Have you added a description?');
