@@ -3,6 +3,7 @@ import { danger, markdown, message, warn } from 'danger';
 const BIG_PR_LIMIT = 600;
 const MAX_ALLOWED_EMPTY_CHECKBOXES = 2;
 const MIN_TICKED_CHECKBOXES_FOR_PRAISE = 6;
+const DESCRIPTION_TITLE_LENGTH = '# Description'.length;
 let errorNumber = 0;
 
 function warnAndGenerateMarkdown(warning: string, markdownStr: string): void {
@@ -28,6 +29,7 @@ async function splitBigPR() {
 function updatePackageLock() {
   const packageChanged = danger.git.modified_files.includes('package.json');
   const lockfileChanged = danger.git.modified_files.includes('package-lock.json');
+
   if (packageChanged && !lockfileChanged) {
     warnAndGenerateMarkdown(
       ':exclamation: package-lock.json',
@@ -62,8 +64,8 @@ function checkCheckboxesAreTicked() {
 function checkDescriptionLength() {
   const prDescription = danger.github.pr.body?.split('## Type of change')[0];
   const descriptionLength = prDescription.replace(/<!--(.|\r\n)*-->/gm, '').trim().length || 0;
-  // 13 is the length of the string '# Description'
-  if (descriptionLength <= 13) {
+
+  if (descriptionLength <= DESCRIPTION_TITLE_LENGTH) {
     warnAndGenerateMarkdown(':exclamation: description', 'Have you added a description?');
   }
 }
