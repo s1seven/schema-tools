@@ -84,6 +84,7 @@ describe('Rendering', () => {
     expect(tableBody[0][1][0]).toEqual(
       expect.objectContaining({ text: certificate.Certificate.Parties.Manufacturer.Name, style: 'h4' }),
     );
+    expect(header.table.widths).toEqual([250, 300]);
   });
 
   it('createHeader() - if GoodsReceiver is present, add an empty middle row', () => {
@@ -95,6 +96,7 @@ describe('Rendering', () => {
     expect(tableBody[0][2][0]).toEqual(
       expect.objectContaining({ text: certificate.Certificate.Parties.Manufacturer.Name, style: 'h4' }),
     );
+    expect(header.table.widths).toEqual(['33%', '33%', '33%']);
   });
 
   it('createReceivers() - should correctly render receivers details', () => {
