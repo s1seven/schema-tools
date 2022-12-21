@@ -121,6 +121,7 @@ describe('Rendering', () => {
         style: 'h4',
       }),
     );
+    expect(receivers.table.widths).toEqual(['33%', '33%', '33%']);
   });
 
   it('createReceivers() - renders correctly with both CompanyName and Name', () => {
@@ -166,6 +167,7 @@ describe('Rendering', () => {
     const tableBody = receivers.table.body;
     const titles = tableBody[0];
     expect(tableBody[0].length).toEqual(2);
+    expect(receivers.table.widths).toEqual([250, 300]);
     expect(titles[0][0]).toEqual(
       expect.objectContaining({
         text: i18n.translate('Customer', 'Certificate'),
