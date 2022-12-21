@@ -18,6 +18,7 @@ const BIG_PR_LIMIT = 600;
 const MAX_ALLOWED_EMPTY_CHECKBOXES = 2;
 const MIN_TICKED_CHECKBOXES_FOR_PRAISE = 6;
 const DESCRIPTION_TITLE_LENGTH = '# Description'.length;
+const LINES_TO_EXCLUDE_FROM_COUNT_GLOB = '{**/schemaTypes.ts,fixtures/**,package*.json}';
 let errorNumber = 0;
 
 function warnAndGenerateMarkdown(warning: string, markdownStr: string): void {
@@ -29,7 +30,7 @@ function warnAndGenerateMarkdown(warning: string, markdownStr: string): void {
 async function splitBigPR() {
   const linesCount = await danger.git.linesOfCode('**/*');
   // exclude fixtures and auto generated files
-  const excludeLinesCount = await danger.git.linesOfCode('{**/schemaTypes.ts,fixtures/**,package*.json}');
+  const excludeLinesCount = await danger.git.linesOfCode(LINES_TO_EXCLUDE_FROM_COUNT_GLOB);
   const totalLinesCount = linesCount - excludeLinesCount;
 
   if (totalLinesCount > BIG_PR_LIMIT) {
@@ -40,11 +41,19 @@ async function splitBigPR() {
   }
 }
 
-function updatePackageLock() {
+async function updatePackageLock() {
   const packageChanged = danger.git.modified_files.includes('package.json');
+  const packageDiff = await danger.git.JSONDiffForFile('package.json');
+  let dependenciesChanged: boolean;
+
+  // packageDiff contains a property for each object that has changed in package.json
+  if (packageDiff.dependencies || packageDiff.devDependencies || packageDiff.peerDependencies) {
+    dependenciesChanged = true;
+  }
+
   const lockfileChanged = danger.git.modified_files.includes('package-lock.json');
 
-  if (packageChanged && !lockfileChanged) {
+  if (packageChanged && dependenciesChanged && !lockfileChanged) {
     warnAndGenerateMarkdown(
       ':exclamation: package-lock.json',
       "Changes were made to package.json, but not to package-lock.json - <i>'Perhaps you need to run `npm install`?'</i>",
@@ -60,8 +69,8 @@ function positiveFeedback() {
 
 function checkCheckboxesAreTicked() {
   const prDescriptionChecklist = danger.github.pr.body?.split('## Checklist:')[1];
-  const emptyCheckboxes = prDescriptionChecklist.match(/\[ \]/g).length || 0;
-  const tickedCheckboxes = prDescriptionChecklist.match(/\[x\]/g).length || 0;
+  const emptyCheckboxes = prDescriptionChecklist.match(/\[ \]/g)?.length || 0;
+  const tickedCheckboxes = prDescriptionChecklist.match(/\[x\]/g)?.length || 0;
 
   if (emptyCheckboxes > MAX_ALLOWED_EMPTY_CHECKBOXES) {
     warnAndGenerateMarkdown(
@@ -77,7 +86,7 @@ function checkCheckboxesAreTicked() {
 
 function checkDescriptionLength() {
   const prDescription = danger.github.pr.body?.split('## Type of change')[0];
-  const descriptionLength = prDescription.replace(/<!--(.|\r\n)*-->/gm, '').trim().length || 0;
+  const descriptionLength = prDescription.replace(/<!--(.|\r\n)*-->/gm, '').trim().length;
 
   if (descriptionLength <= DESCRIPTION_TITLE_LENGTH) {
     warnAndGenerateMarkdown(':exclamation: description', 'Have you added a description?');
@@ -87,7 +96,7 @@ function checkDescriptionLength() {
 (async function () {
   await splitBigPR();
   positiveFeedback();
-  updatePackageLock();
+  await updatePackageLock();
   checkCheckboxesAreTicked();
   checkDescriptionLength();
 })();
