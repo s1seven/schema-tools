@@ -18,7 +18,7 @@ const BIG_PR_LIMIT = 600;
 const MAX_ALLOWED_EMPTY_CHECKBOXES = 2;
 const MIN_TICKED_CHECKBOXES_FOR_PRAISE = 6;
 const DESCRIPTION_TITLE_LENGTH = '# Description'.length;
-const LINES_TO_EXCLUDE_FROM_COUNT_GLOB = '{**/schemaTypes.ts,fixtures/**,package*.json}';
+const LINES_TO_EXCLUDE_FROM_COUNT_GLOB = '{**/schemaTypes.ts,fixtures/**,package*.json,**/*.spec.ts,**/*.md}';
 let errorNumber = 0;
 
 function warnAndGenerateMarkdown(warning: string, markdownStr: string): void {
@@ -48,6 +48,7 @@ async function updatePackageLock() {
 
   // packageDiff contains a property for each object that has changed in package.json
   if (packageDiff.dependencies || packageDiff.devDependencies || packageDiff.peerDependencies) {
+    console.log(Object.keys(packageDiff));
     dependenciesChanged = true;
   }
 
