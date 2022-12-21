@@ -10,7 +10,7 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2022,
     sourceType: 'module',
   },
   ignorePatterns: ['**/fixtures/*', '**/schemaTypes.ts', '**/dist'],
@@ -50,5 +50,6 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'logical-assignment-operators': ['error', 'always', { enforceForIfStatements: true }],
   },
 };
