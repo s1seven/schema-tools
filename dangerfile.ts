@@ -48,7 +48,6 @@ async function updatePackageLock() {
 
   // packageDiff contains a property for each object that has changed in package.json
   if (packageDiff.dependencies || packageDiff.devDependencies || packageDiff.peerDependencies) {
-    console.log(Object.keys(packageDiff));
     dependenciesChanged = true;
   }
 
