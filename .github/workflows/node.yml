@@ -94,6 +94,7 @@ jobs:
           retention-days: 2
 
       - name: Danger
+        if: steps.extract-branch.outputs.branch != 'main'
         run: npx danger ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
