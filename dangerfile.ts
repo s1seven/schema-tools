@@ -28,9 +28,9 @@ function warnAndGenerateMarkdown(warning: string, markdownStr: string): void {
 }
 
 async function splitBigPR() {
-  const linesCount = await danger.git.linesOfCode('**/*');
+  const linesCount = (await danger.git.linesOfCode('**/*')) || 0;
   // exclude fixtures and auto generated files
-  const excludeLinesCount = await danger.git.linesOfCode(LINES_TO_EXCLUDE_FROM_COUNT_GLOB);
+  const excludeLinesCount = (await danger.git.linesOfCode(LINES_TO_EXCLUDE_FROM_COUNT_GLOB)) || 0;
   const totalLinesCount = linesCount - excludeLinesCount;
 
   if (totalLinesCount > BIG_PR_LIMIT) {
@@ -69,6 +69,7 @@ function positiveFeedback() {
 
 function checkCheckboxesAreTicked() {
   const prDescriptionChecklist = danger.github.pr.body?.split('## Checklist:')[1];
+  if (!prDescriptionChecklist) return;
   const emptyCheckboxes = prDescriptionChecklist.match(/\[ \]/g)?.length || 0;
   const tickedCheckboxes = prDescriptionChecklist.match(/\[x\]/g)?.length || 0;
 
