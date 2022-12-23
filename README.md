@@ -155,7 +155,7 @@ npm run fixtures:html -- -c fixtures/CoA/v1.0.0/valid_cert.json -o fixtures/CoA/
 For EN10168
 
 ```sh
-npm run fixtures:html -- -c fixtures/EN10168/v0.3.0/valid_cert.json -o fixtures/EN10168/v0.3.0/template_hbs.html -t fixtures/EN10168/v0.3.0/translations.json -T ../EN10168-schemas/template.hbs -p ../EN10168-schemas/partials-map.json
+npm run fixtures:html -- -c fixtures/EN10168/v0.4.1/valid_cert.json -o fixtures/EN10168/v0.4.1/template_hbs.html -t fixtures/EN10168/v0.4.1/translations.json -T ../EN10168-schemas/template.hbs -p ../EN10168-schemas/partials-map.json
 ```
 
 If external translations are not needed, remove the `-e` command from the above command.
@@ -172,6 +172,12 @@ npm run fixtures:pdf -- -c fixtures/CoA/v1.0.0/valid_cert.json -o fixtures/CoA/v
 
 # or using remote resources
 npm run fixtures:pdf -- -c fixtures/EN10168/v0.3.0/valid_cert.json -o fixtures/EN10168/v0.3.0/valid_cert.pdf -t 'fixtures/EN10168/v0.3.0/translations.json' -g 'https://schemas.s1seven.com/en10168-schemas/v0.3.0/generate-pdf.min.js' -s 'https://schemas.s1seven.com/en10168-schemas/v0.3.0/generate-pdf.styles.json'
+```
+
+EN10168
+
+```sh
+npm run fixtures:pdf -- -c fixtures/EN10168/v0.4.1/valid_cert.json -o fixtures/EN10168/v0.4.1/valid_cert.pdf -t fixtures/EN10168/v0.4.1/translations.json -g ../EN10168-schemas/generate-pdf.min.js -s ../EN10168-schemas/generate-pdf.styles.json
 ```
 
 If external translations are not needed, remove the `-e` command from the above command.
