@@ -712,7 +712,7 @@ describe('Rendering inspection section', () => {
           Symbol: 'N',
         },
         C86: {
-          Actual: '0.00001',
+          Actual: '0.0001',
           Symbol: 'B',
         },
         C92: {
@@ -777,7 +777,7 @@ describe('Rendering inspection section', () => {
           { text: '0.002', style: 'caption', margin: [-2, 2, -2, 2] },
           { text: '0.001', style: 'caption', margin: [-2, 2, -2, 2] },
           { text: '0.0047', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.00001', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.0001', style: 'caption', margin: [-2, 2, -2, 2] },
           { text: '0.3227', style: 'caption', margin: [-2, 2, -2, 2] },
         ],
       ],

@@ -1,5 +1,5 @@
 {
-  "RefSchemaUrl": "https://schemas.s1seven.dev/en10168-schemas/v0.4.0/schema.json",
+  "RefSchemaUrl": "https://schemas.s1seven.dev/en10168-schemas/v0.4.1/schema.json",
   "Certificate": {
     "CertificateLanguages": ["EN", "DE"],
     "CommercialTransaction": {
@@ -164,7 +164,7 @@
             "Symbol": "N"
           },
           "C86": {
-            "Actual": "0.00001",
+            "Actual": "0.0001",
             "Symbol": "B"
           },
           "C92": {

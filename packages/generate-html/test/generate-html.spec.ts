@@ -80,14 +80,14 @@ describe('GenerateHTML', function () {
       localTemplatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.1/template.hbs`,
       partialsMap: {
         inspection: `${__dirname}/../../../fixtures/EN10168/v0.4.1/inspection.hbs`,
-        company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/company/company.hbs',
-        measurement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/measurement/measurement.hbs',
-        validation: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/validation/validation.hbs',
+        company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.7/company/company.hbs',
+        measurement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.7/measurement/measurement.hbs',
+        validation: 'https://schemas.s1seven.dev/schema-definitions/v0.0.7/validation/validation.hbs',
         productDescription:
-          'https://schemas.s1seven.dev/schema-definitions/v0.0.6/product-description/product-description.hbs',
+          'https://schemas.s1seven.dev/schema-definitions/v0.0.7/product-description/product-description.hbs',
         commercialTransaction:
-          'https://schemas.s1seven.dev/schema-definitions/v0.0.6/commercial-transaction/commercial-transaction.hbs',
-        chemicalElement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/chemical-element/chemical-element.hbs',
+          'https://schemas.s1seven.dev/schema-definitions/v0.0.7/commercial-transaction/commercial-transaction.hbs',
+        chemicalElement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.7/chemical-element/chemical-element.hbs',
       },
       expectedHtmlFromMjml: '',
       localOnly: true,
