@@ -178,7 +178,7 @@ npm run fixtures:pdf -- -c fixtures/EN10168/v0.3.0/valid_cert.json -o fixtures/E
 EN10168
 
 ```sh
-npm run fixtures:pdf -- -c fixtures/EN10168/v0.4.1/valid_cert.json -o fixtures/EN10168/v0.4.1/valid_cert.pdf -t fixtures/EN10168/v0.4.1/translations.json -g ../EN10168-schemas/generate-pdf.min.js -s ../EN10168-schemas/generate-pdf.styles.json
+npm run fixtures:pdf -- -c fixtures/EN10168/v0.4.1/valid_cert.json -o fixtures/EN10168/v0.4.1/valid_cert.pdf -t fixtures/EN10168/v0.4.1/translations.json -g ../EN10168-schemas/generate-pdf.min.js -s packages/generate-en10168-pdf-template/utils/styles.json
 ```
 
 If external translations are not needed, remove the `-e` command from the above command.
