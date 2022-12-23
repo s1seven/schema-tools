@@ -498,7 +498,6 @@ export function generateContent(
 ): Content {
   const i18n = new Translate(translations, extraTranslations, certificate.Certificate.CertificateLanguages);
   const header = createHeader(certificate.Certificate.Parties, certificate.Certificate.Logo || '');
-  console.log(JSON.stringify(header, null, 2));
   const receivers = createReceivers(certificate.Certificate.Parties, i18n);
   const generalInfo = createGeneralInfo(certificate, i18n);
   const businessReferences = createBusinessReferences(certificate.Certificate.BusinessTransaction, i18n);
