@@ -151,14 +151,14 @@
           <th class='table-cells' colspan='4'>
             {{i18n 'Customer' 'Certificate' Certificate.CertificateLanguages}}
           </th>
-            <th class='table-cells' colspan='6'>
-              {{i18n 'Receiver' 'Certificate' Certificate.CertificateLanguages}}
-            </th>
-            {{#if Certificate.Parties.GoodsReceiver}}
-            <th class='table-cells' colspan='6'>
-              {{i18n 'GoodsReceiver' 'Certificate' Certificate.CertificateLanguages}}
-            </th>
-            {{/if}}
+          <th class='table-cells' colspan='6'>
+            {{i18n 'Receiver' 'Certificate' Certificate.CertificateLanguages}}
+          </th>
+          {{#if Certificate.Parties.GoodsReceiver}}
+          <th class='table-cells' colspan='6'>
+            {{i18n 'GoodsReceiver' 'Certificate' Certificate.CertificateLanguages}}
+          </th>
+          {{/if}}
         </tr>
         <tr class='table-rows'>
           <td class='table-cells' colspan='4'>
@@ -447,101 +447,101 @@
 
   {{! INSPECTIONS }}
   {{#if Certificate.Analysis}}
-    <section class='header'>
-      <h2 class='main-title'>
-        {{i18n 'Inspections' 'Certificate' Certificate.CertificateLanguages}}
-      </h2>
-      {{#if Certificate.Analysis.LotId}}
-      <table class='main-table'>
-        <tbody>
-          <tr class='table-rows'>
-            <th class='table-cells' colspan='4'>
-              <strong>{{i18n 'LotId' 'Certificate' Certificate.CertificateLanguages}}</strong>
-            </th>
-            <td class='table-cells' colspan='6'>
-              {{Certificate.Analysis.LotId}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      {{/if}}
-      <table class='main-table'>
-        <tbody>
-          <tr class='table-rows'>
-            <th class='table-headers' colspan='2'>
-              {{i18n 'Property' 'Certificate' Certificate.CertificateLanguages}}
-            </th>
-            <th class='table-headers' colspan='2'>
-              {{i18n 'Method' 'Certificate' Certificate.CertificateLanguages}}
-            </th>
-            <th class='table-headers'>
-              {{i18n 'Unit' 'Certificate' Certificate.CertificateLanguages}}
-            </th>
-            <th class='table-headers'>
-              {{i18n 'Value' 'Certificate' Certificate.CertificateLanguages}}
-            </th>
-            <th class='table-headers'>
-              {{i18n 'Minimum' 'Certificate' Certificate.CertificateLanguages}}
-            </th>
-            <th class='table-headers'>
-              {{i18n 'Maximum' 'Certificate' Certificate.CertificateLanguages}}
-            </th>
-            <th class='table-headers' colspan='2'>
-              {{i18n 'TestConditions' 'Certificate' Certificate.CertificateLanguages}}
-            </th>
-          </tr>
-          {{#each Certificate.Analysis.Inspections}}
-          <tr class='table-rows'>
-            <td class='table-cells' colspan='2'>
-              {{extraI18n
-              ../Certificate.Analysis.PropertiesStandard
-              ../this.Certificate.CertificateLanguages
-              this.PropertyId
-              'Property'
-              this.Property
-              }}
-            </td>
-            <td class='table-cells' colspan='2'>
-              {{this.Method}}
-            </td>
-            <td class='table-cells'>
-              {{this.Unit}}
-            </td>
-            <td class='table-cells'>
-              {{localizeValue this.Value this.ValueType ../Certificate.CertificateLanguages}}
-            </td>
-            <td class='table-cells'>
-              {{localizeNumber this.Minimum ../Certificate.CertificateLanguages}}
-            </td>
-            <td class='table-cells'>
-              {{localizeNumber this.Maximum ../Certificate.CertificateLanguages}}
-            </td>
-            <td class='table-cells' colspan='2'>
-              {{extraI18n
-              ../Certificate.Analysis.PropertiesStandard
-              ../this.Certificate.CertificateLanguages
-              this.PropertyId
-              'TestConditions'
-              this.TestConditions
-              }}
-            </td>
-          </tr>
-          {{/each}}
-          {{#if Certificate.Analysis.AdditionalInformation}}
-          <tr class='table-rows'>
-            <td class='table-cells' colspan='10'>
-              <strong>{{i18n 'AdditionalInformation' 'Certificate' Certificate.CertificateLanguages}}</strong>
-            </td>
-          </tr>
-          <tr class='table-rows'>
-            <td class='table-cells' colspan='10'>
-              {{join Certificate.Analysis.AdditionalInformation '<br>' ''}}
-            </td>
-          </tr>
-          {{/if}}
-        </tbody>
-      </table>
-    </section>
+  <section class='header'>
+    <h2 class='main-title'>
+      {{i18n 'Inspections' 'Certificate' Certificate.CertificateLanguages}}
+    </h2>
+    {{#if Certificate.Analysis.LotId}}
+    <table class='main-table'>
+      <tbody>
+        <tr class='table-rows'>
+          <th class='table-cells' colspan='4'>
+            <strong>{{i18n 'LotId' 'Certificate' Certificate.CertificateLanguages}}</strong>
+          </th>
+          <td class='table-cells' colspan='6'>
+            {{Certificate.Analysis.LotId}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    {{/if}}
+    <table class='main-table'>
+      <tbody>
+        <tr class='table-rows'>
+          <th class='table-headers' colspan='2'>
+            {{i18n 'Property' 'Certificate' Certificate.CertificateLanguages}}
+          </th>
+          <th class='table-headers' colspan='2'>
+            {{i18n 'Method' 'Certificate' Certificate.CertificateLanguages}}
+          </th>
+          <th class='table-headers'>
+            {{i18n 'Unit' 'Certificate' Certificate.CertificateLanguages}}
+          </th>
+          <th class='table-headers'>
+            {{i18n 'Value' 'Certificate' Certificate.CertificateLanguages}}
+          </th>
+          <th class='table-headers'>
+            {{i18n 'Minimum' 'Certificate' Certificate.CertificateLanguages}}
+          </th>
+          <th class='table-headers'>
+            {{i18n 'Maximum' 'Certificate' Certificate.CertificateLanguages}}
+          </th>
+          <th class='table-headers' colspan='2'>
+            {{i18n 'TestConditions' 'Certificate' Certificate.CertificateLanguages}}
+          </th>
+        </tr>
+        {{#each Certificate.Analysis.Inspections}}
+        <tr class='table-rows'>
+          <td class='table-cells' colspan='2'>
+            {{extraI18n
+            ../Certificate.Analysis.PropertiesStandard
+            ../this.Certificate.CertificateLanguages
+            this.PropertyId
+            'Property'
+            this.Property
+            }}
+          </td>
+          <td class='table-cells' colspan='2'>
+            {{this.Method}}
+          </td>
+          <td class='table-cells'>
+            {{this.Unit}}
+          </td>
+          <td class='table-cells'>
+            {{localizeValue this.Value this.ValueType ../Certificate.CertificateLanguages}}
+          </td>
+          <td class='table-cells'>
+            {{localizeNumber this.Minimum ../Certificate.CertificateLanguages}}
+          </td>
+          <td class='table-cells'>
+            {{localizeNumber this.Maximum ../Certificate.CertificateLanguages}}
+          </td>
+          <td class='table-cells' colspan='2'>
+            {{extraI18n
+            ../Certificate.Analysis.PropertiesStandard
+            ../this.Certificate.CertificateLanguages
+            this.PropertyId
+            'TestConditions'
+            this.TestConditions
+            }}
+          </td>
+        </tr>
+        {{/each}}
+        {{#if Certificate.Analysis.AdditionalInformation}}
+        <tr class='table-rows'>
+          <td class='table-cells' colspan='10'>
+            <strong>{{i18n 'AdditionalInformation' 'Certificate' Certificate.CertificateLanguages}}</strong>
+          </td>
+        </tr>
+        <tr class='table-rows'>
+          <td class='table-cells' colspan='10'>
+            {{join Certificate.Analysis.AdditionalInformation '<br>' ''}}
+          </td>
+        </tr>
+        {{/if}}
+      </tbody>
+    </table>
+  </section>
   {{/if}}
 
   {{! DECLARATION OF CONFORMITY }}
@@ -641,50 +641,50 @@
   {{/if}}
 
   {{#if Certificate.Disclaimer}}
-    {{#if Certificate.Contacts}}
-    <section style="border-top: 3px solid #0c2340">
+  {{#if Certificate.Contacts}}
+  <section style="border-top: 3px solid #0c2340">
     {{else}}
     <section>
+      {{/if}}
+      <table class='main-table'>
+        <tbody>
+          <tr class='table-rows'>
+            <td class='table-cells disclaimer' colspan='6' rowspan='5'>
+              {{Certificate.Disclaimer}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
     {{/if}}
-    <table class='main-table'>
-      <tbody>
-        <tr class='table-rows'>
-          <td class='table-cells disclaimer' colspan='6' rowspan='5'>
-            {{Certificate.Disclaimer}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-  {{/if}}
-  
-  {{! ATTACHEMENTS}}
-  {{#if Certificate.Attachments}}
-  <section>
-    <h2 class='main-title'>
-      {{i18n 'Attachments' 'Certificate' Certificate.CertificateLanguages}}
-    </h2>
-    <table class='main-table'>
-      <tbody>
-        <tr class='table-rows'>
-          <td class='table-cells' colspan='10'>
-            {{#each Certificate.Attachments}}
-            {{this.FileName}}<br />
-            {{/each}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-  {{/if}}
 
-  <footer>
-    <p>
-      <em class='caption'>Powered by <a href='https://s1seven.com'>s1seven.com</a></em>
-      <em style='color: lightgray; margin-left: 35%' class='caption'>{{RefSchemaUrl}}</em>
-      <br />
-    </p>
-  </footer>
+    {{! ATTACHEMENTS}}
+    {{#if Certificate.Attachments}}
+    <section>
+      <h2 class='main-title'>
+        {{i18n 'Attachments' 'Certificate' Certificate.CertificateLanguages}}
+      </h2>
+      <table class='main-table'>
+        <tbody>
+          <tr class='table-rows'>
+            <td class='table-cells' colspan='10'>
+              {{#each Certificate.Attachments}}
+              {{this.FileName}}<br />
+              {{/each}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    {{/if}}
+
+    <footer>
+      <p>
+        <em class='caption'>Powered by <a href='https://s1seven.com'>s1seven.com</a></em>
+        <em style='color: lightgray; margin-left: 35%' class='caption'>{{RefSchemaUrl}}</em>
+        <br />
+      </p>
+    </footer>
 </body>
 
 </html>
