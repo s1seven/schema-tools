@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { localizeDate, localizeNumber, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 import { CampusTranslations, ExternalStandardsTranslations, Languages } from '@s1seven/schema-tools-types';
 
@@ -39,13 +40,63 @@ describe('Rendering', () => {
   });
 
   it('createHeader() - should correctly render manufacturer details', () => {
-    const header = createHeader(certificate.Certificate.Parties as unknown as Parties, certificate.Certificate.Logo);
+    const parties = {
+      Manufacturer: {
+        Name: 'Green Plastics AG',
+        Street: 'Kunststoffgasse 1',
+        ZipCode: '10003',
+        City: 'Berlin',
+        Country: 'DE',
+        Email: 's1seven.certificates@gmail.com',
+        Identifiers: {
+          VAT: 'AT123456789',
+          DUNS: '',
+          CageCode: '',
+        },
+      },
+      Customer: {
+        Name: 'Plastic Processor SE',
+        Street: 'Plastik Street 1',
+        ZipCode: '1230',
+        City: 'Wien',
+        Country: 'AT',
+        Email: 's1seven.certificates@gmail.com',
+        Identifiers: {
+          VAT: 'AT123456789',
+        },
+      },
+      Receiver: {
+        Name: 'Plastic Processor SE',
+        Street: ['Plastik Street 1', 'Werk 1'],
+        ZipCode: '1230',
+        City: 'Wien',
+        Country: 'AT',
+        Email: 's1seven.certificates@gmail.com',
+        Identifiers: {
+          VAT: 'AT123456789',
+        },
+      },
+    };
+    const header = createHeader(parties as unknown as Parties, certificate.Certificate.Logo);
     const tableBody = header.table.body;
     expect(tableBody[0].length).toEqual(2);
     expect(tableBody[0][0][0]).toEqual(expect.objectContaining({ image: certificate.Certificate.Logo }));
     expect(tableBody[0][1][0]).toEqual(
       expect.objectContaining({ text: certificate.Certificate.Parties.Manufacturer.Name, style: 'h4' }),
     );
+    expect(header.table.widths).toEqual([250, 300]);
+  });
+
+  it('createHeader() - if GoodsReceiver is present, add an empty middle row', () => {
+    const header = createHeader(certificate.Certificate.Parties as unknown as Parties, certificate.Certificate.Logo);
+    const tableBody = header.table.body;
+    expect(tableBody[0].length).toEqual(3);
+    expect(tableBody[0][0][0]).toEqual(expect.objectContaining({ image: certificate.Certificate.Logo }));
+    expect(tableBody[0][1]).toEqual([]);
+    expect(tableBody[0][2][0]).toEqual(
+      expect.objectContaining({ text: certificate.Certificate.Parties.Manufacturer.Name, style: 'h4' }),
+    );
+    expect(header.table.widths).toEqual(['33%', '33%', '33%']);
   });
 
   it('createReceivers() - should correctly render receivers details', () => {
@@ -53,7 +104,7 @@ describe('Rendering', () => {
     const receivers = createReceivers(certificate.Certificate.Parties as unknown as Parties, i18n);
     const tableBody = receivers.table.body;
     const titles = tableBody[0];
-    expect(tableBody[0].length).toEqual(2);
+    expect(tableBody[0].length).toEqual(3);
     expect(titles[0][0]).toEqual(
       expect.objectContaining({
         text: i18n.translate('Customer', 'Certificate'),
@@ -66,6 +117,13 @@ describe('Rendering', () => {
         style: 'h4',
       }),
     );
+    expect(tableBody[1][0][0]).toEqual(
+      expect.objectContaining({
+        text: certificate.Certificate.Parties.GoodsReceiver.Name,
+        style: 'h4',
+      }),
+    );
+    expect(receivers.table.widths).toEqual(['33%', '33%', '33%']);
   });
 
   it('createReceivers() - renders correctly with both CompanyName and Name', () => {
@@ -111,6 +169,7 @@ describe('Rendering', () => {
     const tableBody = receivers.table.body;
     const titles = tableBody[0];
     expect(tableBody[0].length).toEqual(2);
+    expect(receivers.table.widths).toEqual([250, 300]);
     expect(titles[0][0]).toEqual(
       expect.objectContaining({
         text: i18n.translate('Customer', 'Certificate'),

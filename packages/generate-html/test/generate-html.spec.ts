@@ -43,7 +43,6 @@ describe('GenerateHTML', function () {
       schemaTranslationsPath: `${__dirname}/../../../fixtures/EN10168/v0.3.0/translations.json`,
       schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.3.0/certificate.ts`, 'utf-8'),
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.3.0/template_hbs.html`, 'utf-8'),
-      localTemplatePath: `${__dirname}/../../../fixtures/EN10168/v0.3.0/template.hbs`,
       partialsMap: {
         inspection: 'https://schemas.s1seven.dev/en10168-schemas/v0.3.0/inspection.hbs',
       },
@@ -56,7 +55,6 @@ describe('GenerateHTML', function () {
       schemaTranslationsPath: `${__dirname}/../../../fixtures/EN10168/v0.4.0/translations.json`,
       schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.4.0/certificate.ts`, 'utf-8'),
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.4.0/template_hbs.html`, 'utf-8'),
-      localTemplatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.0/template.hbs`,
       partialsMap: {
         inspection: 'https://schemas.s1seven.dev/en10168-schemas/v0.4.0/inspection.hbs',
         company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/company/company.hbs',
@@ -69,7 +67,28 @@ describe('GenerateHTML', function () {
         chemicalElement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/chemical-element/chemical-element.hbs',
       },
       expectedHtmlFromMjml: '',
-      localOnly: false,
+    },
+    {
+      type: SupportedSchemas.EN10168,
+      version: 'v0.4.1',
+      certificatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.1/valid_cert.json`,
+      schemaTranslationsPath: `${__dirname}/../../../fixtures/EN10168/v0.4.1/translations.json`,
+      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.4.1/certificate.ts`, 'utf-8'),
+      expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.4.1/template_hbs.html`, 'utf-8'),
+      localTemplatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.1/template.hbs`,
+      partialsMap: {
+        inspection: `${__dirname}/../../../fixtures/EN10168/v0.4.1/inspection.hbs`,
+        company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.7/company/company.hbs',
+        measurement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.7/measurement/measurement.hbs',
+        validation: 'https://schemas.s1seven.dev/schema-definitions/v0.0.7/validation/validation.hbs',
+        productDescription:
+          'https://schemas.s1seven.dev/schema-definitions/v0.0.7/product-description/product-description.hbs',
+        commercialTransaction:
+          'https://schemas.s1seven.dev/schema-definitions/v0.0.7/commercial-transaction/commercial-transaction.hbs',
+        chemicalElement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.7/chemical-element/chemical-element.hbs',
+      },
+      expectedHtmlFromMjml: '',
+      localOnly: true,
     },
     {
       type: SupportedSchemas.COA,
@@ -106,13 +125,26 @@ describe('GenerateHTML', function () {
       schemaTranslationsPath: `${__dirname}/../../../fixtures/CoA/v1.0.0/translations.json`,
       schemaExtraTranslationsPath: `${__dirname}/../../../fixtures/CoA/v1.0.0/extra_translations.json`,
       schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v1.0.0/certificate.ts`, 'utf-8'),
-      localTemplatePath: `${__dirname}/../../../fixtures/CoA/v1.0.0/template.hbs`,
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v1.0.0/template_hbs.html`, 'utf-8'),
       expectedHtmlFromMjml: '',
       partialsMap: {
         company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.5/company/company.hbs',
       },
-      localOnly: false,
+    },
+    {
+      type: SupportedSchemas.COA,
+      version: 'v1.1.0',
+      certificatePath: `${__dirname}/../../../fixtures/CoA/v1.1.0/valid_cert.json`,
+      schemaTranslationsPath: `${__dirname}/../../../fixtures/CoA/v1.1.0/translations.json`,
+      schemaExtraTranslationsPath: `${__dirname}/../../../fixtures/CoA/v1.1.0/extra_translations.json`,
+      schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v1.1.0/certificate.ts`, 'utf-8'),
+      localTemplatePath: `${__dirname}/../../../fixtures/CoA/v1.1.0/template.hbs`,
+      expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v1.1.0/template_hbs.html`, 'utf-8'),
+      expectedHtmlFromMjml: '',
+      partialsMap: {
+        company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.7/company/company.hbs',
+      },
+      localOnly: true,
     },
   ];
 

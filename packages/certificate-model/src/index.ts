@@ -82,9 +82,7 @@ export async function getSchema(
 }
 
 function getSymbol(name: string): string {
-  if (!getSymbol.cache[name]) {
-    getSymbol.cache[name] = typeof Symbol !== 'undefined' ? Symbol(name) : `__${name}`;
-  }
+  getSymbol.cache[name] ||= typeof Symbol !== 'undefined' ? Symbol(name) : `__${name}`;
   return getSymbol.cache[name] as unknown as string;
 }
 
@@ -260,7 +258,7 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
     if (typeof data === 'string') {
       return this.set({ [data]: value }, options);
     }
-    data = data || {};
+    data ||= {};
     const opts = this.getOptions(value || {});
     if ('RefSchemaUrl' in data && typeof data.RefSchemaUrl === 'string') {
       this.validator = getValidator(data.RefSchemaUrl) || (await setValidator(data.RefSchemaUrl));
@@ -283,7 +281,7 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
   }
 
   validate(data?: T): { valid: boolean; errors: ErrorObject[] | null | undefined } {
-    data = data || this.toJSON(true);
+    data ||= this.toJSON(true);
     const valid = this.validator(data) as boolean;
     return { valid, errors: this.validator.errors };
   }

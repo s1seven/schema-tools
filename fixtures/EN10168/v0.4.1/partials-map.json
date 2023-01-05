@@ -1,0 +1,9 @@
+{
+  "inspection": "inspection.hbs",
+  "company": "https://schemas.s1seven.com/schema-definitions/v0.0.7/company/company.hbs",
+  "measurement": "https://schemas.s1seven.com/schema-definitions/v0.0.7/measurement/measurement.hbs",
+  "validation": "https://schemas.s1seven.com/schema-definitions/v0.0.7/validation/validation.hbs",
+  "productDescription": "https://schemas.s1seven.com/schema-definitions/v0.0.7/product-description/product-description.hbs",
+  "commercialTransaction": "https://schemas.s1seven.com/schema-definitions/v0.0.7/commercial-transaction/commercial-transaction.hbs",
+  "chemicalElement": "https://schemas.s1seven.com/schema-definitions/v0.0.7/chemical-element/chemical-element.hbs"
+}

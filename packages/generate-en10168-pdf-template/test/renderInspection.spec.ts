@@ -195,63 +195,63 @@ describe('Rendering inspection section', () => {
         ChemicalComposition: {
           C70: 'Y',
           C71: {
-            Actual: 0.15,
+            Actual: '0.15',
             Symbol: 'C',
           },
           C72: {
-            Actual: 0.005,
+            Actual: '0.005',
             Symbol: 'Si',
           },
           C73: {
-            Actual: 1,
+            Actual: '1.000',
             Symbol: 'Mn',
           },
           C74: {
-            Actual: 0.014,
+            Actual: '0.014',
             Symbol: 'P',
           },
           C75: {
-            Actual: 0.007,
+            Actual: '0.007',
             Symbol: 'S',
           },
           C76: {
-            Actual: 0.041,
+            Actual: '0.041',
             Symbol: 'Al',
           },
           C77: {
-            Actual: 0.02,
+            Actual: '0.02',
             Symbol: 'Cr',
           },
           C78: {
-            Actual: 0.009,
+            Actual: '0.009',
             Symbol: 'Ni',
           },
           C79: {
-            Actual: 0.002,
+            Actual: '0.002',
             Symbol: 'Mo',
           },
           C80: {
-            Actual: 0.01,
+            Actual: '0.01',
             Symbol: 'Cu',
           },
           C81: {
-            Actual: 0.002,
+            Actual: '0.002',
             Symbol: 'V',
           },
           C82: {
-            Actual: 0.001,
+            Actual: '0.001',
             Symbol: 'Ti',
           },
           C85: {
-            Actual: 0.0047,
+            Actual: '0.0047',
             Symbol: 'N',
           },
           C86: {
-            Actual: 0.00001,
+            Actual: '0.00001',
             Symbol: 'B',
           },
           C92: {
-            Actual: 0.3227,
+            Actual: '0.3227',
             Symbol: 'CEV',
           },
         },
@@ -660,63 +660,63 @@ describe('Rendering inspection section', () => {
     const chemicalComposition = renderChemicalComposition(
       {
         C71: {
-          Actual: 0.15,
+          Actual: '0.15',
           Symbol: 'C',
         },
         C72: {
-          Actual: 0.005,
+          Actual: '0.005',
           Symbol: 'Si',
         },
         C73: {
-          Actual: 1,
+          Actual: '1.000',
           Symbol: 'Mn',
         },
         C74: {
-          Actual: 0.014,
+          Actual: '0.014',
           Symbol: 'P',
         },
         C75: {
-          Actual: 0.007,
+          Actual: '0.007',
           Symbol: 'S',
         },
         C76: {
-          Actual: 0.041,
+          Actual: '0.041',
           Symbol: 'Al',
         },
         C77: {
-          Actual: 0.02,
+          Actual: '0.02',
           Symbol: 'Cr',
         },
         C78: {
-          Actual: 0.009,
+          Actual: '0.009',
           Symbol: 'Ni',
         },
         C79: {
-          Actual: 0.002,
+          Actual: '0.002',
           Symbol: 'Mo',
         },
         C80: {
-          Actual: 0.01,
+          Actual: '0.01',
           Symbol: 'Cu',
         },
         C81: {
-          Actual: 0.002,
+          Actual: '0.002',
           Symbol: 'V',
         },
         C82: {
-          Actual: 0.001,
+          Actual: '0.001',
           Symbol: 'Ti',
         },
         C85: {
-          Actual: 0.0047,
+          Actual: '0.0047',
           Symbol: 'N',
         },
         C86: {
-          Actual: 0.00001,
+          Actual: '0.0001',
           Symbol: 'B',
         },
         C92: {
-          Actual: 0.3227,
+          Actual: '0.3227',
           Symbol: 'CEV',
         },
       },
@@ -766,7 +766,7 @@ describe('Rendering inspection section', () => {
           { text: 'Actual [%]', style: 'p' },
           { text: '0.15', style: 'caption', margin: [-2, 2, -2, 2] },
           { text: '0.005', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '1', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '1.000', style: 'caption', margin: [-2, 2, -2, 2] },
           { text: '0.014', style: 'caption', margin: [-2, 2, -2, 2] },
           { text: '0.007', style: 'caption', margin: [-2, 2, -2, 2] },
           { text: '0.041', style: 'caption', margin: [-2, 2, -2, 2] },
@@ -777,7 +777,7 @@ describe('Rendering inspection section', () => {
           { text: '0.002', style: 'caption', margin: [-2, 2, -2, 2] },
           { text: '0.001', style: 'caption', margin: [-2, 2, -2, 2] },
           { text: '0.0047', style: 'caption', margin: [-2, 2, -2, 2] },
-          { text: '0.00001', style: 'caption', margin: [-2, 2, -2, 2] },
+          { text: '0.0001', style: 'caption', margin: [-2, 2, -2, 2] },
           { text: '0.3227', style: 'caption', margin: [-2, 2, -2, 2] },
         ],
       ],
