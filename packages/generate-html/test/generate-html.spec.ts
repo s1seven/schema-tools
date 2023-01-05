@@ -43,7 +43,6 @@ describe('GenerateHTML', function () {
       schemaTranslationsPath: `${__dirname}/../../../fixtures/EN10168/v0.3.0/translations.json`,
       schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.3.0/certificate.ts`, 'utf-8'),
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.3.0/template_hbs.html`, 'utf-8'),
-      localTemplatePath: `${__dirname}/../../../fixtures/EN10168/v0.3.0/template.hbs`,
       partialsMap: {
         inspection: 'https://schemas.s1seven.dev/en10168-schemas/v0.3.0/inspection.hbs',
       },
@@ -56,7 +55,6 @@ describe('GenerateHTML', function () {
       schemaTranslationsPath: `${__dirname}/../../../fixtures/EN10168/v0.4.0/translations.json`,
       schemaInterface: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.4.0/certificate.ts`, 'utf-8'),
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/EN10168/v0.4.0/template_hbs.html`, 'utf-8'),
-      localTemplatePath: `${__dirname}/../../../fixtures/EN10168/v0.4.0/template.hbs`,
       partialsMap: {
         inspection: 'https://schemas.s1seven.dev/en10168-schemas/v0.4.0/inspection.hbs',
         company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.6/company/company.hbs',
@@ -127,7 +125,6 @@ describe('GenerateHTML', function () {
       schemaTranslationsPath: `${__dirname}/../../../fixtures/CoA/v1.0.0/translations.json`,
       schemaExtraTranslationsPath: `${__dirname}/../../../fixtures/CoA/v1.0.0/extra_translations.json`,
       schemaInterface: readFileSync(`${__dirname}/../../../fixtures/CoA/v1.0.0/certificate.ts`, 'utf-8'),
-      localTemplatePath: `${__dirname}/../../../fixtures/CoA/v1.0.0/template.hbs`,
       expectedHtmlFromHbs: readFileSync(`${__dirname}/../../../fixtures/CoA/v1.0.0/template_hbs.html`, 'utf-8'),
       expectedHtmlFromMjml: '',
       partialsMap: {
