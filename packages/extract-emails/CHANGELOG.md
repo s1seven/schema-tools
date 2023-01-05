@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.3.8...@s1seven/schema-tools-extract-emails@0.4.0) (2023-01-05)
+
+
+### Features
+
+* update extract-emails to handle GoodsReceiver ([ff9c076](https://github.com/s1seven/schema-tools/commit/ff9c076c74b27398e1a0c526a44705c5edabfb0b))
+
+
+
+
+
 ## [0.3.8](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-extract-emails@0.3.7...@s1seven/schema-tools-extract-emails@0.3.8) (2022-12-07)
 
 **Note:** Version bump only for package @s1seven/schema-tools-extract-emails

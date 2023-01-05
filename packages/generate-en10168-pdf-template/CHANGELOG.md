@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.6.7...@s1seven/schema-tools-generate-en10168-pdf-template@0.7.0) (2023-01-05)
+
+
+### Features
+
+* add PDF rendering for GoodsReceivers in CoA ([f4209f7](https://github.com/s1seven/schema-tools/commit/f4209f7b2c2fa201b4b77b8269d4a5b9fc261040))
+
+
+
+
+
 ## [0.6.7](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.6.6...@s1seven/schema-tools-generate-en10168-pdf-template@0.6.7) (2022-12-07)
 
 
