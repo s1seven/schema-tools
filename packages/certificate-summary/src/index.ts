@@ -88,9 +88,12 @@ function extractSummaryFromECoC(certificate: ECoCSchema): CertificateSummary | n
   const ecocData = certificate.EcocData as EcocData;
   const orderQuantityInKG = (
     ecocData?.Data?.ObjectOfDeclaration?.reduce((acc, objOfDeclarartion) => {
-      return (acc += objOfDeclarartion?.Quantities?.reduce((acc, quantitiesObj) => {
-        return (acc += quantitiesObj?.Amount || 0);
-      }, 0));
+      return (
+        acc +
+        objOfDeclarartion?.Quantities?.reduce((acc, quantitiesObj) => {
+          return acc + (quantitiesObj?.Amount || 0);
+        }, 0)
+      );
     }, 0) || ''
   ).toString();
 
