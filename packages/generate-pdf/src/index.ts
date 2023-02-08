@@ -137,9 +137,7 @@ async function getPdfMakeContentFromObject(
   const refSchemaUrl = new URL(certificate.RefSchemaUrl);
   const schemaConfig = getSchemaConfig(refSchemaUrl);
   const certificateLanguages = getCertificateLanguages(certificate);
-  if (!translations) {
-    translations = certificateLanguages?.length ? await getTranslations(certificateLanguages, schemaConfig) : {};
-  }
+  translations ||= certificateLanguages?.length ? await getTranslations(certificateLanguages, schemaConfig) : {};
 
   const type = getCertificateType(schemaConfig);
   const externalStandards: ExternalStandards[] = schemaToExternalStandardsMap[type]
@@ -148,12 +146,10 @@ async function getPdfMakeContentFromObject(
         .filter((externalStandards) => externalStandards) || []
     : [];
 
-  if (!extraTranslations) {
-    extraTranslations =
-      certificateLanguages?.length && externalStandards?.length
-        ? await getExtraTranslations(certificateLanguages, schemaConfig, externalStandards)
-        : {};
-  }
+  extraTranslations ||=
+    certificateLanguages?.length && externalStandards?.length
+      ? await getExtraTranslations(certificateLanguages, schemaConfig, externalStandards)
+      : {};
   return generateInSandbox(certificate, translations, generatorPath, extraTranslations);
 }
 
