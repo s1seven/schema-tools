@@ -15,6 +15,7 @@ function preValidateCertificate<T extends Schemas>(certificate: T, throwError?: 
     validationError: {
       target: false,
     },
+    forbidUnknownValues: false,
   });
   if (errors?.length) {
     if (throwError) {
