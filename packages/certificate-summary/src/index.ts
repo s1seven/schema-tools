@@ -18,7 +18,23 @@ export interface CertificateSummary {
   purchaseDeliveryPosition?: string;
   purchaseOrderNumber?: string;
   purchaseOrderPosition?: string;
+  orderQuantityInKG?: string;
 }
+
+interface EcocData {
+  Data: {
+    ObjectOfDeclaration: ObjectOfDeclaration[];
+  };
+}
+
+type ObjectOfDeclaration = {
+  Quantities: Quantities[];
+};
+
+type Quantities = {
+  Amount: number;
+  Unit: string;
+};
 
 function getFirstPartyName(parties: PartyEmail[]): string {
   return parties?.length ? parties[0]?.name : '';
@@ -31,7 +47,7 @@ function extractSummaryFromEN10168(certificate: EN10168Schema): CertificateSumma
   const parties = extractPartiesFromEN10168(certificate);
   const senders = getSenders(parties);
   const receivers = getReceivers(parties);
-  const { CommercialTransaction } = certificate.Certificate;
+  const { CommercialTransaction, ProductDescription } = certificate.Certificate;
   const purchaseOrderNumber = CommercialTransaction['A07'];
   const purchaseOrderPosition = Object.prototype.hasOwnProperty.call(CommercialTransaction, 'A97')
     ? CommercialTransaction['A97'].toString()
@@ -39,6 +55,9 @@ function extractSummaryFromEN10168(certificate: EN10168Schema): CertificateSumma
 
   const purchaseDeliveryNumber = Object.prototype.hasOwnProperty.call(CommercialTransaction, 'A98')
     ? CommercialTransaction['A98'].toString()
+    : '';
+  const orderQuantityInKG = Object.prototype.hasOwnProperty.call(ProductDescription, 'B13')
+    ? ProductDescription['B13']['Value'].toString()
     : '';
 
   return {
@@ -50,6 +69,7 @@ function extractSummaryFromEN10168(certificate: EN10168Schema): CertificateSumma
     purchaseDeliveryPosition: undefined,
     purchaseOrderNumber,
     purchaseOrderPosition,
+    orderQuantityInKG,
   };
 }
 
@@ -65,6 +85,15 @@ function extractSummaryFromECoC(certificate: ECoCSchema): CertificateSummary | n
   const purchaseOrderPosition = StandardReferences?.find((ref) => ref?.name === 'OrderPos')?.Value;
   const purchaseDeliveryNumber = StandardReferences?.find((ref) => ref?.name === 'DeliveryNote')?.Value;
 
+  const ecocData = certificate.EcocData as EcocData;
+  const orderQuantityInKG = (
+    ecocData?.Data?.ObjectOfDeclaration?.reduce((acc, objOfDeclarartion) => {
+      return (acc += objOfDeclarartion?.Quantities?.reduce((acc, quantitiesObj) => {
+        return (acc += quantitiesObj?.Amount || 0);
+      }, 0));
+    }, 0) || ''
+  ).toString();
+
   return {
     certificateIdentifier: certificate.Id,
     sellerName: getFirstPartyName(senders),
@@ -74,6 +103,7 @@ function extractSummaryFromECoC(certificate: ECoCSchema): CertificateSummary | n
     purchaseDeliveryPosition: undefined,
     purchaseOrderNumber,
     purchaseOrderPosition,
+    orderQuantityInKG,
   };
 }
 
@@ -85,12 +115,15 @@ function extractSummaryFromCoA(certificate: CoASchema): CertificateSummary | nul
   const senders = getSenders(parties);
   const receivers = getReceivers(parties);
   const Order = certificate.Certificate.BusinessTransaction?.Order || certificate.Certificate.BusinessReferences?.Order;
+  // BusinessReferences was removed in https://github.com/thematerials-network/CoA-schemas/commit/9f98f316d0c921c11ff728761b1b9f40d1e45ef7
+  // It's here for backwards compatibility
   const Delivery =
     certificate.Certificate.BusinessTransaction?.Delivery || certificate.Certificate.BusinessReferences?.Delivery;
   const purchaseOrderNumber = Order?.Number || Order?.Id;
   const purchaseOrderPosition = Order?.Position;
   const purchaseDeliveryNumber = Delivery?.Number || Delivery?.Id;
   const purchaseDeliveryPosition = Delivery?.Position;
+  const orderQuantityInKG = Delivery?.Quantity.toString();
   return {
     certificateIdentifier: certificate.Certificate.Id,
     sellerName: getFirstPartyName(senders),
@@ -100,6 +133,7 @@ function extractSummaryFromCoA(certificate: CoASchema): CertificateSummary | nul
     purchaseDeliveryPosition,
     purchaseOrderNumber,
     purchaseOrderPosition,
+    orderQuantityInKG,
   };
 }
 
