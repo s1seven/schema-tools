@@ -40,7 +40,8 @@
     "test": "jest",
     "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
     "test:staged": "jest --runInBand --onlyChanged",
-    "scan:deps": "audit-ci --config ../../audit-ci.json"
+    "scan:deps": "audit-ci --config ../../audit-ci.json",
+    "example": "npm run build && node example.js"
   },
   "dependencies": {
     "@s1seven/schema-tools-extract-emails": "^0.4.0",
