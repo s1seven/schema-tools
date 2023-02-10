@@ -20,7 +20,7 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '3100-L-42006554',
         purchaseOrderPosition: '',
-        orderQuantityInKG: '',
+        quantity: [],
       },
     },
     {
@@ -37,7 +37,7 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '0334/2019/ZZS',
         purchaseOrderPosition: '1',
-        orderQuantityInKG: '5739.3',
+        quantity: [{ Value: 5739.3, Unit: 'kg' }],
       },
     },
     {
@@ -54,7 +54,7 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '0334/2019/ZZS',
         purchaseOrderPosition: '1',
-        orderQuantityInKG: '5739.3',
+        quantity: [{ Value: 5739.3, Unit: 'kg' }],
       },
     },
     {
@@ -71,7 +71,7 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '0334/2019/ZZS',
         purchaseOrderPosition: '1',
-        orderQuantityInKG: '5739',
+        quantity: [{ Value: 5739, Unit: 'kg' }],
       },
     },
     {
@@ -88,7 +88,7 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '0334/2019/ZZS',
         purchaseOrderPosition: '1',
-        orderQuantityInKG: '5739',
+        quantity: [{ Value: 5739, Unit: 'kg' }],
       },
     },
     {
@@ -105,7 +105,7 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '0334/2019/ZZS',
         purchaseOrderPosition: '1',
-        orderQuantityInKG: '5739',
+        quantity: [{ Value: 5739, Unit: 'kg' }],
       },
     },
     {
@@ -122,7 +122,16 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: undefined,
         purchaseOrderPosition: undefined,
-        orderQuantityInKG: '2201',
+        quantity: [
+          [
+            { Value: 1096, Unit: 'Kg' },
+            { Value: 6, Unit: 'Pcs' },
+          ],
+          [
+            { Value: 1093, Unit: 'Kg' },
+            { Value: 6, Unit: 'Pcs' },
+          ],
+        ],
       },
     },
     {
@@ -139,7 +148,7 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '1',
         purchaseOrderPosition: '1',
-        orderQuantityInKG: '90',
+        quantity: [{ Value: 90, Unit: 'kg' }],
       },
     },
     {
@@ -156,7 +165,7 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: '1',
         purchaseOrderNumber: '1000/12/12/2021',
         purchaseOrderPosition: '000010',
-        orderQuantityInKG: '90',
+        quantity: [{ Value: 90, Unit: 'kg' }],
       },
     },
     {
@@ -173,7 +182,7 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: '1',
         purchaseOrderNumber: '1000/12/12/2021',
         purchaseOrderPosition: '000010',
-        orderQuantityInKG: '90',
+        quantity: [{ Value: 90, Unit: 'kg' }],
       },
     },
     {
@@ -190,7 +199,7 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: '1',
         purchaseOrderNumber: '1000/12/12/2021',
         purchaseOrderPosition: '000010',
-        orderQuantityInKG: '90',
+        quantity: [{ Value: 90, Unit: 'kg' }],
       },
     },
     {
@@ -207,7 +216,7 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: '1',
         purchaseOrderNumber: '1000/12/12/2021',
         purchaseOrderPosition: '000010',
-        orderQuantityInKG: '90',
+        quantity: [{ Value: 90, Unit: 'kg' }],
       },
     },
   ];
