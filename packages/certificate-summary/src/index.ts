@@ -75,13 +75,13 @@ function extractSummaryFromECoC(certificate: ECoCSchema): CertificateSummary | n
   const ecocData = certificate.EcocData as EcocData;
   const quantity =
     ecocData?.Data?.ObjectOfDeclaration?.reduce<Quantity[][]>((acc, ObjectOfDeclaration) => {
-      return (acc = [
+      return [
         ...acc,
         ObjectOfDeclaration.Quantities.map<Quantity>((quantityObj) => {
           const { Amount: Value, Unit } = quantityObj;
           return { Value, Unit };
         }),
-      ]);
+      ];
     }, []) || [];
 
   return {
