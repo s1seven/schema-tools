@@ -179,6 +179,26 @@ export class EN10168Schema extends BaseCertificateSchema {
   Certificate: EN10168SchemaCertificate;
 }
 
+export interface EcocData {
+  Data: {
+    ObjectOfDeclaration: ObjectOfDeclaration[];
+  };
+}
+
+type ObjectOfDeclaration = {
+  Quantities: Quantities[];
+};
+
+type Quantities = {
+  Amount: number;
+  Unit: string;
+};
+
+export type Quantity = {
+  Unit: string;
+  Value: number;
+};
+
 export class ECoCSchema extends BaseCertificateSchema {
   @IsString()
   Id: string;
