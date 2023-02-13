@@ -88,7 +88,6 @@ describe('GenerateHTML', function () {
         chemicalElement: 'https://schemas.s1seven.dev/schema-definitions/v0.0.7/chemical-element/chemical-element.hbs',
       },
       expectedHtmlFromMjml: '',
-      localOnly: true,
     },
     {
       type: SupportedSchemas.COA,
@@ -144,7 +143,6 @@ describe('GenerateHTML', function () {
       partialsMap: {
         company: 'https://schemas.s1seven.dev/schema-definitions/v0.0.7/company/company.hbs',
       },
-      localOnly: true,
     },
   ];
 
