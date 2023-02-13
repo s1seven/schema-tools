@@ -7,7 +7,7 @@ import {
   PartyEmail,
 } from '@s1seven/schema-tools-extract-emails';
 import { CoASchema, ECoCSchema, EN10168Schema, SupportedSchemas } from '@s1seven/schema-tools-types';
-import { EcocData, Quantity } from '@s1seven/schema-tools-types/src';
+import { EcocData, Materials, SummaryQuantity } from '@s1seven/schema-tools-types/src';
 import { castCertificate, loadExternalFile } from '@s1seven/schema-tools-utils';
 
 export interface CertificateSummary {
@@ -19,7 +19,8 @@ export interface CertificateSummary {
   purchaseDeliveryPosition?: string;
   purchaseOrderNumber?: string;
   purchaseOrderPosition?: string;
-  quantity?: Quantity[] | Quantity[][];
+  quantity?: SummaryQuantity[] | SummaryQuantity[][];
+  material: Materials;
 }
 
 function getFirstPartyName(parties: PartyEmail[]): string {
@@ -43,8 +44,8 @@ function extractSummaryFromEN10168(certificate: EN10168Schema): CertificateSumma
     ? CommercialTransaction['A98'].toString()
     : '';
 
-  const quantity: Quantity[] = Object.prototype.hasOwnProperty.call(ProductDescription, 'B13')
-    ? [{ Value: ProductDescription['B13']['Value'], Unit: ProductDescription['B13']['Unit'] }]
+  const quantity: SummaryQuantity[] = Object.prototype.hasOwnProperty.call(ProductDescription, 'B13')
+    ? [{ value: ProductDescription['B13']['Value'], unit: ProductDescription['B13']['Unit'] }]
     : [];
 
   return {
@@ -57,6 +58,7 @@ function extractSummaryFromEN10168(certificate: EN10168Schema): CertificateSumma
     purchaseOrderNumber,
     purchaseOrderPosition,
     quantity,
+    material: Materials.Ferrous,
   };
 }
 
@@ -74,12 +76,12 @@ function extractSummaryFromECoC(certificate: ECoCSchema): CertificateSummary | n
 
   const ecocData = certificate.EcocData as EcocData;
   const quantity =
-    ecocData?.Data?.ObjectOfDeclaration?.reduce<Quantity[][]>((acc, ObjectOfDeclaration) => {
+    ecocData?.Data?.ObjectOfDeclaration?.reduce<SummaryQuantity[][]>((acc, ObjectOfDeclaration) => {
       return [
         ...acc,
-        ObjectOfDeclaration.Quantities.map<Quantity>((quantityObj) => {
-          const { Amount: Value, Unit } = quantityObj;
-          return { Value, Unit };
+        ObjectOfDeclaration.Quantities.map<SummaryQuantity>((quantityObj) => {
+          const { Amount: value, Unit: unit } = quantityObj;
+          return { value, unit };
         }),
       ];
     }, []) || [];
@@ -94,6 +96,7 @@ function extractSummaryFromECoC(certificate: ECoCSchema): CertificateSummary | n
     purchaseOrderNumber,
     purchaseOrderPosition,
     quantity,
+    material: Materials.NonFerrous,
   };
 }
 
@@ -113,7 +116,7 @@ function extractSummaryFromCoA(certificate: CoASchema): CertificateSummary | nul
   const purchaseOrderPosition = Order?.Position;
   const purchaseDeliveryNumber = Delivery?.Number || Delivery?.Id;
   const purchaseDeliveryPosition = Delivery?.Position;
-  const quantity = [{ Unit: Delivery?.QuantityUnit, Value: Delivery?.Quantity }];
+  const quantity = [{ unit: Delivery?.QuantityUnit, value: Delivery?.Quantity }];
   return {
     certificateIdentifier: certificate.Certificate.Id,
     sellerName: getFirstPartyName(senders),
@@ -124,6 +127,7 @@ function extractSummaryFromCoA(certificate: CoASchema): CertificateSummary | nul
     purchaseOrderNumber,
     purchaseOrderPosition,
     quantity,
+    material: Materials.Chemical,
   };
 }
 
