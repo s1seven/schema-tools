@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools-certificate-summary",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "build certificate summary from common general properties",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools/tree/main/packages/certificate-summary#readme",
@@ -44,8 +44,8 @@
     "example": "npm run build && node example.js"
   },
   "dependencies": {
-    "@s1seven/schema-tools-extract-emails": "^0.4.0",
-    "@s1seven/schema-tools-types": "^0.5.1",
-    "@s1seven/schema-tools-utils": "^0.2.4"
+    "@s1seven/schema-tools-extract-emails": "^0.4.1",
+    "@s1seven/schema-tools-types": "^0.5.2",
+    "@s1seven/schema-tools-utils": "^0.2.5"
   }
 }

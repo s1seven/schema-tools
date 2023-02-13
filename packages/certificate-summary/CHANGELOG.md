@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-summary@0.2.9...@s1seven/schema-tools-certificate-summary@0.3.0) (2023-02-13)
+
+
+### Features
+
+* extract orderQuantityInKG from certificates in certificate summary package ([46305e4](https://github.com/s1seven/schema-tools/commit/46305e4aee3601b94cb1a3dc4107fdd3e1e93743))
+
+
+
+
+
 ## [0.2.9](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-certificate-summary@0.2.8...@s1seven/schema-tools-certificate-summary@0.2.9) (2023-01-05)
 
 **Note:** Version bump only for package @s1seven/schema-tools-certificate-summary

@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools-generate-pdf-template-helpers",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/generate-pdf-template-helpers#readme",
@@ -39,11 +39,11 @@
     "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
   "dependencies": {
-    "@s1seven/schema-tools-types": "^0.5.1",
+    "@s1seven/schema-tools-types": "^0.5.2",
     "pdfmake": "0.2.5"
   },
   "devDependencies": {
-    "@s1seven/schema-tools-utils": "^0.2.4",
+    "@s1seven/schema-tools-utils": "^0.2.5",
     "@types/pdfmake": "^0.2.0"
   }
 }

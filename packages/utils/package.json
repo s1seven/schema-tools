@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-utils",
   "description": "Utils used in @s1seven/schema-tools packages",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/utils#readme",
@@ -42,7 +42,7 @@
     "cast-cert-test": "node example.js"
   },
   "dependencies": {
-    "@s1seven/schema-tools-types": "^0.5.1",
+    "@s1seven/schema-tools-types": "^0.5.2",
     "ajv": "^8.10.0",
     "axios": "^1.2.1",
     "class-transformer": "^0.5.1",
