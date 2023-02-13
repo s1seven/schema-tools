@@ -179,6 +179,32 @@ export class EN10168Schema extends BaseCertificateSchema {
   Certificate: EN10168SchemaCertificate;
 }
 
+export interface EcocData {
+  Data: {
+    ObjectOfDeclaration: EcocObjectOfDeclaration[];
+  };
+}
+
+type EcocObjectOfDeclaration = {
+  Quantities: EcocQuantities[];
+};
+
+type EcocQuantities = {
+  Amount: number;
+  Unit: string;
+};
+
+export type SummaryQuantity = {
+  unit: string;
+  value: number;
+};
+
+export enum Materials {
+  Ferrous = 'ferrous',
+  NonFerrous = 'non-ferrous',
+  Chemical = 'chemical',
+}
+
 export class ECoCSchema extends BaseCertificateSchema {
   @IsString()
   Id: string;

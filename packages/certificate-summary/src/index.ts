@@ -6,7 +6,15 @@ import {
   getSenders,
   PartyEmail,
 } from '@s1seven/schema-tools-extract-emails';
-import { CoASchema, ECoCSchema, EN10168Schema, SupportedSchemas } from '@s1seven/schema-tools-types';
+import {
+  CoASchema,
+  EcocData,
+  ECoCSchema,
+  EN10168Schema,
+  Materials,
+  SummaryQuantity,
+  SupportedSchemas,
+} from '@s1seven/schema-tools-types';
 import { castCertificate, loadExternalFile } from '@s1seven/schema-tools-utils';
 
 export interface CertificateSummary {
@@ -18,6 +26,8 @@ export interface CertificateSummary {
   purchaseDeliveryPosition?: string;
   purchaseOrderNumber?: string;
   purchaseOrderPosition?: string;
+  quantity?: SummaryQuantity[] | SummaryQuantity[][];
+  material: Materials;
 }
 
 function getFirstPartyName(parties: PartyEmail[]): string {
@@ -31,7 +41,7 @@ function extractSummaryFromEN10168(certificate: EN10168Schema): CertificateSumma
   const parties = extractPartiesFromEN10168(certificate);
   const senders = getSenders(parties);
   const receivers = getReceivers(parties);
-  const { CommercialTransaction } = certificate.Certificate;
+  const { CommercialTransaction, ProductDescription } = certificate.Certificate;
   const purchaseOrderNumber = CommercialTransaction['A07'];
   const purchaseOrderPosition = Object.prototype.hasOwnProperty.call(CommercialTransaction, 'A97')
     ? CommercialTransaction['A97'].toString()
@@ -40,6 +50,10 @@ function extractSummaryFromEN10168(certificate: EN10168Schema): CertificateSumma
   const purchaseDeliveryNumber = Object.prototype.hasOwnProperty.call(CommercialTransaction, 'A98')
     ? CommercialTransaction['A98'].toString()
     : '';
+
+  const quantity: SummaryQuantity[] = Object.prototype.hasOwnProperty.call(ProductDescription, 'B13')
+    ? [{ value: ProductDescription['B13']['Value'], unit: ProductDescription['B13']['Unit'] }]
+    : [];
 
   return {
     certificateIdentifier: certificate.Certificate.CommercialTransaction.A03,
@@ -50,6 +64,8 @@ function extractSummaryFromEN10168(certificate: EN10168Schema): CertificateSumma
     purchaseDeliveryPosition: undefined,
     purchaseOrderNumber,
     purchaseOrderPosition,
+    quantity,
+    material: Materials.Ferrous,
   };
 }
 
@@ -65,6 +81,18 @@ function extractSummaryFromECoC(certificate: ECoCSchema): CertificateSummary | n
   const purchaseOrderPosition = StandardReferences?.find((ref) => ref?.name === 'OrderPos')?.Value;
   const purchaseDeliveryNumber = StandardReferences?.find((ref) => ref?.name === 'DeliveryNote')?.Value;
 
+  const ecocData = certificate.EcocData as EcocData;
+  const quantity =
+    ecocData?.Data?.ObjectOfDeclaration?.reduce<SummaryQuantity[][]>((acc, ObjectOfDeclaration) => {
+      return [
+        ...acc,
+        ObjectOfDeclaration.Quantities.map<SummaryQuantity>((quantityObj) => {
+          const { Amount: value, Unit: unit } = quantityObj;
+          return { value, unit };
+        }),
+      ];
+    }, []) || [];
+
   return {
     certificateIdentifier: certificate.Id,
     sellerName: getFirstPartyName(senders),
@@ -74,6 +102,8 @@ function extractSummaryFromECoC(certificate: ECoCSchema): CertificateSummary | n
     purchaseDeliveryPosition: undefined,
     purchaseOrderNumber,
     purchaseOrderPosition,
+    quantity,
+    material: Materials.NonFerrous,
   };
 }
 
@@ -85,12 +115,15 @@ function extractSummaryFromCoA(certificate: CoASchema): CertificateSummary | nul
   const senders = getSenders(parties);
   const receivers = getReceivers(parties);
   const Order = certificate.Certificate.BusinessTransaction?.Order || certificate.Certificate.BusinessReferences?.Order;
+  // BusinessReferences was removed in https://github.com/thematerials-network/CoA-schemas/commit/9f98f316d0c921c11ff728761b1b9f40d1e45ef7
+  // It's here for backwards compatibility
   const Delivery =
     certificate.Certificate.BusinessTransaction?.Delivery || certificate.Certificate.BusinessReferences?.Delivery;
   const purchaseOrderNumber = Order?.Number || Order?.Id;
   const purchaseOrderPosition = Order?.Position;
   const purchaseDeliveryNumber = Delivery?.Number || Delivery?.Id;
   const purchaseDeliveryPosition = Delivery?.Position;
+  const quantity = [{ unit: Delivery?.QuantityUnit, value: Delivery?.Quantity }];
   return {
     certificateIdentifier: certificate.Certificate.Id,
     sellerName: getFirstPartyName(senders),
@@ -100,6 +133,8 @@ function extractSummaryFromCoA(certificate: CoASchema): CertificateSummary | nul
     purchaseDeliveryPosition,
     purchaseOrderNumber,
     purchaseOrderPosition,
+    quantity,
+    material: Materials.Chemical,
   };
 }
 

@@ -20,6 +20,8 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '3100-L-42006554',
         purchaseOrderPosition: '',
+        quantity: [],
+        material: 'ferrous',
       },
     },
     {
@@ -36,6 +38,8 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '0334/2019/ZZS',
         purchaseOrderPosition: '1',
+        quantity: [{ value: 5739.3, unit: 'kg' }],
+        material: 'ferrous',
       },
     },
     {
@@ -52,6 +56,8 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '0334/2019/ZZS',
         purchaseOrderPosition: '1',
+        quantity: [{ value: 5739.3, unit: 'kg' }],
+        material: 'ferrous',
       },
     },
     {
@@ -68,6 +74,8 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '0334/2019/ZZS',
         purchaseOrderPosition: '1',
+        quantity: [{ value: 5739, unit: 'kg' }],
+        material: 'ferrous',
       },
     },
     {
@@ -84,6 +92,8 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '0334/2019/ZZS',
         purchaseOrderPosition: '1',
+        quantity: [{ value: 5739, unit: 'kg' }],
+        material: 'ferrous',
       },
     },
     {
@@ -100,6 +110,8 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '0334/2019/ZZS',
         purchaseOrderPosition: '1',
+        quantity: [{ value: 5739, unit: 'kg' }],
+        material: 'ferrous',
       },
     },
     {
@@ -116,6 +128,17 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: undefined,
         purchaseOrderPosition: undefined,
+        quantity: [
+          [
+            { value: 1096, unit: 'Kg' },
+            { value: 6, unit: 'Pcs' },
+          ],
+          [
+            { value: 1093, unit: 'Kg' },
+            { value: 6, unit: 'Pcs' },
+          ],
+        ],
+        material: 'non-ferrous',
       },
     },
     {
@@ -132,6 +155,8 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: undefined,
         purchaseOrderNumber: '1',
         purchaseOrderPosition: '1',
+        quantity: [{ value: 90, unit: 'kg' }],
+        material: 'chemical',
       },
     },
     {
@@ -148,6 +173,8 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: '1',
         purchaseOrderNumber: '1000/12/12/2021',
         purchaseOrderPosition: '000010',
+        quantity: [{ value: 90, unit: 'kg' }],
+        material: 'chemical',
       },
     },
     {
@@ -164,6 +191,8 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: '1',
         purchaseOrderNumber: '1000/12/12/2021',
         purchaseOrderPosition: '000010',
+        quantity: [{ value: 90, unit: 'kg' }],
+        material: 'chemical',
       },
     },
     {
@@ -180,6 +209,8 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: '1',
         purchaseOrderNumber: '1000/12/12/2021',
         purchaseOrderPosition: '000010',
+        quantity: [{ value: 90, unit: 'kg' }],
+        material: 'chemical',
       },
     },
     {
@@ -196,6 +227,8 @@ describe('CertificateSummary', function () {
         purchaseDeliveryPosition: '1',
         purchaseOrderNumber: '1000/12/12/2021',
         purchaseOrderPosition: '000010',
+        quantity: [{ value: 90, unit: 'kg' }],
+        material: 'chemical',
       },
     },
   ];
