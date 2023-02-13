@@ -6,8 +6,15 @@ import {
   getSenders,
   PartyEmail,
 } from '@s1seven/schema-tools-extract-emails';
-import { CoASchema, ECoCSchema, EN10168Schema, SupportedSchemas } from '@s1seven/schema-tools-types';
-import { EcocData, Materials, SummaryQuantity } from '@s1seven/schema-tools-types/src';
+import {
+  CoASchema,
+  EcocData,
+  ECoCSchema,
+  EN10168Schema,
+  Materials,
+  SummaryQuantity,
+  SupportedSchemas,
+} from '@s1seven/schema-tools-types';
 import { castCertificate, loadExternalFile } from '@s1seven/schema-tools-utils';
 
 export interface CertificateSummary {
