@@ -115,7 +115,7 @@ function extractSummaryFromCoA(certificate: CoASchema): CertificateSummary | nul
   const senders = getSenders(parties);
   const receivers = getReceivers(parties);
   const Order = certificate.Certificate.BusinessTransaction?.Order || certificate.Certificate.BusinessReferences?.Order;
-  // BusinessReferences was removed in https://github.com/thematerials-network/CoA-schemas/commit/9f98f316d0c921c11ff728761b1b9f40d1e45ef7
+  // BusinessReferences was removed in https://github.com/material-identity/CoA-schemas/commit/9f98f316d0c921c11ff728761b1b9f40d1e45ef7
   // It's here for backwards compatibility
   const Delivery =
     certificate.Certificate.BusinessTransaction?.Delivery || certificate.Certificate.BusinessReferences?.Delivery;

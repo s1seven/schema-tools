@@ -154,7 +154,7 @@ const inpsections = [
     },
   },
   {
-    // test cases from https://github.com/thematerials-network/CoA-schemas/issues/57
+    // test cases from https://github.com/material-identity/CoA-schemas/issues/57
     inspection: {
       Value: '0.08',
       ValueType: 'number',
