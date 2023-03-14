@@ -8,7 +8,19 @@ import { generateHtml, GenerateHtmlOptions } from '../src/index';
 
 describe('GenerateHTML', function () {
   //! only include localOnly, localTemplatePath for latest (unreleased) version
-  const testsMap = [
+  const testsMap: {
+    type: SupportedSchemas;
+    version: string;
+    certificatePath: string;
+    schemaTranslationsPath: string;
+    schemaExtraTranslationsPath?: string;
+    schemaInterface: string;
+    expectedHtmlFromHbs: string;
+    expectedHtmlFromMjml: string;
+    partialsMap?: Record<string, string>;
+    localTemplatePath?: string;
+    localOnly?: boolean;
+  }[] = [
     {
       type: SupportedSchemas.EN10168,
       version: 'v0.0.2',
