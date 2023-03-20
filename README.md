@@ -191,10 +191,10 @@ If the PDF hashes are not matching, ensure that the styles in the filepath that 
 
 To change the appearance of a PDF, make the needed changes to `generateContent.ts` for CoA and en10168, run the `build` script to generate a minified version in `dist` which can then be used following the `-g` argument in the root script `fixtures:pdf` PDF Generator.
 
-[en10168]: https://github.com/thematerials-network/EN10168-schemas
-[e-coc]: https://github.com/thematerials-network/E-CoC-schemas
-[coa]: https://github.com/thematerials-network/CoA-schemas
-[cdn]: https://github.com/thematerials-network/CDN-schemas
+[en10168]: https://github.com/material-identity/EN10168-schemas
+[e-coc]: https://github.com/material-identity/E-CoC-schemas
+[coa]: https://github.com/material-identity/CoA-schemas
+[cdn]: https://github.com/material-identity/CDN-schemas
 
 ## Tests to update for new releases
 
