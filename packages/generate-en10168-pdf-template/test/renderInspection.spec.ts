@@ -6,6 +6,7 @@ import {
   renderChemicalComposition,
   renderHardnessTest,
   renderNotchedBarImpactTest,
+  renderOtherMechanicalTests,
   renderTensileTest,
 } from '../src/lib/createInspection';
 import { EN10168Translations, Inspection } from '../src/types';
@@ -652,6 +653,43 @@ describe('Rendering inspection section', () => {
         ],
       ],
       widths: [160, '*', '*', 300],
+    });
+  });
+
+  it('correctly renders OtherMechanicalTests with Unit', () => {
+    const i18n = getI18N(translations, ['EN', 'DE']);
+    const otherMechanicalTests = renderOtherMechanicalTests(
+      {
+        C50: {
+          Key: 'Verfestigungsversuch',
+          Value: '0.223',
+          Unit: 'n-Wert',
+          Type: 'number',
+        },
+      },
+      i18n,
+    );
+    expect(otherMechanicalTests[2].table).toEqual({
+      widths: [160, '*', '*', 300],
+      body: [[{ text: 'C50 Verfestigungsversuch', style: 'p' }, {}, {}, { text: '0.223 n-Wert', style: 'p' }]],
+    });
+  });
+
+  it('correctly renders OtherMechanicalTests without Unit', () => {
+    const i18n = getI18N(translations, ['EN', 'DE']);
+    const otherMechanicalTests = renderOtherMechanicalTests(
+      {
+        C50: {
+          Key: 'Verfestigungsversuch',
+          Value: '0.223',
+          Type: 'number',
+        },
+      },
+      i18n,
+    );
+    expect(otherMechanicalTests[2].table).toEqual({
+      widths: [160, '*', '*', 300],
+      body: [[{ text: 'C50 Verfestigungsversuch', style: 'p' }, {}, {}, { text: '0.223 ', style: 'p' }]],
     });
   });
 
