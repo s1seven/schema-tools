@@ -251,13 +251,18 @@ export function renderOtherMechanicalTests(
   otherMechanicalTests: OtherMechanicalTests,
   i18n: I18N,
 ): [ContentText, ContentCanvas, TableElement] {
-  const values = Object.keys(otherMechanicalTests).map((element) => [
-    { text: `${element} ${otherMechanicalTests[element].Key}`, style: 'p' },
-    {},
-    {},
-    { text: otherMechanicalTests[element].Value || '', style: 'p' },
-  ]);
-
+  const values = Object.keys(otherMechanicalTests).map((element) => {
+    const { Key, Value, Unit } = otherMechanicalTests[element];
+    return [
+      { text: `${element} ${Key}`, style: 'p' },
+      {},
+      {},
+      {
+        text: Value ? `${Value} ${Unit || ''}` : '',
+        style: 'p',
+      },
+    ];
+  });
   return [
     { text: i18n.translate('OtherMechanicalTests', 'otherFields'), style: 'h4' },
     { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }] },
