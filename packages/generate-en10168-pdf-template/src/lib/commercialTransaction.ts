@@ -33,7 +33,7 @@ export function createCommercialTransaction(
     : createEmptyColumns(PRODUCT_DESCRIPTION_COLUMNS_COUNT);
 
   return [
-    { text: `${i18n.translate('CommercialTransaction', 'certificateGroups')}`, style: 'h2', margin: [0, 0, 0, 4] },
+    { text: i18n.translate('CommercialTransaction', 'certificateGroups'), style: 'h2', margin: [0, 0, 0, 4] },
     { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] },
     {
       style: 'table',

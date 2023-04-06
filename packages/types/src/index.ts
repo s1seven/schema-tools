@@ -142,6 +142,10 @@ export type ExtraTranslations = {
   [key in ExternalStandardsEnum]?: ExternalStandardsTranslations[key];
 };
 
+export type LanguageFontMap = {
+  [ln in Languages]?: string;
+};
+
 export class EN10168SchemaCertificate {
   @IsEnum(CertificateLanguages, { each: true })
   CertificateLanguages: CertificateLanguages[];

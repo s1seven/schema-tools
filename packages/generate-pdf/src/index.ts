@@ -12,6 +12,7 @@ import vm from 'vm';
 import {
   ExternalStandards,
   ExtraTranslations,
+  LanguageFontMap,
   Schemas,
   schemaToExternalStandardsMap,
   Translations,
@@ -35,6 +36,7 @@ export interface GeneratePdfOptions {
   fonts?: TFontDictionary;
   translations?: Translations;
   extraTranslations?: ExtraTranslations;
+  languageFontMap?: LanguageFontMap;
 }
 
 export interface GeneratePdfOptionsExtended<T extends 'stream' | 'buffer'> extends GeneratePdfOptions {
@@ -73,6 +75,7 @@ export async function buildModule(
     certificate: Schemas,
     translations: Translations,
     extraTranslations?: ExtraTranslations,
+    languageFontMap?: LanguageFontMap,
   ) => Content[];
 }> {
   const code = await loadExternalFile(filePath, 'text');
@@ -90,6 +93,7 @@ export async function generateInSandbox(
   translations: Record<string, unknown>,
   generatorPath?: string,
   extraTranslations: ExtraTranslations = {},
+  languageFontMap?: LanguageFontMap,
 ): Promise<Content[]> {
   let filePath: string;
   let moduleName: string;
@@ -105,7 +109,7 @@ export async function generateInSandbox(
   const { generateContent } = await buildModule(filePath, moduleName);
   const code = `
   (async function () {
-    content = await generateContent(certificate, translations, extraTranslations);
+    content = await generateContent(certificate, translations, languageFontMap, extraTranslations);
   }())`;
 
   const script = new vm.Script(code);
@@ -113,6 +117,7 @@ export async function generateInSandbox(
     certificate,
     extraTranslations,
     translations,
+    languageFontMap,
     generateContent,
     content: [] as Content[],
   };
@@ -133,6 +138,7 @@ async function getPdfMakeContentFromObject(
   generatorPath: string = null,
   translations: Translations = null,
   extraTranslations: ExtraTranslations = null,
+  languageFontMap: LanguageFontMap,
 ): Promise<TDocumentDefinitions['content']> {
   const refSchemaUrl = new URL(certificate.RefSchemaUrl);
   const schemaConfig = getSchemaConfig(refSchemaUrl);
@@ -150,7 +156,7 @@ async function getPdfMakeContentFromObject(
     certificateLanguages?.length && externalStandards?.length
       ? await getExtraTranslations(certificateLanguages, schemaConfig, externalStandards)
       : {};
-  return generateInSandbox(certificate, translations, generatorPath, extraTranslations);
+  return generateInSandbox(certificate, translations, generatorPath, extraTranslations, languageFontMap);
 }
 
 function getPdfMakeStyles(certificate: Schemas): Promise<StyleDictionary> {
@@ -181,6 +187,7 @@ async function buildPdfContent(
       options.generatorPath,
       options.translations,
       options.extraTranslations,
+      options.languageFontMap,
     );
     if (!options.docDefinition?.styles) {
       const styles = await getPdfMakeStyles(rawCert);
@@ -206,6 +213,7 @@ export async function generatePdf(
     fonts?: TFontDictionary;
     translations?: Translations;
     extraTranslations?: ExtraTranslations;
+    languageFontMap?: LanguageFontMap;
   },
 ): Promise<Buffer>;
 
@@ -219,6 +227,7 @@ export async function generatePdf(
     fonts?: TFontDictionary;
     translations?: Translations;
     extraTranslations?: ExtraTranslations;
+    languageFontMap?: LanguageFontMap;
   },
 ): Promise<PDFKit.PDFDocument>;
 

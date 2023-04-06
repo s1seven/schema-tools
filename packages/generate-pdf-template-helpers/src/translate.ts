@@ -1,9 +1,20 @@
+import { LanguageFontMap } from '@s1seven/schema-tools-types';
 import { ExternalStandardsTranslations, Languages, Translations } from '@s1seven/schema-tools-types';
 
 type ValueOf<T> = T[keyof T];
 
+type Translation = {
+  text: string | Translation[];
+  font?: string | undefined;
+};
+
 export class Translate<T = Translations, E = ExternalStandardsTranslations> {
-  constructor(readonly translations: T, readonly extraTranslations: E, readonly languages: Languages[] = ['EN']) {}
+  constructor(
+    readonly translations: T,
+    readonly extraTranslations: E,
+    readonly languages: Languages[] = ['EN'],
+    readonly languageFontMap: LanguageFontMap = {},
+  ) {}
 
   getField<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
     language: Languages,
@@ -25,17 +36,21 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
   getTranslation<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
     group: G,
     phrase: P,
-  ) {
-    return this.languages.map((language) => this.getField(language, group, phrase)).join(' / ');
+  ): Translation[] {
+    return this.languages.map((language, index) => {
+      const font = this.languageFontMap[language];
+      const field = this.getField(language, group, phrase);
+      return { text: index === 0 ? `${field} / ` : field, font };
+    });
   }
 
   translate<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
     phrase: P,
     group: G,
-  ) {
+  ): Translation[] {
     // specific to EN10168
     if (group === 'certificateFields') {
-      return `${phrase as string} ${this.getTranslation(group, phrase)}`;
+      return [{ text: `${phrase as string} ` }, { text: this.getTranslation(group, phrase) }];
     }
     return this.getTranslation(group, phrase);
   }
@@ -54,11 +69,21 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
     R extends ValueOf<E[S]> = ValueOf<E[S]>,
     P extends keyof R = keyof R,
   >(externalStandard: S | undefined, propertyId: P, property: keyof R[P], defaultValue: string) {
-    const translatedFields = this.languages.map(
-      (language) => this.getExtraField(externalStandard, language, propertyId, property) || defaultValue,
-    );
+    const translatedFields = this.languages.map((language) => {
+      const font = this.languageFontMap[language];
+      const text = this.getExtraField(externalStandard, language, propertyId, property) || defaultValue;
+      return { text, font };
+    });
 
-    return translatedFields[0] === translatedFields[1] ? translatedFields[0] : translatedFields.join(' / ');
+    if (
+      translatedFields[0]?.text === translatedFields[1]?.text ||
+      (translatedFields[0]?.text && !translatedFields[1]?.text)
+    ) {
+      return translatedFields[0];
+    }
+
+    translatedFields[0].text += ' / ';
+    return translatedFields;
   }
 
   getExtraField<S extends keyof E = keyof E, R extends ValueOf<E[S]> = ValueOf<E[S]>, P extends keyof R = keyof R>(
