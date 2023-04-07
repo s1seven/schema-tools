@@ -11,7 +11,12 @@ import {
   tableLayout,
   Translate,
 } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { ExternalStandardsEnum, ExternalStandardsTranslations, LanguageFontMap } from '@s1seven/schema-tools-types';
+import {
+  ExternalStandardsEnum,
+  ExternalStandardsTranslations,
+  LanguageFontMap,
+  TranslationWithFont,
+} from '@s1seven/schema-tools-types';
 
 import {
   Attachment,
@@ -285,13 +290,17 @@ export function createInspection(
     const { name } = field;
 
     if (name === 'Property' || name === 'TestConditions') {
+      const translatedText: TranslationWithFont[] = i18n.extraTranslate(
+        PropertiesStandard,
+        inspection.PropertyId,
+        name,
+        inspection[name],
+      );
       return {
-        // TODO: refactor this
-        text: computeTextStyle(
-          i18n.extraTranslate(PropertiesStandard, inspection.PropertyId, name, inspection[name]),
-          field.format,
-          i18n.languages,
-        ),
+        text: translatedText.map((obj: TranslationWithFont) => {
+          obj.text = computeTextStyle(obj.text, field.format, i18n.languages) as string;
+          return obj;
+        }),
         style: 'caption',
       };
     }
