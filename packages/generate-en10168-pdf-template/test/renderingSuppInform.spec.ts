@@ -26,7 +26,16 @@ describe('Rendering supplementary information', () => {
     };
     const i18n = getI18N(translations, ['EN']);
     expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
-      { text: 'Supplementary information', style: 'h5', colSpan: 3 },
+      {
+        text: [
+          {
+            font: undefined,
+            text: 'Supplementary information',
+          },
+        ],
+        style: 'h5',
+        colSpan: 3,
+      },
       {},
       {},
     ]);
@@ -42,7 +51,20 @@ describe('Rendering supplementary information', () => {
     };
     const i18n = getI18N(translations, ['EN', 'DE']);
     expect(supplementaryInformation(suppInfo, i18n)[0]).toEqual([
-      { text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 3 },
+      {
+        text: [
+          {
+            font: undefined,
+            text: 'Supplementary information / ',
+          },
+          {
+            font: undefined,
+            text: 'Ergänzende Angaben',
+          },
+        ],
+        style: 'h5',
+        colSpan: 3,
+      },
       {},
       {},
     ]);
@@ -64,7 +86,20 @@ describe('Rendering supplementary information', () => {
     const supplementaryInfo = supplementaryInformation(suppInfo, i18n);
     expect(supplementaryInfo.length).toEqual(3);
     expect(supplementaryInfo[0]).toEqual([
-      { text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 3 },
+      {
+        text: [
+          {
+            font: undefined,
+            text: 'Supplementary information / ',
+          },
+          {
+            font: undefined,
+            text: 'Ergänzende Angaben',
+          },
+        ],
+        style: 'h5',
+        colSpan: 3,
+      },
       {},
       {},
     ]);
@@ -92,7 +127,20 @@ describe('Rendering supplementary information', () => {
     const supplementaryInfo = supplementaryInformation(suppInfo, i18n, 4);
     expect(supplementaryInfo.length).toEqual(2);
     expect(supplementaryInfo[0]).toEqual([
-      { text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 4 },
+      {
+        text: [
+          {
+            font: undefined,
+            text: 'Supplementary information / ',
+          },
+          {
+            font: undefined,
+            text: 'Ergänzende Angaben',
+          },
+        ],
+        style: 'h5',
+        colSpan: 4,
+      },
       {},
       {},
       {},

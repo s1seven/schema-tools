@@ -14,7 +14,30 @@ describe('Rendering measurement', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
     const measurements = renderMeasurement(certificate.Certificate.ProductDescription.B10, 'B10', i18n);
     const expected = [
-      { text: 'B10 Length / Länge Length', style: 'tableHeader' },
+      {
+        text: [
+          {
+            text: [
+              {
+                text: 'B10 ',
+              },
+
+              {
+                font: undefined,
+                text: 'Length / ',
+              },
+              {
+                font: undefined,
+                text: 'Länge',
+              },
+            ],
+          },
+          {
+            text: ' Length',
+          },
+        ],
+        style: 'tableHeader',
+      },
       {},
       {},
       {
@@ -40,7 +63,30 @@ describe('Rendering measurement', () => {
     };
     const measurements = renderMeasurement(input, 'B10', i18n);
     const expected = [
-      { text: 'B10 Length / Länge LengthProperty', style: 'tableHeader' },
+      {
+        text: [
+          {
+            text: [
+              {
+                text: 'B10 ',
+              },
+
+              {
+                font: undefined,
+                text: 'Length / ',
+              },
+              {
+                font: undefined,
+                text: 'Länge',
+              },
+            ],
+          },
+          {
+            text: ' LengthProperty',
+          },
+        ],
+        style: 'tableHeader',
+      },
       {},
       {},
       {
@@ -71,7 +117,22 @@ describe('Rendering measurement', () => {
     ];
     const measurements = renderMeasurementArray(input, 'C31', i18n);
     const expected = [
-      { text: 'C31 Individual values / Einzelwerte', style: 'tableHeader' },
+      {
+        text: [
+          {
+            text: 'C31 ',
+          },
+          {
+            font: undefined,
+            text: 'Individual values / ',
+          },
+          {
+            font: undefined,
+            text: 'Einzelwerte',
+          },
+        ],
+        style: 'tableHeader',
+      },
       {},
       {},
       {

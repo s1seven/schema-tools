@@ -23,7 +23,19 @@ describe('Rendering commercial transaction', () => {
     expect(tableBody.length).toEqual(9);
     expect(tableBody[0]).toEqual([
       {
-        text: 'A02 Type of inspection document / Art der Prüfbescheinigung',
+        text: [
+          {
+            text: 'A02 ',
+          },
+          {
+            font: undefined,
+            text: 'Type of inspection document / ',
+          },
+          {
+            font: undefined,
+            text: 'Art der Prüfbescheinigung',
+          },
+        ],
         style: 'tableHeader',
         colSpan: 3,
       },
@@ -36,7 +48,19 @@ describe('Rendering commercial transaction', () => {
     ]);
     expect(tableBody[7]).toEqual([
       {
-        text: 'A98 Delivery number / Lieferscheinnummer',
+        text: [
+          {
+            text: 'A98 ',
+          },
+          {
+            font: undefined,
+            text: 'Delivery number / ',
+          },
+          {
+            font: undefined,
+            text: 'Lieferscheinnummer',
+          },
+        ],
         style: 'tableHeader',
         colSpan: 3,
       },
@@ -51,7 +75,19 @@ describe('Rendering commercial transaction', () => {
 
     expect(tableBody[8]).toEqual([
       {
-        text: 'A99 Aviso number / Avisonummer',
+        text: [
+          {
+            text: 'A99 ',
+          },
+          {
+            font: undefined,
+            text: 'Aviso number / ',
+          },
+          {
+            font: undefined,
+            text: 'Avisonummer',
+          },
+        ],
         style: 'tableHeader',
         colSpan: 3,
       },
@@ -81,19 +117,55 @@ describe('Rendering transaction parties', () => {
     expect(tableBody[0]).toEqual([
       [
         {
-          text: "A04 Manufacturer's mark / Zeichen des Herstellers", // eslint-disable-line
+          text: [
+            {
+              text: 'A04 ',
+            },
+            {
+              font: undefined,
+              text: "Manufacturer's mark / ",
+            },
+            {
+              font: undefined,
+              text: 'Zeichen des Herstellers',
+            },
+          ],
           style: 'tableHeader',
         },
       ],
       [
         {
-          text: "A01 Manufacturer's plant / Herstellerwerk", // eslint-disable-line
+          text: [
+            {
+              text: 'A01 ',
+            },
+            {
+              font: undefined,
+              text: "Manufacturer's plant / ",
+            },
+            {
+              font: undefined,
+              text: 'Herstellerwerk',
+            },
+          ],
           style: 'tableHeader',
         },
       ],
       [
         {
-          text: 'A06.1 Purchaser / Besteller',
+          text: [
+            {
+              text: 'A06.1 ',
+            },
+            {
+              font: undefined,
+              text: 'Purchaser / ',
+            },
+            {
+              font: undefined,
+              text: 'Besteller',
+            },
+          ],
           style: 'tableHeader',
         },
       ],
@@ -122,7 +194,24 @@ describe('Rendering transaction parties', () => {
       ],
     ]);
     expect(tableBody[2]).toEqual([
-      [{ text: 'A06.3 Recipient of the test certificate / Empfänger der Prüfbescheinigung', style: 'tableHeader' }],
+      [
+        {
+          text: [
+            {
+              text: 'A06.3 ',
+            },
+            {
+              font: undefined,
+              text: 'Recipient of the test certificate / ',
+            },
+            {
+              font: undefined,
+              text: 'Empfänger der Prüfbescheinigung',
+            },
+          ],
+          style: 'tableHeader',
+        },
+      ],
       '',
       '',
     ]);
@@ -172,8 +261,42 @@ describe('Rendering transaction parties', () => {
 
     expect(tableBody.length).toEqual(2);
     expect(tableBody[0]).toEqual([
-      [{ text: "A01 Manufacturer's plant / Herstellerwerk", style: 'tableHeader' }], // eslint-disable-line
-      [{ text: 'A06 Purchaser / Besteller', style: 'tableHeader' }],
+      [
+        {
+          text: [
+            {
+              text: 'A01 ',
+            },
+            {
+              font: undefined,
+              text: "Manufacturer's plant / ",
+            },
+            {
+              font: undefined,
+              text: 'Herstellerwerk',
+            },
+          ],
+          style: 'tableHeader',
+        },
+      ],
+      [
+        {
+          text: [
+            {
+              text: 'A06 ',
+            },
+            {
+              font: undefined,
+              text: 'Purchaser / ',
+            },
+            {
+              font: undefined,
+              text: 'Besteller',
+            },
+          ],
+          style: 'tableHeader',
+        },
+      ],
       '',
     ]);
   });
@@ -207,8 +330,42 @@ describe('Rendering transaction parties', () => {
     const tableBody = transactionParties.table.body;
     expect(tableBody.length).toEqual(2);
     expect(tableBody[0]).toEqual([
-      [{ text: "A01 Manufacturer's plant / Herstellerwerk", style: 'tableHeader' }], // eslint-disable-line
-      [{ text: 'A06 Purchaser / Besteller', style: 'tableHeader' }],
+      [
+        {
+          text: [
+            {
+              text: 'A01 ',
+            },
+            {
+              font: undefined,
+              text: "Manufacturer's plant / ",
+            },
+            {
+              font: undefined,
+              text: 'Herstellerwerk',
+            },
+          ],
+          style: 'tableHeader',
+        },
+      ],
+      [
+        {
+          text: [
+            {
+              text: 'A06 ',
+            },
+            {
+              font: undefined,
+              text: 'Purchaser / ',
+            },
+            {
+              font: undefined,
+              text: 'Besteller',
+            },
+          ],
+          style: 'tableHeader',
+        },
+      ],
       '',
     ]);
     expect(tableBody[1][0][0]).toEqual(

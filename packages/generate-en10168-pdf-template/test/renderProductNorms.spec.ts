@@ -16,7 +16,19 @@ describe('Product norms', () => {
     const expected = [
       [
         {
-          text: 'B02 Specification of the product / Spezfikation des Erzeugnis',
+          text: [
+            {
+              text: 'B02 ',
+            },
+            {
+              font: undefined,
+              text: 'Specification of the product / ',
+            },
+            {
+              font: undefined,
+              text: 'Spezfikation des Erzeugnis',
+            },
+          ],
           colSpan: 4,
           style: 'tableHeader',
         },
@@ -26,7 +38,16 @@ describe('Product norms', () => {
       ],
       [
         {
-          text: 'Steel designation / Stahlbezeichnung',
+          text: [
+            {
+              font: undefined,
+              text: 'Steel designation / ',
+            },
+            {
+              font: undefined,
+              text: 'Stahlbezeichnung',
+            },
+          ],
           style: 'caption',
           colSpan: 3,
         },
@@ -38,7 +59,16 @@ describe('Product norms', () => {
         {
           colSpan: 3,
           style: 'caption',
-          text: 'Product norm / Product Norm',
+          text: [
+            {
+              font: undefined,
+              text: 'Product norm / ',
+            },
+            {
+              font: undefined,
+              text: 'Product Norm',
+            },
+          ],
         },
         {},
         {},
@@ -51,7 +81,16 @@ describe('Product norms', () => {
         {
           colSpan: 3,
           style: 'caption',
-          text: 'Mass norm / Mass Norm',
+          text: [
+            {
+              font: undefined,
+              text: 'Mass norm / ',
+            },
+            {
+              font: undefined,
+              text: 'Mass Norm',
+            },
+          ],
         },
         {},
         {},
@@ -64,7 +103,16 @@ describe('Product norms', () => {
         {
           colSpan: 3,
           style: 'caption',
-          text: 'Material norm / Material Norm',
+          text: [
+            {
+              font: undefined,
+              text: 'Material norm / ',
+            },
+            {
+              font: undefined,
+              text: 'Material Norm',
+            },
+          ],
         },
         {},
         {},
@@ -87,7 +135,23 @@ describe('Product norms', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
     const norms = productNorms(normsInput, i18n);
     expect(norms[0]).toEqual([
-      { text: 'B02 Specification of the product / Spezfikation des Erzeugnis', colSpan: 4, style: 'tableHeader' },
+      {
+        colSpan: 4,
+        style: 'tableHeader',
+        text: [
+          {
+            text: 'B02 ',
+          },
+          {
+            font: undefined,
+            text: 'Specification of the product / ',
+          },
+          {
+            font: undefined,
+            text: 'Spezfikation des Erzeugnis',
+          },
+        ],
+      },
       {},
       {},
       {},
@@ -98,7 +162,20 @@ describe('Product norms', () => {
     const i18n = getI18N(translations, ['EN', 'DE']);
     const norms = productNorms(normsInput, i18n);
     expect(norms[2]).toEqual([
-      { text: 'Mass norm / Mass Norm', colSpan: 3, style: 'caption' },
+      {
+        colSpan: 3,
+        style: 'caption',
+        text: [
+          {
+            font: undefined,
+            text: 'Mass norm / ',
+          },
+          {
+            font: undefined,
+            text: 'Mass Norm',
+          },
+        ],
+      },
       {},
       {},
       { text: 'EN 10219-1:2006, EN 10220', style: 'p' },
