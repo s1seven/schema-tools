@@ -1,12 +1,7 @@
-import { LanguageFontMap } from '@s1seven/schema-tools-types';
+import { LanguageFontMap, TranslationWithFont } from '@s1seven/schema-tools-types';
 import { ExternalStandardsTranslations, Languages, Translations } from '@s1seven/schema-tools-types';
 
 type ValueOf<T> = T[keyof T];
-
-type Translation = {
-  text: string | Translation[];
-  font?: string | undefined;
-};
 
 export class Translate<T = Translations, E = ExternalStandardsTranslations> {
   constructor(
@@ -20,7 +15,7 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
     language: Languages,
     group: G,
     phrase: P,
-  ) {
+  ): string {
     const translations = this.translations;
     if (
       typeof translations === 'object' &&
@@ -36,21 +31,21 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
   getTranslation<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
     group: G,
     phrase: P,
-  ): Translation[] {
+  ): TranslationWithFont[] {
     return this.languages.map((language, index) => {
       const font = this.languageFontMap[language];
       const field = this.getField(language, group, phrase);
-      return { text: index === 0 ? `${field} / ` : field, font };
+      return { text: index === 0 && this.languages.length > 1 ? `${field} / ` : field, font };
     });
   }
 
   translate<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
     phrase: P,
     group: G,
-  ): Translation[] {
+  ): TranslationWithFont[] {
     // specific to EN10168
     if (group === 'certificateFields') {
-      return [{ text: `${phrase as string} ` }, { text: this.getTranslation(group, phrase) }];
+      return [{ text: `${phrase as string} ` }, ...this.getTranslation(group, phrase)];
     }
     return this.getTranslation(group, phrase);
   }
@@ -60,7 +55,7 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
     propertyId: P,
     property: keyof R[P],
     defaultValue: string,
-  ) {
+  ): TranslationWithFont[] {
     return this.getExtraTranslation(externalStandard, propertyId, property, defaultValue);
   }
 
@@ -68,7 +63,7 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
     S extends keyof E = keyof E,
     R extends ValueOf<E[S]> = ValueOf<E[S]>,
     P extends keyof R = keyof R,
-  >(externalStandard: S | undefined, propertyId: P, property: keyof R[P], defaultValue: string) {
+  >(externalStandard: S | undefined, propertyId: P, property: keyof R[P], defaultValue: string): TranslationWithFont[] {
     const translatedFields = this.languages.map((language) => {
       const font = this.languageFontMap[language];
       const text = this.getExtraField(externalStandard, language, propertyId, property) || defaultValue;
@@ -79,7 +74,7 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
       translatedFields[0]?.text === translatedFields[1]?.text ||
       (translatedFields[0]?.text && !translatedFields[1]?.text)
     ) {
-      return translatedFields[0];
+      return [translatedFields[0]];
     }
 
     translatedFields[0].text += ' / ';

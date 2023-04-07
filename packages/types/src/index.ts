@@ -146,6 +146,11 @@ export type LanguageFontMap = {
   [ln in Languages]?: string;
 };
 
+export type TranslationWithFont = {
+  text: string;
+  font?: string;
+};
+
 export class EN10168SchemaCertificate {
   @IsEnum(CertificateLanguages, { each: true })
   CertificateLanguages: CertificateLanguages[];
