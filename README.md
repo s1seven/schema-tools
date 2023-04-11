@@ -65,10 +65,6 @@ E-CoC v0.0.2 has been deprecated.
 
 ![dependency graph](./graph.png)
 
-## License
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fs1seven%2Fschema-tools.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fs1seven%2Fschema-tools?ref=badge_large)
-
 ## Contributing
 
 When updating the schema (links below), the tools need to be updated at the same time.
@@ -206,3 +202,7 @@ When creating a new release, the following tests need to be updated with the lat
 - certificate-summary
 - extract-emails
 - generate-interfaces
+
+## License
+
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B18065%2Fgithub.com%2Fs1seven%2Fschema-tools.svg?type=large)](https://app.fossa.com/projects/custom%2B18065%2Fgithub.com%2Fs1seven%2Fschema-tools?ref=badge_large)
