@@ -80,7 +80,8 @@ export async function buildModule(
   ) => Content[];
 }> {
   const code = await loadExternalFile(filePath, 'text');
-  const fileName = moduleName || filePath;
+  const fileNamePrefix = moduleName || filePath;
+  const fileName = `${fileNamePrefix}-${new Date().toISOString()}`;
   const _module = new Module(fileName);
   _module.filename = fileName;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -110,7 +111,11 @@ export async function generateInSandbox(
   const { generateContent } = await buildModule(filePath, moduleName);
   const code = `
   (async function () {
-    content = await generateContent(certificate, translations, languageFontMap);
+    if (extraTranslations && Object.keys(extraTranslations).length) {
+      content = await generateContent(certificate, translations, extraTranslations, languageFontMap);
+    } else {
+      content = await generateContent(certificate, translations, languageFontMap);
+    }
   }())`;
 
   const script = new vm.Script(code);
@@ -122,8 +127,9 @@ export async function generateInSandbox(
     generateContent,
     content: [] as Content[],
   };
-  vm.createContext(context);
-  await script.runInContext(context);
+  vm.createContext(context, { origin: 'generate-pdf', codeGeneration: { strings: false, wasm: false } });
+  // for some reason runInContext runs slower than runInNewContext (by 30% !)
+  await script.runInNewContext(context, { timeout: 5000, displayErrors: true });
   const { content } = context;
   return content;
 }
