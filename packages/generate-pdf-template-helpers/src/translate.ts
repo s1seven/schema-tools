@@ -1,5 +1,10 @@
-import { LanguageFontMap, TranslationWithFont } from '@s1seven/schema-tools-types';
-import { ExternalStandardsTranslations, Languages, Translations } from '@s1seven/schema-tools-types';
+import type {
+  ExternalStandardsTranslations,
+  LanguageFontMap,
+  Languages,
+  Translations,
+  TranslationWithFont,
+} from '@s1seven/schema-tools-types';
 
 type ValueOf<T> = T[keyof T];
 

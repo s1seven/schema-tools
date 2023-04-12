@@ -1,6 +1,6 @@
-import { TableLayout } from 'pdfmake/interfaces';
+import type { TableLayout } from 'pdfmake/interfaces';
 
-import { TableElement } from './types';
+import type { TableElement } from './types';
 
 /* This localizeNumber function is an exact copy of the function by the same name found at
 packages/utils/src/helpers.ts.

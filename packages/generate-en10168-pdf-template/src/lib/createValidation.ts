@@ -1,4 +1,4 @@
-import { Column, ContentCanvas, ContentColumns, ContentText } from 'pdfmake/interfaces';
+import type { Column, ContentCanvas, ContentColumns, ContentText } from 'pdfmake/interfaces';
 
 import { localizeDate, TableElement, tableLayout } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 

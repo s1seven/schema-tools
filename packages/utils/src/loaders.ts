@@ -1,13 +1,13 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import Debug from 'debug';
-import * as fs from 'fs';
-import { Agent as HttpAgent } from 'http';
-import { Agent as HttpsAgent } from 'https';
+import * as fs from 'node:fs';
+import { Agent as HttpAgent } from 'node:http';
+import { Agent as HttpsAgent } from 'node:https';
+import { Readable } from 'node:stream';
+import { promisify } from 'node:util';
 import NodeCache from 'node-cache';
-import { Readable } from 'stream';
-import { promisify } from 'util';
 
-import {
+import type {
   ExternalStandards,
   ExternalStandardsTranslations,
   Languages,

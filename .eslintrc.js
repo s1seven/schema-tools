@@ -51,5 +51,6 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'logical-assignment-operators': ['error', 'always', { enforceForIfStatements: true }],
+    'no-console': 'error',
   },
 };

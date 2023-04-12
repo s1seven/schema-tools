@@ -3,10 +3,10 @@ import Ajv2019 from 'ajv/dist/2019';
 import draft7MetaSchema from 'ajv/dist/refs/json-schema-draft-07.json';
 import addFormats from 'ajv-formats';
 import Debug from 'debug';
-import { promises as fs } from 'fs';
 import flatten from 'lodash.flatten';
 import groupBy from 'lodash.groupby';
-import path from 'path';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
 
 import { BaseCertificateSchema, ValidationError } from '@s1seven/schema-tools-types';
 import { cache, formatValidationErrors, getErrorPaths, loadExternalFile } from '@s1seven/schema-tools-utils';
@@ -16,7 +16,7 @@ export type ValidateOptions = {
   ignoredExts?: string[];
 };
 
-export { ValidateFunction } from 'ajv';
+export type { ValidateFunction } from 'ajv';
 
 const debug = Debug('schema-tools-validate');
 

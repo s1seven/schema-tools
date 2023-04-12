@@ -1,4 +1,4 @@
-import { Margins, Table, TableLayout } from 'pdfmake/interfaces';
+import type { Margins, Table, TableLayout } from 'pdfmake/interfaces';
 
 export interface TableElement {
   style: string;

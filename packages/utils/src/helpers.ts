@@ -1,8 +1,14 @@
 import type { ErrorObject } from 'ajv';
+import { URL } from 'node:url';
 import semver from 'semver-lite';
-import { URL } from 'url';
 
-import { CertificateLanguages, SchemaConfig, Schemas, SchemaTypes, ValidationError } from '@s1seven/schema-tools-types';
+import type {
+  CertificateLanguages,
+  SchemaConfig,
+  Schemas,
+  SchemaTypes,
+  ValidationError,
+} from '@s1seven/schema-tools-types';
 
 export function localizeNumber(lvalue: number | string, locales: string | string[] = 'EN'): string {
   if (lvalue === undefined) return '';
@@ -53,6 +59,7 @@ export function getSemanticVersion(rawVersion: string): string | null {
     const { version } = semver.instance(rawVersion);
     return version;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.warn(`getSemanticVersion error: ${rawVersion} is invalid`);
     return null;
   }

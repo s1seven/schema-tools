@@ -1,4 +1,4 @@
-import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
+import type { ContentCanvas, ContentText } from 'pdfmake/interfaces';
 
 import {
   createEmptyColumns,

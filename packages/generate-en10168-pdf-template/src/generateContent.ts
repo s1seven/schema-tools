@@ -1,8 +1,7 @@
-import { Content } from 'pdfmake/interfaces';
+import type { Content } from 'pdfmake/interfaces';
 
 import { createFooter, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-
-import { LanguageFontMap } from '~../types/dist';
+import type { LanguageFontMap } from '@s1seven/schema-tools-types';
 
 import { createCommercialTransaction } from './lib/commercialTransaction';
 import { createInspection } from './lib/createInspection';
@@ -12,10 +11,11 @@ import { createTransactionParties } from './lib/createTransactionParties';
 import { createValidation } from './lib/createValidation';
 import { Certificate, EN10168Translations } from './types';
 
+//! TODO: create standard function signature!!!!
 export function generateContent(
   certificate: Certificate,
   translations: EN10168Translations,
-  languageFontMap: LanguageFontMap,
+  languageFontMap: LanguageFontMap = {},
 ): Content {
   const i18n = new Translate<EN10168Translations>(
     translations,

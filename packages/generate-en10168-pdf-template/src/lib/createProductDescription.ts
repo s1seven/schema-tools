@@ -1,4 +1,4 @@
-import { ContentCanvas, ContentText, TableCell } from 'pdfmake/interfaces';
+import type { ContentCanvas, ContentText, TableCell } from 'pdfmake/interfaces';
 
 import { createEmptyColumns, TableElement, tableLayout } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 

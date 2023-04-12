@@ -209,13 +209,14 @@ const mjmlBaseOptions = (certificate: Schemas, handlebarsOpts?: RuntimeOptions) 
   };
 };
 
+// TODO: remove the MJML template creation
 async function parseMjmlTemplate(certificate: any, options: GenerateHtmlOptions): Promise<string> {
   const templateFilePath = options.templatePath || getRefSchemaUrl(options.schemaConfig, 'template.mjml').href;
   const templateFile = await loadExternalFile(templateFilePath, 'text');
   options.mjml = merge(options.mjml || {}, mjmlBaseOptions(certificate, options.handlebars));
   const result = mjml2html(templateFile, options.mjml);
   if (result.errors) {
-    console.warn('MJML errors :', result.errors);
+    throw result.errors;
   }
   return result.html;
 }

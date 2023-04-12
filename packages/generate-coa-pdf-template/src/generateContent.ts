@@ -1,4 +1,4 @@
-import { Column, Content, ContentCanvas, ContentColumns, ContentText, TableCell } from 'pdfmake/interfaces';
+import type { Column, Content, ContentCanvas, ContentColumns, ContentText, TableCell } from 'pdfmake/interfaces';
 
 import {
   computeTextStyle,
@@ -504,11 +504,12 @@ export function createAttachments(attachments: Attachment[], i18n: I18N): [Conte
   ];
 }
 
+//! TODO: create standard function signature!!!!
 export function generateContent(
   certificate: Certificate,
   translations: CoATranslations,
-  languageFontMap: LanguageFontMap,
-  extraTranslations: ExternalStandardsTranslations,
+  extraTranslations: ExternalStandardsTranslations = {},
+  languageFontMap: LanguageFontMap = {},
 ): Content {
   const i18n = new Translate(
     translations,

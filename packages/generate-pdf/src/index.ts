@@ -3,11 +3,11 @@ import jsdom from 'jsdom';
 import clone from 'lodash.clone';
 import get from 'lodash.get';
 import merge from 'lodash.merge';
-import Module from 'module';
+import Module from 'node:module';
+import { URL } from 'node:url';
+import vm from 'node:vm';
 import PdfPrinter from 'pdfmake';
 import { Content, StyleDictionary, TDocumentDefinitions, TFontDictionary } from 'pdfmake/interfaces';
-import { URL } from 'url';
-import vm from 'vm';
 
 import {
   ExternalStandards,
@@ -71,11 +71,12 @@ export async function buildModule(
   filePath: string,
   moduleName?: string,
 ): Promise<{
+  //! TODO: create standard function signature!!!!
   generateContent: (
     certificate: Schemas,
     translations: Translations,
-    extraTranslations?: ExtraTranslations,
     languageFontMap?: LanguageFontMap,
+    extraTranslations?: ExtraTranslations,
   ) => Content[];
 }> {
   const code = await loadExternalFile(filePath, 'text');
@@ -92,7 +93,7 @@ export async function generateInSandbox(
   certificate: Schemas,
   translations: Record<string, unknown>,
   generatorPath?: string,
-  extraTranslations: ExtraTranslations = {},
+  extraTranslations?: ExtraTranslations,
   languageFontMap?: LanguageFontMap,
 ): Promise<Content[]> {
   let filePath: string;
@@ -109,7 +110,7 @@ export async function generateInSandbox(
   const { generateContent } = await buildModule(filePath, moduleName);
   const code = `
   (async function () {
-    content = await generateContent(certificate, translations, languageFontMap, extraTranslations);
+    content = await generateContent(certificate, translations, languageFontMap);
   }())`;
 
   const script = new vm.Script(code);
@@ -127,6 +128,7 @@ export async function generateInSandbox(
   return content;
 }
 
+// TODO: remove the HTML to PDF conversion
 function getPdfMakeContentFromHTML(certificate: string): TDocumentDefinitions['content'] {
   const { JSDOM } = jsdom;
   const dom = new JSDOM('');

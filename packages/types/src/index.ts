@@ -17,7 +17,7 @@ import {
   ValidationArguments,
   ValidationOptions,
 } from 'class-validator';
-export { JSONSchema7, JSONSchema7Definition } from 'json-schema';
+export type { JSONSchema7, JSONSchema7Definition } from 'json-schema';
 
 export function isNotEmptyArrayOrObject(validationOptions?: ValidationOptions) {
   return function (object: EN10168SchemaCertificate, propertyName: string) {
