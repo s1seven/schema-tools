@@ -5,7 +5,7 @@
 [![Schema-tools CI](https://github.com/s1seven/schema-tools/actions/workflows/node.yml/badge.svg)](https://github.com/s1seven/schema-tools/actions/workflows/node.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=s1seven_schema-tools&metric=coverage)](https://sonarcloud.io/summary/new_code?id=s1seven_schema-tools)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=s1seven_schema-tools&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=s1seven_schema-tools)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fs1seven%2Fschema-tools.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fs1seven%2Fschema-tools?ref=badge_shield)
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B18065%2Fgithub.com%2Fs1seven%2Fschema-tools.svg?type=shield)](https://app.fossa.com/projects/custom%2B18065%2Fgithub.com%2Fs1seven%2Fschema-tools?ref=badge_shield)
 
 This repository contains a suite of components and modules to handle certificates and schemas.
 The specification of these libraries can be found in [SEP](https://s1seven.github.io/SEP/schemas/).
@@ -64,10 +64,6 @@ E-CoC v0.0.2 has been deprecated.
 ## Dependency graph
 
 ![dependency graph](./graph.png)
-
-## License
-
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fs1seven%2Fschema-tools.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fs1seven%2Fschema-tools?ref=badge_large)
 
 ## Contributing
 
@@ -206,3 +202,7 @@ When creating a new release, the following tests need to be updated with the lat
 - certificate-summary
 - extract-emails
 - generate-interfaces
+
+## License
+
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B18065%2Fgithub.com%2Fs1seven%2Fschema-tools.svg?type=large)](https://app.fossa.com/projects/custom%2B18065%2Fgithub.com%2Fs1seven%2Fschema-tools?ref=badge_large)
