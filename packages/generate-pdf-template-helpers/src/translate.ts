@@ -86,22 +86,43 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
     return translatedFields;
   }
 
+  private isExtraTranslation(
+    externalStandard: unknown,
+    language: string,
+    propertyId: unknown,
+    property: unknown,
+    extraTranslations: unknown,
+  ): extraTranslations is ExternalStandardsTranslations {
+    return (
+      externalStandard &&
+      typeof externalStandard === 'string' &&
+      typeof extraTranslations === 'object' &&
+      extraTranslations !== null &&
+      extraTranslations[externalStandard] &&
+      typeof extraTranslations[externalStandard] === 'object' &&
+      extraTranslations[externalStandard] !== null &&
+      language in extraTranslations[externalStandard] &&
+      propertyId &&
+      typeof propertyId === 'string' &&
+      typeof extraTranslations[externalStandard][language] === 'object' &&
+      extraTranslations[externalStandard][language] !== null &&
+      propertyId in extraTranslations[externalStandard][language] &&
+      property &&
+      typeof property === 'string' &&
+      typeof extraTranslations[externalStandard][language][propertyId] === 'object' &&
+      extraTranslations[externalStandard][language][propertyId] !== null &&
+      property in extraTranslations[externalStandard][language][propertyId]
+    );
+  }
+
   getExtraField<S extends keyof E = keyof E, R extends ValueOf<E[S]> = ValueOf<E[S]>, P extends keyof R = keyof R>(
     externalStandard: S | undefined,
     language: Languages,
     propertyId: P,
     property: keyof R[P],
-  ) {
-    const extraTranslations = this.extraTranslations;
-
-    if (
-      externalStandard &&
-      typeof extraTranslations === 'object' &&
-      language in extraTranslations[externalStandard] &&
-      propertyId in extraTranslations[externalStandard][language] &&
-      property in extraTranslations[externalStandard][language][propertyId]
-    ) {
-      return extraTranslations[externalStandard][language][propertyId][property];
+  ): string {
+    if (this.isExtraTranslation(externalStandard, language, propertyId, property, this.extraTranslations)) {
+      return this.extraTranslations[externalStandard][language][propertyId][property];
     }
     return '';
   }
