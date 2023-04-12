@@ -1,53 +1,185 @@
-import { createHash } from 'crypto';
-import { createWriteStream, existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs';
-import path from 'path';
+import { createHash } from 'node:crypto';
+import { createWriteStream, existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import { Writable } from 'node:stream';
 import { fromBuffer } from 'pdf2pic';
 import type { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
 import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
-import { Writable } from 'stream';
 
 import { EN10168Schema, Schemas, SupportedSchemas } from '@s1seven/schema-tools-types';
 
-import { buildModule, generateInSandbox, generatePdf, GeneratePdfOptionsExtended } from '../src/index';
+import { type GeneratePdfOptionsExtended, buildModule, generateInSandbox, generatePdf } from '../src';
+
+type TestMap = {
+  type: SupportedSchemas;
+  version: string;
+  styles: StyleDictionary;
+  extraTranslationsPath?: string;
+  translationsPath: string;
+  certificateHtmlPath: string;
+  expectedPdfPath: string;
+  validCertificate: Schemas;
+  docDefinition: Partial<TDocumentDefinitions>;
+  generatorPath?: string;
+  localOnly?: boolean;
+};
+
+const fonts = {
+  Lato: {
+    normal: `${__dirname}/../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
+    bold: `${__dirname}/../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
+    italics: `${__dirname}/../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
+    light: `${__dirname}/../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+  },
+};
+
+const docDefinition: Omit<TDocumentDefinitions, 'content'> = {
+  pageSize: 'A4',
+  pageMargins: [20, 20, 20, 40],
+  footer: (currentPage, pageCount) => ({
+    text: currentPage.toString() + ' / ' + pageCount,
+    style: 'footer',
+    alignment: 'center',
+  }),
+  defaultStyle: {
+    font: 'Lato',
+    fontSize: 10,
+  },
+};
+
+const waitWritableStreamEnd = (writeStream: Writable, outputFilePath: string) => {
+  return new Promise((resolve, reject) => {
+    writeStream
+      .on('finish', () => {
+        expect(existsSync(outputFilePath)).toEqual(true);
+        unlinkSync(outputFilePath);
+        resolve(true);
+      })
+      .on('error', reject);
+  });
+};
+
+const runPDFGenerationTests = (testSuite: TestMap) => {
+  const {
+    certificateHtmlPath,
+    docDefinition,
+    expectedPdfPath,
+    generatorPath,
+    styles,
+    extraTranslationsPath,
+    translationsPath,
+    type,
+    validCertificate,
+    version,
+    localOnly,
+  } = testSuite;
+
+  // eslint-disable-next-line sonarjs/cognitive-complexity
+  describe(`${type} - version ${version}`, () => {
+    it('should render PDF certificate using certificate object and local PDF generator script', async () => {
+      if (!generatorPath) {
+        return;
+      }
+      const outputFilePath = `./${type}-${version}-test2.pdf`;
+      const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
+      const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
+      const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = localOnly
+        ? {
+            docDefinition: { ...docDefinition, styles },
+            outputType: 'stream',
+            fonts,
+            generatorPath,
+            translations,
+            extraTranslations,
+          }
+        : {
+            docDefinition,
+            outputType: 'stream',
+            fonts,
+            generatorPath,
+          };
+      //
+      const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
+      const writeStream = createWriteStream(outputFilePath);
+      pdfDoc.pipe(writeStream);
+      pdfDoc.end();
+      await waitWritableStreamEnd(writeStream, outputFilePath);
+    }, 8000);
+
+    it('should render PDF certificate using certificate object, local PDF generator script, styles and translations', async () => {
+      if (!generatorPath) {
+        return;
+      }
+      const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
+      const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
+      const options = {
+        density: 100,
+        width: 600,
+        height: 600,
+      };
+      const expectedPDFBuffer = readFileSync(expectedPdfPath);
+      //
+      const pdfDoc = await generatePdf(validCertificate, {
+        docDefinition: { ...docDefinition, styles },
+        outputType: 'buffer',
+        fonts,
+        generatorPath,
+        translations,
+        extraTranslations,
+      });
+
+      const expectedPDF: ToBase64Response = await fromBuffer(expectedPDFBuffer, options)(1, true);
+      const result: ToBase64Response = await fromBuffer(pdfDoc, options)(1, true);
+      const expectedHash = createHash('sha256').update(expectedPDF.base64).digest('hex');
+      const resultHash = createHash('sha256').update(result.base64).digest('hex');
+      expect(pdfDoc instanceof Buffer).toEqual(true);
+      expect(resultHash).toEqual(expectedHash);
+    }, 8000);
+
+    it('should render PDF certificate using certificate object and remote PDF generator script', async () => {
+      const outputFilePath = `./${type}-${version}-test.pdf`;
+      const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
+      const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
+
+      const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = localOnly
+        ? {
+            docDefinition: { ...docDefinition, styles },
+            outputType: 'stream',
+            fonts,
+            generatorPath,
+            translations,
+            extraTranslations,
+          }
+        : {
+            outputType: 'stream',
+            fonts,
+          };
+      //
+      const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
+      const writeStream = createWriteStream(outputFilePath);
+      pdfDoc.pipe(writeStream);
+      pdfDoc.end();
+      await waitWritableStreamEnd(writeStream, outputFilePath);
+    }, 10000);
+
+    // TODO: skipped due to issues between v0.0.2 and v0.1.0 EN10168 html => investigate
+    it.skip('should render PDF certificate using HTML certificate ', async () => {
+      const certificateHtml = readFileSync(certificateHtmlPath, 'utf8');
+      //
+      const buffer = await generatePdf(certificateHtml, {
+        inputType: 'html',
+        outputType: 'buffer',
+        fonts,
+      });
+      writeFileSync('./test.pdf', buffer);
+      expect(buffer instanceof Buffer).toEqual(true);
+    }, 10000);
+  });
+};
 
 describe('GeneratePDF', function () {
-  const fonts = {
-    Lato: {
-      normal: `${__dirname}/../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
-      bold: `${__dirname}/../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
-      italics: `${__dirname}/../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
-      light: `${__dirname}/../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
-    },
-  };
-
-  const docDefinition: Omit<TDocumentDefinitions, 'content'> = {
-    pageSize: 'A4',
-    pageMargins: [20, 20, 20, 40],
-    footer: (currentPage, pageCount) => ({
-      text: currentPage.toString() + ' / ' + pageCount,
-      style: 'footer',
-      alignment: 'center',
-    }),
-    defaultStyle: {
-      font: 'Lato',
-      fontSize: 10,
-    },
-  };
-
-  //! only include local generator path and localOnly for latest version
-  const testMaps: {
-    type: SupportedSchemas;
-    version: string;
-    generatorPath?: string;
-    styles: StyleDictionary;
-    extraTranslationsPath?: string;
-    translationsPath: string;
-    certificateHtmlPath: string;
-    expectedPdfPath: string;
-    validCertificate: Schemas;
-    docDefinition: Partial<TDocumentDefinitions>;
-    localOnly?: boolean;
-  }[] = [
+  //! only include local generator path for latest version and localOnly for yet unreleased version
+  const testMaps: TestMap[] = [
     {
       type: SupportedSchemas.EN10168,
       version: 'v0.1.0',
@@ -155,18 +287,6 @@ describe('GeneratePDF', function () {
     },
   ];
 
-  const waitWritableStreamEnd = (writeStream: Writable, outputFilePath: string) => {
-    return new Promise((resolve, reject) => {
-      writeStream
-        .on('finish', () => {
-          expect(existsSync(outputFilePath)).toEqual(true);
-          unlinkSync(outputFilePath);
-          resolve(true);
-        })
-        .on('error', reject);
-    });
-  };
-
   it('should build module using local PDF generator script', async () => {
     const generatorPath = path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
     const module = await buildModule(generatorPath);
@@ -185,121 +305,7 @@ describe('GeneratePDF', function () {
     expect(content[0]).toHaveProperty('layout');
   }, 8000);
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  testMaps.forEach((testSuite) => {
-    const {
-      certificateHtmlPath,
-      docDefinition,
-      expectedPdfPath,
-      generatorPath,
-      styles,
-      extraTranslationsPath,
-      translationsPath,
-      type,
-      validCertificate,
-      version,
-      localOnly,
-    } = testSuite;
-
-    describe(`${type} - version ${version}`, () => {
-      it('should render PDF certificate using certificate object and remote PDF generator script', async () => {
-        const outputFilePath = `./${type}-${version}-test.pdf`;
-        const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
-        const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
-        const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = localOnly
-          ? {
-              docDefinition: { ...docDefinition, styles },
-              outputType: 'stream',
-              fonts,
-              generatorPath,
-              translations,
-              extraTranslations,
-            }
-          : {
-              outputType: 'stream',
-              fonts,
-            };
-        //
-        const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
-        const writeStream = createWriteStream(outputFilePath);
-        pdfDoc.pipe(writeStream);
-        pdfDoc.end();
-        await waitWritableStreamEnd(writeStream, outputFilePath);
-      }, 25000);
-
-      it('should render PDF certificate using certificate object and local PDF generator script', async () => {
-        const outputFilePath = `./${type}-${version}-test2.pdf`;
-        const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
-        const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
-        if (!generatorPath) {
-          return;
-        }
-        const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = localOnly
-          ? {
-              docDefinition: { ...docDefinition, styles },
-              outputType: 'stream',
-              fonts,
-              generatorPath,
-              translations,
-              extraTranslations,
-            }
-          : {
-              docDefinition,
-              outputType: 'stream',
-              fonts,
-              generatorPath,
-            };
-        //
-        const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
-        const writeStream = createWriteStream(outputFilePath);
-        pdfDoc.pipe(writeStream);
-        pdfDoc.end();
-        await waitWritableStreamEnd(writeStream, outputFilePath);
-      }, 15000);
-
-      it('should render PDF certificate using certificate object, local PDF generator script, styles and translations', async () => {
-        if (!generatorPath) {
-          return;
-        }
-        const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
-        const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
-        const options = {
-          density: 100,
-          width: 600,
-          height: 600,
-        };
-        const expectedPDFBuffer = readFileSync(expectedPdfPath);
-        //
-        const pdfDoc = await generatePdf(validCertificate, {
-          docDefinition: { ...docDefinition, styles },
-          // docDefinition,
-          outputType: 'buffer',
-          fonts,
-          generatorPath,
-          translations,
-          extraTranslations,
-        });
-
-        const expectedPDF: ToBase64Response = await fromBuffer(expectedPDFBuffer, options)(1, true);
-        const result: ToBase64Response = await fromBuffer(pdfDoc, options)(1, true);
-        const expectedHash = createHash('sha256').update(expectedPDF.base64).digest('hex');
-        const resultHash = createHash('sha256').update(result.base64).digest('hex');
-        expect(pdfDoc instanceof Buffer).toEqual(true);
-        expect(resultHash).toEqual(expectedHash);
-      }, 15000);
-
-      // TODO: skipped due to issues between v0.0.2 and v0.1.0 EN10168 html => investigate
-      it.skip('should render PDF certificate using HTML certificate ', async () => {
-        const certificateHtml = readFileSync(certificateHtmlPath, 'utf8');
-        //
-        const buffer = await generatePdf(certificateHtml, {
-          inputType: 'html',
-          outputType: 'buffer',
-          fonts,
-        });
-        writeFileSync('./test.pdf', buffer);
-        expect(buffer instanceof Buffer).toEqual(true);
-      }, 10000);
-    });
-  });
+  for (const testSuite of testMaps) {
+    runPDFGenerationTests(testSuite);
+  }
 });
