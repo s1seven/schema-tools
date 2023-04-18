@@ -1,6 +1,11 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { localizeDate, localizeNumber, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { CampusTranslations, ExternalStandardsTranslations, Languages } from '@s1seven/schema-tools-types';
+import {
+  CampusTranslations,
+  ExternalStandardsTranslations,
+  LanguageFontMap,
+  Languages,
+} from '@s1seven/schema-tools-types';
 
 import {
   createAnalysis,
@@ -22,12 +27,18 @@ const getI18N = (
   translations: CoATranslations,
   extraTranslations: CampusTranslations,
   languages: Languages[] = ['EN', 'DE'],
+  languageFontMap?: LanguageFontMap,
 ) => {
   translations = languages.reduce((acc, key) => {
     acc[key] = translations[key];
     return acc;
   }, {} as CoATranslations);
-  return new Translate<CoATranslations>(translations, extraTranslations as ExternalStandardsTranslations, languages);
+  return new Translate<CoATranslations>(
+    translations,
+    extraTranslations as ExternalStandardsTranslations,
+    languages,
+    languageFontMap,
+  );
 };
 
 describe('Rendering', () => {
