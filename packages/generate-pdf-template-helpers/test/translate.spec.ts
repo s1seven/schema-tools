@@ -103,14 +103,14 @@ describe('Translate', () => {
   });
 
   describe('languageFontMap', () => {
-    it('default languageFontMap is set to {}', async () => {
+    it('languageFontMap default is correctly set to {} when no value is passed in', async () => {
       const defaultSchemaUrl = 'https://schemas.s1seven.dev/coa-schemas/v1.1.0/schema.json';
       const translations = await getTranslations(['CN', 'EN'], defaultSchemaUrl);
       const i18n = new Translate(translations, {}, ['CN', 'EN']);
       expect(i18n.languageFontMap).toEqual({});
     });
 
-    it('languageFontMap is corretly set', async () => {
+    it('languageFontMap is correctly set', async () => {
       const defaultSchemaUrl = 'https://schemas.s1seven.dev/coa-schemas/v1.1.0/schema.json';
       const translations = await getTranslations(['CN', 'EN'], defaultSchemaUrl);
       const languageFontMap = { CN: 'NotoSansSC' };
