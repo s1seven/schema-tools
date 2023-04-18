@@ -18,7 +18,7 @@ npm install @s1seven/schema-tools-generate-pdf
 
 ## Using generate-pdf example
 
-When using `generatePdf`, you can either pass in paths to local files or use remote versions. 
+When using `generatePdf`, you can either pass in paths to local files or use remote versions.
 Note that you must always pass in the filepath to the font files as seen below.
 
 ### Use remote options
@@ -42,81 +42,151 @@ const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
 ### Use local options
 
 ```ts
-import fs from 'fs';
-import { createWriteStream } from 'fs';
-import path from 'path';
-import { hideBin } from 'yargs/helpers';
-import yargs from 'yargs/yargs';
+const { createWriteStream, readFileSync } = require('fs');
+const { generatePdf } = require('@s1seven/schema-tools-generate-pdf');
+const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.js`);
 
-import { generatePdf, TDocumentDefinitions } from '../packages/generate-pdf/src';
-import { fileExists, normalizePath } from './helpers';
+const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/valid_cert.json`));
+const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/translations.json`));
+const extraTranslations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/extra_translations.json`));
+const generatorPath = '../generate-coa-pdf-template/dist/generateContent.js';
 
-const fonts = {
-  Lato: {
-    normal: './node_modules/lato-font/fonts/lato-normal/lato-normal.woff',
-    bold: './node_modules/lato-font/fonts/lato-bold/lato-bold.woff',
-    italics: './node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff',
-    light: './node_modules/lato-font/fonts/lato-light/lato-light.woff',
-  },
-};
+(async function () {
+  try {
+    const fonts = {
+      Lato: {
+        normal: `${__dirname}/node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
+        bold: `${__dirname}/node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
+        italics: `${__dirname}/node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
+        light: `${__dirname}/node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+      },
+    };
 
-async function createPdf(options: {
-  stylesPath: string;
-  translationsPath: string;
-  extraTranslationsPath: string | undefined;
-  certificatePath: string;
-  generatorPath: string;
-  outputPath: string;
-}) {
-  const { stylesPath, translationsPath, extraTranslationsPath, certificatePath, generatorPath, outputPath } = options;
-  const docDefinition: Omit<TDocumentDefinitions, 'content'> = {
-    pageSize: 'A4',
-    pageMargins: [20, 20, 20, 40],
-    footer: (currentPage, pageCount) => ({
-      text: currentPage.toString() + ' / ' + pageCount,
-      style: 'footer',
-      alignment: 'center',
-    }),
-    defaultStyle: {
-      font: 'Lato',
-      fontSize: 10,
-    },
-    styles: JSON.parse(fs.readFileSync(stylesPath, 'utf8')),
-  };
+    const docDefinition = {
+      pageSize: 'A4',
+      pageMargins: [20, 20, 20, 40],
+      footer: (currentPage, pageCount) => ({
+        text: currentPage.toString() + ' / ' + pageCount,
+        style: 'footer',
+        alignment: 'center',
+      }),
+      defaultStyle: {
+        font: 'Lato',
+        fontSize: 10,
+      },
+      styles,
+    };
 
-  const translations = fs.readFileSync(translationsPath, 'utf-8');
-  const extraTranslations = extraTranslationsPath ? JSON.parse(fs.readFileSync(extraTranslationsPath, 'utf-8')) : {};
+    const pdfDoc = await generatePdf(CoACertificate, {
+      docDefinition,
+      outputType: 'stream',
+      generatorPath,
+      fonts,
+      extraTranslations,
+      translations,
+    });
 
-  const pdfDoc = await generatePdf(path.resolve(certificatePath), {
-    docDefinition,
-    outputType: 'stream',
-    fonts,
-    translations: JSON.parse(translations),
-    extraTranslations,
-    generatorPath,
-  });
+    const outputFilePath = './test.pdf';
+    const writeStream = createWriteStream(outputFilePath);
+    pdfDoc.pipe(writeStream);
+    pdfDoc.end();
 
-  const writeStream = createWriteStream(outputPath);
-  pdfDoc.pipe(writeStream);
-  pdfDoc.end();
-
-  await new Promise((resolve, reject) => {
-    writeStream
-      .on('finish', () => {
-        resolve(true);
-      })
-      .on('error', (err) => {
-        reject(err);
-      });
-  });
-}
+    await new Promise((resolve, reject) => {
+      writeStream
+        .on('finish', () => {
+          resolve(true);
+        })
+        .on('error', (err) => {
+          reject(err);
+        });
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
+})();
 ```
 
 ### Overriding fonts
 
 The font defaults to Lato, but this can be overridden by passing in a `languageFontMap` object to the options.
 
-TODO: get example from `create-pdf-certificate.ts`
+```ts
+const { createWriteStream, readFileSync } = require('fs');
+const { generatePdf } = require('./dist/index');
+const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.js`);
+
+const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/valid_cert.json`));
+const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/translations.json`));
+const extraTranslations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/extra_translations.json`));
+const generatorPath = '../generate-coa-pdf-template/dist/generateContent.js';
+
+(async function () {
+  try {
+    const fonts = {
+      Lato: {
+        normal: `${__dirname}/node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
+        bold: `${__dirname}/node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
+        italics: `${__dirname}/node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
+        light: `${__dirname}/node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+      },
+      NotoSansSC: {
+        normal: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
+        bold: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-700-normal.woff2`,
+        italics: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
+        light: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-100-normal.woff2`,
+      },
+    };
+
+    // The value must be the same as one of the keys from `fonts`, 
+    // The key must be a supported language
+    const languageFontMap = {
+      CN: 'NotoSansSC',
+    };
+
+    const docDefinition = {
+      pageSize: 'A4',
+      pageMargins: [20, 20, 20, 40],
+      footer: (currentPage, pageCount) => ({
+        text: currentPage.toString() + ' / ' + pageCount,
+        style: 'footer',
+        alignment: 'center',
+      }),
+      defaultStyle: {
+        font: 'Lato',
+        fontSize: 10,
+      },
+      styles,
+    };
+
+    const pdfDoc = await generatePdf(CoACertificate, {
+      docDefinition,
+      outputType: 'stream',
+      generatorPath,
+      fonts,
+      extraTranslations,
+      translations,
+      languageFontMap,
+    });
+
+    const outputFilePath = './test.pdf';
+    const writeStream = createWriteStream(outputFilePath);
+    pdfDoc.pipe(writeStream);
+    pdfDoc.end();
+
+    await new Promise((resolve, reject) => {
+      writeStream
+        .on('finish', () => {
+          resolve(true);
+        })
+        .on('error', (err) => {
+          reject(err);
+        });
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
+})();
+```
 
 ## Troubleshooting
 
