@@ -99,6 +99,94 @@ describe('Rendering commercial transaction', () => {
       },
     ]);
   });
+
+  it('correctly renders for testingCertificate with langaugeFontMap custom font', () => {
+    const i18n = getI18N(translations, ['EN', 'DE'], { DE: 'NotoSansSc' });
+    const commercialTransaction = createCommercialTransaction(
+      certificate.Certificate.CommercialTransaction as any,
+      i18n,
+    );
+    const tableBody = commercialTransaction[2].table.body;
+
+    expect(tableBody.length).toEqual(9);
+    expect(tableBody[0]).toEqual([
+      {
+        text: [
+          {
+            text: 'A02 ',
+          },
+          {
+            font: undefined,
+            text: 'Type of inspection document / ',
+          },
+          {
+            font: 'NotoSansSc',
+            text: 'Art der Prüfbescheinigung',
+          },
+        ],
+        style: 'tableHeader',
+        colSpan: 3,
+      },
+      {},
+      {},
+      {
+        text: 'Mill Certificate EN 10204 3.1',
+        style: 'p',
+      },
+    ]);
+    expect(tableBody[7]).toEqual([
+      {
+        text: [
+          {
+            text: 'A98 ',
+          },
+          {
+            font: undefined,
+            text: 'Delivery number / ',
+          },
+          {
+            font: 'NotoSansSc',
+            text: 'Lieferscheinnummer',
+          },
+        ],
+        style: 'tableHeader',
+        colSpan: 3,
+      },
+      {},
+      {},
+
+      {
+        text: 'DN-1583836',
+        style: 'p',
+      },
+    ]);
+
+    expect(tableBody[8]).toEqual([
+      {
+        text: [
+          {
+            text: 'A99 ',
+          },
+          {
+            font: undefined,
+            text: 'Aviso number / ',
+          },
+          {
+            font: 'NotoSansSc',
+            text: 'Avisonummer',
+          },
+        ],
+        style: 'tableHeader',
+        colSpan: 3,
+      },
+      {},
+      {},
+      {
+        text: 'AV-87682933',
+        style: 'p',
+      },
+    ]);
+  });
 });
 
 describe('Rendering transaction parties', () => {

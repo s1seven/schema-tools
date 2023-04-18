@@ -137,6 +137,23 @@ describe('Rendering', () => {
     expect(receivers.table.widths).toEqual(['33%', '33%', '33%']);
   });
 
+  it('createReceivers() - should correctly render receivers details with languageFontMap custom font', () => {
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE'], { DE: 'Helvetica' });
+    const receivers = createReceivers(certificate.Certificate.Parties as unknown as Parties, i18n);
+    const tableBody = receivers.table.body;
+    const titles = tableBody[0];
+    expect(tableBody[0].length).toEqual(3);
+    expect(titles[0][0]).toEqual(
+      expect.objectContaining({
+        text: [
+          { text: 'Customer / ', font: undefined },
+          { text: 'Kunde', font: 'Helvetica' },
+        ],
+        style: { bold: true, fontSize: 10, margin: [0, 4, 0, 4] },
+      }),
+    );
+  });
+
   it('createReceivers() - renders correctly with both CompanyName and Name', () => {
     const i18n = getI18N(translations, extraTranslations, ['EN', 'DE']);
     const parties: Parties = {
