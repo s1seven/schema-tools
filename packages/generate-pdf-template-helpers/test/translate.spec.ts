@@ -101,4 +101,26 @@ describe('Translate', () => {
       expect(translation).toEqual([{ font: undefined, text: defaultTranslation }]);
     });
   });
+
+  describe('languageFontMap', () => {
+    it('default languageFontMap is set to {}', async () => {
+      const defaultSchemaUrl = 'https://schemas.s1seven.dev/coa-schemas/v1.1.0/schema.json';
+      const translations = await getTranslations(['CN', 'EN'], defaultSchemaUrl);
+      const i18n = new Translate(translations, {}, ['CN', 'EN']);
+      expect(i18n.languageFontMap).toEqual({});
+    });
+
+    it('languageFontMap is corretly set', async () => {
+      const defaultSchemaUrl = 'https://schemas.s1seven.dev/coa-schemas/v1.1.0/schema.json';
+      const translations = await getTranslations(['CN', 'EN'], defaultSchemaUrl);
+      const languageFontMap = { CN: 'NotoSansSC' };
+      const i18n = new Translate(translations, {}, ['CN', 'EN'], languageFontMap);
+      const translation = i18n.translate('Customer', 'Certificate');
+      expect(i18n.languageFontMap).toEqual(languageFontMap);
+      expect(translation).toEqual([
+        { font: 'NotoSansSC', text: '客户 / ' },
+        { font: undefined, text: 'Customer' },
+      ]);
+    });
+  });
 });
