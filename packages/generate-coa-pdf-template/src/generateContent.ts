@@ -298,7 +298,7 @@ export function createInspection(
       );
       return {
         text: translatedText.map((obj: TranslationWithFont) => {
-          obj.text = computeTextStyle(obj.text, field.format, i18n.languages) as string;
+          obj.text = computeTextStyle(obj.text, field.format, i18n.languages);
           return obj;
         }),
         style: 'caption',

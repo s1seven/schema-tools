@@ -42,12 +42,18 @@ export const tableLayout: TableLayout = {
     return 0;
   },
 };
-
+type PossibleFormat = 'Date' | 'Array' | 'Number';
+export function computeTextStyle(
+  value: string[],
+  format?: PossibleFormat,
+  locales?: string | string[],
+): string | string[];
+export function computeTextStyle(value: string, format?: PossibleFormat, locales?: string | string[]): string;
 export function computeTextStyle(
   value: string | string[],
-  format?: 'Date' | 'Array' | 'Number',
+  format?: PossibleFormat,
   locales?: string | string[],
-) {
+): string | string[] {
   if (format === 'Date') {
     return localizeDate(value as string, locales);
   } else if (format === 'Array' && Array.isArray(value)) {
