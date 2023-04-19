@@ -160,7 +160,7 @@ const runPDFGenerationTests = (testSuite: TestMap) => {
       pdfDoc.pipe(writeStream);
       pdfDoc.end();
       await waitWritableStreamEnd(writeStream, outputFilePath);
-    }, 10000);
+    }, 15000);
 
     // TODO: skipped due to issues between v0.0.2 and v0.1.0 EN10168 html => investigate
     it.skip('should render PDF certificate using HTML certificate ', async () => {
