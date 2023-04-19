@@ -100,7 +100,7 @@ describe('Rendering commercial transaction', () => {
     ]);
   });
 
-  it('correctly renders for testingCertificate with langaugeFontMap custom font', () => {
+  it('correctly renders for testingCertificate with languageFontMap custom font', () => {
     const i18n = getI18N(translations, ['EN', 'DE'], { DE: 'NotoSansSc' });
     const commercialTransaction = createCommercialTransaction(
       certificate.Certificate.CommercialTransaction as any,
