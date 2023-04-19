@@ -146,7 +146,8 @@ describe('Rendering', () => {
     expect(titles[0][0]).toEqual(
       expect.objectContaining({
         text: [
-          { text: 'Customer / ', font: undefined },
+          { text: 'Customer', font: undefined },
+          { font: undefined, text: ' / ' },
           { text: 'Kunde', font: 'Helvetica' },
         ],
         style: { bold: true, fontSize: 10, margin: [0, 4, 0, 4] },

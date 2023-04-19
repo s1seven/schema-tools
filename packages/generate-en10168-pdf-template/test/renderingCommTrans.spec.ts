@@ -29,8 +29,9 @@ describe('Rendering commercial transaction', () => {
           },
           {
             font: undefined,
-            text: 'Type of inspection document / ',
+            text: 'Type of inspection document',
           },
+          { font: undefined, text: ' / ' },
           {
             font: undefined,
             text: 'Art der Prüfbescheinigung',
@@ -54,8 +55,9 @@ describe('Rendering commercial transaction', () => {
           },
           {
             font: undefined,
-            text: 'Delivery number / ',
+            text: 'Delivery number',
           },
+          { font: undefined, text: ' / ' },
           {
             font: undefined,
             text: 'Lieferscheinnummer',
@@ -81,8 +83,9 @@ describe('Rendering commercial transaction', () => {
           },
           {
             font: undefined,
-            text: 'Aviso number / ',
+            text: 'Aviso number',
           },
+          { font: undefined, text: ' / ' },
           {
             font: undefined,
             text: 'Avisonummer',
@@ -117,8 +120,9 @@ describe('Rendering commercial transaction', () => {
           },
           {
             font: undefined,
-            text: 'Type of inspection document / ',
+            text: 'Type of inspection document',
           },
+          { font: undefined, text: ' / ' },
           {
             font: 'NotoSansSc',
             text: 'Art der Prüfbescheinigung',
@@ -142,8 +146,9 @@ describe('Rendering commercial transaction', () => {
           },
           {
             font: undefined,
-            text: 'Delivery number / ',
+            text: 'Delivery number',
           },
+          { font: undefined, text: ' / ' },
           {
             font: 'NotoSansSc',
             text: 'Lieferscheinnummer',
@@ -169,8 +174,9 @@ describe('Rendering commercial transaction', () => {
           },
           {
             font: undefined,
-            text: 'Aviso number / ',
+            text: 'Aviso number',
           },
+          { font: undefined, text: ' / ' },
           {
             font: 'NotoSansSc',
             text: 'Avisonummer',
@@ -211,8 +217,9 @@ describe('Rendering transaction parties', () => {
             },
             {
               font: undefined,
-              text: "Manufacturer's mark / ",
+              text: "Manufacturer's mark",
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Zeichen des Herstellers',
@@ -229,8 +236,9 @@ describe('Rendering transaction parties', () => {
             },
             {
               font: undefined,
-              text: "Manufacturer's plant / ",
+              text: "Manufacturer's plant",
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Herstellerwerk',
@@ -247,8 +255,9 @@ describe('Rendering transaction parties', () => {
             },
             {
               font: undefined,
-              text: 'Purchaser / ',
+              text: 'Purchaser',
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Besteller',
@@ -290,8 +299,9 @@ describe('Rendering transaction parties', () => {
             },
             {
               font: undefined,
-              text: 'Recipient of the test certificate / ',
+              text: 'Recipient of the test certificate',
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Empfänger der Prüfbescheinigung',
@@ -357,8 +367,9 @@ describe('Rendering transaction parties', () => {
             },
             {
               font: undefined,
-              text: "Manufacturer's plant / ",
+              text: "Manufacturer's plant",
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Herstellerwerk',
@@ -375,8 +386,9 @@ describe('Rendering transaction parties', () => {
             },
             {
               font: undefined,
-              text: 'Purchaser / ',
+              text: 'Purchaser',
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Besteller',
@@ -426,8 +438,9 @@ describe('Rendering transaction parties', () => {
             },
             {
               font: undefined,
-              text: "Manufacturer's plant / ",
+              text: "Manufacturer's plant",
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Herstellerwerk',
@@ -444,8 +457,9 @@ describe('Rendering transaction parties', () => {
             },
             {
               font: undefined,
-              text: 'Purchaser / ',
+              text: 'Purchaser',
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Besteller',

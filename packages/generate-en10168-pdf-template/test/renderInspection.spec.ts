@@ -63,8 +63,9 @@ describe('Rendering inspection section', () => {
             text: [
               {
                 font: undefined,
-                text: 'Supplementary information / ',
+                text: 'Supplementary information',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Ergänzende Angaben',
@@ -128,8 +129,9 @@ describe('Rendering inspection section', () => {
                   },
                   {
                     font: undefined,
-                    text: 'Yield or proof strength / ',
+                    text: 'Yield or proof strength',
                   },
+                  { font: undefined, text: ' / ' },
                   {
                     font: undefined,
                     text: 'Streck- oder Dehngrenze',
@@ -172,8 +174,9 @@ describe('Rendering inspection section', () => {
                   },
                   {
                     font: undefined,
-                    text: 'Tensile strength / ',
+                    text: 'Tensile strength',
                   },
+                  { font: undefined, text: ' / ' },
                   {
                     font: undefined,
                     text: 'Zugfestigkeit',
@@ -216,8 +219,9 @@ describe('Rendering inspection section', () => {
                   },
                   {
                     font: undefined,
-                    text: 'Elongation after fracture / ',
+                    text: 'Elongation after fracture',
                   },
+                  { font: undefined, text: ' / ' },
                   {
                     font: undefined,
                     text: 'Bruchdehnung',
@@ -329,8 +333,9 @@ describe('Rendering inspection section', () => {
       text: [
         {
           font: undefined,
-          text: 'Inspection / ',
+          text: 'Inspection',
         },
+        { font: undefined, text: ' / ' },
         {
           font: undefined,
           text: 'Angaben zur Probenentnahme und Prüfung',
@@ -386,8 +391,9 @@ describe('Rendering inspection section', () => {
             text: [
               {
                 font: undefined,
-                text: 'Supplementary information / ',
+                text: 'Supplementary information',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Ergänzende Angaben',
@@ -430,8 +436,9 @@ describe('Rendering inspection section', () => {
               },
               {
                 font: undefined,
-                text: 'Method of test / ',
+                text: 'Method of test',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Prüfverfahren',
@@ -455,8 +462,9 @@ describe('Rendering inspection section', () => {
 
               {
                 font: undefined,
-                text: 'Individual values / ',
+                text: 'Individual values',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Einzelwerte',
@@ -481,8 +489,9 @@ describe('Rendering inspection section', () => {
                   },
                   {
                     font: undefined,
-                    text: 'Mean value / ',
+                    text: 'Mean value',
                   },
+                  { font: undefined, text: ' / ' },
                   {
                     font: undefined,
                     text: 'Mittelwert',
@@ -573,8 +582,9 @@ describe('Rendering inspection section', () => {
               },
               {
                 font: undefined,
-                text: 'Method of test / ',
+                text: 'Method of test',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Prüfverfahren',
@@ -597,8 +607,9 @@ describe('Rendering inspection section', () => {
               },
               {
                 font: undefined,
-                text: 'Individual values / ',
+                text: 'Individual values',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Einzelwerte',
@@ -623,8 +634,9 @@ describe('Rendering inspection section', () => {
                   },
                   {
                     font: undefined,
-                    text: 'Mean value / ',
+                    text: 'Mean value',
                   },
+                  { font: undefined, text: ' / ' },
                   {
                     font: undefined,
                     text: 'Mittelwert',
@@ -721,8 +733,9 @@ describe('Rendering inspection section', () => {
             text: [
               {
                 font: undefined,
-                text: 'Supplementary information / ',
+                text: 'Supplementary information',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Ergänzende Angaben',
@@ -767,8 +780,9 @@ describe('Rendering inspection section', () => {
 
               {
                 font: undefined,
-                text: 'Type of test piece / ',
+                text: 'Type of test piece',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Probenform',
@@ -793,8 +807,9 @@ describe('Rendering inspection section', () => {
                   },
                   {
                     font: undefined,
-                    text: 'Width of test piece / ',
+                    text: 'Width of test piece',
                   },
+                  { font: undefined, text: ' / ' },
                   {
                     font: undefined,
                     text: 'Probenbreite',
@@ -835,8 +850,9 @@ describe('Rendering inspection section', () => {
               },
               {
                 font: undefined,
-                text: 'Individual values / ',
+                text: 'Individual values',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Einzelwerte',
@@ -861,8 +877,9 @@ describe('Rendering inspection section', () => {
                   },
                   {
                     font: undefined,
-                    text: 'Mean value / ',
+                    text: 'Mean value',
                   },
+                  { font: undefined, text: ' / ' },
                   {
                     font: undefined,
                     text: 'Mittelwert',

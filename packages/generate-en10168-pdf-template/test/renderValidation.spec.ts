@@ -20,8 +20,9 @@ describe('Rendering validation section', () => {
       text: [
         {
           font: undefined,
-          text: 'Validation / ',
+          text: 'Validation',
         },
+        { font: undefined, text: ' / ' },
         {
           font: undefined,
           text: 'Bestätigungen',
@@ -41,8 +42,9 @@ describe('Rendering validation section', () => {
               },
               {
                 font: undefined,
-                text: 'Statement of compliance / ',
+                text: 'Statement of compliance',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Konformitätserklärung',
@@ -65,8 +67,9 @@ describe('Rendering validation section', () => {
               },
               {
                 font: undefined,
-                text: 'Date of issue and validation / ',
+                text: 'Date of issue and validation',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Datum der Ausstellung und Bestätigung',
@@ -89,8 +92,9 @@ describe('Rendering validation section', () => {
               },
               {
                 font: undefined,
-                text: 'Stamp of the inspection representative / ',
+                text: 'Stamp of the inspection representative',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Stempel des/der Abnahmebeauftragten',

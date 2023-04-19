@@ -22,8 +22,9 @@ describe('Product norms', () => {
             },
             {
               font: undefined,
-              text: 'Specification of the product / ',
+              text: 'Specification of the product',
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Spezfikation des Erzeugnis',
@@ -41,8 +42,9 @@ describe('Product norms', () => {
           text: [
             {
               font: undefined,
-              text: 'Steel designation / ',
+              text: 'Steel designation',
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Stahlbezeichnung',
@@ -62,8 +64,9 @@ describe('Product norms', () => {
           text: [
             {
               font: undefined,
-              text: 'Product norm / ',
+              text: 'Product norm',
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Product Norm',
@@ -84,8 +87,9 @@ describe('Product norms', () => {
           text: [
             {
               font: undefined,
-              text: 'Mass norm / ',
+              text: 'Mass norm',
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Mass Norm',
@@ -106,8 +110,9 @@ describe('Product norms', () => {
           text: [
             {
               font: undefined,
-              text: 'Material norm / ',
+              text: 'Material norm',
             },
+            { font: undefined, text: ' / ' },
             {
               font: undefined,
               text: 'Material Norm',
@@ -144,8 +149,9 @@ describe('Product norms', () => {
           },
           {
             font: undefined,
-            text: 'Specification of the product / ',
+            text: 'Specification of the product',
           },
+          { font: undefined, text: ' / ' },
           {
             font: undefined,
             text: 'Spezfikation des Erzeugnis',
@@ -168,8 +174,9 @@ describe('Product norms', () => {
         text: [
           {
             font: undefined,
-            text: 'Mass norm / ',
+            text: 'Mass norm',
           },
+          { font: undefined, text: ' / ' },
           {
             font: undefined,
             text: 'Mass Norm',

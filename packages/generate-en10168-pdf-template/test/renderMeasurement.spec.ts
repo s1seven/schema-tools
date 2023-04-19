@@ -24,8 +24,9 @@ describe('Rendering measurement', () => {
 
               {
                 font: undefined,
-                text: 'Length / ',
+                text: 'Length',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Länge',
@@ -73,8 +74,9 @@ describe('Rendering measurement', () => {
 
               {
                 font: undefined,
-                text: 'Length / ',
+                text: 'Length',
               },
+              { font: undefined, text: ' / ' },
               {
                 font: undefined,
                 text: 'Länge',
@@ -124,8 +126,9 @@ describe('Rendering measurement', () => {
           },
           {
             font: undefined,
-            text: 'Individual values / ',
+            text: 'Individual values',
           },
+          { font: undefined, text: ' / ' },
           {
             font: undefined,
             text: 'Einzelwerte',

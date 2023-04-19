@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { ExternalStandardsEnum, ExtraTranslations, Translations } from '@s1seven/schema-tools-types';
 
 import { Translate } from '../src';
@@ -13,7 +14,8 @@ describe('Translate', () => {
       const translation = i18n.translate('A01', 'certificateFields');
       expect(translation).toEqual([
         { text: 'A01 ' },
-        { font: undefined, text: 'Herstellerwerk / ' },
+        { font: undefined, text: 'Herstellerwerk' },
+        { font: undefined, text: ' / ' },
         { font: undefined, text: "Manufacturer's plant" },
       ]);
     });
@@ -23,7 +25,8 @@ describe('Translate', () => {
       const i18n = new Translate(translations, {}, ['DE', 'FR']);
       const translation = i18n.translate('ProductDescription', 'certificateGroups');
       expect(translation).toEqual([
-        { font: undefined, text: 'Beschreibung des Erzeugnisses / ' },
+        { font: undefined, text: 'Beschreibung des Erzeugnisses' },
+        { font: undefined, text: ' / ' },
         { font: undefined, text: 'Description du produit' },
       ]);
     });
@@ -44,7 +47,8 @@ describe('Translate', () => {
       const i18n = new Translate(translations, {}, ['DE', 'EN']);
       const translation = i18n.translate('Customer', 'Certificate');
       expect(translation).toEqual([
-        { font: undefined, text: 'Kunde / ' },
+        { font: undefined, text: 'Kunde' },
+        { font: undefined, text: ' / ' },
         { font: undefined, text: 'Customer' },
       ]);
     });
@@ -64,7 +68,8 @@ describe('Translate', () => {
       const i18n = new Translate(translations, extraTranslations, ['EN', 'DE']);
       const translation = i18n.extraTranslate(ExternalStandardsEnum.CAMPUS, '1', 'Property', 'Yield stress');
       expect(translation).toEqual([
-        { font: undefined, text: 'Yield stress / ' },
+        { font: undefined, text: 'Yield stress' },
+        { font: undefined, text: ' / ' },
         { font: undefined, text: 'Streckspannung' },
       ]);
     });
@@ -85,7 +90,8 @@ describe('Translate', () => {
       const i18n = new Translate<Translations, ExtraTranslations>(translations, extraTranslations, ['EN', 'DE']);
       const translation = i18n.extraTranslate(ExternalStandardsEnum.CAMPUS, '785', 'TestConditions', 'of test plate');
       expect(translation).toEqual([
-        { font: undefined, text: 'of test plate / ' },
+        { font: undefined, text: 'of test plate' },
+        { font: undefined, text: ' / ' },
         { font: undefined, text: 'der Testplatte' },
       ]);
     });
@@ -118,7 +124,8 @@ describe('Translate', () => {
       const translation = i18n.translate('Customer', 'Certificate');
       expect(i18n.languageFontMap).toEqual(languageFontMap);
       expect(translation).toEqual([
-        { font: 'NotoSansSC', text: '客户 / ' },
+        { font: 'NotoSansSC', text: '客户' },
+        { font: undefined, text: ' / ' },
         { font: undefined, text: 'Customer' },
       ]);
     });

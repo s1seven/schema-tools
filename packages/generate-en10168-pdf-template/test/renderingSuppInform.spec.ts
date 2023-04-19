@@ -55,8 +55,9 @@ describe('Rendering supplementary information', () => {
         text: [
           {
             font: undefined,
-            text: 'Supplementary information / ',
+            text: 'Supplementary information',
           },
+          { font: undefined, text: ' / ' },
           {
             font: undefined,
             text: 'Ergänzende Angaben',
@@ -90,8 +91,9 @@ describe('Rendering supplementary information', () => {
         text: [
           {
             font: undefined,
-            text: 'Supplementary information / ',
+            text: 'Supplementary information',
           },
+          { font: undefined, text: ' / ' },
           {
             font: undefined,
             text: 'Ergänzende Angaben',
@@ -131,8 +133,9 @@ describe('Rendering supplementary information', () => {
         text: [
           {
             font: undefined,
-            text: 'Supplementary information / ',
+            text: 'Supplementary information',
           },
+          { font: undefined, text: ' / ' },
           {
             font: undefined,
             text: 'Ergänzende Angaben',
