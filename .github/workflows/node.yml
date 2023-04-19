@@ -123,6 +123,9 @@ jobs:
         id: set-sha
         uses: nrwl/nx-set-shas@v3
 
+      - name: Install dependencies
+        run: npm install && npm run bootstrap
+
       - name: Build packages
         run: npm run build:affected
 
