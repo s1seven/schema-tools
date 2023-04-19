@@ -70,6 +70,7 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.js';
         style: 'footer',
         alignment: 'center',
       }),
+      // The value of `defaultStyle.font` must be the same as one of the keys from `fonts`,
       defaultStyle: {
         font: 'Lato',
         fontSize: 10,
@@ -137,7 +138,7 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.js';
       },
     };
 
-    // The value must be the same as one of the keys from `fonts`, 
+    // The value must be the same as one of the keys from `fonts`,
     // The key must be a supported language
     const languageFontMap = {
       CN: 'NotoSansSC',
@@ -151,6 +152,7 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.js';
         style: 'footer',
         alignment: 'center',
       }),
+      // The value of `defaultStyle.font` must be the same as one of the keys from `fonts`,
       defaultStyle: {
         font: 'Lato',
         fontSize: 10,
