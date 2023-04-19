@@ -1,6 +1,6 @@
 import type { ErrorObject } from 'ajv';
-import { URL } from 'node:url';
 import semver from 'semver-lite';
+import { URL } from 'url';
 
 import type {
   CertificateLanguages,

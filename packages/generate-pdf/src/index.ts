@@ -3,11 +3,11 @@ import jsdom from 'jsdom';
 import clone from 'lodash.clone';
 import get from 'lodash.get';
 import merge from 'lodash.merge';
-import Module from 'node:module';
-import { URL } from 'node:url';
-import vm from 'node:vm';
+import Module from 'module';
 import PdfPrinter from 'pdfmake';
 import { Content, StyleDictionary, TDocumentDefinitions, TFontDictionary } from 'pdfmake/interfaces';
+import { URL } from 'url';
+import vm from 'vm';
 
 import {
   ExternalStandards,

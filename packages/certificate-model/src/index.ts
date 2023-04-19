@@ -2,10 +2,10 @@ import Ajv, { ErrorObject, Options as AjvOptions, ValidateFunction } from 'ajv';
 import Ajv2019 from 'ajv/dist/2019';
 import draft7MetaSchema from 'ajv/dist/refs/json-schema-draft-07.json';
 import addFormats from 'ajv-formats';
+import { EventEmitter } from 'events';
 import cloneDeepWith from 'lodash.clonedeepwith';
 import merge from 'lodash.merge';
-import { EventEmitter } from 'node:events';
-import { URL } from 'node:url';
+import { URL } from 'url';
 
 import { extractParties, PartyEmail } from '@s1seven/schema-tools-extract-emails';
 import {
