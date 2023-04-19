@@ -37,11 +37,16 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
     group: G,
     phrase: P,
   ): TranslationWithFont[] {
-    return this.languages.map((language, index) => {
+    const translationArray = this.languages.map((language) => {
       const font = this.languageFontMap[language];
       const field = this.getField(language, group, phrase);
-      return { text: index === 0 && this.languages.length > 1 ? `${field} / ` : field, font };
+      return { text: field, font };
     });
+    if (translationArray.length === 2) {
+      const middleObj = { text: ' / ', font: undefined };
+      translationArray.splice(1, 0, middleObj);
+    }
+    return translationArray;
   }
 
   translate<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
@@ -81,8 +86,10 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
     ) {
       return [translatedFields[0]];
     }
-
-    translatedFields[0].text += ' / ';
+    if (translatedFields.length === 2) {
+      const middleObj = { text: ' / ', font: undefined };
+      translatedFields.splice(1, 0, middleObj);
+    }
     return translatedFields;
   }
 
