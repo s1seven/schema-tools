@@ -48,8 +48,8 @@
     "@s1seven/schema-tools-types": "^0.5.2",
     "@s1seven/schema-tools-utils": "^0.2.5",
     "@s1seven/schema-tools-validate": "^0.3.5",
-    "ajv": "^8.10.0",
-    "ajv-formats": "^2.1.1",
+    "ajv": "8.10.0",
+    "ajv-formats": "2.1.1",
     "lodash.clonedeepwith": "^4.5.0",
     "lodash.merge": "^4.6.2"
   },
