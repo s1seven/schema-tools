@@ -80,6 +80,7 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
       return { text, font };
     });
 
+    // if the first and second translation are the same, or there is only one translation, return only the first object
     if (
       translatedFields[0]?.text === translatedFields[1]?.text ||
       (translatedFields[0]?.text && !translatedFields[1]?.text)
