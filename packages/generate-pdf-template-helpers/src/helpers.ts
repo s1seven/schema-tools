@@ -43,19 +43,16 @@ export const tableLayout: TableLayout = {
   },
 };
 type PossibleFormat = 'Date' | 'Array' | 'Number';
-export function computeTextStyle(
-  value: string[],
-  format?: PossibleFormat,
-  locales?: string | string[],
-): string | string[];
+type PossibleValues = string | string[] | [string, ...string[]];
+export function computeTextStyle(value: string[], format?: PossibleFormat, locales?: string | string[]): PossibleValues;
 export function computeTextStyle(value: string, format?: PossibleFormat, locales?: string | string[]): string;
 export function computeTextStyle(
-  value: string | [string, ...string[]],
+  value: [string, ...string[]],
   format?: PossibleFormat,
   locales?: string | string[],
-): string | string[];
+): PossibleValues;
 export function computeTextStyle(
-  value: string | string[],
+  value: PossibleValues,
   format?: PossibleFormat,
   locales?: string | string[],
 ): string | string[] {
