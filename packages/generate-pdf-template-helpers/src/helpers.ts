@@ -52,6 +52,11 @@ export function computeTextStyle(
   locales?: string | string[],
 ): PossibleValues;
 export function computeTextStyle(
+  value: string | [string, ...string[]],
+  format?: PossibleFormat,
+  locales?: string | string[],
+): PossibleValues;
+export function computeTextStyle(
   value: PossibleValues,
   format?: PossibleFormat,
   locales?: string | string[],
