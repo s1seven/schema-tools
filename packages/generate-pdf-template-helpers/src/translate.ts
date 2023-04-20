@@ -43,8 +43,8 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
       return { text: field, font };
     });
     if (translationArray.length === 2) {
-      const middleObj = { text: ' / ', font: undefined };
-      translationArray.splice(1, 0, middleObj);
+      const separator = { text: ' / ', font: undefined };
+      translationArray.splice(1, 0, separator);
     }
     return translationArray;
   }
@@ -88,8 +88,8 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
       return [translatedFields[0]];
     }
     if (translatedFields.length === 2) {
-      const middleObj = { text: ' / ', font: undefined };
-      translatedFields.splice(1, 0, middleObj);
+      const separator = { text: ' / ', font: undefined };
+      translatedFields.splice(1, 0, separator);
     }
     return translatedFields;
   }
