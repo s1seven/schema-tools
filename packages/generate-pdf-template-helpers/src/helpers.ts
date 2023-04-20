@@ -44,6 +44,11 @@ export const tableLayout: TableLayout = {
 };
 type PossibleFormat = 'Date' | 'Array' | 'Number';
 type PossibleValues = string | string[] | [string, ...string[]];
+export function computeTextStyle(
+  value: PossibleValues,
+  format?: PossibleFormat,
+  locales?: string | string[],
+): PossibleValues;
 export function computeTextStyle(value: string[], format?: PossibleFormat, locales?: string | string[]): PossibleValues;
 export function computeTextStyle(value: string, format?: PossibleFormat, locales?: string | string[]): string;
 export function computeTextStyle(
@@ -55,7 +60,7 @@ export function computeTextStyle(
   value: PossibleValues,
   format?: PossibleFormat,
   locales?: string | string[],
-): string | string[] {
+): PossibleValues {
   if (format === 'Date') {
     return localizeDate(value as string, locales);
   } else if (format === 'Array' && Array.isArray(value)) {
