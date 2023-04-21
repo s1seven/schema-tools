@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { createHash } from 'node:crypto';
-import { createWriteStream, existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
-import path from 'node:path';
+import { createWriteStream, existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
+import path, { parse, resolve } from 'node:path';
 import { Writable } from 'node:stream';
 import { fromBuffer } from 'pdf2pic';
 import type { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
@@ -178,112 +179,25 @@ const runPDFGenerationTests = (testSuite: TestMap) => {
 };
 
 describe('GeneratePDF', function () {
-  //! only include local generator path for latest version and localOnly for yet unreleased version
-  const testMaps: TestMap[] = [
+  /*
+  When adding a new version, please also add a new test suite to the testMap below.
+  Add new unreleased versions both to versions and unreleasedVersions. 
+  Remove from unreleasedVersions upon release.
+  To add more than one fixture per version, use the following naming format:
+  valid_cert_<number>.json
+  valid_cert_<number>.pdf
+  valid_cert_<number>.html
+  */
+  const testMap = [
     {
       type: SupportedSchemas.EN10168,
-      version: 'v0.1.0',
-      styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
-      translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/translations.json`),
-      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/template_hbs.html`),
-      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.pdf`),
-      validCertificate: require('../../../fixtures/EN10168/v0.1.0/valid_cert.json'),
-      docDefinition,
-    },
-    {
-      type: SupportedSchemas.EN10168,
-      version: 'v0.2.0',
-      styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
-      translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.2.0/translations.json`),
-      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.2.0/template_hbs.html`),
-      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.2.0/valid_cert.pdf`),
-      validCertificate: require('../../../fixtures/EN10168/v0.2.0/valid_cert.json'),
-      docDefinition,
-    },
-    {
-      type: SupportedSchemas.EN10168,
-      version: 'v0.3.0',
-      styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
-      translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.3.0/translations.json`),
-      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.3.0/template_hbs.html`),
-      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.3.0/valid_cert.pdf`),
-      validCertificate: require('../../../fixtures/EN10168/v0.3.0/valid_cert.json'),
-      docDefinition,
-    },
-    {
-      type: SupportedSchemas.EN10168,
-      version: 'v0.4.0',
-      styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
-      translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.4.0/translations.json`),
-      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.4.0/template_hbs.html`),
-      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.4.0/valid_cert.pdf`),
-      validCertificate: require('../../../fixtures/EN10168/v0.4.0/valid_cert.json'),
-      docDefinition,
-    },
-    {
-      type: SupportedSchemas.EN10168,
-      version: 'v0.4.1',
-      generatorPath: path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`),
-      styles: require('../../generate-en10168-pdf-template/utils/styles.js'),
-      translationsPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.4.1/translations.json`),
-      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.4.1/template_hbs.html`),
-      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.4.1/valid_cert.pdf`),
-      validCertificate: require('../../../fixtures/EN10168/v0.4.1/valid_cert.json'),
-      docDefinition,
+      versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v0.4.0', 'v0.4.1'],
+      unreleasedVersions: [],
     },
     {
       type: SupportedSchemas.COA,
-      version: 'v0.0.4',
-      styles: require('../../generate-coa-pdf-template/utils/styles.js'),
-      translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.4/translations.json`),
-      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.4/template_hbs.html`),
-      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.0.4/valid_cert.pdf`),
-      validCertificate: require('../../../fixtures/CoA/v0.0.4/valid_cert.json'),
-      docDefinition,
-    },
-    {
-      type: SupportedSchemas.COA,
-      version: 'v0.1.0',
-      styles: require('../../generate-coa-pdf-template/utils/styles.js'),
-      translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.0/translations.json`),
-      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.0/template_hbs.html`),
-      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.1.0/valid_cert.pdf`),
-      validCertificate: require('../../../fixtures/CoA/v0.1.0/valid_cert.json'),
-      docDefinition,
-    },
-    {
-      type: SupportedSchemas.COA,
-      version: 'v0.2.0',
-      styles: require('../../generate-coa-pdf-template/utils/styles.js'),
-      translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/translations.json`),
-      extraTranslationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/extra_translations.json`),
-      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/template_hbs.html`),
-      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v0.2.0/valid_cert.pdf`),
-      validCertificate: require('../../../fixtures/CoA/v0.2.0/valid_cert.json'),
-      docDefinition,
-    },
-    {
-      type: SupportedSchemas.COA,
-      version: 'v1.0.0',
-      styles: require('../../generate-coa-pdf-template/utils/styles.js'),
-      translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.0/translations.json`),
-      extraTranslationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.0/extra_translations.json`),
-      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.0/template_hbs.html`),
-      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.0.0/valid_cert.pdf`),
-      validCertificate: require('../../../fixtures/CoA/v1.0.0/valid_cert.json'),
-      docDefinition,
-    },
-    {
-      type: SupportedSchemas.COA,
-      version: 'v1.1.0',
-      generatorPath: path.resolve(`${__dirname}/../../generate-coa-pdf-template/dist/generateContent.js`),
-      styles: require('../../generate-coa-pdf-template/utils/styles.js'),
-      translationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.1.0/translations.json`),
-      extraTranslationsPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.1.0/extra_translations.json`),
-      certificateHtmlPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.1.0/template_hbs.html`),
-      expectedPdfPath: path.resolve(`${__dirname}/../../../fixtures/CoA/v1.1.0/valid_cert.pdf`),
-      validCertificate: require('../../../fixtures/CoA/v1.1.0/valid_cert.json'),
-      docDefinition,
+      versions: ['v0.0.4', 'v0.1.0', 'v0.2.0', 'v1.0.0', 'v1.1.0'],
+      unreleasedVersions: [],
     },
   ];
 
@@ -305,7 +219,47 @@ describe('GeneratePDF', function () {
     expect(content[0]).toHaveProperty('layout');
   }, 8000);
 
-  for (const testSuite of testMaps) {
-    runPDFGenerationTests(testSuite);
-  }
+  testMap.forEach((schema) => {
+    const { type, versions } = schema;
+    const styles = require(`../../generate-${type}-pdf-template/utils/styles.js`);
+
+    versions.forEach((version, index) => {
+      const path = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
+      const files = readdirSync(path);
+      const filtered = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
+      const lastestVersion = index === versions.length - 1;
+
+      filtered.map((validCert) => {
+        const { name } = parse(validCert);
+        const validCertificate = require(`${path}/${validCert}`);
+        const certificateHtmlPath = `${path}/${name}.html`;
+        const expectedPdfPath = `${path}/${name}.pdf`;
+        const translationsPath = `${path}/translations.json`;
+        let extraTranslationsPath: string;
+        let generatorPath: string;
+
+        // TODO: refactor this
+        if (type === SupportedSchemas.COA && !['v0.0.4', 'v0.1.0'].includes(version)) {
+          extraTranslationsPath = `${path}/extra_translations.json`;
+        }
+        if (lastestVersion) {
+          generatorPath = resolve(`${__dirname}/../../generate-${type}-pdf-template/dist/generateContent.js`);
+        }
+
+        runPDFGenerationTests({
+          type,
+          version,
+          styles,
+          translationsPath,
+          extraTranslationsPath,
+          certificateHtmlPath,
+          expectedPdfPath,
+          validCertificate,
+          docDefinition,
+          generatorPath,
+          localOnly: schema.unreleasedVersions.includes(version),
+        });
+      });
+    });
+  });
 });
