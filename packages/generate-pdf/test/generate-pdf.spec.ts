@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { createHash } from 'node:crypto';
 import { createWriteStream, existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
-import path, { parse, resolve } from 'node:path';
+import path, { join, parse, resolve } from 'node:path';
 import { Writable } from 'node:stream';
 import { fromBuffer } from 'pdf2pic';
 import type { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
@@ -12,6 +12,7 @@ import { EN10168Schema, Schemas, SupportedSchemas } from '@s1seven/schema-tools-
 import { type GeneratePdfOptionsExtended, buildModule, generateInSandbox, generatePdf } from '../src';
 
 type TestMap = {
+  name: string;
   type: SupportedSchemas;
   version: string;
   styles: StyleDictionary;
@@ -25,6 +26,29 @@ type TestMap = {
   localOnly?: boolean;
 };
 
+/*
+  When adding a new version, please also add a new test suite to the testMap below.
+  Add new unreleased versions both to versions and unreleasedVersions. 
+  Remove from unreleasedVersions upon release.
+  To add more than one fixture per version, use the following naming format:
+  valid_cert_<number>.json
+  valid_cert_<number>.pdf
+  valid_cert_<number>.html
+  */
+
+const testMap = [
+  {
+    type: SupportedSchemas.EN10168,
+    versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v0.4.0', 'v0.4.1'],
+    unreleasedVersions: [],
+  },
+  {
+    type: SupportedSchemas.COA,
+    versions: ['v0.0.4', 'v0.1.0', 'v0.2.0', 'v1.0.0', 'v1.1.0'],
+    unreleasedVersions: [],
+  },
+];
+
 const fonts = {
   Lato: {
     normal: `${__dirname}/../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
@@ -32,6 +56,16 @@ const fonts = {
     italics: `${__dirname}/../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
     light: `${__dirname}/../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
   },
+  NotoSansSC: {
+    normal: `${__dirname}/../../../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
+    bold: `${__dirname}/../../../fixtures/fonts/noto-sans-sc-chinese-simplified-700-normal.woff2`,
+    italics: `${__dirname}/../../../fixtures/fonts/noto-sans-sc-chinese-simplified-100-normal.woff2`,
+    light: `${__dirname}/../../../fixtures/fonts/noto-sans-sc-chinese-simplified-100-normal.woff2`,
+  },
+};
+
+const languageFontMap = {
+  CN: 'NotoSansSC',
 };
 
 const docDefinition: Omit<TDocumentDefinitions, 'content'> = {
@@ -62,6 +96,7 @@ const waitWritableStreamEnd = (writeStream: Writable, outputFilePath: string) =>
 
 const runPDFGenerationTests = (testSuite: TestMap) => {
   const {
+    name,
     certificateHtmlPath,
     docDefinition,
     expectedPdfPath,
@@ -76,7 +111,7 @@ const runPDFGenerationTests = (testSuite: TestMap) => {
   } = testSuite;
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  describe(`${type} - version ${version}`, () => {
+  describe(`${type} - version ${version} - ${name}.json`, () => {
     it('should render PDF certificate using certificate object and local PDF generator script', async () => {
       if (!generatorPath) {
         return;
@@ -92,12 +127,14 @@ const runPDFGenerationTests = (testSuite: TestMap) => {
             generatorPath,
             translations,
             extraTranslations,
+            languageFontMap,
           }
         : {
             docDefinition,
             outputType: 'stream',
             fonts,
             generatorPath,
+            languageFontMap,
           };
       //
       const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
@@ -127,6 +164,7 @@ const runPDFGenerationTests = (testSuite: TestMap) => {
         generatorPath,
         translations,
         extraTranslations,
+        languageFontMap,
       });
 
       const expectedPDF: ToBase64Response = await fromBuffer(expectedPDFBuffer, options)(1, true);
@@ -150,10 +188,12 @@ const runPDFGenerationTests = (testSuite: TestMap) => {
             generatorPath,
             translations,
             extraTranslations,
+            languageFontMap,
           }
         : {
             outputType: 'stream',
             fonts,
+            languageFontMap,
           };
       //
       const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
@@ -179,28 +219,6 @@ const runPDFGenerationTests = (testSuite: TestMap) => {
 };
 
 describe('GeneratePDF', function () {
-  /*
-  When adding a new version, please also add a new test suite to the testMap below.
-  Add new unreleased versions both to versions and unreleasedVersions. 
-  Remove from unreleasedVersions upon release.
-  To add more than one fixture per version, use the following naming format:
-  valid_cert_<number>.json
-  valid_cert_<number>.pdf
-  valid_cert_<number>.html
-  */
-  const testMap = [
-    {
-      type: SupportedSchemas.EN10168,
-      versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v0.4.0', 'v0.4.1'],
-      unreleasedVersions: [],
-    },
-    {
-      type: SupportedSchemas.COA,
-      versions: ['v0.0.4', 'v0.1.0', 'v0.2.0', 'v1.0.0', 'v1.1.0'],
-      unreleasedVersions: [],
-    },
-  ];
-
   it('should build module using local PDF generator script', async () => {
     const generatorPath = path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
     const module = await buildModule(generatorPath);
@@ -231,7 +249,7 @@ describe('GeneratePDF', function () {
 
       filtered.map((validCert) => {
         const { name } = parse(validCert);
-        const validCertificate = require(`${path}/${validCert}`);
+        const validCertificate = require(join(path, validCert));
         const certificateHtmlPath = `${path}/${name}.html`;
         const expectedPdfPath = `${path}/${name}.pdf`;
         const translationsPath = `${path}/translations.json`;
@@ -247,6 +265,7 @@ describe('GeneratePDF', function () {
         }
 
         runPDFGenerationTests({
+          name,
           type,
           version,
           styles,
