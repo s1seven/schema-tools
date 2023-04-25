@@ -3,8 +3,8 @@ const { createWriteStream, readFileSync } = require('fs');
 const { generatePdf } = require('./dist/index');
 const styles = require(`${__dirname}/../generate-en10168-pdf-template/utils/styles.js`);
 
-const en10168Certificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.3.0/valid_cert.json`));
-const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.3.0/translations.json`));
+const en10168Certificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.4.1/valid_cert.json`));
+const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.4.1/translations.json`));
 const generatorPath = '../generate-en10168-pdf-template/dist/generateContent.js';
 
 (async function () {
