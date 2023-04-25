@@ -68,7 +68,8 @@
     "repair": "lerna repair",
     "fixtures:interfaces": "ts-node ./utils/create-schema-interfaces.ts",
     "fixtures:html": "ts-node ./utils/create-html-certificate.ts",
-    "fixtures:pdf": "ts-node ./utils/create-pdf-certificate.ts"
+    "fixtures:pdf": "ts-node ./utils/create-pdf-certificate.ts",
+    "fixtures:generate": "ts-node ./utils/generate-fixtures-from-json.ts"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
