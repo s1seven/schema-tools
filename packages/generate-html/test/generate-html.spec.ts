@@ -1,6 +1,6 @@
 import { HtmlDiffer } from '@markedjs/html-differ';
 import logger from '@markedjs/html-differ/lib/logger';
-import { readdirSync, readFileSync } from 'fs';
+import { existsSync, readdirSync, readFileSync } from 'fs';
 import { parse, resolve } from 'path';
 
 import { ExtraTranslations, SupportedSchemas, Translations } from '@s1seven/schema-tools-types';
@@ -127,34 +127,27 @@ describe('GenerateHTML', function () {
     const { type, versions } = schemaType;
 
     versions.forEach(async (version, index) => {
-      const path = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
-      const files = readdirSync(path);
+      const dirPath = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
+      const files = readdirSync(dirPath);
       const filtered = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
 
       filtered.map(async (validCert) => {
         const { name } = parse(validCert);
         const fileVersion = name.replace('valid_cert', '').replace('.json', '').trim();
-        const certificatePath = `${__dirname}/../../../fixtures/${type}/${version}/${name}.json`;
-        const schemaTranslationsPath = `${__dirname}/../../../fixtures/${type}/${version}/translations.json`;
+        const certificatePath = `${dirPath}/${name}.json`;
+        const schemaTranslationsPath = `${dirPath}/translations.json`;
+        const partialsMapPath = `${dirPath}/partials-map.json`;
+        const expectedHtmlFromHbs = readFileSync(`${dirPath}/template_hbs${fileVersion}.html`, 'utf-8');
         // only include localTemplatePath for latest (unreleased) version
         const localTemplatePath =
           schemaType.unreleasedVersions.includes(version) && index === versions.length - 1
-            ? `${__dirname}/../../../fixtures/${type}/${version}/template.hbs`
+            ? `${dirPath}/template.hbs`
             : undefined;
-        let schemaExtraTranslationsPath = `${__dirname}/../../../fixtures/${type}/${version}/extra_translations.json`;
-        const partialsMapPath = `${__dirname}/../../../fixtures/${type}/${version}/partials-map.json`;
-        const expectedHtmlFromHbs = readFileSync(
-          `${__dirname}/../../../fixtures/${type}/${version}/template_hbs${fileVersion}.html`,
-          'utf-8',
-        );
+        const schemaExtraTranslationsPath = existsSync(`${dirPath}/extra_translations.json`)
+          ? `${dirPath}/extra_translations.json`
+          : undefined;
 
         let partialsMap;
-        try {
-          readFileSync(schemaExtraTranslationsPath, 'utf-8');
-        } catch (e) {
-          // if extra translations file does not exist, set to undefined
-          schemaExtraTranslationsPath = undefined;
-        }
         try {
           partialsMap = JSON.parse(readFileSync(partialsMapPath, 'utf-8'));
         } catch (e) {

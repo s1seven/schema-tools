@@ -242,23 +242,23 @@ describe('GeneratePDF', function () {
     const styles = require(`../../generate-${type}-pdf-template/utils/styles.js`);
 
     versions.forEach((version, index) => {
-      const path = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
-      const files = readdirSync(path);
+      const dirPath = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
+      const files = readdirSync(dirPath);
       const filtered = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
       const lastestVersion = index === versions.length - 1;
 
       filtered.map((validCert) => {
         const { name } = parse(validCert);
-        const validCertificate = require(join(path, validCert));
-        const certificateHtmlPath = `${path}/${name}.html`;
-        const expectedPdfPath = `${path}/${name}.pdf`;
-        const translationsPath = `${path}/translations.json`;
+        const validCertificate = require(join(dirPath, validCert));
+        const certificateHtmlPath = `${dirPath}/${name}.html`;
+        const expectedPdfPath = `${dirPath}/${name}.pdf`;
+        const translationsPath = `${dirPath}/translations.json`;
         let extraTranslationsPath: string;
         let generatorPath: string;
 
         // TODO: refactor this
         if (type === SupportedSchemas.COA && !['v0.0.4', 'v0.1.0'].includes(version)) {
-          extraTranslationsPath = `${path}/extra_translations.json`;
+          extraTranslationsPath = `${dirPath}/extra_translations.json`;
         }
         if (lastestVersion) {
           generatorPath = resolve(`${__dirname}/../../generate-${type}-pdf-template/dist/generateContent.js`);
