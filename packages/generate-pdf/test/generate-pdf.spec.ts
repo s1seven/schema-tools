@@ -97,7 +97,7 @@ const generatePaths = (
   const coaCertsWithoutExtraTranslations = ['v0.0.4', 'v0.1.0'];
   let generatorPath: string;
   if (isLatestVersion) {
-    generatorPath = resolve(`${__dirname}/../../generate-${type}-pdf-template/dist/generateContent.js`);
+    generatorPath = resolve(`${__dirname}/../../generate-${type.toLowerCase()}-pdf-template/dist/generateContent.js`);
   }
   let extraTranslationsPath: string;
 
