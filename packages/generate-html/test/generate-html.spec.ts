@@ -7,7 +7,17 @@ import { ExtraTranslations, SupportedSchemas, Translations } from '@s1seven/sche
 
 import { generateHtml, GenerateHtmlOptions } from '../src/index';
 
-const testMap = [
+/*
+  When adding a new fixture version, add a new test suite to the testMap below.
+  Add new unreleased versions both to versions and unreleasedVersions. 
+  Remove from unreleasedVersions upon release.
+  To add more than one fixture per version, use the following naming format:
+  valid_cert_<number>.json
+  valid_cert_<number>.pdf
+  template_hbs_<number>.html
+  */
+
+const certificateTestMap = [
   {
     type: SupportedSchemas.EN10168,
     versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v0.4.0', 'v0.4.1'],
@@ -19,6 +29,36 @@ const testMap = [
     unreleasedVersions: [],
   },
 ];
+
+function generatePaths(validCertName: string, dirPath: string) {
+  const { name } = parse(validCertName);
+  // handles the case where the certificate name is like "valid_cert_1"
+  const fileVersion = name.match(/_\d+/)?.[0] || '';
+  const certificatePath = `${dirPath}/${name}.json`;
+  const schemaTranslationsPath = `${dirPath}/translations.json`;
+  const partialsMapPath = `${dirPath}/partials-map.json`;
+  const expectedHtmlFromHbs = readFileSync(`${dirPath}/template_hbs${fileVersion}.html`, 'utf-8');
+  const schemaExtraTranslationsPath = existsSync(`${dirPath}/extra_translations.json`)
+    ? `${dirPath}/extra_translations.json`
+    : undefined;
+
+  let partialsMap: Record<string, string>;
+  try {
+    partialsMap = JSON.parse(readFileSync(partialsMapPath, 'utf-8'));
+  } catch (e) {
+    // partialsMap is not present
+    partialsMap = undefined;
+  }
+
+  return {
+    name,
+    certificatePath,
+    schemaTranslationsPath,
+    schemaExtraTranslationsPath,
+    expectedHtmlFromHbs,
+    partialsMap,
+  };
+}
 
 const htmlDifferOptions = {
   ignoreAttributes: ['src'],
@@ -123,36 +163,28 @@ const runHTMLGenerationTests = async (testMap: TestMap) => {
 };
 
 describe('GenerateHTML', function () {
-  testMap.forEach((schemaType) => {
+  certificateTestMap.forEach((schemaType) => {
     const { type, versions } = schemaType;
 
     versions.forEach(async (version, index) => {
       const dirPath = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
       const files = readdirSync(dirPath);
-      const filtered = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
-
-      filtered.map(async (validCert) => {
-        const { name } = parse(validCert);
-        const fileVersion = name.replace('valid_cert', '').replace('.json', '').trim();
-        const certificatePath = `${dirPath}/${name}.json`;
-        const schemaTranslationsPath = `${dirPath}/translations.json`;
-        const partialsMapPath = `${dirPath}/partials-map.json`;
-        const expectedHtmlFromHbs = readFileSync(`${dirPath}/template_hbs${fileVersion}.html`, 'utf-8');
-        // only include localTemplatePath for latest (unreleased) version
-        const localTemplatePath =
-          schemaType.unreleasedVersions.includes(version) && index === versions.length - 1
-            ? `${dirPath}/template.hbs`
-            : undefined;
-        const schemaExtraTranslationsPath = existsSync(`${dirPath}/extra_translations.json`)
-          ? `${dirPath}/extra_translations.json`
+      const validCertNames = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
+      // only include localTemplatePath for latest (unreleased) version
+      const localTemplatePath =
+        schemaType.unreleasedVersions.includes(version) && index === versions.length - 1
+          ? `${dirPath}/template.hbs`
           : undefined;
 
-        let partialsMap;
-        try {
-          partialsMap = JSON.parse(readFileSync(partialsMapPath, 'utf-8'));
-        } catch (e) {
-          partialsMap = undefined;
-        }
+      validCertNames.map(async (validCertName) => {
+        const {
+          name,
+          certificatePath,
+          schemaTranslationsPath,
+          schemaExtraTranslationsPath,
+          expectedHtmlFromHbs,
+          partialsMap,
+        } = generatePaths(validCertName, dirPath);
 
         await runHTMLGenerationTests({
           name,
