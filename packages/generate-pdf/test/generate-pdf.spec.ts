@@ -102,7 +102,7 @@ const generatePaths = (
   }
   let extraTranslationsPath: string;
 
-  if (SupportedSchemasDirMap[SupportedSchemas.COA] && !coaCertsWithoutExtraTranslations.includes(version)) {
+  if (type === SupportedSchemasDirMap[SupportedSchemas.COA] && !coaCertsWithoutExtraTranslations.includes(version)) {
     extraTranslationsPath = `${dirPath}/extra_translations.json`;
   }
   return {
