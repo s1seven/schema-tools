@@ -1,6 +1,6 @@
-import { TableLayout } from 'pdfmake/interfaces';
+import type { TableLayout } from 'pdfmake/interfaces';
 
-import { TableElement } from './types';
+import type { TableElement } from './types';
 
 /* This localizeNumber function is an exact copy of the function by the same name found at
 packages/utils/src/helpers.ts.
@@ -42,12 +42,25 @@ export const tableLayout: TableLayout = {
     return 0;
   },
 };
-
+type PossibleFormat = 'Date' | 'Array' | 'Number';
+type PossibleValues = string | string[] | [string, ...string[]];
+export function computeTextStyle(value: string[], format?: PossibleFormat, locales?: string | string[]): PossibleValues;
+export function computeTextStyle(value: string, format?: PossibleFormat, locales?: string | string[]): string;
 export function computeTextStyle(
-  value: string | string[],
-  format?: 'Date' | 'Array' | 'Number',
+  value: [string, ...string[]],
+  format?: PossibleFormat,
   locales?: string | string[],
-) {
+): PossibleValues;
+export function computeTextStyle(
+  value: string | [string, ...string[]],
+  format?: PossibleFormat,
+  locales?: string | string[],
+): PossibleValues;
+export function computeTextStyle(
+  value: PossibleValues,
+  format?: PossibleFormat,
+  locales?: string | string[],
+): PossibleValues {
   if (format === 'Date') {
     return localizeDate(value as string, locales);
   } else if (format === 'Array' && Array.isArray(value)) {

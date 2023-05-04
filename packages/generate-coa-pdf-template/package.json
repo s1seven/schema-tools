@@ -23,7 +23,7 @@
   "targets": {
     "main": {
       "engines": {
-        "node": ">=12.x"
+        "node": ">=14.x"
       },
       "source": "src/generateContent.ts",
       "distDir": "./dist",
@@ -59,6 +59,6 @@
     "@types/pdfmake": "^0.2.0",
     "full-icu": "^1.4.0",
     "lato-font": "^3.0.0",
-    "parcel": "^2.3.1"
+    "parcel": "^2.8.3"
   }
 }

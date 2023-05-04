@@ -7,7 +7,7 @@ import NodeCache from 'node-cache';
 import { Readable } from 'stream';
 import { promisify } from 'util';
 
-import {
+import type {
   ExternalStandards,
   ExternalStandardsTranslations,
   Languages,

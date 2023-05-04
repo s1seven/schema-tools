@@ -1,4 +1,4 @@
-import { Column, Content, ContentCanvas, ContentColumns, ContentText, TableCell } from 'pdfmake/interfaces';
+import type { Column, Content, ContentCanvas, ContentColumns, ContentText, TableCell } from 'pdfmake/interfaces';
 
 import {
   computeTextStyle,
@@ -11,7 +11,12 @@ import {
   tableLayout,
   Translate,
 } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { ExternalStandardsEnum, ExternalStandardsTranslations } from '@s1seven/schema-tools-types';
+import {
+  ExternalStandardsEnum,
+  ExternalStandardsTranslations,
+  LanguageFontMap,
+  TranslationWithFont,
+} from '@s1seven/schema-tools-types';
 
 import {
   Attachment,
@@ -104,7 +109,10 @@ export function createGeneralInfo(certificate: Certificate, i18n: I18N): [Conten
 
   return [
     {
-      text: `${i18n.translate('Certificate', 'Certificate')}  ${Standard.Norm} ${Standard.Type || ''}`,
+      text: [
+        { text: i18n.translate('Certificate', 'Certificate') },
+        { text: ` ${Standard.Norm} ${Standard.Type || ''}` },
+      ],
       style: 'h2',
       margin: [0, 0, 0, 4],
     },
@@ -188,7 +196,7 @@ export function createBusinessReferences(
 
   return [
     {
-      text: `${i18n.translate('BusinessTransaction', 'Certificate')}`,
+      text: i18n.translate('BusinessTransaction', 'Certificate'),
       style: 'h2',
       margin: [0, 0, 0, 4],
     },
@@ -247,7 +255,7 @@ export function createProductDescription(product: Product, i18n: I18N): [Content
 
   return [
     {
-      text: `${i18n.translate('Product', 'Certificate')}`,
+      text: i18n.translate('Product', 'Certificate'),
       style: 'h2',
       margin: [0, 0, 0, 4],
     },
@@ -282,12 +290,17 @@ export function createInspection(
     const { name } = field;
 
     if (name === 'Property' || name === 'TestConditions') {
+      const translatedText: TranslationWithFont[] = i18n.extraTranslate(
+        PropertiesStandard,
+        inspection.PropertyId,
+        name,
+        inspection[name],
+      );
       return {
-        text: computeTextStyle(
-          i18n.extraTranslate(PropertiesStandard, inspection.PropertyId, name, inspection[name]),
-          field.format,
-          i18n.languages,
-        ),
+        text: translatedText.map((obj: TranslationWithFont) => {
+          obj.text = computeTextStyle(obj.text, field.format, i18n.languages);
+          return obj;
+        }),
         style: 'caption',
       };
     }
@@ -303,7 +316,7 @@ export function createAnalysis(
   const lotIdRow = analysis.LotId
     ? [
         {
-          text: `${i18n.translate('LotId', 'Certificate')}`,
+          text: i18n.translate('LotId', 'Certificate'),
           style: 'h5',
           margin: [0, 0, 0, 4],
         },
@@ -350,7 +363,7 @@ export function createAnalysis(
 
   return [
     {
-      text: `${i18n.translate('Inspections', 'Certificate')}`,
+      text: i18n.translate('Inspections', 'Certificate'),
       style: 'h2',
       margin: [0, 0, 0, 4],
     },
@@ -411,7 +424,7 @@ export function createDeclarationOfConformity(
 
   return [
     {
-      text: `${i18n.translate('DeclarationOfConformity', 'Certificate')}`,
+      text: i18n.translate('DeclarationOfConformity', 'Certificate'),
       style: 'h2',
       margin: [0, 0, 0, 4],
     },
@@ -440,7 +453,7 @@ export function createContacts(contacts: Person[], i18n: I18N): [ContentText, Co
   const body = [headerRow, ...contactsRows];
   return [
     {
-      text: `${i18n.translate('Contacts', 'Certificate')}`,
+      text: i18n.translate('Contacts', 'Certificate'),
       style: 'h2',
       margin: [0, 0, 0, 4],
     },
@@ -475,7 +488,7 @@ export function createAttachments(attachments: Attachment[], i18n: I18N): [Conte
   const attachmentsRows: TableCell[][] = attachments.map((attachment) => [{ text: attachment.FileName, style: 'p' }]);
   return [
     {
-      text: `${i18n.translate('Attachments', 'Certificate')}`,
+      text: i18n.translate('Attachments', 'Certificate'),
       style: 'h2',
       margin: [0, 0, 0, 4],
     },
@@ -491,12 +504,19 @@ export function createAttachments(attachments: Attachment[], i18n: I18N): [Conte
   ];
 }
 
+//! TODO: create standard function signature!!!!
 export function generateContent(
   certificate: Certificate,
   translations: CoATranslations,
-  extraTranslations: ExternalStandardsTranslations,
+  extraTranslations: ExternalStandardsTranslations = {},
+  languageFontMap: LanguageFontMap = {},
 ): Content {
-  const i18n = new Translate(translations, extraTranslations, certificate.Certificate.CertificateLanguages);
+  const i18n = new Translate(
+    translations,
+    extraTranslations,
+    certificate.Certificate.CertificateLanguages,
+    languageFontMap,
+  );
   const header = createHeader(certificate.Certificate.Parties, certificate.Certificate.Logo || '');
   const receivers = createReceivers(certificate.Certificate.Parties, i18n);
   const generalInfo = createGeneralInfo(certificate, i18n);

@@ -54,6 +54,10 @@
     "lodash.merge": "^4.6.2",
     "pdfmake": "0.2.5"
   },
+  "peerDependencies": {
+    "@s1seven/schema-tools-generate-coa-pdf-template": "^0.5.1",
+    "@s1seven/schema-tools-generate-en10168-pdf-template": "^0.7.1"
+  },
   "devDependencies": {
     "@types/jsdom": "^16.2.13",
     "@types/lodash.clone": "^4.5.6",

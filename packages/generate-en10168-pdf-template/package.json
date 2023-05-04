@@ -23,7 +23,7 @@
   "targets": {
     "main": {
       "engines": {
-        "node": ">=12.x"
+        "node": ">=14.x"
       },
       "distDir": "./dist",
       "optimize": true,
@@ -58,7 +58,7 @@
     "@types/pdfmake": "^0.2.0",
     "full-icu": "^1.4.0",
     "lato-font": "^3.0.0",
-    "parcel": "^2.3.1"
+    "parcel": "^2.8.3"
   },
   "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
 }

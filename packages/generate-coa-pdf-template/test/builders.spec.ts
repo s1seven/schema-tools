@@ -1,6 +1,11 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { localizeDate, localizeNumber, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
-import { CampusTranslations, ExternalStandardsTranslations, Languages } from '@s1seven/schema-tools-types';
+import {
+  CampusTranslations,
+  ExternalStandardsTranslations,
+  LanguageFontMap,
+  Languages,
+} from '@s1seven/schema-tools-types';
 
 import {
   createAnalysis,
@@ -22,12 +27,18 @@ const getI18N = (
   translations: CoATranslations,
   extraTranslations: CampusTranslations,
   languages: Languages[] = ['EN', 'DE'],
+  languageFontMap?: LanguageFontMap,
 ) => {
   translations = languages.reduce((acc, key) => {
     acc[key] = translations[key];
     return acc;
   }, {} as CoATranslations);
-  return new Translate<CoATranslations>(translations, extraTranslations as ExternalStandardsTranslations, languages);
+  return new Translate<CoATranslations>(
+    translations,
+    extraTranslations as ExternalStandardsTranslations,
+    languages,
+    languageFontMap,
+  );
 };
 
 describe('Rendering', () => {
@@ -124,6 +135,24 @@ describe('Rendering', () => {
       }),
     );
     expect(receivers.table.widths).toEqual(['33%', '33%', '33%']);
+  });
+
+  it('createReceivers() - should correctly render receivers details with languageFontMap custom font', () => {
+    const i18n = getI18N(translations, extraTranslations, ['EN', 'DE'], { DE: 'Helvetica' });
+    const receivers = createReceivers(certificate.Certificate.Parties as unknown as Parties, i18n);
+    const tableBody = receivers.table.body;
+    const titles = tableBody[0];
+    expect(tableBody[0].length).toEqual(3);
+    expect(titles[0][0]).toEqual(
+      expect.objectContaining({
+        text: [
+          { text: 'Customer', font: undefined },
+          { font: undefined, text: ' / ' },
+          { text: 'Kunde', font: 'Helvetica' },
+        ],
+        style: { bold: true, fontSize: 10, margin: [0, 4, 0, 4] },
+      }),
+    );
   });
 
   it('createReceivers() - renders correctly with both CompanyName and Name', () => {
@@ -258,7 +287,7 @@ describe('Rendering', () => {
     const analysis = createAnalysis(certificate.Certificate.Analysis as any, i18n);
     const lotIdRow = analysis[2].table.body;
     const tableBody = analysis[3].table.body;
-    const { Inspections, LotId } = certificate.Certificate.Analysis;
+    const { LotId, Inspections } = certificate.Certificate.Analysis;
 
     expect(lotIdRow[0][0]).toEqual(
       expect.objectContaining({ text: i18n.translate('LotId', 'Certificate'), style: 'h5' }),
@@ -267,11 +296,11 @@ describe('Rendering', () => {
 
     expect(tableBody[0][0]).toEqual(expect.objectContaining({ text: i18n.translate('Property', 'Certificate') }));
     expect(tableBody[0][3]).toEqual(expect.objectContaining({ text: i18n.translate('Value', 'Certificate') }));
-    expect(tableBody[1][0]).toEqual(expect.objectContaining({ text: Inspections[0].Property }));
+    expect(tableBody[1][0]['text'][0]).toEqual(expect.objectContaining({ text: Inspections[0].Property }));
     expect(tableBody[1][3]).toEqual(
       expect.objectContaining({ text: localizeNumber(Inspections[0].Value, i18n.languages) }),
     );
-    expect(tableBody[2][0]).toEqual(expect.objectContaining({ text: Inspections[1].Property }));
+    expect(tableBody[2][0]['text'][0]).toEqual(expect.objectContaining({ text: Inspections[1].Property }));
     expect(tableBody[2][3]).toEqual(
       expect.objectContaining({ text: localizeNumber(Inspections[1].Value, i18n.languages) }),
     );

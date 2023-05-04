@@ -1,4 +1,4 @@
-import { TableCell } from 'pdfmake/interfaces';
+import type { TableCell } from 'pdfmake/interfaces';
 
 import { createEmptyColumns, localizeValue } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 

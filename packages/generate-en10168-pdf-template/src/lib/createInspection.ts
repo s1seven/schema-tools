@@ -1,4 +1,4 @@
-import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
+import type { ContentCanvas, ContentText } from 'pdfmake/interfaces';
 
 import {
   createEmptyColumns,
@@ -88,7 +88,7 @@ export function createInspectionFromInspectionObject(inspection: Inspection, i18
     : [];
 
   return [
-    { text: `${i18n.translate('Inspection', 'certificateGroups')}`, style: 'h2', margin: [0, 0, 0, 4] },
+    { text: i18n.translate('Inspection', 'certificateGroups'), style: 'h2', margin: [0, 0, 0, 4] },
     { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] },
     {
       id: 'Inspection',

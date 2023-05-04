@@ -1,11 +1,11 @@
-import { ContentCanvas, ContentText } from 'pdfmake/interfaces';
+import type { ContentCanvas, ContentText } from 'pdfmake/interfaces';
 
-import { TableElement, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
+import type { TableElement, Translate } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
-import { EN10168Translations } from './translations';
+import type { EN10168Translations } from './translations';
 
 export * from './schemaTypes';
-export * from './translations';
+export { EN10168CertificateTranslations, EN10168Translations } from './translations';
 
 export type I18N = Translate<EN10168Translations>;
 

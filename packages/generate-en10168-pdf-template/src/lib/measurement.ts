@@ -1,4 +1,4 @@
-import { TableCell } from 'pdfmake/interfaces';
+import type { TableCell } from 'pdfmake/interfaces';
 
 import { localizeNumber } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
@@ -13,7 +13,10 @@ export function renderMeasurement(
   const { Property, Value, Minimum, Maximum, Unit } = measurement;
   return [
     [
-      { text: `${i18n.translate(name, 'certificateFields')} ${Property ? Property : ''}`, style: 'tableHeader' },
+      {
+        text: [{ text: i18n.translate(name, 'certificateFields') }, { text: ` ${Property || ''}` }],
+        style: 'tableHeader',
+      },
       {},
       {},
       {

@@ -1,4 +1,4 @@
-import { Column, ContentCanvas, ContentColumns, ContentText } from 'pdfmake/interfaces';
+import type { Column, ContentCanvas, ContentColumns, ContentText } from 'pdfmake/interfaces';
 
 import { localizeDate, TableElement, tableLayout } from '@s1seven/schema-tools-generate-pdf-template-helpers';
 
@@ -67,7 +67,7 @@ export function createValidation(
   }
 
   return [
-    { text: `${i18n.translate('Validation', 'certificateGroups')}`, style: 'h2', margin: [0, 0, 0, 4] },
+    { text: i18n.translate('Validation', 'certificateGroups'), style: 'h2', margin: [0, 0, 0, 4] },
     { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] },
     { columns },
     {

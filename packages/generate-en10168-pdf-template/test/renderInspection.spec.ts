@@ -60,7 +60,17 @@ describe('Rendering inspection section', () => {
           {
             colSpan: 4,
             style: 'h5',
-            text: 'Supplementary information / Ergänzende Angaben',
+            text: [
+              {
+                font: undefined,
+                text: 'Supplementary information',
+              },
+              { font: undefined, text: ' / ' },
+              {
+                font: undefined,
+                text: 'Ergänzende Angaben',
+              },
+            ],
           },
           {},
           {},
@@ -111,7 +121,27 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C11 Yield or proof strength / Streck- oder Dehngrenze Streckgrenze ReH/RP0,2',
+            text: [
+              {
+                text: [
+                  {
+                    text: 'C11 ',
+                  },
+                  {
+                    font: undefined,
+                    text: 'Yield or proof strength',
+                  },
+                  { font: undefined, text: ' / ' },
+                  {
+                    font: undefined,
+                    text: 'Streck- oder Dehngrenze',
+                  },
+                ],
+              },
+              {
+                text: ' Streckgrenze ReH/RP0,2',
+              },
+            ],
           },
           {},
           {},
@@ -136,7 +166,27 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C12 Tensile strength / Zugfestigkeit Zugfestigkeit Rm',
+            text: [
+              {
+                text: [
+                  {
+                    text: 'C12 ',
+                  },
+                  {
+                    font: undefined,
+                    text: 'Tensile strength',
+                  },
+                  { font: undefined, text: ' / ' },
+                  {
+                    font: undefined,
+                    text: 'Zugfestigkeit',
+                  },
+                ],
+              },
+              {
+                text: ' Zugfestigkeit Rm',
+              },
+            ],
           },
           {},
           {},
@@ -161,7 +211,27 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C13 Elongation after fracture / Bruchdehnung Bruchdehnung A5/A80',
+            text: [
+              {
+                text: [
+                  {
+                    text: 'C13 ',
+                  },
+                  {
+                    font: undefined,
+                    text: 'Elongation after fracture',
+                  },
+                  { font: undefined, text: ' / ' },
+                  {
+                    font: undefined,
+                    text: 'Bruchdehnung',
+                  },
+                ],
+              },
+              {
+                text: ' Bruchdehnung A5/A80',
+              },
+            ],
           },
           {},
           {},
@@ -260,7 +330,17 @@ describe('Rendering inspection section', () => {
     ];
     const inspectionContent = createInspection(inspectionArray, i18n);
     expect(inspectionContent[0]).toEqual({
-      text: 'Inspection / Angaben zur Probenentnahme und Prüfung',
+      text: [
+        {
+          font: undefined,
+          text: 'Inspection',
+        },
+        { font: undefined, text: ' / ' },
+        {
+          font: undefined,
+          text: 'Angaben zur Probenentnahme und Prüfung',
+        },
+      ],
       style: 'h2',
       margin: [0, 0, 0, 4],
     });
@@ -308,7 +388,17 @@ describe('Rendering inspection section', () => {
           {
             colSpan: 4,
             style: 'h5',
-            text: 'Supplementary information / Ergänzende Angaben',
+            text: [
+              {
+                font: undefined,
+                text: 'Supplementary information',
+              },
+              { font: undefined, text: ' / ' },
+              {
+                font: undefined,
+                text: 'Ergänzende Angaben',
+              },
+            ],
           },
           {},
           {},
@@ -340,7 +430,20 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C30 Method of test / Prüfverfahren',
+            text: [
+              {
+                text: 'C30 ',
+              },
+              {
+                font: undefined,
+                text: 'Method of test',
+              },
+              { font: undefined, text: ' / ' },
+              {
+                font: undefined,
+                text: 'Prüfverfahren',
+              },
+            ],
           },
           {},
           {},
@@ -352,7 +455,21 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C31 Individual values / Einzelwerte',
+            text: [
+              {
+                text: 'C31 ',
+              },
+
+              {
+                font: undefined,
+                text: 'Individual values',
+              },
+              { font: undefined, text: ' / ' },
+              {
+                font: undefined,
+                text: 'Einzelwerte',
+              },
+            ],
           },
           {},
           {},
@@ -364,7 +481,27 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C32 Mean value / Mittelwert Length',
+            text: [
+              {
+                text: [
+                  {
+                    text: 'C32 ',
+                  },
+                  {
+                    font: undefined,
+                    text: 'Mean value',
+                  },
+                  { font: undefined, text: ' / ' },
+                  {
+                    font: undefined,
+                    text: 'Mittelwert',
+                  },
+                ],
+              },
+              {
+                text: ' Length',
+              },
+            ],
           },
           {},
           {},
@@ -439,7 +576,20 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C30 Method of test / Prüfverfahren',
+            text: [
+              {
+                text: 'C30 ',
+              },
+              {
+                font: undefined,
+                text: 'Method of test',
+              },
+              { font: undefined, text: ' / ' },
+              {
+                font: undefined,
+                text: 'Prüfverfahren',
+              },
+            ],
           },
           {},
           {},
@@ -451,7 +601,20 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C31 Individual values / Einzelwerte',
+            text: [
+              {
+                text: 'C31 ',
+              },
+              {
+                font: undefined,
+                text: 'Individual values',
+              },
+              { font: undefined, text: ' / ' },
+              {
+                font: undefined,
+                text: 'Einzelwerte',
+              },
+            ],
           },
           {},
           {},
@@ -463,7 +626,27 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C32 Mean value / Mittelwert Length',
+            text: [
+              {
+                text: [
+                  {
+                    text: 'C32 ',
+                  },
+                  {
+                    font: undefined,
+                    text: 'Mean value',
+                  },
+                  { font: undefined, text: ' / ' },
+                  {
+                    font: undefined,
+                    text: 'Mittelwert',
+                  },
+                ],
+              },
+              {
+                text: ' Length',
+              },
+            ],
           },
           {},
           {},
@@ -547,7 +730,17 @@ describe('Rendering inspection section', () => {
           {
             colSpan: 4,
             style: 'h5',
-            text: 'Supplementary information / Ergänzende Angaben',
+            text: [
+              {
+                font: undefined,
+                text: 'Supplementary information',
+              },
+              { font: undefined, text: ' / ' },
+              {
+                font: undefined,
+                text: 'Ergänzende Angaben',
+              },
+            ],
           },
           {},
           {},
@@ -580,7 +773,21 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C40 Type of test piece / Probenform',
+            text: [
+              {
+                text: 'C40 ',
+              },
+
+              {
+                font: undefined,
+                text: 'Type of test piece',
+              },
+              { font: undefined, text: ' / ' },
+              {
+                font: undefined,
+                text: 'Probenform',
+              },
+            ],
           },
           {},
           {},
@@ -592,7 +799,27 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C41 Width of test piece / Probenbreite Width',
+            text: [
+              {
+                text: [
+                  {
+                    text: 'C41 ',
+                  },
+                  {
+                    font: undefined,
+                    text: 'Width of test piece',
+                  },
+                  { font: undefined, text: ' / ' },
+                  {
+                    font: undefined,
+                    text: 'Probenbreite',
+                  },
+                ],
+              },
+              {
+                text: ' Width',
+              },
+            ],
           },
           {},
           {},
@@ -617,7 +844,20 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C42 Individual values / Einzelwerte',
+            text: [
+              {
+                text: 'C42 ',
+              },
+              {
+                font: undefined,
+                text: 'Individual values',
+              },
+              { font: undefined, text: ' / ' },
+              {
+                font: undefined,
+                text: 'Einzelwerte',
+              },
+            ],
           },
           {},
           {},
@@ -629,7 +869,27 @@ describe('Rendering inspection section', () => {
         [
           {
             style: 'tableHeader',
-            text: 'C43 Mean value / Mittelwert ',
+            text: [
+              {
+                text: [
+                  {
+                    text: 'C43 ',
+                  },
+                  {
+                    font: undefined,
+                    text: 'Mean value',
+                  },
+                  { font: undefined, text: ' / ' },
+                  {
+                    font: undefined,
+                    text: 'Mittelwert',
+                  },
+                ],
+              },
+              {
+                text: ' ',
+              },
+            ],
           },
           {},
           {},
@@ -820,12 +1080,5 @@ describe('Rendering inspection section', () => {
         ],
       ],
     });
-    // expect((chemicalComposition[4] as TableElement).table).toEqual({
-    //   widths: [160, '*', '*', 300],
-    //   body: [
-    //     [{ text: 'Supplementary information / Ergänzende Angaben', style: 'h5', colSpan: 4 }, {}, {}, {}],
-    //     [{ text: 'C110 Bq/kg', style: 'tableHeader', colSpan: 3 }, {}, {}, { text: '<100 ', style: 'p', colSpan: 1 }],
-    //   ],
-    // });
   });
 });

@@ -17,7 +17,17 @@ describe('Rendering validation section', () => {
     expect(validation[0]).toEqual({
       margin: [0, 0, 0, 4],
       style: 'h2',
-      text: 'Validation / Bestätigungen',
+      text: [
+        {
+          font: undefined,
+          text: 'Validation',
+        },
+        { font: undefined, text: ' / ' },
+        {
+          font: undefined,
+          text: 'Bestätigungen',
+        },
+      ],
     });
 
     expect((validation[2].columns as any)[0].table).toEqual({
@@ -26,7 +36,20 @@ describe('Rendering validation section', () => {
           {
             colSpan: 2,
             style: 'tableHeader',
-            text: 'Z01 Statement of compliance / Konformitätserklärung',
+            text: [
+              {
+                text: 'Z01 ',
+              },
+              {
+                font: undefined,
+                text: 'Statement of compliance',
+              },
+              { font: undefined, text: ' / ' },
+              {
+                font: undefined,
+                text: 'Konformitätserklärung',
+              },
+            ],
           },
           {},
           {
@@ -38,7 +61,20 @@ describe('Rendering validation section', () => {
           {
             colSpan: 2,
             style: 'tableHeader',
-            text: 'Z02 Date of issue and validation / Datum der Ausstellung und Bestätigung',
+            text: [
+              {
+                text: 'Z02 ',
+              },
+              {
+                font: undefined,
+                text: 'Date of issue and validation',
+              },
+              { font: undefined, text: ' / ' },
+              {
+                font: undefined,
+                text: 'Datum der Ausstellung und Bestätigung',
+              },
+            ],
           },
           {},
           {
@@ -50,7 +86,20 @@ describe('Rendering validation section', () => {
           {
             colSpan: 2,
             style: 'tableHeader',
-            text: 'Z03 Stamp of the inspection representative / Stempel des/der Abnahmebeauftragten',
+            text: [
+              {
+                text: 'Z03 ',
+              },
+              {
+                font: undefined,
+                text: 'Stamp of the inspection representative',
+              },
+              { font: undefined, text: ' / ' },
+              {
+                font: undefined,
+                text: 'Stempel des/der Abnahmebeauftragten',
+              },
+            ],
           },
           {},
           {

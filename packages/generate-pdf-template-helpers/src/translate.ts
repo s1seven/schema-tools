@@ -1,15 +1,26 @@
-import { ExternalStandardsTranslations, Languages, Translations } from '@s1seven/schema-tools-types';
+import type {
+  ExternalStandardsTranslations,
+  LanguageFontMap,
+  Languages,
+  Translations,
+  TranslationWithFont,
+} from '@s1seven/schema-tools-types';
 
 type ValueOf<T> = T[keyof T];
 
 export class Translate<T = Translations, E = ExternalStandardsTranslations> {
-  constructor(readonly translations: T, readonly extraTranslations: E, readonly languages: Languages[] = ['EN']) {}
+  constructor(
+    readonly translations: T,
+    readonly extraTranslations: E,
+    readonly languages: Languages[] = ['EN'],
+    readonly languageFontMap: LanguageFontMap = {},
+  ) {}
 
   getField<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
     language: Languages,
     group: G,
     phrase: P,
-  ) {
+  ): string {
     const translations = this.translations;
     if (
       typeof translations === 'object' &&
@@ -25,17 +36,26 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
   getTranslation<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
     group: G,
     phrase: P,
-  ) {
-    return this.languages.map((language) => this.getField(language, group, phrase)).join(' / ');
+  ): TranslationWithFont[] {
+    const translationArray = this.languages.map((language) => {
+      const font = this.languageFontMap[language];
+      const field = this.getField(language, group, phrase);
+      return { text: field, font };
+    });
+    if (translationArray.length === 2) {
+      const separator = { text: ' / ', font: undefined };
+      translationArray.splice(1, 0, separator);
+    }
+    return translationArray;
   }
 
   translate<G extends keyof ValueOf<T> = keyof ValueOf<T>, P extends keyof ValueOf<T>[G] = keyof ValueOf<T>[G]>(
     phrase: P,
     group: G,
-  ) {
+  ): TranslationWithFont[] {
     // specific to EN10168
     if (group === 'certificateFields') {
-      return `${phrase as string} ${this.getTranslation(group, phrase)}`;
+      return [{ text: `${phrase as string} ` }, ...this.getTranslation(group, phrase)];
     }
     return this.getTranslation(group, phrase);
   }
@@ -45,7 +65,7 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
     propertyId: P,
     property: keyof R[P],
     defaultValue: string,
-  ) {
+  ): TranslationWithFont[] {
     return this.getExtraTranslation(externalStandard, propertyId, property, defaultValue);
   }
 
@@ -53,12 +73,54 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
     S extends keyof E = keyof E,
     R extends ValueOf<E[S]> = ValueOf<E[S]>,
     P extends keyof R = keyof R,
-  >(externalStandard: S | undefined, propertyId: P, property: keyof R[P], defaultValue: string) {
-    const translatedFields = this.languages.map(
-      (language) => this.getExtraField(externalStandard, language, propertyId, property) || defaultValue,
-    );
+  >(externalStandard: S | undefined, propertyId: P, property: keyof R[P], defaultValue: string): TranslationWithFont[] {
+    const translatedFields = this.languages.map((language) => {
+      const font = this.languageFontMap[language];
+      const text = this.getExtraField(externalStandard, language, propertyId, property) || defaultValue;
+      return { text, font };
+    });
 
-    return translatedFields[0] === translatedFields[1] ? translatedFields[0] : translatedFields.join(' / ');
+    // if the first and second translation are the same, or there is only one translation, return only the first object
+    if (
+      translatedFields[0]?.text === translatedFields[1]?.text ||
+      (translatedFields[0]?.text && !translatedFields[1]?.text)
+    ) {
+      return [translatedFields[0]];
+    }
+    if (translatedFields.length === 2) {
+      const separator = { text: ' / ', font: undefined };
+      translatedFields.splice(1, 0, separator);
+    }
+    return translatedFields;
+  }
+
+  private isExtraTranslation(
+    externalStandard: unknown,
+    language: string,
+    propertyId: unknown,
+    property: unknown,
+    extraTranslations: unknown,
+  ): extraTranslations is ExternalStandardsTranslations {
+    return (
+      externalStandard &&
+      typeof externalStandard === 'string' &&
+      typeof extraTranslations === 'object' &&
+      extraTranslations !== null &&
+      extraTranslations[externalStandard] &&
+      typeof extraTranslations[externalStandard] === 'object' &&
+      extraTranslations[externalStandard] !== null &&
+      language in extraTranslations[externalStandard] &&
+      propertyId &&
+      typeof propertyId === 'string' &&
+      typeof extraTranslations[externalStandard][language] === 'object' &&
+      extraTranslations[externalStandard][language] !== null &&
+      propertyId in extraTranslations[externalStandard][language] &&
+      property &&
+      typeof property === 'string' &&
+      typeof extraTranslations[externalStandard][language][propertyId] === 'object' &&
+      extraTranslations[externalStandard][language][propertyId] !== null &&
+      property in extraTranslations[externalStandard][language][propertyId]
+    );
   }
 
   getExtraField<S extends keyof E = keyof E, R extends ValueOf<E[S]> = ValueOf<E[S]>, P extends keyof R = keyof R>(
@@ -66,17 +128,9 @@ export class Translate<T = Translations, E = ExternalStandardsTranslations> {
     language: Languages,
     propertyId: P,
     property: keyof R[P],
-  ) {
-    const extraTranslations = this.extraTranslations;
-
-    if (
-      externalStandard &&
-      typeof extraTranslations === 'object' &&
-      language in extraTranslations[externalStandard] &&
-      propertyId in extraTranslations[externalStandard][language] &&
-      property in extraTranslations[externalStandard][language][propertyId]
-    ) {
-      return extraTranslations[externalStandard][language][propertyId][property];
+  ): string {
+    if (this.isExtraTranslation(externalStandard, language, propertyId, property, this.extraTranslations)) {
+      return this.extraTranslations[externalStandard][language][propertyId][property];
     }
     return '';
   }

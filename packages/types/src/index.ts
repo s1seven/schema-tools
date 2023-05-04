@@ -17,7 +17,7 @@ import {
   ValidationArguments,
   ValidationOptions,
 } from 'class-validator';
-export { JSONSchema7, JSONSchema7Definition } from 'json-schema';
+export type { JSONSchema7, JSONSchema7Definition } from 'json-schema';
 
 export function isNotEmptyArrayOrObject(validationOptions?: ValidationOptions) {
   return function (object: EN10168SchemaCertificate, propertyName: string) {
@@ -140,6 +140,15 @@ export type ExternalStandardsTranslations = {
 
 export type ExtraTranslations = {
   [key in ExternalStandardsEnum]?: ExternalStandardsTranslations[key];
+};
+
+export type LanguageFontMap = {
+  [ln in Languages]?: string;
+};
+
+export type TranslationWithFont = {
+  text: string;
+  font?: string;
 };
 
 export class EN10168SchemaCertificate {

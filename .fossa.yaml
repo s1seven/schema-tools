@@ -1,0 +1,12 @@
+version: 3
+
+server: https://app.fossa.com
+
+project:
+  id: github.com/s1seven/schema-tools
+  name: schema-tools
+  link: https://s1seven.github.io/SEP/schemas/#preambule
+  url: https://github.com/s1seven/schema-tools
+  labels:
+    - schemas
+    - tooling

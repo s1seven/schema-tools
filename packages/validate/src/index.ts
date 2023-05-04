@@ -16,7 +16,7 @@ export type ValidateOptions = {
   ignoredExts?: string[];
 };
 
-export { ValidateFunction } from 'ajv';
+export type { ValidateFunction } from 'ajv';
 
 const debug = Debug('schema-tools-validate');
 
