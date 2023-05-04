@@ -27,7 +27,7 @@ type TestMap = {
 };
 
 /*
-  When adding a new version, please also add a new test suite to the testMap below.
+  When adding a new fixture version, add a new test suite to the testMap below.
   Add new unreleased versions both to versions and unreleasedVersions. 
   Remove from unreleasedVersions upon release.
   To add more than one fixture per version, use the following naming format:
@@ -36,7 +36,7 @@ type TestMap = {
   valid_cert_<number>.html
   */
 
-const testMap = [
+const certificateTestMap = [
   {
     type: SupportedSchemas.EN10168,
     versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v0.4.0', 'v0.4.1'],
@@ -80,6 +80,39 @@ const docDefinition: Omit<TDocumentDefinitions, 'content'> = {
     font: 'Lato',
     fontSize: 10,
   },
+};
+
+const generatePaths = (
+  validCertName: string,
+  dirPath: string,
+  isLatestVersion: boolean,
+  type: SupportedSchemas,
+  version: string,
+) => {
+  const { name } = parse(validCertName);
+  const validCertificate = require(join(dirPath, validCertName));
+  const certificateHtmlPath = `${dirPath}/${name}.html`;
+  const expectedPdfPath = `${dirPath}/${name}.pdf`;
+  const translationsPath = `${dirPath}/translations.json`;
+  const coaCertsWithoutExtraTranslations = ['v0.0.4', 'v0.1.0'];
+  let generatorPath: string;
+  if (isLatestVersion) {
+    generatorPath = resolve(`${__dirname}/../../generate-${type}-pdf-template/dist/generateContent.js`);
+  }
+  let extraTranslationsPath: string;
+
+  if (type === SupportedSchemas.COA && !coaCertsWithoutExtraTranslations.includes(version)) {
+    extraTranslationsPath = `${dirPath}/extra_translations.json`;
+  }
+  return {
+    name,
+    validCertificate,
+    certificateHtmlPath,
+    expectedPdfPath,
+    translationsPath,
+    generatorPath,
+    extraTranslationsPath,
+  };
 };
 
 const waitWritableStreamEnd = (writeStream: Writable, outputFilePath: string) => {
@@ -237,32 +270,26 @@ describe('GeneratePDF', function () {
     expect(content[0]).toHaveProperty('layout');
   }, 8000);
 
-  testMap.forEach((schema) => {
+  certificateTestMap.forEach((schema) => {
     const { type, versions } = schema;
     const styles = require(`../../generate-${type}-pdf-template/utils/styles.js`);
 
     versions.forEach((version, index) => {
       const dirPath = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
       const files = readdirSync(dirPath);
-      const filtered = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
-      const lastestVersion = index === versions.length - 1;
+      const validCertNames = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
+      const isLatestVersion = index === versions.length - 1;
 
-      filtered.map((validCert) => {
-        const { name } = parse(validCert);
-        const validCertificate = require(join(dirPath, validCert));
-        const certificateHtmlPath = `${dirPath}/${name}.html`;
-        const expectedPdfPath = `${dirPath}/${name}.pdf`;
-        const translationsPath = `${dirPath}/translations.json`;
-        let extraTranslationsPath: string;
-        let generatorPath: string;
-
-        // TODO: refactor this
-        if (type === SupportedSchemas.COA && !['v0.0.4', 'v0.1.0'].includes(version)) {
-          extraTranslationsPath = `${dirPath}/extra_translations.json`;
-        }
-        if (lastestVersion) {
-          generatorPath = resolve(`${__dirname}/../../generate-${type}-pdf-template/dist/generateContent.js`);
-        }
+      validCertNames.map((validCertName) => {
+        const {
+          name,
+          translationsPath,
+          certificateHtmlPath,
+          expectedPdfPath,
+          validCertificate,
+          generatorPath,
+          extraTranslationsPath,
+        } = generatePaths(validCertName, dirPath, isLatestVersion, type, version);
 
         runPDFGenerationTests({
           name,

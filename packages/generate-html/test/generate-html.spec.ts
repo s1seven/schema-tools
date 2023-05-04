@@ -14,7 +14,7 @@ import { generateHtml, GenerateHtmlOptions } from '../src/index';
   To add more than one fixture per version, use the following naming format:
   valid_cert_<number>.json
   valid_cert_<number>.pdf
-  template_hbs_<number>.html
+  valid_cert_<number>.html
   */
 
 const certificateTestMap = [
@@ -32,12 +32,10 @@ const certificateTestMap = [
 
 function generatePaths(validCertName: string, dirPath: string) {
   const { name } = parse(validCertName);
-  // handles the case where the certificate name is like "valid_cert_1"
-  const fileVersion = name.match(/_\d+/)?.[0] || '';
   const certificatePath = `${dirPath}/${name}.json`;
   const schemaTranslationsPath = `${dirPath}/translations.json`;
   const partialsMapPath = `${dirPath}/partials-map.json`;
-  const expectedHtmlFromHbs = readFileSync(`${dirPath}/template_hbs${fileVersion}.html`, 'utf-8');
+  const expectedHtmlFromHbs = readFileSync(`${dirPath}/${name}.html`, 'utf-8');
   const schemaExtraTranslationsPath = existsSync(`${dirPath}/extra_translations.json`)
     ? `${dirPath}/extra_translations.json`
     : undefined;
