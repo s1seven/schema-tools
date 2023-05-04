@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { createHash } from 'node:crypto';
 import { createWriteStream, existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
-import path, { join, parse, resolve } from 'node:path';
+import { join, parse, resolve } from 'node:path';
 import { Writable } from 'node:stream';
 import { fromBuffer } from 'pdf2pic';
 import type { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
 import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
 
+import { SchemaDirUnion, SupportedSchemas, SupportedSchemasDirMap } from '@s1seven/schema-tools-types';
 import { EN10168Schema, Schemas } from '@s1seven/schema-tools-types';
 
 import { type GeneratePdfOptionsExtended, buildModule, generateInSandbox, generatePdf } from '../src';
 
 type TestMap = {
   name: string;
-  type: string;
+  type: SchemaDirUnion;
   version: string;
   styles: StyleDictionary;
   extraTranslationsPath?: string;
@@ -38,12 +39,12 @@ type TestMap = {
 
 const certificateTestMap = [
   {
-    type: 'EN10168',
+    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
     versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v0.4.0', 'v0.4.1'],
     unreleasedVersions: [],
   },
   {
-    type: 'CoA',
+    type: SupportedSchemasDirMap[SupportedSchemas.COA],
     versions: ['v0.0.4', 'v0.1.0', 'v0.2.0', 'v1.0.0', 'v1.1.0'],
     unreleasedVersions: [],
   },
@@ -86,7 +87,7 @@ const generatePaths = (
   validCertName: string,
   dirPath: string,
   isLatestVersion: boolean,
-  type: string,
+  type: SchemaDirUnion,
   version: string,
 ) => {
   const { name } = parse(validCertName);
@@ -253,14 +254,14 @@ const runPDFGenerationTests = (testSuite: TestMap) => {
 
 describe('GeneratePDF', function () {
   it('should build module using local PDF generator script', async () => {
-    const generatorPath = path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
+    const generatorPath = resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
     const module = await buildModule(generatorPath);
     expect(module).toHaveProperty('generateContent');
   }, 3000);
 
   it('should execute in a sandbox the PDF generator script and return pdfmake content', async () => {
-    const generatorPath = path.resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
-    const certificatePath = path.resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.json`);
+    const generatorPath = resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
+    const certificatePath = resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.json`);
     const certificate = JSON.parse(readFileSync(certificatePath, 'utf-8'));
     //
     const content = await generateInSandbox(certificate as EN10168Schema, {}, generatorPath);

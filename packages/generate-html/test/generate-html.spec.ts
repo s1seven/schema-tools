@@ -4,6 +4,7 @@ import { existsSync, readdirSync, readFileSync } from 'fs';
 import { parse, resolve } from 'path';
 
 import { ExtraTranslations, Translations } from '@s1seven/schema-tools-types';
+import { SchemaDirUnion, SupportedSchemas, SupportedSchemasDirMap } from '@s1seven/schema-tools-types';
 
 import { generateHtml, GenerateHtmlOptions } from '../src/index';
 
@@ -19,12 +20,12 @@ import { generateHtml, GenerateHtmlOptions } from '../src/index';
 
 const certificateTestMap = [
   {
-    type: 'EN10168',
+    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
     versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v0.4.0', 'v0.4.1'],
     unreleasedVersions: [],
   },
   {
-    type: 'CoA',
+    type: SupportedSchemasDirMap[SupportedSchemas.COA],
     versions: ['v0.0.4', 'v0.1.0', 'v0.2.0', 'v1.0.0', 'v1.1.0'],
     unreleasedVersions: [],
   },
@@ -68,7 +69,7 @@ const htmlDifferOptions = {
 
 type TestMap = {
   name: string;
-  type: string;
+  type: SchemaDirUnion;
   version: string;
   certificatePath: string;
   schemaTranslationsPath: string;
