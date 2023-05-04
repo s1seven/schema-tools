@@ -96,6 +96,7 @@ jobs:
   # Added to avoid running Danger and pdfGenerator twice
   pdf-generator:
     runs-on: ubuntu-latest
+    needs: setup-and-test
     if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
 
     steps:
