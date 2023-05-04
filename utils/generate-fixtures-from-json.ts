@@ -32,7 +32,7 @@ This script is compatible with CoA v1.0.0 and up, and all EN10168 versions.
   const { dir } = parse(jsonPath);
   const extraTranslationsPath = schemaType === 'coa' ? `-e ${join(dir, 'extra_translations.json')}` : '';
   const pdfPath = jsonPath.replace('.json', '.pdf');
-  const htmlPath = jsonPath.replace('.json', '.html').replace('valid_cert', 'template_hbs');
+  const htmlPath = jsonPath.replace('.json', '.html');
   const translationsPath = join(dir, 'translations.json');
   const templatePath = join(dir, 'template.hbs');
   const certificateInterfacePath = join(dir, 'certificate.ts');
@@ -58,7 +58,7 @@ This script is compatible with CoA v1.0.0 and up, and all EN10168 versions.
       { stdio: 'inherit', cwd: resolve(__dirname, '../') },
     );
   } catch (e) {
-    if (e.message.includes('partial')) {
+    if (e?.message.includes('partial')) {
       console.log('Please ensure that local partials are defined with an absolute path in the partials-map.json file');
     }
     throw e;
