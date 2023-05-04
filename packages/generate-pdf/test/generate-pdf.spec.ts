@@ -272,7 +272,7 @@ describe('GeneratePDF', function () {
 
   certificateTestMap.forEach((schema) => {
     const { type, versions } = schema;
-    const styles = require(`../../generate-${type}-pdf-template/utils/styles.js`);
+    const styles = require(`../../generate-${type.toLowerCase()}-pdf-template/utils/styles.js`);
 
     versions.forEach((version, index) => {
       const dirPath = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
