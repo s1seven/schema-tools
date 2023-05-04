@@ -7,13 +7,13 @@ import { fromBuffer } from 'pdf2pic';
 import type { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
 import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
 
-import { EN10168Schema, Schemas, SupportedSchemas } from '@s1seven/schema-tools-types';
+import { EN10168Schema, Schemas } from '@s1seven/schema-tools-types';
 
 import { type GeneratePdfOptionsExtended, buildModule, generateInSandbox, generatePdf } from '../src';
 
 type TestMap = {
   name: string;
-  type: SupportedSchemas;
+  type: string;
   version: string;
   styles: StyleDictionary;
   extraTranslationsPath?: string;
@@ -38,12 +38,12 @@ type TestMap = {
 
 const certificateTestMap = [
   {
-    type: SupportedSchemas.EN10168,
+    type: 'EN10168',
     versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v0.4.0', 'v0.4.1'],
     unreleasedVersions: [],
   },
   {
-    type: SupportedSchemas.COA,
+    type: 'CoA',
     versions: ['v0.0.4', 'v0.1.0', 'v0.2.0', 'v1.0.0', 'v1.1.0'],
     unreleasedVersions: [],
   },
@@ -86,7 +86,7 @@ const generatePaths = (
   validCertName: string,
   dirPath: string,
   isLatestVersion: boolean,
-  type: SupportedSchemas,
+  type: string,
   version: string,
 ) => {
   const { name } = parse(validCertName);
@@ -101,7 +101,7 @@ const generatePaths = (
   }
   let extraTranslationsPath: string;
 
-  if (type === SupportedSchemas.COA && !coaCertsWithoutExtraTranslations.includes(version)) {
+  if (type === 'CoA' && !coaCertsWithoutExtraTranslations.includes(version)) {
     extraTranslationsPath = `${dirPath}/extra_translations.json`;
   }
   return {
