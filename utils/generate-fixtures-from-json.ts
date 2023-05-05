@@ -47,15 +47,17 @@ This script is compatible with CoA v1.0.0 and up, and all EN10168 versions.
       partialsMapPath = '';
     });
 
+  process.chdir(resolve(__dirname, '../'));
+
   execSync(
     `npm run fixtures:pdf -- -c ${jsonPath} -o ${pdfPath} -t ${translationsPath} -g packages/generate-${schemaType}-pdf-template/dist/generateContent.js -s packages/generate-${schemaType}-pdf-template/utils/styles.json ${extraTranslationsPath}`,
-    { stdio: 'inherit', cwd: resolve(__dirname, '../') },
+    { stdio: 'inherit' },
   );
 
   try {
     execSync(
       `npm run fixtures:html -- -c ${jsonPath} -o ${htmlPath} -t ${translationsPath} ${partialsMapPath} -T ${templatePath} ${extraTranslationsPath}`,
-      { stdio: 'inherit', cwd: resolve(__dirname, '../') },
+      { stdio: 'inherit' },
     );
   } catch (e) {
     if (e?.message.includes('partial')) {
@@ -67,7 +69,6 @@ This script is compatible with CoA v1.0.0 and up, and all EN10168 versions.
   if (generateInterfaces === 'true') {
     execSync(`npm run fixtures:interfaces -- -s ../CoA-schemas/schema.json -o ${certificateInterfacePath}`, {
       stdio: 'inherit',
-      cwd: resolve(__dirname, '../'),
     });
   }
 })();
