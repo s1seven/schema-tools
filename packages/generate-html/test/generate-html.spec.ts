@@ -205,7 +205,7 @@ describe('GenerateHTML', function () {
     const validCertNames = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
     const localTemplatePath = `${dirPath}/template.hbs`;
 
-    validCertNames.map(async (validCertName) => {
+    validCertNames.forEach(async (validCertName) => {
       const {
         name,
         certificatePath,
