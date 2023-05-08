@@ -10,24 +10,59 @@ import { generateHtml, GenerateHtmlOptions } from '../src/index';
 
 /*
   When adding a new fixture version, add a new test suite to the testMap below.
-  Add new unreleased versions both to versions and unreleasedVersions. 
-  Remove from unreleasedVersions upon release.
+  For unreleased versions, add the localOnly flag.
   To add more than one fixture per version, use the following naming format:
   valid_cert_<number>.json
   valid_cert_<number>.pdf
   valid_cert_<number>.html
-  */
+*/
 
-const certificateTestMap = [
+type CertificateTestMap = {
+  type: SchemaDirUnion;
+  version: string;
+  localOnly?: boolean;
+};
+
+const certificateTestMap: CertificateTestMap[] = [
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
-    versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v0.4.0', 'v0.4.1'],
-    unreleasedVersions: [],
+    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    version: 'v0.0.4',
   },
   {
     type: SupportedSchemasDirMap[SupportedSchemas.COA],
-    versions: ['v0.0.4', 'v0.1.0', 'v0.2.0', 'v1.0.0', 'v1.1.0'],
-    unreleasedVersions: [],
+    version: 'v0.1.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    version: 'v0.2.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    version: 'v1.0.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    version: 'v1.1.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    version: 'v0.1.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    version: 'v0.2.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    version: 'v0.3.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    version: 'v0.4.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    version: 'v0.4.1',
   },
 ];
 
@@ -163,41 +198,35 @@ const runHTMLGenerationTests = async (testMap: TestMap) => {
 
 describe('GenerateHTML', function () {
   certificateTestMap.forEach((schemaType) => {
-    const { type, versions } = schemaType;
+    const { type, version, localOnly } = schemaType;
 
-    versions.forEach(async (version, index) => {
-      const dirPath = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
-      const files = readdirSync(dirPath);
-      const validCertNames = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
-      // only include localTemplatePath for latest (unreleased) version
-      const localTemplatePath =
-        schemaType.unreleasedVersions.includes(version) && index === versions.length - 1
-          ? `${dirPath}/template.hbs`
-          : undefined;
+    const dirPath = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
+    const files = readdirSync(dirPath);
+    const validCertNames = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
+    const localTemplatePath = `${dirPath}/template.hbs`;
 
-      validCertNames.map(async (validCertName) => {
-        const {
-          name,
-          certificatePath,
-          schemaTranslationsPath,
-          schemaExtraTranslationsPath,
-          expectedHtmlFromHbs,
-          partialsMap,
-        } = generatePaths(validCertName, dirPath);
+    validCertNames.map(async (validCertName) => {
+      const {
+        name,
+        certificatePath,
+        schemaTranslationsPath,
+        schemaExtraTranslationsPath,
+        expectedHtmlFromHbs,
+        partialsMap,
+      } = generatePaths(validCertName, dirPath);
 
-        await runHTMLGenerationTests({
-          name,
-          type,
-          version,
-          certificatePath,
-          schemaTranslationsPath,
-          schemaExtraTranslationsPath,
-          htmlDifferOptions,
-          localTemplatePath,
-          expectedHtmlFromHbs,
-          partialsMap,
-          localOnly: schemaType.unreleasedVersions.includes(version),
-        });
+      await runHTMLGenerationTests({
+        name,
+        type,
+        version,
+        certificatePath,
+        schemaTranslationsPath,
+        schemaExtraTranslationsPath,
+        htmlDifferOptions,
+        localTemplatePath,
+        expectedHtmlFromHbs,
+        partialsMap,
+        localOnly,
       });
     });
   });

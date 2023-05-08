@@ -12,7 +12,7 @@ import { EN10168Schema, Schemas } from '@s1seven/schema-tools-types';
 
 import { type GeneratePdfOptionsExtended, buildModule, generateInSandbox, generatePdf } from '../src';
 
-type TestMap = {
+type PDFGenerationTestProperties = {
   name: string;
   type: SchemaDirUnion;
   version: string;
@@ -29,24 +29,62 @@ type TestMap = {
 
 /*
   When adding a new fixture version, add a new test suite to the testMap below.
-  Add new unreleased versions both to versions and unreleasedVersions. 
-  Remove from unreleasedVersions upon release.
+  For unreleased versions, add the localOnly flag. Be sure to update isLatestVersion to the new version.
   To add more than one fixture per version, use the following naming format:
   valid_cert_<number>.json
   valid_cert_<number>.pdf
   valid_cert_<number>.html
-  */
+*/
 
-const certificateTestMap = [
+type CertificateTestMap = {
+  type: SchemaDirUnion;
+  version: string;
+  localOnly?: boolean;
+  isLatestVersion?: boolean;
+};
+
+const certificateTestMap: CertificateTestMap[] = [
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
-    versions: ['v0.1.0', 'v0.2.0', 'v0.3.0', 'v0.4.0', 'v0.4.1'],
-    unreleasedVersions: [],
+    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    version: 'v0.0.4',
   },
   {
     type: SupportedSchemasDirMap[SupportedSchemas.COA],
-    versions: ['v0.0.4', 'v0.1.0', 'v0.2.0', 'v1.0.0', 'v1.1.0'],
-    unreleasedVersions: [],
+    version: 'v0.1.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    version: 'v0.2.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    version: 'v1.0.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    version: 'v1.1.0',
+    isLatestVersion: true,
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    version: 'v0.1.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    version: 'v0.2.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    version: 'v0.3.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    version: 'v0.4.0',
+  },
+  {
+    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    version: 'v0.4.1',
+    isLatestVersion: true,
   },
 ];
 
@@ -128,7 +166,7 @@ const waitWritableStreamEnd = (writeStream: Writable, outputFilePath: string) =>
   });
 };
 
-const runPDFGenerationTests = (testSuite: TestMap) => {
+const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
   const {
     name,
     certificateHtmlPath,
@@ -272,40 +310,37 @@ describe('GeneratePDF', function () {
   }, 8000);
 
   certificateTestMap.forEach((schema) => {
-    const { type, versions } = schema;
+    const { type, version, localOnly, isLatestVersion } = schema;
     const styles = require(`../../generate-${type.toLowerCase()}-pdf-template/utils/styles.js`);
 
-    versions.forEach((version, index) => {
-      const dirPath = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
-      const files = readdirSync(dirPath);
-      const validCertNames = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
-      const isLatestVersion = index === versions.length - 1;
+    const dirPath = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
+    const files = readdirSync(dirPath);
+    const validCertNames = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
 
-      validCertNames.map((validCertName) => {
-        const {
-          name,
-          translationsPath,
-          certificateHtmlPath,
-          expectedPdfPath,
-          validCertificate,
-          generatorPath,
-          extraTranslationsPath,
-        } = generatePaths(validCertName, dirPath, isLatestVersion, type, version);
+    validCertNames.forEach((validCertName) => {
+      const {
+        name,
+        translationsPath,
+        certificateHtmlPath,
+        expectedPdfPath,
+        validCertificate,
+        generatorPath,
+        extraTranslationsPath,
+      } = generatePaths(validCertName, dirPath, isLatestVersion, type, version);
 
-        runPDFGenerationTests({
-          name,
-          type,
-          version,
-          styles,
-          translationsPath,
-          extraTranslationsPath,
-          certificateHtmlPath,
-          expectedPdfPath,
-          validCertificate,
-          docDefinition,
-          generatorPath,
-          localOnly: schema.unreleasedVersions.includes(version),
-        });
+      runPDFGenerationTests({
+        name,
+        type,
+        version,
+        styles,
+        translationsPath,
+        extraTranslationsPath,
+        certificateHtmlPath,
+        expectedPdfPath,
+        validCertificate,
+        docDefinition,
+        generatorPath,
+        localOnly,
       });
     });
   });
