@@ -4,11 +4,11 @@ import { join, parse, resolve } from 'node:path';
 import { argv } from 'node:process';
 
 /*
-This script is used to generate PDF, HTML and interface fixtures from a JSON file.
+This script is used to generate PDF, HTML and interface fixtures from a JSON certificate.
 Running the generate PDF and HTML scripts manually is cumbersome as it requires many arguments.
 This script sets sensible defaults and will work for most cases.
-To use this script, add a JSON file to the fixtures folder and run the following command:
-npm run fixtures:generate <path to JSON file> <true|false>
+To use this script, add a JSON certificate to the fixtures folder and run the following command:
+npm run fixtures:generate <path to JSON certificate> <true|false>
 E.g. npm run fixtures:generate fixtures/CoA/v1.1.0/valid_cert_1.json
 The second argument is optional and will generate a certificate interface if set to true.
 This script is compatible with CoA v1.0.0 and up, and all EN10168 versions.
