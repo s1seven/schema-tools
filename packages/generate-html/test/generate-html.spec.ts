@@ -10,7 +10,8 @@ import { generateHtml, GenerateHtmlOptions } from '../src/index';
 
 /*
   When adding a new fixture version, add a new test suite to the testMap below.
-  For unreleased versions, add the localOnly flag.
+  For unreleased versions, add the isUnreleasedVersion flag. This will ensure that only local
+  files are used for the tests.
   To add more than one fixture per version, use the following naming format:
   valid_cert_<number>.json
   valid_cert_<number>.pdf
@@ -18,50 +19,50 @@ import { generateHtml, GenerateHtmlOptions } from '../src/index';
 */
 
 type CertificateTestMap = {
-  type: SchemaDirUnion;
+  type: SupportedSchemas;
   version: string;
-  localOnly?: boolean;
+  isUnreleasedVersion?: boolean;
 };
 
 const certificateTestMap: CertificateTestMap[] = [
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    type: SupportedSchemas.COA,
     version: 'v0.0.4',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    type: SupportedSchemas.COA,
     version: 'v0.1.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    type: SupportedSchemas.COA,
     version: 'v0.2.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    type: SupportedSchemas.COA,
     version: 'v1.0.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    type: SupportedSchemas.COA,
     version: 'v1.1.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    type: SupportedSchemas.EN10168,
     version: 'v0.1.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    type: SupportedSchemas.EN10168,
     version: 'v0.2.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    type: SupportedSchemas.EN10168,
     version: 'v0.3.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    type: SupportedSchemas.EN10168,
     version: 'v0.4.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    type: SupportedSchemas.EN10168,
     version: 'v0.4.1',
   },
 ];
@@ -113,10 +114,10 @@ type TestMap = {
   expectedHtmlFromHbs: string;
   partialsMap?: Record<string, string>;
   localTemplatePath?: string;
-  localOnly?: boolean;
+  isUnreleasedVersion?: boolean;
 };
 
-const runHTMLGenerationTests = async (testMap: TestMap) => {
+const runHTMLGenerationTests = (testMap: TestMap) => {
   const {
     name,
     type,
@@ -128,7 +129,7 @@ const runHTMLGenerationTests = async (testMap: TestMap) => {
     expectedHtmlFromHbs,
     partialsMap,
     localTemplatePath,
-    localOnly,
+    isUnreleasedVersion,
   } = testMap;
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -145,7 +146,7 @@ const runHTMLGenerationTests = async (testMap: TestMap) => {
         ? JSON.parse(readFileSync(schemaExtraTranslationsPath, 'utf8'))
         : {};
 
-      if (localOnly) {
+      if (isUnreleasedVersion) {
         localExtraOptions = {
           translations,
           extraTranslations,
@@ -156,7 +157,7 @@ const runHTMLGenerationTests = async (testMap: TestMap) => {
     });
 
     it('should render HTML certificate using certificate local path and HBS template', async () => {
-      const generateHtmlOptions = localOnly ? localExtraOptions : { partialsMap };
+      const generateHtmlOptions = isUnreleasedVersion ? localExtraOptions : { partialsMap };
       const html = await generateHtml(certificatePath, generateHtmlOptions);
       const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
       //
@@ -169,7 +170,7 @@ const runHTMLGenerationTests = async (testMap: TestMap) => {
     }, 8000);
 
     it('should render HTML certificate using loaded certificate and HBS template', async () => {
-      const generateHtmlOptions = localOnly ? localExtraOptions : { partialsMap };
+      const generateHtmlOptions = isUnreleasedVersion ? localExtraOptions : { partialsMap };
       const html = await generateHtml(certificate, generateHtmlOptions);
       const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
       //
@@ -182,7 +183,9 @@ const runHTMLGenerationTests = async (testMap: TestMap) => {
     }, 8000);
 
     it('should render HTML certificate using local translations', async () => {
-      const generateHtmlOptions = localOnly ? localExtraOptions : { translations, extraTranslations, partialsMap };
+      const generateHtmlOptions = isUnreleasedVersion
+        ? localExtraOptions
+        : { translations, extraTranslations, partialsMap };
       const html = await generateHtml(certificate, generateHtmlOptions);
       const htmlDiffer = new HtmlDiffer(htmlDifferOptions);
       //
@@ -198,14 +201,14 @@ const runHTMLGenerationTests = async (testMap: TestMap) => {
 
 describe('GenerateHTML', function () {
   certificateTestMap.forEach((schemaType) => {
-    const { type, version, localOnly } = schemaType;
-
-    const dirPath = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
+    const { type, version, isUnreleasedVersion } = schemaType;
+    const dirname: SchemaDirUnion = SupportedSchemasDirMap[type];
+    const dirPath = resolve(`${__dirname}/../../../fixtures/${dirname}/${version}`);
     const files = readdirSync(dirPath);
     const validCertNames = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
     const localTemplatePath = `${dirPath}/template.hbs`;
 
-    validCertNames.forEach(async (validCertName) => {
+    validCertNames.forEach((validCertName) => {
       const {
         name,
         certificatePath,
@@ -215,7 +218,7 @@ describe('GenerateHTML', function () {
         partialsMap,
       } = generatePaths(validCertName, dirPath);
 
-      await runHTMLGenerationTests({
+      runHTMLGenerationTests({
         name,
         type,
         version,
@@ -226,7 +229,7 @@ describe('GenerateHTML', function () {
         localTemplatePath,
         expectedHtmlFromHbs,
         partialsMap,
-        localOnly,
+        isUnreleasedVersion,
       });
     });
   });

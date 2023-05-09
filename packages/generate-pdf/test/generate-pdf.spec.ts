@@ -14,7 +14,7 @@ import { type GeneratePdfOptionsExtended, buildModule, generateInSandbox, genera
 
 type PDFGenerationTestProperties = {
   name: string;
-  type: SchemaDirUnion;
+  type: SupportedSchemas;
   version: string;
   styles: StyleDictionary;
   extraTranslationsPath?: string;
@@ -24,12 +24,14 @@ type PDFGenerationTestProperties = {
   validCertificate: Schemas;
   docDefinition: Partial<TDocumentDefinitions>;
   generatorPath?: string;
-  localOnly?: boolean;
+  isUnreleasedVersion?: boolean;
 };
 
 /*
   When adding a new fixture version, add a new test suite to the testMap below.
-  For unreleased versions, add the localOnly flag. Be sure to update isLatestVersion to the new version.
+  For unreleased versions, add the isUnreleasedVersion flag. This will ensure that only local files are used for the tests.
+  Be sure to update isLatestVersion to the new version, isLatestVersion is used to run the 
+  latest version with the current local generatePdf script. isLatestVersion is unrelated to the isUnreleasedVersion flag.
   To add more than one fixture per version, use the following naming format:
   valid_cert_<number>.json
   valid_cert_<number>.pdf
@@ -37,52 +39,52 @@ type PDFGenerationTestProperties = {
 */
 
 type CertificateTestMap = {
-  type: SchemaDirUnion;
+  type: SupportedSchemas;
   version: string;
-  localOnly?: boolean;
+  isUnreleasedVersion?: boolean;
   isLatestVersion?: boolean;
 };
 
 const certificateTestMap: CertificateTestMap[] = [
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    type: SupportedSchemas.COA,
     version: 'v0.0.4',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    type: SupportedSchemas.COA,
     version: 'v0.1.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    type: SupportedSchemas.COA,
     version: 'v0.2.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    type: SupportedSchemas.COA,
     version: 'v1.0.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.COA],
+    type: SupportedSchemas.COA,
     version: 'v1.1.0',
     isLatestVersion: true,
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    type: SupportedSchemas.EN10168,
     version: 'v0.1.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    type: SupportedSchemas.EN10168,
     version: 'v0.2.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    type: SupportedSchemas.EN10168,
     version: 'v0.3.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    type: SupportedSchemas.EN10168,
     version: 'v0.4.0',
   },
   {
-    type: SupportedSchemasDirMap[SupportedSchemas.EN10168],
+    type: SupportedSchemas.EN10168,
     version: 'v0.4.1',
     isLatestVersion: true,
   },
@@ -140,7 +142,7 @@ const generatePaths = (
   }
   let extraTranslationsPath: string;
 
-  if (type === SupportedSchemasDirMap[SupportedSchemas.COA] && !coaCertsWithoutExtraTranslations.includes(version)) {
+  if (type.toLowerCase() === SupportedSchemas.COA && !coaCertsWithoutExtraTranslations.includes(version)) {
     extraTranslationsPath = `${dirPath}/extra_translations.json`;
   }
   return {
@@ -179,7 +181,7 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
     type,
     validCertificate,
     version,
-    localOnly,
+    isUnreleasedVersion,
   } = testSuite;
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -191,7 +193,7 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
       const outputFilePath = `./${type}-${version}-test2.pdf`;
       const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
       const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
-      const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = localOnly
+      const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = isUnreleasedVersion
         ? {
             docDefinition: { ...docDefinition, styles },
             outputType: 'stream',
@@ -252,7 +254,7 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
       const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
       const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
 
-      const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = localOnly
+      const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = isUnreleasedVersion
         ? {
             docDefinition: { ...docDefinition, styles },
             outputType: 'stream',
@@ -310,10 +312,11 @@ describe('GeneratePDF', function () {
   }, 8000);
 
   certificateTestMap.forEach((schema) => {
-    const { type, version, localOnly, isLatestVersion } = schema;
+    const { type, version, isUnreleasedVersion, isLatestVersion } = schema;
     const styles = require(`../../generate-${type.toLowerCase()}-pdf-template/utils/styles.js`);
+    const dirname: SchemaDirUnion = SupportedSchemasDirMap[type];
 
-    const dirPath = resolve(`${__dirname}/../../../fixtures/${type}/${version}`);
+    const dirPath = resolve(`${__dirname}/../../../fixtures/${dirname}/${version}`);
     const files = readdirSync(dirPath);
     const validCertNames = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
 
@@ -326,7 +329,7 @@ describe('GeneratePDF', function () {
         validCertificate,
         generatorPath,
         extraTranslationsPath,
-      } = generatePaths(validCertName, dirPath, isLatestVersion, type, version);
+      } = generatePaths(validCertName, dirPath, isLatestVersion, dirname, version);
 
       runPDFGenerationTests({
         name,
@@ -340,7 +343,7 @@ describe('GeneratePDF', function () {
         validCertificate,
         docDefinition,
         generatorPath,
-        localOnly,
+        isUnreleasedVersion,
       });
     });
   });
