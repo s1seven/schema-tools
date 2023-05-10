@@ -14,6 +14,16 @@ const fonts = {
     italics: './node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff',
     light: './node_modules/lato-font/fonts/lato-light/lato-light.woff',
   },
+  NotoSansSC: {
+    normal: `${__dirname}/../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
+    bold: `${__dirname}/../fixtures/fonts/noto-sans-sc-chinese-simplified-700-normal.woff2`,
+    italics: `${__dirname}/../fixtures/fonts/noto-sans-sc-chinese-simplified-100-normal.woff2`,
+    light: `${__dirname}/../fixtures/fonts/noto-sans-sc-chinese-simplified-100-normal.woff2`,
+  },
+};
+
+const languageFontMap = {
+  CN: 'NotoSansSC',
 };
 
 async function createPdf(options: {
@@ -50,6 +60,7 @@ async function createPdf(options: {
     translations: JSON.parse(translations),
     extraTranslations,
     generatorPath,
+    languageFontMap,
   });
 
   const writeStream = createWriteStream(outputPath);

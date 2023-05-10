@@ -59,6 +59,15 @@ export enum SupportedSchemas {
   CDN = 'cdn',
 }
 
+export type SchemaDirUnion = typeof SupportedSchemasDirMap[keyof typeof SupportedSchemasDirMap];
+
+export const SupportedSchemasDirMap = {
+  [SupportedSchemas.EN10168]: 'EN10168',
+  [SupportedSchemas.ECOC]: 'E-CoC',
+  [SupportedSchemas.COA]: 'CoA',
+  [SupportedSchemas.CDN]: 'CDN',
+};
+
 export const schemaToExternalStandardsMap = {
   [SupportedSchemas.COA]: ['Certificate.Analysis.PropertiesStandard'],
   [SupportedSchemas.EN10168]: [],

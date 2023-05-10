@@ -1,5 +1,5 @@
 {
-  "inspection": "inspection.hbs",
+  "inspection": "https://schemas.s1seven.dev/en10168-schemas/v0.4.1/inspection.hbs",
   "company": "https://schemas.s1seven.com/schema-definitions/v0.0.7/company/company.hbs",
   "measurement": "https://schemas.s1seven.com/schema-definitions/v0.0.7/measurement/measurement.hbs",
   "validation": "https://schemas.s1seven.com/schema-definitions/v0.0.7/validation/validation.hbs",
