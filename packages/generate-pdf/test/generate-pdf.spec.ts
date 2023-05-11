@@ -92,10 +92,10 @@ const certificateTestMap: CertificateTestMap[] = [
 
 const fonts = {
   Lato: {
-    normal: `${__dirname}/../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
-    bold: `${__dirname}/../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
-    italics: `${__dirname}/../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
-    light: `${__dirname}/../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+    normal: `${__dirname}/../../../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
+    bold: `${__dirname}/../../../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
+    italics: `${__dirname}/../../../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
+    light: `${__dirname}/../../../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
   },
   NotoSansSC: {
     normal: `${__dirname}/../../../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,

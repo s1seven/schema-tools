@@ -76,8 +76,8 @@ const typeEnumDescription = {
 const baseScopes = ['release'];
 
 const scopeEnum = () => {
-  const lernaConfig = JSON.parse(fs.readFileSync('./lerna.json'));
-  const projects = lernaConfig.packages.flatMap((package) => {
+  const pkgjson = JSON.parse(fs.readFileSync('./package.json'));
+  const projects = pkgjson.workspaces.flatMap((package) => {
     const folders = glob.sync(package);
     return folders.length ? folders.map((el) => el.split('/').pop()) : [];
   });

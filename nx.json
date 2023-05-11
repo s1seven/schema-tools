@@ -6,18 +6,38 @@
       "options": {
         "cacheableOperations": [
           "build",
+          "build:affected",
           "clean",
           "cleanup",
           "compile:node",
           "compile:browser",
           "compile",
           "lint",
+          "lint:affected",
           "prepublishOnly",
-          "test",
-          "test:cov",
-          "test:staged",
           "scan:deps",
-          "test:browser"
+          "test",
+          "test:affected",
+          "test:cov",
+          "test:cov:affected",
+          "test:coverage",
+          "test:staged",
+          "test:browser",
+          "test:browser:affected",
+          "test:certificate-model",
+          "test:certificate-summary",
+          "test:extract-emails",
+          "test:extract-emails:browser",
+          "test:generate-html",
+          "test:generate-interfaces",
+          "test:generate-coa-pdf",
+          "test:generate-en10168-pdf",
+          "test:generate-pdf-helpers",
+          "test:generate-pdf",
+          "test:utils",
+          "test:validate",
+          "test:validate:browser",
+          "test:versioning"
         ],
         "accessToken": "YmViZWE0NjUtYjAzYi00NjUzLTk0YzctNDNkMzllMTk1NTgyfHJlYWQtd3JpdGU="
       }
@@ -33,5 +53,6 @@
   },
   "affected": {
     "defaultBase": "main"
-  }
+  },
+  "defaultBase": "main"
 }

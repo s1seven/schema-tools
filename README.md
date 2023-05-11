@@ -1,6 +1,5 @@
 # Schema-tools
 
-[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Schema-tools CI](https://github.com/s1seven/schema-tools/actions/workflows/node.yml/badge.svg)](https://github.com/s1seven/schema-tools/actions/workflows/node.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=s1seven_schema-tools&metric=coverage)](https://sonarcloud.io/summary/new_code?id=s1seven_schema-tools)
