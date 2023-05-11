@@ -47,7 +47,6 @@
     "lodash.merge": "^4.6.2"
   },
   "devDependencies": {
-    "@types/ajv": "^1.0.0",
     "@types/lodash.merge": "^4.6.6",
     "axios": "^1.2.1"
   },
