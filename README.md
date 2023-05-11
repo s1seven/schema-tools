@@ -89,7 +89,6 @@ To get started, run :
 
 ```sh
 npm install
-npm run bootstrap
 npm run build
 ```
 
@@ -99,7 +98,7 @@ When working on changes that affects multiple packages, you should rebuild them 
 
 ```sh
 npm run build
-npm run bootstrap
+npm install
 ```
 
 ## Testing

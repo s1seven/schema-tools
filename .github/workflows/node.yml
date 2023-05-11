@@ -70,7 +70,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y ghostscript graphicsmagick
 
       - name: Install dependencies
-        run: npm install && npm run bootstrap
+        run: npm install
 
       # - name: Scan dependencies
       #   run: npm run scan:deps
@@ -125,7 +125,7 @@ jobs:
         uses: nrwl/nx-set-shas@v3
 
       - name: Install dependencies
-        run: npm install && npm run bootstrap
+        run: npm install
 
       - name: Build packages
         run: npm run build:affected
