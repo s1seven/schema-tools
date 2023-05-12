@@ -37,13 +37,5 @@
     "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
     "test:staged": "jest --runInBand --onlyChanged",
     "scan:deps": "audit-ci --config ../../audit-ci.json"
-  },
-  "dependencies": {
-    "@s1seven/schema-tools-types": "^0.5.2",
-    "pdfmake": "0.2.5"
-  },
-  "devDependencies": {
-    "@s1seven/schema-tools-utils": "^0.2.5",
-    "@types/pdfmake": "^0.2.0"
   }
 }

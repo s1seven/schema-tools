@@ -43,19 +43,5 @@
     "example:campus": "node example_campus.js",
     "example:partial": "node example_partial.js"
   },
-  "dependencies": {
-    "@s1seven/schema-tools-types": "^0.5.2",
-    "@s1seven/schema-tools-utils": "^0.2.5",
-    "debug": "^4.3.4",
-    "handlebars": "^4.7.7",
-    "lodash.get": "^4.4.2",
-    "lodash.merge": "^4.6.2"
-  },
-  "devDependencies": {
-    "@markedjs/html-differ": "^3.0.4",
-    "@types/debug": "^4.1.7",
-    "@types/lodash.get": "^4.4.6",
-    "@types/lodash.merge": "^4.6.6"
-  },
   "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
 }

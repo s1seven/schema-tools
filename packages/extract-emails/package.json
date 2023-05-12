@@ -46,9 +46,5 @@
     "scan:deps": "audit-ci --config ../../audit-ci.json",
     "example": "node example.js"
   },
-  "dependencies": {
-    "@s1seven/schema-tools-types": "^0.5.2",
-    "@s1seven/schema-tools-utils": "^0.2.5"
-  },
   "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
 }

@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2019",
+    "inlineSourceMap": true,
+    "sourceMap": false,
+    "outDir": "dist/",
+    "incremental": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "traceResolution": false /* Report module resolution log messages. */,
+    "listEmittedFiles": false /* Print names of generated files part of the compilation. */,
+    "listFiles": false /* Print names of files part of the compilation. */,
+    "pretty": true /* Stylize errors and messages using color and context. */,
+    "lib": ["DOM", "ES2016"],
+    "types": ["node", "jest"],
+    "typeRoots": ["node_modules/@types", "../node_modules/@types"]
+  },
+  "exclude": ["node_modules", "dist", "dist.browser"],
+  "paths": {
+    "@s1seven/schema-tools-types": ["packages/types/src/index.ts"],
+    "@s1seven/schema-tools-validate": ["packages/validate/src/index.ts"],
+    "@s1seven/schema-tools-versioning": ["packages/versioning/src/index.ts"],
+    "@s1seven/schema-tools-utils": ["packages/utils/src/index.ts"],
+    "@s1seven/schema-tools-certificate-summary": ["packages/certificate-summary/src/index.ts"],
+    "@s1seven/schema-tools-certificate-model": ["packages/certificate-model/src/index.ts"],
+    "@s1seven/schema-tools-extract-emails": ["packages/extract-emails/src/index.ts"],
+    "@s1seven/schema-tools-generate-coa-pdf-template": ["packages/generate-coa-pdf-template/src/index.ts"],
+    "@s1seven/schema-tools-generate-en10168-pdf-template": ["packages/generate-en10168-pdf-template/src/index.ts"],
+    "@s1seven/schema-tools-generate-interfaces": ["packages/generate-interfaces/src/index.ts"],
+    "@s1seven/schema-tools-generate-html": ["packages/generate-html/src/index.ts"],
+    "@s1seven/schema-tools-generate-pdf": ["packages/generate-pdf/src/index.ts"],
+    "@s1seven/schema-tools-generate-pdf-template-helpers": ["packages/generate-pdf-template-helpers/src/index.ts"]
+  }
+}

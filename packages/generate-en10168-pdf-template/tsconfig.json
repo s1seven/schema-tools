@@ -1,17 +1,13 @@
 {
-  "compilerOptions": {
-    "outDir": "build",
-    "module": "commonjs",
-    "target": "es2018",
-    "allowJs": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "types": ["node", "jest"],
-    "paths": {
-      "~*": ["./*"]
+  "extends": "../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
     }
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  ]
 }

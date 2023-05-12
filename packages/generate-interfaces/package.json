@@ -40,15 +40,5 @@
     "test:staged": "jest --runInBand --onlyChanged",
     "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
-  "dependencies": {
-    "@s1seven/schema-tools-types": "^0.5.2",
-    "@s1seven/schema-tools-utils": "^0.2.5",
-    "json-schema-to-typescript": "^10.1.5",
-    "lodash.merge": "^4.6.2"
-  },
-  "devDependencies": {
-    "@types/lodash.merge": "^4.6.6",
-    "axios": "^1.2.1"
-  },
   "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
 }
