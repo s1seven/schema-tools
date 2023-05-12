@@ -3,7 +3,6 @@ import Debug from 'debug';
 import { compile, RuntimeOptions, SafeString, TemplateDelegate } from 'handlebars';
 import get from 'lodash.get';
 import merge from 'lodash.merge';
-import mjml2html from 'mjml';
 import { URL } from 'url';
 
 import {
@@ -29,19 +28,9 @@ import {
   localizeNumber,
 } from '@s1seven/schema-tools-utils';
 
-interface MJMLParsingOpts {
-  fonts?: { [key: string]: string };
-  keepComments?: boolean;
-  beautify?: boolean;
-  minify?: boolean;
-  validationLevel?: 'strict' | 'soft' | 'skip';
-  filePath?: string;
-}
-
 export type GenerateHtmlOptions = {
   handlebars?: RuntimeOptions;
-  mjml?: MJMLParsingOpts;
-  templateType?: 'hbs' | 'mjml';
+  templateType?: 'hbs';
   schemaConfig?: SchemaConfig;
   templatePath?: string;
   translations?: Translations;
@@ -197,30 +186,6 @@ export const handlebarsBaseOptions = (data: {
   };
 };
 
-const mjmlBaseOptions = (certificate: Schemas, handlebarsOpts?: RuntimeOptions) => {
-  return {
-    keepComments: true,
-    preprocessors: [
-      (data: string): string => {
-        const template = compile(data);
-        return template(certificate, handlebarsOpts);
-      },
-    ],
-  };
-};
-
-// TODO: remove the MJML template creation
-async function parseMjmlTemplate(certificate: any, options: GenerateHtmlOptions): Promise<string> {
-  const templateFilePath = options.templatePath || getRefSchemaUrl(options.schemaConfig, 'template.mjml').href;
-  const templateFile = await loadExternalFile(templateFilePath, 'text');
-  options.mjml = merge(options.mjml || {}, mjmlBaseOptions(certificate, options.handlebars));
-  const result = mjml2html(templateFile, options.mjml);
-  if (result.errors) {
-    throw result.errors;
-  }
-  return result.html;
-}
-
 async function parseHbsTemplate(certificate: any, options: GenerateHtmlOptions): Promise<string> {
   const templateFilePath = options.templatePath || getRefSchemaUrl(options.schemaConfig, 'template.hbs').href;
   const templateFile = await loadExternalFile(templateFilePath, 'text');
@@ -311,7 +276,5 @@ export async function generateHtml(
     handlebarsBaseOptions({ translations, extraTranslations }),
   );
 
-  return options.templateType === 'mjml'
-    ? parseMjmlTemplate(certificate, options)
-    : parseHbsTemplate(certificate, options);
+  return parseHbsTemplate(certificate, options);
 }
