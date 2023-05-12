@@ -40,7 +40,7 @@ E-CoC v0.0.2 has been deprecated.
   This package provides a minified script to be used in EN10168-schemas specific verison release.
 
 - [Generate-HTML](https://github.com/s1seven/schema-tools/tree/master/packages/generate-html#readme)
-  The generate-html module is using handlebars and/or mjml to generate HTML string using a certificate using a supported JSON schema.
+  The generate-html module uses handlebars to generate HTML string using a certificate using a supported JSON schema.
 
 - [Generate-Interfaces](https://github.com/s1seven/schema-tools/tree/master/packages/generate-interfaces#readme)
   The generate-interfaces module is using the json-schema-to-typescript package to generate TS interfaces and types using a JSON / OpenAPI schema.

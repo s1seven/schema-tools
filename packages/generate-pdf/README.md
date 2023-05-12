@@ -14,7 +14,6 @@ npm install @s1seven/schema-tools-generate-pdf
 ```
 
 [pdfmake]: https://www.npmjs.com/package/pdfmake
-[html-to-pdfmake]: https://www.npmjs.com/package/html-to-pdfmake
 
 ## Using generate-pdf example
 

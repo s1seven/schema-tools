@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { createHash } from 'node:crypto';
-import { createWriteStream, existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
+import { createWriteStream, existsSync, readdirSync, readFileSync, unlinkSync } from 'node:fs';
 import { join, parse, resolve } from 'node:path';
 import { Writable } from 'node:stream';
 import { fromBuffer } from 'pdf2pic';
@@ -19,7 +19,6 @@ type PDFGenerationTestProperties = {
   styles: StyleDictionary;
   extraTranslationsPath?: string;
   translationsPath: string;
-  certificateHtmlPath: string;
   expectedPdfPath: string;
   validCertificate: Schemas;
   docDefinition: Partial<TDocumentDefinitions>;
@@ -132,7 +131,6 @@ const generatePaths = (
 ) => {
   const { name } = parse(validCertName);
   const validCertificate = require(join(dirPath, validCertName));
-  const certificateHtmlPath = `${dirPath}/${name}.html`;
   const expectedPdfPath = `${dirPath}/${name}.pdf`;
   const translationsPath = `${dirPath}/translations.json`;
   const coaCertsWithoutExtraTranslations = ['v0.0.4', 'v0.1.0'];
@@ -148,7 +146,6 @@ const generatePaths = (
   return {
     name,
     validCertificate,
-    certificateHtmlPath,
     expectedPdfPath,
     translationsPath,
     generatorPath,
@@ -171,7 +168,6 @@ const waitWritableStreamEnd = (writeStream: Writable, outputFilePath: string) =>
 const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
   const {
     name,
-    certificateHtmlPath,
     docDefinition,
     expectedPdfPath,
     generatorPath,
@@ -276,19 +272,6 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
       pdfDoc.end();
       await waitWritableStreamEnd(writeStream, outputFilePath);
     }, 15000);
-
-    // TODO: skipped due to issues between v0.0.2 and v0.1.0 EN10168 html => investigate
-    it.skip('should render PDF certificate using HTML certificate ', async () => {
-      const certificateHtml = readFileSync(certificateHtmlPath, 'utf8');
-      //
-      const buffer = await generatePdf(certificateHtml, {
-        inputType: 'html',
-        outputType: 'buffer',
-        fonts,
-      });
-      writeFileSync('./test.pdf', buffer);
-      expect(buffer instanceof Buffer).toEqual(true);
-    }, 10000);
   });
 };
 
@@ -321,15 +304,8 @@ describe('GeneratePDF', function () {
     const validCertNames = files.filter((file) => file.match(/^valid_cert_[\d]+.json|^valid_cert.json/));
 
     validCertNames.forEach((validCertName) => {
-      const {
-        name,
-        translationsPath,
-        certificateHtmlPath,
-        expectedPdfPath,
-        validCertificate,
-        generatorPath,
-        extraTranslationsPath,
-      } = generatePaths(validCertName, dirPath, isLatestVersion, dirname, version);
+      const { name, translationsPath, expectedPdfPath, validCertificate, generatorPath, extraTranslationsPath } =
+        generatePaths(validCertName, dirPath, isLatestVersion, dirname, version);
 
       runPDFGenerationTests({
         name,
@@ -338,7 +314,6 @@ describe('GeneratePDF', function () {
         styles,
         translationsPath,
         extraTranslationsPath,
-        certificateHtmlPath,
         expectedPdfPath,
         validCertificate,
         docDefinition,
