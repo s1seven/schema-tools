@@ -1,28 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "target": "es2021",
-    "lib": ["es2021"],
-    "skipLibCheck": true,
     "outDir": "../../dist/out-tsc",
-    "types": ["jest", "node", "lz4"],
-    "composite": true
+    "module": "commonjs",
+    "types": ["jest", "node"]
   },
-  "include": [
-    "**/*.ts",
-    "**/assets/*.json",
-    "**/fixtures/**/*.json",
-    "**/*.spec.ts",
-    "**/*.e2e-spec.ts",
-    "**/*.mock.ts",
-    "**/*.d.ts",
-    "jest.*.ts",
-    "jest.config.ts"
-  ]
+  "include": ["jest.config.ts", "src/**/*.test.ts", "src/**/*.spec.ts", "src/**/*.d.ts"]
 }

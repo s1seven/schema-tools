@@ -129,10 +129,16 @@ describe('Versioning', function () {
         filePath: `${__dirname}/schema.json`,
         properties: [
           { value: 'schema.json', path: '$id' },
-          { value: 'material-certification.json#/definitions/MaterialTest', path: 'prop.subschema' },
+          {
+            value: 'material-certification.json#/definitions/MaterialTest',
+            path: 'prop.subschema',
+          },
         ],
       },
-      { filePath: `${__dirname}/sub-schema.json`, properties: [{ value: 'sub-schema.schema.json', path: '$id' }] },
+      {
+        filePath: `${__dirname}/sub-schema.json`,
+        properties: [{ value: 'sub-schema.schema.json', path: '$id' }],
+      },
     ];
     const instance = new SchemaRepositoryVersion(serverUrl, schemaFilePaths, version);
     await instance.updateSchemasVersion();

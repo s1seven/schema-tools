@@ -20,7 +20,11 @@ export function createValidation(
         widths: [160, '*', 180],
         body: [
           [
-            { text: i18n.translate('Z01', 'certificateFields'), style: 'tableHeader', colSpan: 2 },
+            {
+              text: i18n.translate('Z01', 'certificateFields'),
+              style: 'tableHeader',
+              colSpan: 2,
+            },
             {},
             {
               text: validation.Z01,
@@ -28,7 +32,11 @@ export function createValidation(
             },
           ],
           [
-            { text: i18n.translate('Z02', 'certificateFields'), style: 'tableHeader', colSpan: 2 },
+            {
+              text: i18n.translate('Z02', 'certificateFields'),
+              style: 'tableHeader',
+              colSpan: 2,
+            },
             {},
             {
               text: localizeDate(validation.Z02, i18n.languages[0]),
@@ -36,7 +44,11 @@ export function createValidation(
             },
           ],
           [
-            { text: i18n.translate('Z03', 'certificateFields'), style: 'tableHeader', colSpan: 2 },
+            {
+              text: i18n.translate('Z03', 'certificateFields'),
+              style: 'tableHeader',
+              colSpan: 2,
+            },
             {},
             {
               text: validation?.Z03,
@@ -56,9 +68,30 @@ export function createValidation(
       table: {
         body: [
           [{ image: validation.Z04.CE_Image }],
-          [{ text: validation.Z04.NotifiedBodyNumber, alignment: 'center', bold: true, style: 'caption' }],
-          [{ text: validation.Z04.DoCYear, alignment: 'center', bold: true, style: 'caption' }],
-          [{ text: validation.Z04.DoCNumber, alignment: 'center', bold: true, style: 'caption' }],
+          [
+            {
+              text: validation.Z04.NotifiedBodyNumber,
+              alignment: 'center',
+              bold: true,
+              style: 'caption',
+            },
+          ],
+          [
+            {
+              text: validation.Z04.DoCYear,
+              alignment: 'center',
+              bold: true,
+              style: 'caption',
+            },
+          ],
+          [
+            {
+              text: validation.Z04.DoCNumber,
+              alignment: 'center',
+              bold: true,
+              style: 'caption',
+            },
+          ],
         ],
       },
       layout: tableLayout,
@@ -67,7 +100,11 @@ export function createValidation(
   }
 
   return [
-    { text: i18n.translate('Validation', 'certificateGroups'), style: 'h2', margin: [0, 0, 0, 4] },
+    {
+      text: i18n.translate('Validation', 'certificateGroups'),
+      style: 'h2',
+      margin: [0, 0, 0, 4],
+    },
     { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] },
     { columns },
     {

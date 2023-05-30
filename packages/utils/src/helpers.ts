@@ -26,7 +26,10 @@ export function localizeNumber(lvalue: number | string, locales: string | string
   return new Intl.NumberFormat(locales, options).format(lvalue);
 }
 
-export function getErrorPaths(filePath?: string): { path: string; root: string } {
+export function getErrorPaths(filePath?: string): {
+  path: string;
+  root: string;
+} {
   if (typeof filePath == 'string') {
     const filePathParts = filePath.split('/');
     return {

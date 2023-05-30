@@ -114,7 +114,11 @@ export const handlebarsBaseOptions = (data: {
       },
       joinAndLocalizeNumber: function (lvalue: any[], separator = ', ', locales = ['EN'], property = '') {
         const localizeNumber = (val: any) => {
-          return val ? new Intl.NumberFormat(locales, { maximumSignificantDigits: 6 }).format(val) : '';
+          return val
+            ? new Intl.NumberFormat(locales, {
+                maximumSignificantDigits: 6,
+              }).format(val)
+            : '';
         };
         const result = property
           ? lvalue.map((val) => localizeNumber(val[property])).join(separator)

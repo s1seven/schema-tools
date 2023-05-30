@@ -37,3 +37,13 @@ const versioning = require('versioning');
 
 // TODO: DEMONSTRATE API
 ```
+
+This library was generated with [Nx](https://nx.dev).
+
+## Building
+
+Run `nx build versioning` to build the library.
+
+## Running unit tests
+
+Run `nx test versioning` to execute the unit tests via [Jest](https://jestjs.io).

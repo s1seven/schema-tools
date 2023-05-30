@@ -85,7 +85,10 @@ export function createReceivers(parties: Parties, i18n: I18N): TableElement {
   }
 
   const keys: TableCell[][] = receiversKeys.map((element) => [
-    { text: i18n.translate(element, 'Certificate'), style: { bold: true, fontSize: 10, margin: [0, 4, 0, 4] } },
+    {
+      text: i18n.translate(element, 'Certificate'),
+      style: { bold: true, fontSize: 10, margin: [0, 4, 0, 4] },
+    },
   ]);
   const contentBody = [keys, columns];
   return {
@@ -104,7 +107,10 @@ export function createGeneralInfo(certificate: Certificate, i18n: I18N): [Conten
     { text: i18n.translate('Id', 'Certificate'), style: 'tableHeader' },
     { text: certificate.Certificate.Id, style: 'p' },
     { text: i18n.translate('Date', 'Certificate'), style: 'tableHeader' },
-    { text: localizeDate(certificate.Certificate.Date, i18n.languages), style: 'p' },
+    {
+      text: localizeDate(certificate.Certificate.Date, i18n.languages),
+      style: 'p',
+    },
   ];
 
   return [
@@ -136,7 +142,11 @@ export function createBusinessReferences(
   const firstRow: TableCell[] = [
     { text: i18n.translate('Order', 'Certificate'), colSpan: 2, style: 'h5' },
     {},
-    { text: i18n.translate('Delivery', 'Certificate'), colSpan: 2, style: 'h5' },
+    {
+      text: i18n.translate('Delivery', 'Certificate'),
+      colSpan: 2,
+      style: 'h5',
+    },
     {},
   ];
   const numberRow: TableCell[] = [
@@ -147,19 +157,31 @@ export function createBusinessReferences(
   ];
 
   const positionRow: TableCell[] = [
-    { text: i18n.translate('OrderPosition', 'Certificate'), style: 'tableHeader' },
+    {
+      text: i18n.translate('OrderPosition', 'Certificate'),
+      style: 'tableHeader',
+    },
     { text: Order.Position, style: 'p' },
-    { text: i18n.translate('DeliveryPosition', 'Certificate'), style: 'tableHeader' },
+    {
+      text: i18n.translate('DeliveryPosition', 'Certificate'),
+      style: 'tableHeader',
+    },
     { text: Delivery.Position, style: 'p' },
   ];
 
   const quantityRow: TableCell[] = [
-    { text: i18n.translate('OrderQuantity', 'Certificate'), style: 'tableHeader' },
+    {
+      text: i18n.translate('OrderQuantity', 'Certificate'),
+      style: 'tableHeader',
+    },
     {
       text: Order.Quantity ? `${localizeNumber(Order.Quantity, i18n.languages)} ${Order.QuantityUnit || ''}` : '',
       style: 'p',
     },
-    { text: i18n.translate('DeliveryQuantity', 'Certificate'), style: 'tableHeader' },
+    {
+      text: i18n.translate('DeliveryQuantity', 'Certificate'),
+      style: 'tableHeader',
+    },
     {
       text: `${localizeNumber(Delivery.Quantity, i18n.languages)} ${Delivery.QuantityUnit}`,
       style: 'p',
@@ -168,27 +190,51 @@ export function createBusinessReferences(
 
   const dateRow: TableCell[] = [
     { text: i18n.translate('OrderDate', 'Certificate'), style: 'tableHeader' },
-    { text: Order.Date ? localizeDate(Order.Date, i18n.languages) : '', style: 'p' },
-    { text: i18n.translate('DeliveryDate', 'Certificate'), style: 'tableHeader' },
-    { text: Delivery.Date ? localizeDate(Delivery.Date, i18n.languages) : '', style: 'p' },
+    {
+      text: Order.Date ? localizeDate(Order.Date, i18n.languages) : '',
+      style: 'p',
+    },
+    {
+      text: i18n.translate('DeliveryDate', 'Certificate'),
+      style: 'tableHeader',
+    },
+    {
+      text: Delivery.Date ? localizeDate(Delivery.Date, i18n.languages) : '',
+      style: 'p',
+    },
   ];
 
   const fifthRow: TableCell[] = [
-    { text: i18n.translate('CustomerProductId', 'Certificate'), style: 'tableHeader' },
+    {
+      text: i18n.translate('CustomerProductId', 'Certificate'),
+      style: 'tableHeader',
+    },
     { text: Order.CustomerProductId, style: 'p' },
-    { text: i18n.translate('InternalOrderId', 'Certificate'), style: 'tableHeader' },
+    {
+      text: i18n.translate('InternalOrderId', 'Certificate'),
+      style: 'tableHeader',
+    },
     { text: Delivery.InternalOrderId, style: 'p' },
   ];
 
   const sixthRow: TableCell[] = [
-    { text: i18n.translate('CustomerProductName', 'Certificate'), style: 'tableHeader' },
+    {
+      text: i18n.translate('CustomerProductName', 'Certificate'),
+      style: 'tableHeader',
+    },
     { text: Order.CustomerProductName, style: 'p' },
-    { text: i18n.translate('InternalOrderPosition', 'Certificate'), style: 'tableHeader' },
+    {
+      text: i18n.translate('InternalOrderPosition', 'Certificate'),
+      style: 'tableHeader',
+    },
     { text: Delivery.InternalOrderPosition, style: 'p' },
   ];
 
   const seventhRow: TableCell[] = [
-    { text: i18n.translate('GoodsReceiptId', 'Certificate'), style: 'tableHeader' },
+    {
+      text: i18n.translate('GoodsReceiptId', 'Certificate'),
+      style: 'tableHeader',
+    },
     { text: Order.GoodsReceiptId, style: 'p' },
     { text: i18n.translate('Transport', 'Certificate'), style: 'tableHeader' },
     { text: Delivery.Transport, style: 'p' },
@@ -226,7 +272,11 @@ export function createProductDescription(product: Product, i18n: I18N): [Content
     | 'Standards'
     | 'AdditionalInformation';
 
-  const textFields: { name: keyof Product; i18n: i18Keys; format?: 'Date' | 'Array' }[] = [
+  const textFields: {
+    name: keyof Product;
+    i18n: i18Keys;
+    format?: 'Date' | 'Array';
+  }[] = [
     { name: 'Id', i18n: 'ProductId' },
     { name: 'Name', i18n: 'ProductName' },
     { name: 'CountryOfOrigin', i18n: 'CountryOfOrigin' },
@@ -237,16 +287,28 @@ export function createProductDescription(product: Product, i18n: I18N): [Content
     { name: 'ProductionDate', i18n: 'ProductionDate', format: 'Date' },
     { name: 'ExpirationDate', i18n: 'ExpirationDate', format: 'Date' },
     { name: 'Standards', i18n: 'Standards', format: 'Array' },
-    { name: 'AdditionalInformation', i18n: 'AdditionalInformation', format: 'Array' },
+    {
+      name: 'AdditionalInformation',
+      i18n: 'AdditionalInformation',
+      format: 'Array',
+    },
   ];
 
   const rows: TableCell[][] = textFields
     .map((field) =>
       product[field.name]
         ? [
-            { text: i18n.translate(field.i18n, 'Certificate'), colSpan: 2, style: 'tableHeader' },
+            {
+              text: i18n.translate(field.i18n, 'Certificate'),
+              colSpan: 2,
+              style: 'tableHeader',
+            },
             {},
-            { text: computeTextStyle(product[field.name], field.format, i18n.languages), colSpan: 2, style: 'p' },
+            {
+              text: computeTextStyle(product[field.name], field.format, i18n.languages),
+              colSpan: 2,
+              style: 'p',
+            },
             {},
           ]
         : null,
@@ -305,7 +367,10 @@ export function createInspection(
       };
     }
 
-    return { text: computeTextStyle(inspection[name], field.format, i18n.languages), style: 'caption' };
+    return {
+      text: computeTextStyle(inspection[name], field.format, i18n.languages),
+      style: 'caption',
+    };
   });
 }
 
@@ -338,7 +403,10 @@ export function createAnalysis(
     { text: i18n.translate('Value', 'Certificate'), style: headerStyle },
     { text: i18n.translate('Minimum', 'Certificate'), style: headerStyle },
     { text: i18n.translate('Maximum', 'Certificate'), style: headerStyle },
-    { text: i18n.translate('TestConditions', 'Certificate'), style: headerStyle },
+    {
+      text: i18n.translate('TestConditions', 'Certificate'),
+      style: headerStyle,
+    },
   ];
 
   const body = [headerRow];
@@ -351,11 +419,19 @@ export function createAnalysis(
   if (analysis.AdditionalInformation?.length) {
     const emptyColumns = createEmptyColumns(6);
     const additionalInformationTitle: TableCell[] = [
-      { text: i18n.translate('AdditionalInformation', 'Certificate'), style: 'h5', colSpan: 7 },
+      {
+        text: i18n.translate('AdditionalInformation', 'Certificate'),
+        style: 'h5',
+        colSpan: 7,
+      },
       ...emptyColumns,
     ];
     const additionalInformation: TableCell[] = [
-      { text: analysis.AdditionalInformation.join('\n'), style: 'p', colSpan: 7 },
+      {
+        text: analysis.AdditionalInformation.join('\n'),
+        style: 'p',
+        colSpan: 7,
+      },
       ...emptyColumns,
     ];
     body.push(additionalInformationTitle, additionalInformation);
@@ -397,7 +473,14 @@ export function createDeclarationOfConformity(
       table: {
         widths: [160, '*', 180],
         body: [
-          [{ text: declarationOfConformity.Declaration, style: 'p', colSpan: declarationOfConformity.CE ? 2 : 3 }, {}],
+          [
+            {
+              text: declarationOfConformity.Declaration,
+              style: 'p',
+              colSpan: declarationOfConformity.CE ? 2 : 3,
+            },
+            {},
+          ],
         ],
       },
       layout: tableLayout,
@@ -412,9 +495,30 @@ export function createDeclarationOfConformity(
       table: {
         body: [
           [{ image: CE.CE_Image }],
-          [{ text: CE.NotifiedBodyNumber, alignment: 'center', bold: true, style: 'caption' }],
-          [{ text: CE.YearDocumentIssued, alignment: 'center', bold: true, style: 'caption' }],
-          [{ text: CE.DocumentNumber, alignment: 'center', bold: true, style: 'caption' }],
+          [
+            {
+              text: CE.NotifiedBodyNumber,
+              alignment: 'center',
+              bold: true,
+              style: 'caption',
+            },
+          ],
+          [
+            {
+              text: CE.YearDocumentIssued,
+              alignment: 'center',
+              bold: true,
+              style: 'caption',
+            },
+          ],
+          [
+            {
+              text: CE.DocumentNumber,
+              alignment: 'center',
+              bold: true,
+              style: 'caption',
+            },
+          ],
         ],
       },
       layout: tableLayout,
@@ -435,11 +539,26 @@ export function createDeclarationOfConformity(
 
 export function createContacts(contacts: Person[], i18n: I18N): [ContentText, ContentCanvas, TableElement] {
   const headerRow: TableCell[] = [
-    { text: i18n.translate('ContactName', 'Certificate'), style: 'tableHeader' },
-    { text: i18n.translate('ContactRole', 'Certificate'), style: 'tableHeader' },
-    { text: i18n.translate('ContactDepartment', 'Certificate'), style: 'tableHeader' },
-    { text: i18n.translate('ContactEmail', 'Certificate'), style: 'tableHeader' },
-    { text: i18n.translate('ContactPhone', 'Certificate'), style: 'tableHeader' },
+    {
+      text: i18n.translate('ContactName', 'Certificate'),
+      style: 'tableHeader',
+    },
+    {
+      text: i18n.translate('ContactRole', 'Certificate'),
+      style: 'tableHeader',
+    },
+    {
+      text: i18n.translate('ContactDepartment', 'Certificate'),
+      style: 'tableHeader',
+    },
+    {
+      text: i18n.translate('ContactEmail', 'Certificate'),
+      style: 'tableHeader',
+    },
+    {
+      text: i18n.translate('ContactPhone', 'Certificate'),
+      style: 'tableHeader',
+    },
   ];
 
   const contactsRows: TableCell[][] = contacts.map((contact) => [

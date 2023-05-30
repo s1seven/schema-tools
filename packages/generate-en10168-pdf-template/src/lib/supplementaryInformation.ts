@@ -37,7 +37,11 @@ export const supplementaryInformation = (
   if (!dataMapped?.length) return [];
   return [
     [
-      { text: i18n.translate('SupplementaryInformation', 'otherFields'), style: 'h5', colSpan },
+      {
+        text: i18n.translate('SupplementaryInformation', 'otherFields'),
+        style: 'h5',
+        colSpan,
+      },
       ...createEmptyColumns(colSpan - 1),
     ],
     ...dataMapped,

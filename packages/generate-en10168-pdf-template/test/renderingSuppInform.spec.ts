@@ -106,12 +106,20 @@ describe('Rendering supplementary information', () => {
       {},
     ]);
     expect(supplementaryInfo[1]).toEqual([
-      { text: 'A11 First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 1 },
+      {
+        text: 'A11 First Supplementary Information Commercial Transaction',
+        style: 'tableHeader',
+        colSpan: 1,
+      },
       { text: '1.0 Apples', style: 'p', colSpan: 1 },
       { text: '', style: 'p', colSpan: 1 },
     ]);
     expect(supplementaryInfo[2]).toEqual([
-      { text: 'A96 Last Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 1 },
+      {
+        text: 'A96 Last Supplementary Information Commercial Transaction',
+        style: 'tableHeader',
+        colSpan: 1,
+      },
       { text: 'A96 ', style: 'p', colSpan: 1 },
       { text: '', style: 'p', colSpan: 1 },
     ]);
@@ -149,7 +157,11 @@ describe('Rendering supplementary information', () => {
       {},
     ]);
     expect(supplementaryInfo[1]).toEqual([
-      { text: 'A11 First Supplementary Information Commercial Transaction', style: 'tableHeader', colSpan: 2 },
+      {
+        text: 'A11 First Supplementary Information Commercial Transaction',
+        style: 'tableHeader',
+        colSpan: 2,
+      },
       {},
       { text: '1.0 Apples', style: 'p', colSpan: 1 },
       { text: '', style: 'p', colSpan: 1 },

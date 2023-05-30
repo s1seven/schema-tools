@@ -52,7 +52,12 @@ function extractSummaryFromEN10168(certificate: EN10168Schema): CertificateSumma
     : '';
 
   const quantity: SummaryQuantity[] = Object.prototype.hasOwnProperty.call(ProductDescription, 'B13')
-    ? [{ value: ProductDescription['B13']['Value'], unit: ProductDescription['B13']['Unit'] }]
+    ? [
+        {
+          value: ProductDescription['B13']['Value'],
+          unit: ProductDescription['B13']['Unit'],
+        },
+      ]
     : [];
 
   return {

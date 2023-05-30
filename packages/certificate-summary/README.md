@@ -18,3 +18,13 @@ Build certificate summary by retrieving general common properties such as:
 ```
 
 ```
+
+This library was generated with [Nx](https://nx.dev).
+
+## Building
+
+Run `nx build certificate-summary` to build the library.
+
+## Running unit tests
+
+Run `nx test certificate-summary` to execute the unit tests via [Jest](https://jestjs.io).

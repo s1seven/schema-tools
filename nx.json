@@ -47,7 +47,7 @@
       "dependsOn": ["^build"]
     },
     "test": {
-      "inputs": ["default", "{workspaceRoot}/fixtures/**"]
+      "inputs": ["default", "{workspaceRoot}/fixtures/**", "{workspaceRoot}/jest.preset.js"]
     }
   },
   "affected": {

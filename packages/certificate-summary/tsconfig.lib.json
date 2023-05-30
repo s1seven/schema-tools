@@ -1,26 +1,11 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["**/*.mock.ts", "**/*.spec.ts", "**/*.e2e-spec.ts", "jest.*.ts", "jest.config.ts"],
-  "include": ["**/*.ts", "**/assets/*.json"],
   "compilerOptions": {
     "module": "commonjs",
+    "outDir": "../../dist/out-tsc",
     "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "target": "es2021",
-    "lib": ["es2021"],
-    "sourceMap": true,
-    "sourceRoot": "/",
-    "inlineSources": true,
-    "skipLibCheck": true,
-    "outDir": "./dist",
-    "noEmitHelpers": true,
-    "importHelpers": true,
-    "types": ["node", "lz4", "dotenv-vault-core"],
-    "composite": false
-  }
+    "types": ["node"]
+  },
+  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
+  "include": ["src/**/*.ts"]
 }

@@ -1,0 +1,45 @@
+{
+  "name": "certificate-model",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/certificate-model/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/certificate-model",
+        "tsConfig": "packages/certificate-model/tsconfig.lib.json",
+        "packageJson": "packages/certificate-model/package.json",
+        "main": "packages/certificate-model/src/index.ts",
+        "assets": ["packages/certificate-model/*.md"]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs certificate-model {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/certificate-model/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/certificate-model/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

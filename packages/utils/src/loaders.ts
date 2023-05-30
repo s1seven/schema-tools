@@ -125,7 +125,9 @@ export async function getExtraTranslations<L extends string = Languages>(
         throw new Error(`these languages have errors: ${errors.join(', ')}`);
       }
 
-      return { [externalStandard]: translationsArrayToObject(translationsArray) };
+      return {
+        [externalStandard]: translationsArrayToObject(translationsArray),
+      };
     }),
   );
 

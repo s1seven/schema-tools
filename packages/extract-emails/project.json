@@ -1,0 +1,45 @@
+{
+  "name": "extract-emails",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/extract-emails/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/extract-emails",
+        "tsConfig": "packages/extract-emails/tsconfig.lib.json",
+        "packageJson": "packages/extract-emails/package.json",
+        "main": "packages/extract-emails/src/index.ts",
+        "assets": ["packages/extract-emails/*.md"]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs extract-emails {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/extract-emails/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/extract-emails/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

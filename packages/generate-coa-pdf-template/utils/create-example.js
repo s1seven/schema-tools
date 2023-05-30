@@ -56,7 +56,11 @@ async function generateExample(certificate, translations, extraTranslations) {
     pageSize: 'A4',
     pageMargins: [20, 20, 20, 40],
     footer: function (currentPage, pageCount) {
-      return { text: currentPage.toString() + ' / ' + pageCount, style: 'footer', alignment: 'center' };
+      return {
+        text: currentPage.toString() + ' / ' + pageCount,
+        style: 'footer',
+        alignment: 'center',
+      };
     },
     content,
     styles,

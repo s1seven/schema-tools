@@ -88,7 +88,11 @@ export function createInspectionFromInspectionObject(inspection: Inspection, i18
     : [];
 
   return [
-    { text: i18n.translate('Inspection', 'certificateGroups'), style: 'h2', margin: [0, 0, 0, 4] },
+    {
+      text: i18n.translate('Inspection', 'certificateGroups'),
+      style: 'h2',
+      margin: [0, 0, 0, 4],
+    },
     { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] },
     {
       id: 'Inspection',
@@ -123,7 +127,10 @@ export function renderTensileTest(
 ): [ContentText, ContentCanvas, TableElement, TableElement] {
   const C10 = tensileTest.C10
     ? [
-        { text: i18n.translate('C10', 'certificateFields'), style: 'tableHeader' },
+        {
+          text: i18n.translate('C10', 'certificateFields'),
+          style: 'tableHeader',
+        },
         {},
         {},
         { text: tensileTest.C10, style: 'p' },
@@ -143,7 +150,9 @@ export function renderTensileTest(
 
   return [
     { text: i18n.translate('TensileTest', 'otherFields'), style: 'h4' },
-    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }] },
+    {
+      canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }],
+    },
     {
       style: 'table',
       id: 'TensileTest',
@@ -171,7 +180,10 @@ export function renderHardnessTest(
 ): [ContentText, ContentCanvas, TableElement, TableElement] {
   const C30 = hardnessTest.C30
     ? [
-        { text: i18n.translate('C30', 'certificateFields'), style: 'tableHeader' },
+        {
+          text: i18n.translate('C30', 'certificateFields'),
+          style: 'tableHeader',
+        },
         {},
         {},
         { text: hardnessTest.C30, style: 'p' },
@@ -185,7 +197,9 @@ export function renderHardnessTest(
 
   return [
     { text: i18n.translate('HardnessTest', 'otherFields'), style: 'h4' },
-    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }] },
+    {
+      canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }],
+    },
     {
       style: 'table',
       table: {
@@ -211,7 +225,10 @@ export function renderNotchedBarImpactTest(
 ): [ContentText, ContentCanvas, TableElement, TableElement] {
   const C40 = notchedBarImpactTest.C40
     ? [
-        { text: i18n.translate('C40', 'certificateFields'), style: 'tableHeader' },
+        {
+          text: i18n.translate('C40', 'certificateFields'),
+          style: 'tableHeader',
+        },
         {},
         {},
         { text: notchedBarImpactTest.C40, style: 'p' },
@@ -226,8 +243,13 @@ export function renderNotchedBarImpactTest(
     : [[{ text: '', colSpan: 4 }, {}, {}, {}]];
 
   return [
-    { text: i18n.translate('NotchedBarImpactTest', 'otherFields'), style: 'h4' },
-    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }] },
+    {
+      text: i18n.translate('NotchedBarImpactTest', 'otherFields'),
+      style: 'h4',
+    },
+    {
+      canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }],
+    },
     {
       style: 'table',
       table: {
@@ -264,8 +286,13 @@ export function renderOtherMechanicalTests(
     ];
   });
   return [
-    { text: i18n.translate('OtherMechanicalTests', 'otherFields'), style: 'h4' },
-    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }] },
+    {
+      text: i18n.translate('OtherMechanicalTests', 'otherFields'),
+      style: 'h4',
+    },
+    {
+      canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }],
+    },
     {
       style: 'table',
       table: {
@@ -365,7 +392,10 @@ export function renderChemicalComposition(
 ): (ContentText | ContentCanvas | TableElement)[] {
   const C70 = chemicalComposition.C70
     ? [
-        { text: i18n.translate('C70', 'certificateFields'), style: 'tableHeader' },
+        {
+          text: i18n.translate('C70', 'certificateFields'),
+          style: 'tableHeader',
+        },
         {},
         {},
         { text: chemicalComposition.C70, style: 'p' },
@@ -380,7 +410,9 @@ export function renderChemicalComposition(
 
   return [
     { text: i18n.translate('ChemicalComposition', 'otherFields'), style: 'h4' },
-    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }] },
+    {
+      canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }],
+    },
     {
       style: 'table',
       table: {

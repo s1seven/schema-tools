@@ -54,9 +54,21 @@ describe('Utils', function () {
 
   describe('Validate certificates', function () {
     const certificateMaps = [
-      { filePath: ECOC_CERT_PATH, validator: asECoCCertificate, type: SupportedSchemas.ECOC },
-      { filePath: EN_10168_CERT_PATH, validator: asEN10168Certificate, type: SupportedSchemas.EN10168 },
-      { filePath: COA_CERT_PATH, validator: asCoACertificate, type: SupportedSchemas.COA },
+      {
+        filePath: ECOC_CERT_PATH,
+        validator: asECoCCertificate,
+        type: SupportedSchemas.ECOC,
+      },
+      {
+        filePath: EN_10168_CERT_PATH,
+        validator: asEN10168Certificate,
+        type: SupportedSchemas.EN10168,
+      },
+      {
+        filePath: COA_CERT_PATH,
+        validator: asCoACertificate,
+        type: SupportedSchemas.COA,
+      },
     ];
 
     certificateMaps.forEach(({ type, validator, filePath }) => {
@@ -131,9 +143,16 @@ describe('Utils', function () {
     });
 
     it('should return translations in the requested languages', async () => {
-      (axiosInstance as any).get.mockResolvedValue({ data: MOCK_CERT, status: 200 });
+      (axiosInstance as any).get.mockResolvedValue({
+        data: MOCK_CERT,
+        status: 200,
+      });
       const translatedCerts = await getTranslations(certificateLanguages, schemaConf);
-      expect(translatedCerts).toMatchObject({ DE: MOCK_CERT, FR: MOCK_CERT, EN: MOCK_CERT });
+      expect(translatedCerts).toMatchObject({
+        DE: MOCK_CERT,
+        FR: MOCK_CERT,
+        EN: MOCK_CERT,
+      });
     });
 
     it('should fail at languages, where no translation is present.', async () => {
@@ -154,9 +173,14 @@ describe('Utils', function () {
     });
 
     it('should return translations in the requested languages', async () => {
-      (axiosInstance as any).get.mockResolvedValue({ data: MOCK_CERT, status: 200 });
+      (axiosInstance as any).get.mockResolvedValue({
+        data: MOCK_CERT,
+        status: 200,
+      });
       const translatedCerts = await getExtraTranslations(certificateLanguages, schemaConf, externalStandards);
-      expect(translatedCerts).toMatchObject({ CAMPUS: { DE: MOCK_CERT, EN: MOCK_CERT } });
+      expect(translatedCerts).toMatchObject({
+        CAMPUS: { DE: MOCK_CERT, EN: MOCK_CERT },
+      });
     });
 
     it('should fail at languages, where no translation is present.', async () => {

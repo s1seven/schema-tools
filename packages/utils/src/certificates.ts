@@ -36,17 +36,26 @@ export function asEN10168Certificate(value: unknown, throwError?: boolean): EN10
 }
 
 export function asECoCCertificate(value: unknown, throwError?: boolean): ECoCSchema {
-  const certificate = plainToInstance(ECoCSchema, value, { enableImplicitConversion: true, exposeDefaultValues: true });
+  const certificate = plainToInstance(ECoCSchema, value, {
+    enableImplicitConversion: true,
+    exposeDefaultValues: true,
+  });
   return preValidateCertificate(certificate, throwError);
 }
 
 export function asCoACertificate(value: unknown, throwError?: boolean): CoASchema {
-  const certificate = plainToInstance(CoASchema, value, { enableImplicitConversion: true, exposeDefaultValues: true });
+  const certificate = plainToInstance(CoASchema, value, {
+    enableImplicitConversion: true,
+    exposeDefaultValues: true,
+  });
   return preValidateCertificate(certificate, throwError);
 }
 
 export function asCDNCertificate(value: unknown, throwError?: boolean): CDNSchema {
-  const certificate = plainToInstance(CDNSchema, value, { enableImplicitConversion: true, exposeDefaultValues: true });
+  const certificate = plainToInstance(CDNSchema, value, {
+    enableImplicitConversion: true,
+    exposeDefaultValues: true,
+  });
   return preValidateCertificate(certificate, throwError);
 }
 

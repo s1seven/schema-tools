@@ -108,7 +108,9 @@ describe('GenerateInterfaces', function () {
       }, 5000);
 
       it('should generate TS interfaces and types certificate using external schema (object) ', async () => {
-        const { data: schema } = await axios.get(schemaPath, { responseType: 'json' });
+        const { data: schema } = await axios.get(schemaPath, {
+          responseType: 'json',
+        });
         const interfaces = await generate(schema, null, generateOptions);
         const prettyInterfaces = prettier.format(interfaces, {
           parser: 'babel-ts',

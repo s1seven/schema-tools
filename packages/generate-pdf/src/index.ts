@@ -125,7 +125,10 @@ export async function generateInSandbox(
     generateContent,
     content: [] as Content[],
   };
-  vm.createContext(context, { origin: 'generate-pdf', codeGeneration: { strings: false, wasm: false } });
+  vm.createContext(context, {
+    origin: 'generate-pdf',
+    codeGeneration: { strings: false, wasm: false },
+  });
   // for some reason runInContext runs slower than runInNewContext (by 30% !)
   await script.runInNewContext(context, { timeout: 5000, displayErrors: true });
   const { content } = context;

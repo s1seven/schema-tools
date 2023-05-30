@@ -172,7 +172,10 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
     return typeof customizer === 'function' ? cloneDeepWith(obj1, customizer) : cloneDeepWith(obj1);
   }
 
-  static cast(data: Record<string, unknown>): { type: SupportedSchemas; certificate: CertificateInstance } {
+  static cast(data: Record<string, unknown>): {
+    type: SupportedSchemas;
+    certificate: CertificateInstance;
+  } {
     return castCertificate(data);
   }
 
@@ -280,7 +283,10 @@ export class CertificateModel<T extends Schemas> extends EventEmitter {
     this.emit('done:set', this);
   }
 
-  validate(data?: T): { valid: boolean; errors: ErrorObject[] | null | undefined } {
+  validate(data?: T): {
+    valid: boolean;
+    errors: ErrorObject[] | null | undefined;
+  } {
     data ||= this.toJSON(true);
     const valid = this.validator(data) as boolean;
     return { valid, errors: this.validator.errors };
