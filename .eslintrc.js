@@ -13,6 +13,7 @@ module.exports = {
     ecmaVersion: 2022,
     sourceType: 'module',
   },
+  printWidth: 120,
   ignorePatterns: ['**/fixtures/*', '**/schemaTypes.ts', '**/dist'],
   extends: [
     'eslint:recommended',
