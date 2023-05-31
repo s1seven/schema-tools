@@ -2,7 +2,6 @@
   "name": "@s1seven/schema-tools-generate-coa-pdf-template",
   "version": "0.5.1",
   "license": "Apache-2.0",
-  "main": "dist/generateContent.js",
   "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/generate-coa-pdf-template#readme",
   "repository": {
     "type": "git",

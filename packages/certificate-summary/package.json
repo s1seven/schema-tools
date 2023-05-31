@@ -6,8 +6,6 @@
   "homepage": "https://github.com/s1seven/schema-tools/tree/main/packages/certificate-summary#readme",
   "license": "Apache-2.0",
   "private": false,
-  "main": "dist/index",
-  "types": "dist/index",
   "directories": {
     "lib": "lib",
     "test": "test"

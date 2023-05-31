@@ -19,9 +19,6 @@
     "access": "public"
   },
   "private": false,
-  "main": "dist/index",
-  "browser": "dist.browser/index",
-  "types": "dist/index",
   "files": [
     "dist"
   ],
