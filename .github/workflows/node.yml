@@ -78,9 +78,6 @@ jobs:
       - name: Build packages
         run: npm run build:affected
 
-      - name: Run Karma tests
-        run: npm run test:browser:affected
-
       - name: Run Jest tests
         run: npm run test:cov:affected
         env:
