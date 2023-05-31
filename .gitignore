@@ -111,6 +111,7 @@ junit.xml
 dist
 dist.browser
 build
+tmp
 
 # output from generate-pdf packages
 generating.pdf
