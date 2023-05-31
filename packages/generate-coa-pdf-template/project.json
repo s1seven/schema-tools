@@ -5,14 +5,25 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/packages/generate-coa-pdf-template",
+        "outputPath": "packages/generate-coa-pdf-template/dist",
+        "outputFileName": "generateContent.js",
+        "main": "packages/generate-en10168-pdf-template/src/generateContent.ts",
         "tsConfig": "packages/generate-coa-pdf-template/tsconfig.lib.json",
-        "packageJson": "packages/generate-coa-pdf-template/package.json",
-        "main": "packages/generate-coa-pdf-template/src/index.ts",
-        "assets": ["packages/generate-coa-pdf-template/*.md"]
+        "thirdParty": true,
+        "platform": "node",
+        "generatePackageJson": false
+      },
+      "configurations": {
+        "development": {
+          "minify": false
+        },
+        "production": {
+          "minify": true
+        }
       }
     },
     "publish": {
