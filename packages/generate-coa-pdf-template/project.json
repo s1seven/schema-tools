@@ -10,11 +10,11 @@
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "packages/generate-coa-pdf-template/dist",
-        "outputFileName": "generateContent.js",
-        "main": "packages/generate-en10168-pdf-template/src/generateContent.ts",
+        "outputFileName": "generateContent",
+        "main": "packages/generate-coa-pdf-template/src/generateContent.ts",
         "tsConfig": "packages/generate-coa-pdf-template/tsconfig.lib.json",
         "thirdParty": true,
-        "platform": "node",
+        "format": ["cjs"],
         "generatePackageJson": false
       },
       "configurations": {
