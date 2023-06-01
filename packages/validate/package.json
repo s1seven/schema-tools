@@ -28,17 +28,9 @@
     "npm": ">=6"
   },
   "scripts": {
-    "build": "npm run clean && npm run compile",
     "clean": "rimraf -rf ./dist",
     "cleanup": "rimraf -rf dist dist.browser coverage",
-    "compile:node": "tsc -p tsconfig.build.json",
-    "compile:browser": "tsc -p tsconfig.browser.json",
-    "compile": "npm run compile:node && npm run compile:browser",
     "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
-    "test:staged": "jest --runInBand --onlyChanged",
-    "test:browser": "rimraf -rf ./build && karma start ../../karma.conf.js --browsers ChromeHeadlessCI --single-run",
     "scan:deps": "audit-ci --config ../../audit-ci.json",
     "prepublishOnly": "npm run build"
   },
