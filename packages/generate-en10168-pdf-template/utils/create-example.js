@@ -26,7 +26,7 @@ function buildModule(filePath) {
 }
 
 async function generateInSandbox(certificate, translations) {
-  const { generateContent } = buildModule(path.resolve('./dist/generateContent.js'));
+  const { generateContent } = buildModule(path.resolve('./dist/generateContent.cjs'));
 
   const code = `(async function () {
     content = await generateContent(certificate, translations);

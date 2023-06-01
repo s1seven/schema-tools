@@ -143,7 +143,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'chore: update minified generateContents.js [skip ci]'
-          file_pattern: packages/generate-coa-pdf-template/dist/generateContent.js packages/generate-en10168-pdf-template/dist/generateContent.js
+          file_pattern: packages/generate-coa-pdf-template/dist/generateContent.cjs packages/generate-en10168-pdf-template/dist/generateContent.cjs
 
   scan:
     needs: setup-and-test

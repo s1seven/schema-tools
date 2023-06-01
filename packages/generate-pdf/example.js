@@ -5,7 +5,7 @@ const styles = require(`${__dirname}/../generate-en10168-pdf-template/utils/styl
 
 const en10168Certificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.4.1/valid_cert.json`));
 const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.4.1/translations.json`));
-const generatorPath = '../generate-en10168-pdf-template/dist/generateContent.js';
+const generatorPath = '../generate-en10168-pdf-template/dist/generateContent.cjs';
 
 (async function () {
   try {

@@ -80,7 +80,7 @@ Process:
 1. Update the schema in question
 2. Check and update the types using the `create-schema-interfaces` CLI tool
 3. If necessary, make changes in `generateContent.ts` in `schema-tools/packages/generate-coa-pdf-template/src/generateContent.ts` or `schema-tools/packages/generate-en10168-pdf-template/src/generateContent.ts` and run `npm run build`.
-   If `generateContent.ts` has been changed and built, copy the contents of `dist/generateContent.js` to the schema repository and replace the contents of `generate-pdf.min.js` with the new minified code. Edit: this step has been automated as of PR #147 - https://github.com/s1seven/schema-tools/pull/147
+   If `generateContent.ts` has been changed and built, copy the contents of `dist/generateContent.cjs` to the schema repository and replace the contents of `generate-pdf.min.js` with the new minified code. Edit: this step has been automated as of PR #147 - https://github.com/s1seven/schema-tools/pull/147
 4. For a new Release Candidate, add a new fixture (used for testing) using the method outlined [below:](#fixtures)
 
 ## Starting out

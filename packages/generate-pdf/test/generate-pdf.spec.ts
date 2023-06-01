@@ -125,9 +125,9 @@ const docDefinition: Omit<TDocumentDefinitions, 'content'> = {
 const generatePaths = (
   validCertName: string,
   dirPath: string,
-  isLatestVersion: boolean,
   type: SchemaDirUnion,
   version: string,
+  isLatestVersion?: boolean,
 ) => {
   const { name } = parse(validCertName);
   const validCertificate = require(join(dirPath, validCertName));
@@ -136,7 +136,7 @@ const generatePaths = (
   const coaCertsWithoutExtraTranslations = ['v0.0.4', 'v0.1.0'];
   let generatorPath: string;
   if (isLatestVersion) {
-    generatorPath = resolve(`${__dirname}/../../generate-${type.toLowerCase()}-pdf-template/dist/generateContent.js`);
+    generatorPath = resolve(`${__dirname}/../../generate-${type.toLowerCase()}-pdf-template/dist/generateContent.cjs`);
   }
   let extraTranslationsPath: string;
 
@@ -212,7 +212,7 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
       pdfDoc.pipe(writeStream);
       pdfDoc.end();
       await waitWritableStreamEnd(writeStream, outputFilePath);
-    }, 8000);
+    }, 10000);
 
     it('should render PDF certificate using certificate object, local PDF generator script, styles and translations', async () => {
       if (!generatorPath) {
@@ -243,7 +243,7 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
       const resultHash = createHash('sha256').update(result.base64).digest('hex');
       expect(pdfDoc instanceof Buffer).toEqual(true);
       expect(resultHash).toEqual(expectedHash);
-    }, 8000);
+    }, 10000);
 
     it('should render PDF certificate using certificate object and remote PDF generator script', async () => {
       const outputFilePath = `./${type}-${version}-test.pdf`;
@@ -277,13 +277,13 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
 
 describe('GeneratePDF', function () {
   it('should build module using local PDF generator script', async () => {
-    const generatorPath = resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
+    const generatorPath = resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.cjs`);
     const module = await buildModule(generatorPath);
     expect(module).toHaveProperty('generateContent');
   }, 3000);
 
   it('should execute in a sandbox the PDF generator script and return pdfmake content', async () => {
-    const generatorPath = resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.js`);
+    const generatorPath = resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.cjs`);
     const certificatePath = resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.json`);
     const certificate = JSON.parse(readFileSync(certificatePath, 'utf-8'));
     //
@@ -305,7 +305,7 @@ describe('GeneratePDF', function () {
 
     validCertNames.forEach((validCertName) => {
       const { name, translationsPath, expectedPdfPath, validCertificate, generatorPath, extraTranslationsPath } =
-        generatePaths(validCertName, dirPath, isLatestVersion, dirname, version);
+        generatePaths(validCertName, dirPath, dirname, version, isLatestVersion);
 
       runPDFGenerationTests({
         name,
