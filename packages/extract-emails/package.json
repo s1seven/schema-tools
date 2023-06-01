@@ -19,10 +19,8 @@
     "access": "public"
   },
   "private": false,
-  "files": [
-    "dist",
-    "dist.browser"
-  ],
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
   "engines": {
     "node": ">=12",
     "npm": ">=6"

@@ -16,9 +16,7 @@
   "publicConfig": {
     "access": "public"
   },
-  "files": [
-    "dist"
-  ],
+  "main": "dist/generateContent.cjs",
   "targets": {
     "main": {
       "engines": {

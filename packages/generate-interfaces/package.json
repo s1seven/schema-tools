@@ -19,23 +19,15 @@
     "access": "public"
   },
   "private": false,
-  "files": [
-    "dist"
-  ],
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
   "engines": {
     "node": ">=12",
     "npm": ">=6"
   },
   "scripts": {
-    "build": "npm run clean && npm run compile",
     "clean": "rimraf -rf ./dist",
     "cleanup": "rimraf -rf dist coverage",
-    "compile": "tsc -p tsconfig.build.json",
-    "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "prepublishOnly": "npm run build",
-    "test": "jest",
-    "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
-    "test:staged": "jest --runInBand --onlyChanged",
     "scan:deps": "audit-ci --config ../../audit-ci.json"
   },
   "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"

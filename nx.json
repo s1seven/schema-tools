@@ -13,7 +13,6 @@
           "compile",
           "lint",
           "lint:affected",
-          "prepublishOnly",
           "scan:deps",
           "test",
           "test:affected",

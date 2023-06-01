@@ -57,7 +57,6 @@
     "scan:deps": "nx run-many --target=scan:deps --all",
     "scan:code": "sonarqube-verify",
     "graph": "npx nx graph",
-    "prepublishOnly": "npm run build",
     "fixtures:interfaces": "ts-node ./utils/create-schema-interfaces.ts",
     "fixtures:html": "ts-node ./utils/create-html-certificate.ts",
     "fixtures:pdf": "ts-node ./utils/create-pdf-certificate.ts",
