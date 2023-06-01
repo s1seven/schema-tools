@@ -36,12 +36,7 @@
     }
   },
   "scripts": {
-    "build": "PARCEL_WORKER_BACKEND=process parcel build --no-cache --target=main",
-    "compile": "npm run create-interfaces && npm run build",
     "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
-    "test:staged": "jest --runInBand --onlyChanged",
     "scan:deps": "audit-ci --config ../../audit-ci.json",
     "create-example": "node ./utils/create-example.js",
     "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.s1seven.com/coa-schemas/v0.2.0/schema.json ./src/types/schemaTypes.ts",
