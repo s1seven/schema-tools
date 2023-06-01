@@ -42,7 +42,9 @@
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/generate-coa-pdf-template/jest.config.ts",
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "codeCoverage": true,
+        "coverageReporters": ["json", "lcov"]
       },
       "configurations": {
         "ci": {

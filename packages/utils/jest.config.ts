@@ -8,4 +8,12 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/utils',
+  coverageThreshold: {
+    global: {
+      statements: 75,
+      branches: 55,
+      functions: 55,
+      lines: 75,
+    },
+  },
 };

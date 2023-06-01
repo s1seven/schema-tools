@@ -8,4 +8,12 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/certificate-model',
+  coverageThreshold: {
+    global: {
+      statements: 75,
+      branches: 50,
+      functions: 65,
+      lines: 75,
+    },
+  },
 };

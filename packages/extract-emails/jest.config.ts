@@ -8,4 +8,12 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/extract-emails',
+  coverageThreshold: {
+    global: {
+      statements: 85,
+      branches: 60,
+      functions: 85,
+      lines: 85,
+    },
+  },
 };

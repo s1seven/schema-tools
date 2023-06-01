@@ -20,8 +20,6 @@
           "test:cov:affected",
           "test:coverage",
           "test:staged",
-          "test:browser",
-          "test:browser:affected",
           "test:certificate-model",
           "test:certificate-summary",
           "test:extract-emails",

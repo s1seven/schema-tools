@@ -8,4 +8,12 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/validate',
+  coverageThreshold: {
+    global: {
+      statements: 80,
+      branches: 65,
+      functions: 60,
+      lines: 85,
+    },
+  },
 };

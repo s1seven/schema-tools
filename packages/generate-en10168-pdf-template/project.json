@@ -43,7 +43,9 @@
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/generate-en10168-pdf-template/jest.config.ts",
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "codeCoverage": true,
+        "coverageReporters": ["json", "lcov"]
       },
       "configurations": {
         "ci": {
