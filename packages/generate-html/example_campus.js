@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const { readFileSync, writeFileSync } = require('fs');
-const { generateHtml } = require('../../dist/generate-html/src/index');
+const { generateHtml } = require('../../dist/packages/generate-html/src/index');
 
 const defaultExternalCertificatePath = `${__dirname}/../../fixtures/CoA/v0.2.0/valid_cert.json`;
 const defaultOutputPath = `${__dirname}/template.html`;

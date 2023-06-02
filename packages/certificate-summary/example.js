@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { buildCertificateSummary } = require('../../dist/certificate-summary/src/index.js');
+const { buildCertificateSummary } = require('../../dist/packages/certificate-summary/src/index');
 const en10168Certificate = require('../../fixtures/EN10168/v0.4.1/valid_cert.json');
 const coaCertificate = require('../../fixtures/CoA/v1.1.0/valid_cert.json');
 const eCoCCertificate = require('../../fixtures/E-CoC/v1.0.0/valid_cert.json');

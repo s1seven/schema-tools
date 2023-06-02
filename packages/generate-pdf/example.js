@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { createWriteStream, readFileSync } = require('fs');
-const { generatePdf } = require('../../dist/generate-pdf/src/index');
+const { generatePdf } = require('../../dist/packages/generate-pdf/src/index');
 const styles = require(`${__dirname}/../generate-en10168-pdf-template/utils/styles.js`);
 
 const en10168Certificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.4.1/valid_cert.json`));

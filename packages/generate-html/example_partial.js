@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const { readFileSync, writeFileSync } = require('fs');
-const { generateHtml } = require('../../dist/generate-html/src/index');
+const { generateHtml } = require('../../dist/packages/generate-html/src/index');
 
 const defaultExternalCertificatePath = `${__dirname}/../../fixtures/EN10168/v0.3.0/valid_cert.json`;
 const defaultTranslationsPath = `${__dirname}/../../fixtures/EN10168/v0.3.0/translations.json`;
