@@ -31,9 +31,17 @@
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/certificate-summary/jest.config.ts",
-        "passWithNoTests": true,
         "codeCoverage": true,
-        "coverageReporters": ["json", "lcov"]
+        "coverageReporters": ["json", "lcov"],
+        "coverageDirectory": "../../coverage/packages/certificate-summary",
+        "coverageThreshold": {
+          "global": {
+            "statements": 80,
+            "branches": 60,
+            "functions": 50,
+            "lines": 85
+          }
+        }
       },
       "configurations": {
         "ci": {

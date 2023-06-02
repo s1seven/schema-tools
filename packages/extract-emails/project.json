@@ -31,9 +31,17 @@
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/extract-emails/jest.config.ts",
-        "passWithNoTests": true,
         "codeCoverage": true,
-        "coverageReporters": ["json", "lcov"]
+        "coverageReporters": ["json", "lcov"],
+        "coverageDirectory": "../../coverage/packages/extract-emails",
+        "coverageThreshold": {
+          "global": {
+            "statements": 85,
+            "branches": 60,
+            "functions": 85,
+            "lines": 85
+          }
+        }
       },
       "configurations": {
         "ci": {

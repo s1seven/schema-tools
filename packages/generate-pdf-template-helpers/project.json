@@ -31,9 +31,17 @@
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/generate-pdf-template-helpers/jest.config.ts",
-        "passWithNoTests": true,
         "codeCoverage": true,
-        "coverageReporters": ["json", "lcov"]
+        "coverageReporters": ["json", "lcov"],
+        "coverageDirectory": "../../coverage/packages/generate-pdf-template-helpers",
+        "coverageThreshold": {
+          "global": {
+            "statements": 60,
+            "branches": 40,
+            "functions": 55,
+            "lines": 60
+          }
+        }
       },
       "configurations": {
         "ci": {

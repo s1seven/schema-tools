@@ -6,14 +6,5 @@ export default {
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/packages/generate-html',
-  coverageThreshold: {
-    global: {
-      statements: 70,
-      branches: 60,
-      functions: 70,
-      lines: 70,
-    },
-  },
+  moduleFileExtensions: ['ts', 'js', 'html']
 };
