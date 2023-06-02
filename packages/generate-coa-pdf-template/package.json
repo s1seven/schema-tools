@@ -34,7 +34,6 @@
     }
   },
   "scripts": {
-    "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
     "scan:deps": "audit-ci --config ../../audit-ci.json",
     "create-example": "node ./utils/create-example.js",
     "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.s1seven.com/coa-schemas/v0.2.0/schema.json ./src/types/schemaTypes.ts",

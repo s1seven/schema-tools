@@ -30,6 +30,5 @@
     "cleanup": "rimraf -rf dist coverage",
     "example:en10168": "node example.js",
     "example:coa": "node example_coa.js"
-  },
-  "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
+  }
 }

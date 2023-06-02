@@ -29,6 +29,5 @@
     "clean": "rimraf -rf ./dist",
     "cleanup": "rimraf -rf dist dist.browser coverage",
     "scan:deps": "audit-ci --config ../../audit-ci.json"
-  },
-  "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
+  }
 }

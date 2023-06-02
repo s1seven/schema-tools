@@ -31,6 +31,5 @@
     "example": "node example.js",
     "example:campus": "node example_campus.js",
     "example:partial": "node example_partial.js"
-  },
-  "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
+  }
 }
