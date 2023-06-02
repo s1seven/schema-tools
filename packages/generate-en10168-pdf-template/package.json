@@ -31,11 +31,5 @@
         "@s1seven/schema-tools-generate-types": true
       }
     }
-  },
-  "scripts": {
-    "scan:deps": "audit-ci --config ../../audit-ci.json",
-    "create-example": "node --icu-data-dir=`echo $(./node_modules/.bin/node-full-icu-path)` ./utils/create-example.js",
-    "create-example:no-icu": "node ./utils/create-example.js",
-    "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.s1seven.com/en10168-schemas/v0.2.0/schema.json ./src/types/schemaTypes.ts"
   }
 }

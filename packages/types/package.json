@@ -24,9 +24,5 @@
   "engines": {
     "node": ">=12",
     "npm": ">=6"
-  },
-  "scripts": {
-    "clean": "rimraf -rf ./dist",
-    "cleanup": "rimraf -rf dist"
   }
 }

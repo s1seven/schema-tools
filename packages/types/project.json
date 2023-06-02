@@ -19,6 +19,18 @@
       "command": "node tools/scripts/publish.mjs types {args.ver} {args.tag}",
       "dependsOn": ["build"]
     },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/types"
+      }
+    },
+    "cleanup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/types coverage/packages/types"
+      }
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],

@@ -26,6 +26,25 @@
         "lintFilePatterns": ["packages/validate/**/*.ts"]
       }
     },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/validate"
+      }
+    },
+    "cleanup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/validate coverage/packages/validate"
+      }
+    },
+    "scan:deps": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/validate",
+        "command": "audit-ci --config ../../audit-ci.json"
+      }
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

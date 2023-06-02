@@ -22,6 +22,25 @@
         "lintFilePatterns": ["packages/generate-pdf-template-helpers/**/*.ts"]
       }
     },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/generate-pdf-template-helpers"
+      }
+    },
+    "cleanup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/generate-pdf-template-helpers coverage/packages/generate-pdf-template-helpers"
+      }
+    },
+    "scan:deps": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-pdf-template-helpers",
+        "command": "audit-ci --config ../../audit-ci.json"
+      }
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

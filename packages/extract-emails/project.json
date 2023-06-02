@@ -26,6 +26,33 @@
         "lintFilePatterns": ["packages/extract-emails/**/*.ts"]
       }
     },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/extract-emails"
+      }
+    },
+    "cleanup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/extract-emails coverage/packages/extract-emails"
+      }
+    },
+    "scan:deps": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/extract-emails",
+        "command": "audit-ci --config ../../audit-ci.json"
+      }
+    },
+    "example": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/extract-emails",
+        "command": "node example.js"
+      },
+      "dependsOn": ["build"]
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

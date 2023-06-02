@@ -26,6 +26,34 @@
         "lintFilePatterns": ["packages/generate-pdf/**/*.ts"]
       }
     },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/generate-pdf"
+      }
+    },
+    "cleanup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/generate-pdf coverage/packages/generate-pdf"
+      }
+    },
+    "example:en10168": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-pdf",
+        "command": "node example.js"
+      },
+      "dependsOn": ["build"]
+    },
+    "example:coa": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-pdf",
+        "command": "node example_coa.js"
+      },
+      "dependsOn": ["build"]
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

@@ -33,6 +33,37 @@
         "lintFilePatterns": ["packages/generate-coa-pdf-template/**/*.ts"]
       }
     },
+    "scan:deps": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-coa-pdf-template",
+        "command": "audit-ci --config ../../audit-ci.json"
+      }
+    },
+    "create-example": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-coa-pdf-template",
+        "command": "node ./utils/create-example.js"
+      },
+      "dependsOn": ["build"]
+    },
+    "create-interfaces": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-coa-pdf-template",
+        "command": "node ./utils/create-schema-interfaces.js https://schemas.s1seven.com/coa-schemas/v0.2.0/schema.json ./src/types/schemaTypes.ts"
+      },
+      "dependsOn": ["build"]
+    },
+    "create-interfaces-interactive": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-coa-pdf-template",
+        "command": "node ../../utils/create-schema-interfaces-interactive.js ./src/types/schemaTypes.ts"
+      },
+      "dependsOn": ["build"]
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

@@ -26,6 +26,33 @@
         "lintFilePatterns": ["packages/utils/**/*.ts"]
       }
     },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/utils"
+      }
+    },
+    "cleanup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/utils coverage/packages/utils"
+      }
+    },
+    "scan:deps": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/utils",
+        "command": "audit-ci --config ../../audit-ci.json"
+      }
+    },
+    "cast-cert-test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/utils",
+        "command": "node example.js"
+      },
+      "dependsOn": ["build"]
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

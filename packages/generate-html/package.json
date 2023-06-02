@@ -24,12 +24,5 @@
   "engines": {
     "node": ">=12",
     "npm": ">=6"
-  },
-  "scripts": {
-    "clean": "rimraf -rf ./dist",
-    "cleanup": "rimraf -rf dist coverage",
-    "example": "node example.js",
-    "example:campus": "node example_campus.js",
-    "example:partial": "node example_partial.js"
   }
 }

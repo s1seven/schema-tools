@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { extractParties } = require('./dist/index');
+const { extractParties } = require('../../dist/extract-emails/src/index');
 const en10168Certificate = require('../../fixtures/EN10168/v0.3.0/valid_cert.json');
 const coaCertificate = require('../../fixtures/CoA/v1.1.0/valid_cert.json');
 const eCoCCertificate = require('../../fixtures/E-CoC/v1.0.0/valid_cert.json');

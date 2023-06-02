@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { validate } = require('./dist/index');
+const { validate } = require('../../dist/validate/src/index');
 
 (async function (argv) {
   const localSchemasDir = argv[2] || '../../fixtures/';

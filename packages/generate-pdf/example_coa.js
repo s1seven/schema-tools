@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { createWriteStream, readFileSync } = require('fs');
-const { generatePdf } = require('./dist/index');
+const { generatePdf } = require('../../dist/generate-pdf/src/index');
 const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.js`);
 
 const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/valid_cert_1.json`));

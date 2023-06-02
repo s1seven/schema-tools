@@ -26,6 +26,42 @@
         "lintFilePatterns": ["packages/generate-html/**/*.ts"]
       }
     },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/generate-html"
+      }
+    },
+    "cleanup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/generate-html coverage/packages/generate-html"
+      }
+    },
+    "example": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-html",
+        "command": "node example.js"
+      },
+      "dependsOn": ["build"]
+    },
+    "example:campus": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-html",
+        "command": "node example_campus.js"
+      },
+      "dependsOn": ["build"]
+    },
+    "example:partial": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-html",
+        "command": "node example_partial.js"
+      },
+      "dependsOn": ["build"]
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
