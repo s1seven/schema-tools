@@ -15,10 +15,6 @@
         "assets": ["packages/generate-pdf-template-helpers/*.md"]
       }
     },
-    "publish": {
-      "command": "node tools/scripts/publish.mjs generate-pdf-template-helpers {args.ver} {args.tag}",
-      "dependsOn": ["build"]
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],

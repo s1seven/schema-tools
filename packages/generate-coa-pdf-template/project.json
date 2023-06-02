@@ -26,10 +26,6 @@
         }
       }
     },
-    "publish": {
-      "command": "node tools/scripts/publish.mjs generate-coa-pdf-template {args.ver} {args.tag}",
-      "dependsOn": ["build"]
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
