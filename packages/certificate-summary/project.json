@@ -16,7 +16,10 @@
       }
     },
     "publish": {
-      "command": "node tools/scripts/publish.mjs certificate-summary {args.ver} {args.tag}",
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      },
       "dependsOn": ["build"]
     },
     "lint": {

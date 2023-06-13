@@ -16,7 +16,10 @@
       }
     },
     "publish": {
-      "command": "node tools/scripts/publish.mjs versioning {args.ver} {args.tag}",
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      },
       "dependsOn": ["build"]
     },
     "lint": {
