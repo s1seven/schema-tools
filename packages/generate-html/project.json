@@ -45,25 +45,22 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-html",
-        "command": "node example.js"
-      },
-      "dependsOn": ["build"]
+        "command": "npx ts-node -r tsconfig-paths/register example.ts"
+      }
     },
     "example:campus": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-html",
-        "command": "node example_campus.js"
-      },
-      "dependsOn": ["build"]
+        "command": "npx ts-node -r tsconfig-paths/register example_campus.ts"
+      }
     },
     "example:partial": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-html",
-        "command": "node example_partial.js"
-      },
-      "dependsOn": ["build"]
+        "command": "npx ts-node -r tsconfig-paths/register example_partial.ts"
+      }
     },
     "test": {
       "executor": "@nx/jest:jest",

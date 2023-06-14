@@ -1,25 +1,29 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { createWriteStream, readFileSync } = require('fs');
-const { generatePdf } = require('../../dist/packages/generate-pdf/src/index');
+import { createWriteStream, readFileSync } from 'fs';
+
+import { generatePdf, TDocumentDefinitions } from './src/index';
 const styles = require(`${__dirname}/../generate-en10168-pdf-template/utils/styles.js`);
 
-const en10168Certificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.4.1/valid_cert.json`));
-const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.4.1/translations.json`));
+const en10168Certificate = JSON.parse(
+  readFileSync(`${__dirname}/../../fixtures/EN10168/v0.4.1/valid_cert.json`, 'utf-8'),
+);
+const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.4.1/translations.json`, 'utf-8'));
 const generatorPath = '../generate-en10168-pdf-template/dist/generateContent.cjs';
 
 (async function () {
   try {
     const fonts = {
       Lato: {
-        normal: `${__dirname}/node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
-        bold: `${__dirname}/node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
-        italics: `${__dirname}/node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
-        light: `${__dirname}/node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+        normal: `${__dirname}/../../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
+        bold: `${__dirname}/../../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
+        italics: `${__dirname}/../../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
+        light: `${__dirname}/../../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
       },
     };
 
     // en10168Certificate.RefSchemaUrl = 'https://schemas.s1seven.com/en10168-schemas/v0.0.3-2/schema.json';
-    const docDefinition = {
+    const docDefinition: Partial<TDocumentDefinitions> = {
       pageSize: 'A4',
       pageMargins: [20, 20, 20, 40],
       footer: (currentPage, pageCount) => ({

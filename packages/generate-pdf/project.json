@@ -45,17 +45,15 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-pdf",
-        "command": "node example.js"
-      },
-      "dependsOn": ["build"]
+        "command": "npx ts-node -r tsconfig-paths/register example.ts"
+      }
     },
     "example:coa": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-pdf",
-        "command": "node example_coa.js"
-      },
-      "dependsOn": ["build"]
+        "command": "npx ts-node -r tsconfig-paths/register example_coa.ts"
+      }
     },
     "test": {
       "executor": "@nx/jest:jest",

@@ -1,6 +1,7 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { castCertificate } = require('../../dist/packages/utils/src/certificates');
-const fs = require('fs');
+/* eslint-disable no-console */
+import fs from 'fs';
+
+import { castCertificate } from './src/certificates';
 
 const sampleCertificate = JSON.parse(fs.readFileSync('./sample_certificate.json').toString());
 

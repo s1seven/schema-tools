@@ -52,9 +52,8 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/utils",
-        "command": "node example.js"
-      },
-      "dependsOn": ["build"]
+        "command": "npx ts-node -r tsconfig-paths/register example.ts"
+      }
     },
     "test": {
       "executor": "@nx/jest:jest",

@@ -1,21 +1,25 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { createWriteStream, readFileSync } = require('fs');
-const { generatePdf } = require('../../dist/packages/generate-pdf/src/index');
+import { createWriteStream, readFileSync } from 'fs';
+
+import { generatePdf, TDocumentDefinitions } from './src/index';
 const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.js`);
 
-const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/valid_cert_1.json`));
-const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/translations.json`));
-const extraTranslations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/extra_translations.json`));
+const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/valid_cert_1.json`, 'utf-8'));
+const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/translations.json`, 'utf-8'));
+const extraTranslations = JSON.parse(
+  readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/extra_translations.json`, 'utf-8'),
+);
 const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
 
 (async function () {
   try {
     const fonts = {
       Lato: {
-        normal: `${__dirname}/node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
-        bold: `${__dirname}/node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
-        italics: `${__dirname}/node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
-        light: `${__dirname}/node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+        normal: `${__dirname}/../../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
+        bold: `${__dirname}/../../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
+        italics: `${__dirname}/../../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
+        light: `${__dirname}/../../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
       },
       NotoSansSC: {
         normal: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
@@ -30,7 +34,7 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
     };
 
     // CoACertificate.RefSchemaUrl = 'https://schemas.s1seven.com/coa-schemas/v0.2.0/schema.json';
-    const docDefinition = {
+    const docDefinition: Partial<TDocumentDefinitions> = {
       pageSize: 'A4',
       pageMargins: [20, 20, 20, 40],
       footer: (currentPage, pageCount) => ({

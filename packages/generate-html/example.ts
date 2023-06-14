@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-console */
+import { writeFileSync } from 'fs';
 
-const { writeFileSync } = require('fs');
-const { generateHtml } = require('../../dist/packages/generate-html/src/index');
+import { generateHtml } from './src/index';
 
 const defaultExternalCertificatePath = `${__dirname}/../../fixtures/EN10168/v0.2.0/valid_cert.json`;
 const defaultOutputPath = `${__dirname}/template.html`;
