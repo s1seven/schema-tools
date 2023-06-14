@@ -57,10 +57,10 @@
     "scan:deps": "nx run-many --target=scan:deps --all",
     "scan:code": "sonarqube-verify",
     "graph": "npx nx graph",
-    "fixtures:interfaces": "ts-node ./utils/create-schema-interfaces.ts",
-    "fixtures:html": "ts-node ./utils/create-html-certificate.ts",
-    "fixtures:pdf": "ts-node ./utils/create-pdf-certificate.ts",
-    "fixtures:generate": "ts-node ./utils/generate-fixtures-from-json.ts"
+    "fixtures:interfaces": "ts-node -r tsconfig-paths/register ./utils/create-schema-interfaces.ts",
+    "fixtures:html": "ts-node -r tsconfig-paths/register ./utils/create-html-certificate.ts",
+    "fixtures:pdf": "ts-node -r tsconfig-paths/register ./utils/create-pdf-certificate.ts",
+    "fixtures:generate": "ts-node -r tsconfig-paths/register ./utils/generate-fixtures-from-json.ts"
   },
   "dependencies": {
     "ajv": "8.12.0",

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import fs from 'fs';
 import { createWriteStream } from 'fs';
 import path from 'path';
@@ -142,7 +143,8 @@ const getCliArgs = () =>
       alias: 'v',
       type: 'boolean',
       description: 'Run with verbose logging',
-    }).argv;
+    })
+    .parseSync();
 
 (async function () {
   // incase you run directly with node from utils, uncomment the following line:

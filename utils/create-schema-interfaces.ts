@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import path from 'path';
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
@@ -38,7 +39,8 @@ import { fileExists, normalizePath } from './helpers';
       alias: 'v',
       type: 'boolean',
       description: 'Run with verbose logging',
-    }).argv;
+    })
+    .parseSync();
 
   try {
     await generate(argv.schemaPath, argv.outputPath);

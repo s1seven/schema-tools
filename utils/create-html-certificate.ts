@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 import fs from 'fs';
 import path from 'path';
+import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import yargs from 'yargs/yargs';
 
 import { generateHtml } from '../packages/generate-html/src';
 import { fileExists, normalizePath } from './helpers';
@@ -98,7 +99,8 @@ async function createHtml(options: {
       alias: 'v',
       type: 'boolean',
       description: 'Run with verbose logging',
-    }).argv;
+    })
+    .parseSync();
 
   try {
     await createHtml(argv);
