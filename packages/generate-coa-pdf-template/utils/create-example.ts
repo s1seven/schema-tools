@@ -1,28 +1,29 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const PdfPrinter = require('pdfmake');
-const fs = require('fs');
-const Module = require('module');
-const path = require('path');
-const vm = require('vm');
-const styles = require('./styles');
-const certificate = require('../../../fixtures/CoA/v0.2.0/valid_cert.json');
-const translations = require('../../../fixtures/CoA/v0.2.0/translations.json');
-const extraTranslations = require('../../../fixtures/CoA/v0.2.0/extra_translations.json');
+import fs from 'fs';
+import Module from 'module';
+import path from 'path';
+import PdfPrinter from 'pdfmake';
+import { Content, StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
+import vm from 'vm';
+
+import extraTranslations from '../../../fixtures/CoA/v0.2.0/extra_translations.json';
+import translations from '../../../fixtures/CoA/v0.2.0/translations.json';
+import certificate from '../../../fixtures/CoA/v0.2.0/valid_cert.json';
+import styles from './styles';
 
 const fonts = {
   Lato: {
-    normal: 'node_modules/lato-font/fonts/lato-normal/lato-normal.woff',
-    bold: 'node_modules/lato-font/fonts/lato-bold/lato-bold.woff',
-    italics: 'node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff',
-    light: 'node_modules/lato-font/fonts/lato-light/lato-light.woff',
+    normal: `${__dirname}/../../../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
+    bold: `${__dirname}/../../../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
+    italics: `${__dirname}/../../../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
+    light: `${__dirname}/../../../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
   },
 };
 
-function buildModule(filePath) {
+function buildModule(filePath: string) {
   const code = fs.readFileSync(filePath, 'utf8');
   const _module = new Module(filePath);
   _module.filename = filePath;
-  _module._compile(code, filePath);
+  _module['_compile'](code, filePath);
   return _module.exports;
 }
 
@@ -50,9 +51,9 @@ async function generateInSandbox(certificate, translations, extraTranslations) {
 async function generateExample(certificate, translations, extraTranslations) {
   const printer = new PdfPrinter(fonts);
 
-  const content = await generateInSandbox(certificate, translations, extraTranslations);
+  const content = (await generateInSandbox(certificate, translations, extraTranslations)) as Content;
 
-  const docDefinition = {
+  const docDefinition: TDocumentDefinitions = {
     pageSize: 'A4',
     pageMargins: [20, 20, 20, 40],
     footer: function (currentPage, pageCount) {
@@ -63,7 +64,7 @@ async function generateExample(certificate, translations, extraTranslations) {
       };
     },
     content,
-    styles,
+    styles: styles as unknown as StyleDictionary,
     defaultStyle: {
       font: 'Lato',
       fontSize: 10,

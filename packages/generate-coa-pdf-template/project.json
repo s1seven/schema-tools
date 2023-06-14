@@ -44,25 +44,22 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-coa-pdf-template",
-        "command": "node ./utils/create-example.js"
-      },
-      "dependsOn": ["build"]
+        "command": "npx ts-node -r tsconfig-paths/register ./utils/create-example.ts"
+      }
     },
     "create-interfaces": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-coa-pdf-template",
-        "command": "node ./utils/create-schema-interfaces.js https://schemas.s1seven.com/coa-schemas/v0.2.0/schema.json ./src/types/schemaTypes.ts"
-      },
-      "dependsOn": ["build"]
+        "command": "npx ts-node -r tsconfig-paths/register ./utils/create-schema-interfaces.ts https://schemas.s1seven.com/coa-schemas/v0.2.0/schema.json ./src/types/schemaTypes.ts"
+      }
     },
     "create-interfaces-interactive": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-coa-pdf-template",
-        "command": "node ../../utils/create-schema-interfaces-interactive.js ./src/types/schemaTypes.ts"
-      },
-      "dependsOn": ["build"]
+        "command": "npx ts-node -r tsconfig-paths/register ../../utils/create-schema-interfaces-interactive.ts ./src/types/schemaTypes.ts"
+      }
     },
     "test": {
       "executor": "@nx/jest:jest",

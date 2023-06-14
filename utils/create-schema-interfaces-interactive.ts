@@ -1,9 +1,12 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { generate } = require('@s1seven/schema-tools-generate-interfaces');
-const path = require('path');
-const readline = require('readline');
-const { stdin: input, stdout: output } = require('process');
-const fs = require('fs');
+/* eslint-disable no-console */
+import fs from 'fs';
+import path from 'path';
+import { stdin as input, stdout as output } from 'process';
+import readline from 'readline';
+
+// TODO: fix module not found error when called from packages/generate-coa-pdf-template/project.json
+// could this be moved to packages/generate-coa-pdf-template/utils?
+import { generate } from '@s1seven/schema-tools-generate-interfaces';
 
 const rl = readline.createInterface({ input, output });
 
@@ -17,7 +20,7 @@ const rl = readline.createInterface({ input, output });
   }
 
   try {
-    const schemaPath = await new Promise((resolve) => {
+    const schemaPath: string = await new Promise((resolve) => {
       rl.question('What is the filepath to the updated schema CoA? ', resolve);
     });
 
