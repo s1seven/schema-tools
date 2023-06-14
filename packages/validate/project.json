@@ -22,6 +22,13 @@
       },
       "dependsOn": ["build"]
     },
+    "example": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/validate",
+        "command": "npx ts-node -r tsconfig-paths/register example.ts"
+      }
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],

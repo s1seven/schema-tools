@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { validate } = require('../../dist/packages/validate/src/index');
+/* eslint-disable no-console */
+import { validate } from './src/index';
 
 (async function (argv) {
   const localSchemasDir = argv[2] || '../../fixtures/';
