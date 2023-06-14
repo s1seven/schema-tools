@@ -1,9 +1,11 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { CertificateModel } = require('../../dist/packages/certificate-model/src/index');
-const validEn10168Certificate = require('../../fixtures/EN10168/v0.0.2/valid_cert.json');
-const validECoCCertificate = require('../../fixtures/E-CoC/v0.0.2-2/valid_cert.json');
+/* eslint-disable no-console */
+import { SchemaTypes } from '@s1seven/schema-tools-types';
 
-async function en10168Certificate(CertModel) {
+import validECoCCertificate from '../../fixtures/E-CoC/v1.0.0/valid_cert.json';
+import validEn10168Certificate from '../../fixtures/EN10168/v0.0.2/valid_cert.json';
+import { CertificateModel } from './src/index';
+
+async function en10168Certificate(CertModel: typeof CertificateModel) {
   const cert = new CertModel(validEn10168Certificate);
 
   cert.on('error', (err) => {
@@ -36,7 +38,7 @@ async function en10168Certificate(CertModel) {
   });
 }
 
-async function eCoCCertificate(CertModel) {
+async function eCoCCertificate(CertModel: typeof CertificateModel) {
   const cert = new CertModel(validECoCCertificate);
 
   cert.on('error', (err) => {
@@ -44,7 +46,7 @@ async function eCoCCertificate(CertModel) {
   });
 
   cert.on('ready', async () => {
-    let RefSchemaUrl = cert.get('RefSchemaUrl');
+    const RefSchemaUrl = cert.get('RefSchemaUrl');
     console.log({ RefSchemaUrl });
 
     console.log('Certificate schemaProperties', cert.schemaProperties);
@@ -59,7 +61,7 @@ async function eCoCCertificate(CertModel) {
 
 (async function (argv) {
   try {
-    const schemaType = argv[2] || 'en10168-schemas';
+    const schemaType = (argv[2] || 'en10168-schemas') as SchemaTypes;
     const schemaVersion = argv[3] || 'v0.0.2-2';
 
     const CertModel = await CertificateModel.build({

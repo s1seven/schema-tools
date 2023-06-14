@@ -15,6 +15,13 @@
         "assets": ["packages/certificate-model/*.md"]
       }
     },
+    "example": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/certificate-model",
+        "command": "npx ts-node -r tsconfig-paths/register example.ts"
+      }
+    },
     "publish": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {
