@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { generate } = require('@s1seven/schema-tools-generate-interfaces');
-const { writeFile } = require('fs/promises');
-const path = require('path');
-const prettier = require('prettier');
+import { writeFile } from 'fs/promises';
+import path from 'path';
+import prettier from 'prettier';
+
+import { generate } from '@s1seven/schema-tools-generate-interfaces';
 
 (async function (argv) {
   const schemaPath = argv[2] || 'https://schemas.s1seven.com/en10168-schemas/v0.1.0/schema.json';

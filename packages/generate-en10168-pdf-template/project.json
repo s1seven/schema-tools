@@ -45,25 +45,15 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-en10168-pdf-template",
-        "command": "node --icu-data-dir=`echo $(./node_modules/.bin/node-full-icu-path)` ./utils/create-example.js"
-      },
-      "dependsOn": ["build"]
-    },
-    "create-example:no-icu": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "packages/generate-en10168-pdf-template",
-        "command": "node ./utils/create-example.js"
-      },
-      "dependsOn": ["build"]
+        "command": "npx ts-node -r tsconfig-paths/register ./utils/create-example.ts"
+      }
     },
     "create-interfaces": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-en10168-pdf-template",
-        "command": "node ./utils/create-schema-interfaces.js https://schemas.s1seven.com/en10168-schemas/v0.2.0/schema.json ./src/types/schemaTypes.ts"
-      },
-      "dependsOn": ["build"]
+        "command": "npx ts-node -r tsconfig-paths/register ./utils/create-schema-interfaces.ts https://schemas.s1seven.com/en10168-schemas/v0.2.0/schema.json ./src/types/schemaTypes.ts"
+      }
     },
     "test": {
       "executor": "@nx/jest:jest",
