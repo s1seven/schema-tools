@@ -39,6 +39,14 @@
       }
     }
   },
+  "targetDependencies": {
+    "version": [
+      {
+        "target": "version",
+        "projects": "dependencies"
+      }
+    ]
+  },
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"]
