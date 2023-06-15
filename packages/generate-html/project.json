@@ -84,7 +84,8 @@
       "options": {
         "preset": "conventional",
         "skipCommitTypes": ["docs", "ci"],
-        "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
+        "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]",
+        "tagPrefix": "@s1seven/schema-tools-${projectName}@"
       }
     },
     "release": {
