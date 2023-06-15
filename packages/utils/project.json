@@ -41,7 +41,7 @@
         "command": "audit-ci --config ../../audit-ci.json"
       }
     },
-    "cast-cert-test": {
+    "example": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/utils",

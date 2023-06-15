@@ -59,7 +59,7 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
       languageFontMap,
     });
 
-    const outputFilePath = './test.pdf';
+    const outputFilePath = './coa-test.pdf';
     const writeStream = createWriteStream(outputFilePath);
     pdfDoc.pipe(writeStream);
     pdfDoc.end();

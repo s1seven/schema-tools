@@ -38,7 +38,10 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-pdf",
-        "command": "npx ts-node -r tsconfig-paths/register example.ts"
+        "commands": [
+          "npx ts-node -r tsconfig-paths/register example.ts",
+          "npx ts-node -r tsconfig-paths/register example_coa.ts"
+        ]
       }
     },
     "example:coa": {
@@ -46,6 +49,16 @@
       "options": {
         "cwd": "packages/generate-pdf",
         "command": "npx ts-node -r tsconfig-paths/register example_coa.ts"
+      }
+    },
+    "example": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-pdf",
+        "commands": [
+          "npx ts-node -r tsconfig-paths/register example.ts",
+          "npx ts-node -r tsconfig-paths/register example_coa.ts"
+        ]
       }
     },
     "test": {

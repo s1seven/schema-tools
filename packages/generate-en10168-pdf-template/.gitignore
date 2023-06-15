@@ -1,4 +1,0 @@
-*.pdf
-
-!dist
-dist/package.json

@@ -119,4 +119,7 @@ generating.pdf
 # Output of 'sonarqube scanner'
 .scannerwork
 
-.parcel-cache
+# examples outputs
+packages/generate-html/template.html
+packages/generate-*-pdf-template/utils/*.pdf
+packages/generate-pdf/*.pdf

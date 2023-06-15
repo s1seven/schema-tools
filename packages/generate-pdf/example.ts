@@ -46,7 +46,7 @@ const generatorPath = '../generate-en10168-pdf-template/dist/generateContent.cjs
       translations,
     });
 
-    const outputFilePath = './test.pdf';
+    const outputFilePath = './en10168-test.pdf';
     const writeStream = createWriteStream(outputFilePath);
     pdfDoc.pipe(writeStream);
     pdfDoc.end();
