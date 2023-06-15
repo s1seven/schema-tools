@@ -1,7 +1,13 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
+
+### [0.2.7](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.2.6...@s1seven/schema-tools-generate-pdf@0.2.7) (2023-06-15)
+
+
+### Bug Fixes
+
+* **generate-pdf:** improve module and code generation ([a77a9e9](https://github.com/s1seven/schema-tools/commit/a77a9e97cf4b2662c49045e69ebd201de34d2413))
 
 ## [0.2.6](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.2.5...@s1seven/schema-tools-generate-pdf@0.2.6) (2023-02-13)
 
