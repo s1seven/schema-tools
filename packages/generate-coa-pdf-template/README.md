@@ -7,6 +7,8 @@ This library was generated with [Nx](https://nx.dev).
 
 ## Building
 
+The build depends on the correct TS interfaces being generated from the CoA JSON schema.
+This is done automatically before running the build, but you need to ensure that the correct URL (version) is used in `create-interfaces` target.
 Run `nx build generate-coa-pdf-template` to build the library.
 
 ## Running unit tests

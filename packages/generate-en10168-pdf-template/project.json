@@ -7,6 +7,7 @@
     "build": {
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": ["create-interfaces"],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "packages/generate-en10168-pdf-template/dist",
