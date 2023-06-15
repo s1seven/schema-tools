@@ -1,7 +1,13 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
+
+### [0.7.2](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.7.1...@s1seven/schema-tools-generate-en10168-pdf-template@0.7.2) (2023-06-15)
+
+
+### Bug Fixes
+
+* **generate-en10168-pdf-template:** render unit when present in otherMechanicalTests ([da97f91](https://github.com/s1seven/schema-tools/commit/da97f917ce89f78fa5d4685a337951bba2f9293e))
 
 ## [0.7.1](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-en10168-pdf-template@0.7.0...@s1seven/schema-tools-generate-en10168-pdf-template@0.7.1) (2023-02-13)
 
