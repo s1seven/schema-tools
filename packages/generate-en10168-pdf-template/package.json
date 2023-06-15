@@ -16,20 +16,5 @@
   "publicConfig": {
     "access": "public"
   },
-  "main": "dist/generateContent.cjs",
-  "targets": {
-    "main": {
-      "engines": {
-        "node": ">=14.x"
-      },
-      "distDir": "./dist",
-      "optimize": true,
-      "outputFormat": "commonjs",
-      "sourceMap": false,
-      "includeNodeModules": {
-        "@s1seven/schema-tools-generate-pdf-template-helpers": true,
-        "@s1seven/schema-tools-generate-types": true
-      }
-    }
-  }
+  "main": "dist/generateContent.cjs"
 }

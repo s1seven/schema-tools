@@ -56,13 +56,6 @@
       },
       "outputs": ["{projectRoot}/src/types/schemaTypes.ts"]
     },
-    "create-interfaces-interactive": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "packages/generate-coa-pdf-template",
-        "command": "npx ts-node -r tsconfig-paths/register ../../utils/create-schema-interfaces-interactive.ts ./src/types/schemaTypes.ts"
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

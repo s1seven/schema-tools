@@ -1,11 +1,15 @@
 /* eslint-disable no-console */
+/**
+ * This script is used to generate the TS interfaces for a given JSON schema.
+ * It will ask for the location the JSON schema to load (from file or URL) that will be used to generate the interfaces.
+ * run with:
+ * npx ts-node -r tsconfig-paths/register ./utils/create-schema-interfaces-interactive.ts <output-path>
+ */
 import fs from 'fs';
 import path from 'path';
 import { stdin as input, stdout as output } from 'process';
 import readline from 'readline';
 
-// TODO: fix module not found error when called from packages/generate-coa-pdf-template/project.json
-// could this be moved to packages/generate-coa-pdf-template/utils?
 import { generate } from '@s1seven/schema-tools-generate-interfaces';
 
 const rl = readline.createInterface({ input, output });
