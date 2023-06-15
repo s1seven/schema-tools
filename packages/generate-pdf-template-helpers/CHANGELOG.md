@@ -1,7 +1,18 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
+
+### [0.4.9](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf-template-helpers@0.4.8...@s1seven/schema-tools-generate-pdf-template-helpers@0.4.9) (2023-06-15)
+
+
+### Bug Fixes
+
+* **generate-pdf-template-helpers:** make `getExtraField` safer ([f3853e8](https://github.com/s1seven/schema-tools/commit/f3853e8afb1bddc8c123bf5a48da0112bebd071d))
+
+
+### Reverts
+
+* revert 930dae5c14c7c107af639ecc482bf9a58975090f ([62c9a94](https://github.com/s1seven/schema-tools/commit/62c9a9446d5c34d20b4a82be9a0a2eeba9319601))
 
 ## [0.4.8](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf-template-helpers@0.4.7...@s1seven/schema-tools-generate-pdf-template-helpers@0.4.8) (2023-02-13)
 
