@@ -28,11 +28,6 @@
       "matchPackagePatterns": ["jest"],
       "groupName": "jest",
       "schedule": ["before 2am on monday"]
-    },
-    {
-      "matchPackagePatterns": ["lerna"],
-      "groupName": "lerna",
-      "schedule": ["before 2am on monday"]
     }
   ],
   "commitBody": "[skip ci]"

@@ -6,15 +6,8 @@
   "homepage": "https://github.com/s1seven/schema-tools/tree/main/packages/certificate-summary#readme",
   "license": "Apache-2.0",
   "private": false,
-  "main": "dist/index",
-  "types": "dist/index",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
-  },
-  "files": [
-    "dist"
-  ],
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
   "engines": {
     "node": ">=12",
     "npm": ">=6"
@@ -28,24 +21,5 @@
   },
   "bugs": {
     "url": "https://github.com/s1seven/schema-tools/issues"
-  },
-  "scripts": {
-    "build": "npm run clean && npm run compile",
-    "clean": "rimraf -rf ./dist",
-    "cleanup": "rimraf -rf dist coverage",
-    "compile:node": "tsc -p tsconfig.build.json",
-    "compile": "npm run compile:node",
-    "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "prepublishOnly": "npm run build",
-    "test": "jest",
-    "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
-    "test:staged": "jest --runInBand --onlyChanged",
-    "scan:deps": "audit-ci --config ../../audit-ci.json",
-    "example": "npm run build && node example.js"
-  },
-  "dependencies": {
-    "@s1seven/schema-tools-extract-emails": "^0.4.1",
-    "@s1seven/schema-tools-types": "^0.5.2",
-    "@s1seven/schema-tools-utils": "^0.2.5"
   }
 }

@@ -1,0 +1,98 @@
+{
+  "name": "certificate-summary",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/certificate-summary/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/certificate-summary",
+        "tsConfig": "packages/certificate-summary/tsconfig.lib.json",
+        "packageJson": "packages/certificate-summary/package.json",
+        "main": "packages/certificate-summary/src/index.ts",
+        "assets": ["packages/certificate-summary/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/certificate-summary/**/*.ts"]
+      }
+    },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/certificate-summary"
+      }
+    },
+    "cleanup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/certificate-summary coverage/packages/certificate-summary"
+      }
+    },
+    "scan:deps": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/certificate-summary",
+        "command": "audit-ci --config ../../audit-ci.json"
+      }
+    },
+    "example": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/certificate-summary",
+        "command": "npx ts-node -r tsconfig-paths/register example.ts"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/certificate-summary/jest.config.ts",
+        "codeCoverage": true,
+        "coverageReporters": ["json", "lcov"],
+        "coverageDirectory": "../../coverage/packages/certificate-summary",
+        "coverageThreshold": {
+          "global": {
+            "statements": 80,
+            "branches": 60,
+            "functions": 50,
+            "lines": 85
+          }
+        }
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "skipCommitTypes": ["docs", "ci"],
+        "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
+      }
+    },
+    "release": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "publish": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
+    }
+  },
+  "tags": []
+}

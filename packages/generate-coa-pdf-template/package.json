@@ -2,7 +2,6 @@
   "name": "@s1seven/schema-tools-generate-coa-pdf-template",
   "version": "0.5.1",
   "license": "Apache-2.0",
-  "main": "dist/generateContent.js",
   "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/generate-coa-pdf-template#readme",
   "repository": {
     "type": "git",
@@ -17,48 +16,5 @@
   "publicConfig": {
     "access": "public"
   },
-  "files": [
-    "dist"
-  ],
-  "targets": {
-    "main": {
-      "engines": {
-        "node": ">=14.x"
-      },
-      "source": "src/generateContent.ts",
-      "distDir": "./dist",
-      "optimize": true,
-      "outputFormat": "commonjs",
-      "sourceMap": false,
-      "includeNodeModules": {
-        "@s1seven/schema-tools-generate-pdf-template-helpers": true,
-        "@s1seven/schema-tools-types": true
-      }
-    }
-  },
-  "scripts": {
-    "build": "PARCEL_WORKER_BACKEND=process parcel build --no-cache --target=main",
-    "compile": "npm run create-interfaces && npm run build",
-    "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
-    "test:staged": "jest --runInBand --onlyChanged",
-    "scan:deps": "audit-ci --config ../../audit-ci.json",
-    "create-example": "node ./utils/create-example.js",
-    "create-interfaces": "node ./utils/create-schema-interfaces.js https://schemas.s1seven.com/coa-schemas/v0.2.0/schema.json ./src/types/schemaTypes.ts",
-    "create-interfaces-interactive": "node ../../utils/create-schema-interfaces-interactive.js ./src/types/schemaTypes.ts"
-  },
-  "dependencies": {
-    "@s1seven/schema-tools-generate-pdf-template-helpers": "^0.4.8",
-    "@s1seven/schema-tools-types": "^0.5.2",
-    "pdfmake": "0.2.5"
-  },
-  "devDependencies": {
-    "@s1seven/schema-tools-generate-interfaces": "^0.0.34",
-    "@s1seven/schema-tools-utils": "^0.2.5",
-    "@types/pdfmake": "^0.2.0",
-    "full-icu": "^1.4.0",
-    "lato-font": "^3.0.0",
-    "parcel": "^2.8.3"
-  }
+  "main": "dist/generateContent.cjs"
 }

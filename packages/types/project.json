@@ -1,0 +1,60 @@
+{
+  "name": "types",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/types/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/types",
+        "tsConfig": "packages/types/tsconfig.lib.json",
+        "packageJson": "packages/types/package.json",
+        "main": "packages/types/src/index.ts",
+        "assets": ["packages/types/*.md"]
+      }
+    },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/types"
+      }
+    },
+    "cleanup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/types coverage/packages/types"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/types/**/*.ts"]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "skipCommitTypes": ["docs", "ci"],
+        "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
+      }
+    },
+    "release": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "publish": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
+    }
+  },
+  "tags": []
+}

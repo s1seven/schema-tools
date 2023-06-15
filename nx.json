@@ -1,23 +1,39 @@
 {
-  "extends": "nx/presets/npm.json",
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
         "cacheableOperations": [
           "build",
+          "build:affected",
           "clean",
           "cleanup",
           "compile:node",
           "compile:browser",
           "compile",
           "lint",
-          "prepublishOnly",
-          "test",
-          "test:cov",
-          "test:staged",
+          "lint:affected",
           "scan:deps",
-          "test:browser"
+          "test",
+          "test:affected",
+          "test:cov",
+          "test:cov:affected",
+          "test:coverage",
+          "test:staged",
+          "test:certificate-model",
+          "test:certificate-summary",
+          "test:extract-emails",
+          "test:extract-emails:browser",
+          "test:generate-html",
+          "test:generate-interfaces",
+          "test:generate-coa-pdf",
+          "test:generate-en10168-pdf",
+          "test:generate-pdf-helpers",
+          "test:generate-pdf",
+          "test:utils",
+          "test:validate",
+          "test:validate:browser",
+          "test:versioning"
         ],
         "accessToken": "YmViZWE0NjUtYjAzYi00NjUzLTk0YzctNDNkMzllMTk1NTgyfHJlYWQtd3JpdGU="
       }
@@ -28,10 +44,11 @@
       "dependsOn": ["^build"]
     },
     "test": {
-      "inputs": ["default", "{workspaceRoot}/fixtures/**"]
+      "inputs": ["default", "{workspaceRoot}/fixtures/**", "{workspaceRoot}/jest.preset.js"]
     }
   },
   "affected": {
     "defaultBase": "main"
-  }
+  },
+  "defaultBase": "main"
 }

@@ -17,12 +17,22 @@ const debug = Debug('schema-tools-versioning');
 
 export interface SchemaFileProperties {
   filePath: string;
-  properties: { path: string | string[]; schemaType?: string; version?: string; value: string }[];
+  properties: {
+    path: string | string[];
+    schemaType?: string;
+    version?: string;
+    value: string;
+  }[];
 }
 
 export interface PartialsMapProperties {
   filePath?: string;
-  properties: { path: string | string[]; schemaType?: string; version?: string; value: string }[];
+  properties: {
+    path: string | string[];
+    schemaType?: string;
+    version?: string;
+    value: string;
+  }[];
 }
 
 export type CertificatePattern = `${string}.json` | string;

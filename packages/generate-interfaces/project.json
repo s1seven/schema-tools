@@ -1,0 +1,91 @@
+{
+  "name": "generate-interfaces",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/generate-interfaces/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/generate-interfaces",
+        "tsConfig": "packages/generate-interfaces/tsconfig.lib.json",
+        "packageJson": "packages/generate-interfaces/package.json",
+        "main": "packages/generate-interfaces/src/index.ts",
+        "assets": ["packages/generate-interfaces/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/generate-interfaces/**/*.ts"]
+      }
+    },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/generate-interfaces"
+      }
+    },
+    "cleanup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/generate-interfaces coverage/packages/generate-interfaces"
+      }
+    },
+    "scan:deps": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-interfaces",
+        "command": "audit-ci --config ../../audit-ci.json"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/generate-interfaces/jest.config.ts",
+        "codeCoverage": true,
+        "coverageReporters": ["json", "lcov"],
+        "coverageDirectory": "../../coverage/packages/generate-interfaces",
+        "coverageThreshold": {
+          "global": {
+            "statements": 85,
+            "branches": 70,
+            "functions": 95,
+            "lines": 85
+          }
+        }
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "skipCommitTypes": ["docs", "ci"],
+        "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
+      }
+    },
+    "release": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "publish": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
+    }
+  },
+  "tags": []
+}

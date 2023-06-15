@@ -5,7 +5,14 @@ import { TRANSACTION_COLUMNS_COUNT } from './constants';
 
 function separateCommercialParties(commercialTransaction: CommercialTransaction, i18n: I18N) {
   const initKeys = commercialTransaction['A04']
-    ? [[{ text: i18n.translate('A04', 'certificateFields'), style: 'tableHeader' }]]
+    ? [
+        [
+          {
+            text: i18n.translate('A04', 'certificateFields'),
+            style: 'tableHeader',
+          },
+        ],
+      ]
     : [];
   const initValues = commercialTransaction['A04'] ? [[{ image: commercialTransaction.A04, width: 150 }]] : [];
 
@@ -16,7 +23,10 @@ function separateCommercialParties(commercialTransaction: CommercialTransaction,
   ) as FilteredKeys[];
 
   const keys = commercialTransactionParties.map((element) => [
-    { text: i18n.translate(element, 'certificateFields'), style: 'tableHeader' },
+    {
+      text: i18n.translate(element, 'certificateFields'),
+      style: 'tableHeader',
+    },
   ]);
   const values = commercialTransactionParties.map((element) =>
     [
@@ -25,7 +35,10 @@ function separateCommercialParties(commercialTransaction: CommercialTransaction,
         style: 'p',
       },
       Array.isArray(commercialTransaction[element].Street)
-        ? commercialTransaction[element].Street.map((street) => ({ text: street, style: 'p' }))
+        ? commercialTransaction[element].Street.map((street) => ({
+            text: street,
+            style: 'p',
+          }))
         : { text: commercialTransaction[element].Street, style: 'p' },
       {
         text: `${commercialTransaction[element].City},${commercialTransaction[element].ZipCode},${commercialTransaction[element].Country}`,

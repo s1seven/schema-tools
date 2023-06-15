@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
 import path from 'path';
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 
-import { generate } from '../packages/generate-interfaces/src';
+import { generate } from '@s1seven/schema-tools-generate-interfaces';
+
 import { fileExists, normalizePath } from './helpers';
 
 (async function () {
@@ -38,7 +40,8 @@ import { fileExists, normalizePath } from './helpers';
       alias: 'v',
       type: 'boolean',
       description: 'Run with verbose logging',
-    }).argv;
+    })
+    .parseSync();
 
   try {
     await generate(argv.schemaPath, argv.outputPath);

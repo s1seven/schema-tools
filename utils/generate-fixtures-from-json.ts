@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { execSync } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { join, parse, resolve } from 'node:path';
@@ -50,7 +51,7 @@ This script is compatible with CoA v1.0.0 and up, and all EN10168 versions.
   process.chdir(resolve(__dirname, '../'));
 
   execSync(
-    `npm run fixtures:pdf -- -c ${jsonPath} -o ${pdfPath} -t ${translationsPath} -g packages/generate-${schemaType}-pdf-template/dist/generateContent.js -s packages/generate-${schemaType}-pdf-template/utils/styles.json ${extraTranslationsPath}`,
+    `npm run fixtures:pdf -- -c ${jsonPath} -o ${pdfPath} -t ${translationsPath} -g packages/generate-${schemaType}-pdf-template/dist/generateContent.cjs -s packages/generate-${schemaType}-pdf-template/utils/styles.json ${extraTranslationsPath}`,
     { stdio: 'inherit' },
   );
 

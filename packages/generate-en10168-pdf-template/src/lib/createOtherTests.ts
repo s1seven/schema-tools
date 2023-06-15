@@ -27,7 +27,11 @@ export function createOtherTests(otherTests: OtherTests, i18n: I18N): (TableElem
 
   const D01 = otherTests.D01
     ? [
-        { text: i18n.translate('D01', 'certificateFields'), style: 'tableHeader', colSpan: 3 },
+        {
+          text: i18n.translate('D01', 'certificateFields'),
+          style: 'tableHeader',
+          colSpan: 3,
+        },
         {},
         {},
         { text: otherTests.D01, style: 'p' },
@@ -48,7 +52,11 @@ export function createOtherTests(otherTests: OtherTests, i18n: I18N): (TableElem
     : [];
 
   return [
-    { text: i18n.translate('OtherTests', 'certificateGroups'), style: 'h2', margin: [0, 0, 0, 4] },
+    {
+      text: i18n.translate('OtherTests', 'certificateGroups'),
+      style: 'h2',
+      margin: [0, 0, 0, 4],
+    },
     { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] },
     {
       style: 'table',
@@ -91,7 +99,9 @@ const renderKVObjectTests = (
   return dataMapped?.length
     ? [
         { text: i18n.translate(testName, 'otherFields'), style: 'h4' },
-        { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }] },
+        {
+          canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 0.5 }],
+        },
         {
           style: 'table',
           table: {

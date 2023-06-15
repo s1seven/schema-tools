@@ -1,0 +1,101 @@
+{
+  "name": "generate-en10168-pdf-template",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/generate-en10168-pdf-template/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["create-interfaces"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "packages/generate-en10168-pdf-template/dist",
+        "main": "packages/generate-en10168-pdf-template/src/generateContent.ts",
+        "outputFileName": "generateContent",
+        "tsConfig": "packages/generate-en10168-pdf-template/tsconfig.lib.json",
+        "thirdParty": true,
+        "platform": "node",
+        "format": ["cjs"],
+        "generatePackageJson": false
+      },
+      "configurations": {
+        "development": {
+          "minify": false
+        },
+        "production": {
+          "minify": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/generate-en10168-pdf-template/**/*.ts"]
+      }
+    },
+    "scan:deps": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-en10168-pdf-template",
+        "command": "audit-ci --config ../../audit-ci.json"
+      }
+    },
+    "example": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-en10168-pdf-template",
+        "command": "npx ts-node -r tsconfig-paths/register ./utils/create-example.ts"
+      }
+    },
+    "create-interfaces": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/generate-en10168-pdf-template",
+        "command": "npx ts-node -r tsconfig-paths/register ./utils/create-schema-interfaces.ts https://schemas.s1seven.com/en10168-schemas/v0.4.1/schema.json ./src/types/schemaTypes.ts"
+      },
+      "outputs": ["{projectRoot}/src/types/schemaTypes.ts"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/generate-en10168-pdf-template/jest.config.ts",
+        "codeCoverage": true,
+        "coverageReporters": ["json", "lcov"],
+        "coverageDirectory": "../../coverage/packages/generate-en10168-pdf-template",
+        "coverageThreshold": {
+          "global": {
+            "statements": 70,
+            "branches": 45,
+            "functions": 65,
+            "lines": 70
+          }
+        }
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "skipCommitTypes": ["docs", "ci"],
+        "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
+      }
+    },
+    "release": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    }
+  },
+  "tags": []
+}

@@ -235,7 +235,10 @@ describe('getPartials()', function () {
   });
 
   it('when partialsMap is undefined, a remote file is requested', async () => {
-    (axiosInstance as any).get.mockResolvedValue({ data: partialsMap, status: 200 });
+    (axiosInstance as any).get.mockResolvedValue({
+      data: partialsMap,
+      status: 200,
+    });
     const partials = await getPartials(schemaConfig, undefined);
     expect(axiosInstance.get).toBeCalledWith('https://schemas.s1seven.com/en10168-schemas/v0.0.5/partials-map.json', {
       responseType: 'json',

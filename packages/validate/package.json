@@ -19,45 +19,10 @@
     "access": "public"
   },
   "private": false,
-  "main": "dist/index",
-  "browser": "dist.browser/index",
-  "types": "dist/index",
-  "files": [
-    "dist",
-    "dist.browser"
-  ],
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
   "engines": {
     "node": ">=12",
     "npm": ">=6"
-  },
-  "scripts": {
-    "build": "npm run clean && npm run compile",
-    "clean": "rimraf -rf ./dist",
-    "cleanup": "rimraf -rf dist dist.browser coverage",
-    "compile:node": "tsc -p tsconfig.build.json",
-    "compile:browser": "tsc -p tsconfig.browser.json",
-    "compile": "npm run compile:node && npm run compile:browser",
-    "lint": "eslint -c ../../.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:cov": "rimraf -rf ./coverage && jest --ci --coverage",
-    "test:staged": "jest --runInBand --onlyChanged",
-    "test:browser": "rimraf -rf ./build && karma start ../../karma.conf.js --browsers ChromeHeadlessCI --single-run",
-    "scan:deps": "audit-ci --config ../../audit-ci.json",
-    "prepublishOnly": "npm run build"
-  },
-  "dependencies": {
-    "@s1seven/schema-tools-types": "^0.5.2",
-    "@s1seven/schema-tools-utils": "^0.2.5",
-    "ajv": "^8.12.0",
-    "ajv-formats": "^2.1.1",
-    "debug": "^4.3.4",
-    "lodash.flatten": "^4.4.0",
-    "lodash.groupby": "^4.6.0"
-  },
-  "devDependencies": {
-    "@types/debug": "^4.1.7",
-    "@types/lodash.flatten": "^4.4.6",
-    "@types/lodash.groupby": "^4.6.6"
-  },
-  "gitHead": "5526910fd5974d09e80b5ba6324043b4409dd179"
+  }
 }

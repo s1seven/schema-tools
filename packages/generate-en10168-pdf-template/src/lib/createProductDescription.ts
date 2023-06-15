@@ -15,7 +15,16 @@ interface ProductNorms {
 }
 
 export function productNorms(productNorms: ProductNorms, i18n: I18N): TableCell[][] {
-  const header = [{ text: i18n.translate('B02', 'certificateFields'), colSpan: 4, style: 'tableHeader' }, {}, {}, {}];
+  const header = [
+    {
+      text: i18n.translate('B02', 'certificateFields'),
+      colSpan: 4,
+      style: 'tableHeader',
+    },
+    {},
+    {},
+    {},
+  ];
   const content = Object.keys(productNorms).map((norm: keyof ProductNorms) => [
     { text: i18n.translate(norm, 'otherFields'), style: 'caption', colSpan: 3 },
     {},
@@ -27,11 +36,24 @@ export function productNorms(productNorms: ProductNorms, i18n: I18N): TableCell[
 
 export function productShape(productShape: ProductShape, i18n: I18N): TableCell[][] {
   if (!productShape) return [];
-  const header = [{ text: i18n.translate('B09', 'certificateFields'), style: 'tableHeader', colSpan: 4 }, {}, {}, {}];
+  const header = [
+    {
+      text: i18n.translate('B09', 'certificateFields'),
+      style: 'tableHeader',
+      colSpan: 4,
+    },
+    {},
+    {},
+    {},
+  ];
   const content = Object.keys(productShape)
     .filter((key) => key.toLowerCase() !== 'unit')
     .map((key: keyof ProductShape) => [
-      { text: i18n.translate(key, 'otherFields'), style: 'caption', colSpan: 3 },
+      {
+        text: i18n.translate(key, 'otherFields'),
+        style: 'caption',
+        colSpan: 3,
+      },
       {},
       {},
       {
@@ -91,7 +113,11 @@ export function createProductDescription(
     : createEmptyColumns(PRODUCT_DESCRIPTION_COLUMNS_COUNT);
 
   return [
-    { text: i18n.translate('ProductDescription', 'certificateGroups'), style: 'h2', margin: [0, 0, 0, 4] },
+    {
+      text: i18n.translate('ProductDescription', 'certificateGroups'),
+      style: 'h2',
+      margin: [0, 0, 0, 4],
+    },
     { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] },
     {
       style: 'table',
@@ -100,7 +126,11 @@ export function createProductDescription(
         widths: [160, '*', '*', 300],
         body: [
           [
-            { text: i18n.translate('B01', 'certificateFields'), style: 'tableHeader', colSpan: 3 },
+            {
+              text: i18n.translate('B01', 'certificateFields'),
+              style: 'tableHeader',
+              colSpan: 3,
+            },
             {},
             {},
             { text: productDescription.B01, style: 'p' },

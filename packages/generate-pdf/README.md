@@ -14,7 +14,6 @@ npm install @s1seven/schema-tools-generate-pdf
 ```
 
 [pdfmake]: https://www.npmjs.com/package/pdfmake
-[html-to-pdfmake]: https://www.npmjs.com/package/html-to-pdfmake
 
 ## Using generate-pdf example
 
@@ -49,7 +48,7 @@ const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.j
 const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/valid_cert.json`));
 const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/translations.json`));
 const extraTranslations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/extra_translations.json`));
-const generatorPath = '../generate-coa-pdf-template/dist/generateContent.js';
+const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
 
 (async function () {
   try {
@@ -119,7 +118,7 @@ const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.j
 const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/valid_cert.json`));
 const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/translations.json`));
 const extraTranslations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/extra_translations.json`));
-const generatorPath = '../generate-coa-pdf-template/dist/generateContent.js';
+const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
 
 (async function () {
   try {

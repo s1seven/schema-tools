@@ -1,6 +1,5 @@
 # Schema-tools
 
-[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Schema-tools CI](https://github.com/s1seven/schema-tools/actions/workflows/node.yml/badge.svg)](https://github.com/s1seven/schema-tools/actions/workflows/node.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=s1seven_schema-tools&metric=coverage)](https://sonarcloud.io/summary/new_code?id=s1seven_schema-tools)
@@ -41,7 +40,7 @@ E-CoC v0.0.2 has been deprecated.
   This package provides a minified script to be used in EN10168-schemas specific verison release.
 
 - [Generate-HTML](https://github.com/s1seven/schema-tools/tree/master/packages/generate-html#readme)
-  The generate-html module is using handlebars and/or mjml to generate HTML string using a certificate using a supported JSON schema.
+  The generate-html module uses handlebars to generate HTML string using a certificate using a supported JSON schema.
 
 - [Generate-Interfaces](https://github.com/s1seven/schema-tools/tree/master/packages/generate-interfaces#readme)
   The generate-interfaces module is using the json-schema-to-typescript package to generate TS interfaces and types using a JSON / OpenAPI schema.
@@ -81,7 +80,7 @@ Process:
 1. Update the schema in question
 2. Check and update the types using the `create-schema-interfaces` CLI tool
 3. If necessary, make changes in `generateContent.ts` in `schema-tools/packages/generate-coa-pdf-template/src/generateContent.ts` or `schema-tools/packages/generate-en10168-pdf-template/src/generateContent.ts` and run `npm run build`.
-   If `generateContent.ts` has been changed and built, copy the contents of `dist/generateContent.js` to the schema repository and replace the contents of `generate-pdf.min.js` with the new minified code. Edit: this step has been automated as of PR #147 - https://github.com/s1seven/schema-tools/pull/147
+   If `generateContent.ts` has been changed and built, copy the contents of `dist/generateContent.cjs` to the schema repository and replace the contents of `generate-pdf.min.js` with the new minified code. Edit: this step has been automated as of PR #147 - https://github.com/s1seven/schema-tools/pull/147
 4. For a new Release Candidate, add a new fixture (used for testing) using the method outlined [below:](#fixtures)
 
 ## Starting out
@@ -90,7 +89,6 @@ To get started, run :
 
 ```sh
 npm install
-npm run bootstrap
 npm run build
 ```
 
@@ -100,7 +98,7 @@ When working on changes that affects multiple packages, you should rebuild them 
 
 ```sh
 npm run build
-npm run bootstrap
+npm install
 ```
 
 ## Testing

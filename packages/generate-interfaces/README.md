@@ -1,6 +1,6 @@
 # Schema-tools-generate-interfaces
 
-[![npm][npm-image]][npm-url] 
+[![npm][npm-image]][npm-url]
 
 [npm-image]: https://img.shields.io/npm/v/@s1seven/schema-tools-generate-interfaces.svg?style=flat
 [npm-url]: https://npmjs.org/package/@s1seven/schema-tools-generate-interfaces
@@ -24,3 +24,13 @@ node ./examples/generate-interfaces.js https://schemas.s1seven.com/en10168-schem
 ```
 
 [json-schema-to-typescript]: https://www.npmjs.com/package/json-schema-to-typescript
+
+This library was generated with [Nx](https://nx.dev).
+
+## Building
+
+Run `nx build generate-interfaces` to build the library.
+
+## Running unit tests
+
+Run `nx test generate-interfaces` to execute the unit tests via [Jest](https://jestjs.io).

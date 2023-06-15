@@ -1,5 +1,3 @@
-import htmlToPdfmake from 'html-to-pdfmake';
-import jsdom from 'jsdom';
 import clone from 'lodash.clone';
 import get from 'lodash.get';
 import merge from 'lodash.merge';
@@ -29,7 +27,7 @@ import {
 export { Content, StyleDictionary, TDocumentDefinitions, TFontDictionary } from 'pdfmake/interfaces';
 
 export interface GeneratePdfOptions {
-  inputType?: 'json' | 'html';
+  inputType?: 'json';
   outputType?: 'buffer' | 'stream';
   generatorPath?: string;
   docDefinition?: Partial<TDocumentDefinitions>;
@@ -127,18 +125,14 @@ export async function generateInSandbox(
     generateContent,
     content: [] as Content[],
   };
-  vm.createContext(context, { origin: 'generate-pdf', codeGeneration: { strings: false, wasm: false } });
+  vm.createContext(context, {
+    origin: 'generate-pdf',
+    codeGeneration: { strings: false, wasm: false },
+  });
   // for some reason runInContext runs slower than runInNewContext (by 30% !)
   await script.runInNewContext(context, { timeout: 5000, displayErrors: true });
   const { content } = context;
   return content;
-}
-
-// TODO: remove the HTML to PDF conversion
-function getPdfMakeContentFromHTML(certificate: string): TDocumentDefinitions['content'] {
-  const { JSDOM } = jsdom;
-  const dom = new JSDOM('');
-  return htmlToPdfmake(certificate, { window: dom.window });
 }
 
 async function getPdfMakeContentFromObject(
@@ -179,9 +173,7 @@ async function buildPdfContent(
   options: GeneratePdfOptions,
 ): Promise<TDocumentDefinitions['content']> {
   let pdfMakeContent: TDocumentDefinitions['content'];
-  if (options.inputType === 'html' && typeof certificateInput === 'string') {
-    pdfMakeContent = getPdfMakeContentFromHTML(certificateInput);
-  } else if (options.inputType === 'json') {
+  if (options.inputType === 'json') {
     let rawCert: Schemas;
     if (typeof certificateInput === 'string') {
       rawCert = (await loadExternalFile(certificateInput, 'json')) as Schemas;
@@ -215,7 +207,7 @@ export async function generatePdf(
   certificateInput: Record<string, unknown> | string,
   options: {
     outputType: 'buffer';
-    inputType?: 'json' | 'html';
+    inputType?: 'json';
     generatorPath?: string;
     docDefinition?: Partial<TDocumentDefinitions>;
     fonts?: TFontDictionary;
@@ -229,7 +221,7 @@ export async function generatePdf(
   certificateInput: Record<string, unknown> | string,
   options: {
     outputType: 'stream';
-    inputType?: 'json' | 'html';
+    inputType?: 'json';
     generatorPath?: string;
     docDefinition?: Partial<TDocumentDefinitions>;
     fonts?: TFontDictionary;

@@ -288,7 +288,11 @@ describe('CertificateModel', function () {
       it('should NOT build invalid instance using schemaConfig when using invalid certificate', async () => {
         const expectedError = new Error(JSON.stringify(validationErrors, null, 2));
         const CertModel = await CertificateModel.build({ schemaConfig });
-        const cert = new CertModel<Schemas>(invalidCertificate, { internal: false, validate: true, throwError: true });
+        const cert = new CertModel<Schemas>(invalidCertificate, {
+          internal: false,
+          validate: true,
+          throwError: true,
+        });
         const error = await new Promise((resolve) => {
           cert.on('error', resolve);
         });

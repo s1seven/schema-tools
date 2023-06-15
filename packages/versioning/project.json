@@ -1,0 +1,91 @@
+{
+  "name": "versioning",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/versioning/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/versioning",
+        "tsConfig": "packages/versioning/tsconfig.lib.json",
+        "packageJson": "packages/versioning/package.json",
+        "main": "packages/versioning/src/index.ts",
+        "assets": ["packages/versioning/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/versioning/**/*.ts"]
+      }
+    },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/versioning"
+      }
+    },
+    "cleanup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rimraf -rf dist/packages/versioning coverage/packages/versioning"
+      }
+    },
+    "scan:deps": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/versioning",
+        "command": "audit-ci --config ../../audit-ci.json"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/versioning/jest.config.ts",
+        "codeCoverage": true,
+        "coverageReporters": ["json", "lcov"],
+        "coverageDirectory": "../../coverage/packages/versioning",
+        "coverageThreshold": {
+          "global": {
+            "statements": 70,
+            "branches": 65,
+            "functions": 65,
+            "lines": 70
+          }
+        }
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "skipCommitTypes": ["docs", "ci"],
+        "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]"
+      }
+    },
+    "release": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "publish": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
+    }
+  },
+  "tags": []
+}

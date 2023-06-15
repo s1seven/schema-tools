@@ -344,7 +344,9 @@ describe('Rendering inspection section', () => {
       style: 'h2',
       margin: [0, 0, 0, 4],
     });
-    expect(inspectionContent[1]).toEqual({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }] });
+    expect(inspectionContent[1]).toEqual({
+      canvas: [{ type: 'line', x1: 0, y1: 0, x2: 550, y2: 0, lineWidth: 1 }],
+    });
   });
 
   it('correctly renders HardnessTest', () => {

@@ -22,9 +22,18 @@ export function renderMeasurement(
       {
         alignment: 'justify',
         columns: [
-          { text: `${localizeNumber(Value, i18n.languages[0])} ${Unit ? Unit : ''}`, style: 'p' },
-          { text: Minimum ? `min ${localizeNumber(Minimum, i18n.languages[0])} ${Unit}` : '', style: 'p' },
-          { text: Maximum ? `max ${localizeNumber(Maximum, i18n.languages[0])} ${Unit}` : '', style: 'p' },
+          {
+            text: `${localizeNumber(Value, i18n.languages[0])} ${Unit ? Unit : ''}`,
+            style: 'p',
+          },
+          {
+            text: Minimum ? `min ${localizeNumber(Minimum, i18n.languages[0])} ${Unit}` : '',
+            style: 'p',
+          },
+          {
+            text: Maximum ? `max ${localizeNumber(Maximum, i18n.languages[0])} ${Unit}` : '',
+            style: 'p',
+          },
         ],
       },
     ],

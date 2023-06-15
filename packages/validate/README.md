@@ -31,3 +31,13 @@ node ./examples/validate.js ./fixtures/en10168
 ## Debugging
 
 Error logging has been implemented in `loadLocalCertificates`. To see the errors, run your command with the environment variable `DEBUG=schema-tools-validate`.
+
+This library was generated with [Nx](https://nx.dev).
+
+## Building
+
+Run `nx build validate` to build the library.
+
+## Running unit tests
+
+Run `nx test validate` to execute the unit tests via [Jest](https://jestjs.io).
