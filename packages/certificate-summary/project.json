@@ -79,7 +79,8 @@
         "skipCommitTypes": ["docs", "ci"],
         "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]",
         "tagPrefix": "@s1seven/schema-tools-${projectName}@",
-        "trackDeps": true
+        "trackDeps": true,
+        "postTargets": ["certificate-summary:release", "certificate-summary:publish"]
       }
     },
     "release": {

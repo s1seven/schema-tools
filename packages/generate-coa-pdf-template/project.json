@@ -86,7 +86,8 @@
         "preset": "conventional",
         "skipCommitTypes": ["docs", "ci"],
         "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]",
-        "tagPrefix": "@s1seven/schema-tools-${projectName}@"
+        "tagPrefix": "@s1seven/schema-tools-${projectName}@",
+        "postTargets": ["generate-coa-pdf-template:release"]
       }
     },
     "release": {
