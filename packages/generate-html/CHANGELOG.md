@@ -1,7 +1,8 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
+
+### [0.4.4](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.4.3...@s1seven/schema-tools-generate-html@0.4.4) (2023-06-15)
 
 ## [0.4.3](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-html@0.4.2...@s1seven/schema-tools-generate-html@0.4.3) (2023-02-13)
 
