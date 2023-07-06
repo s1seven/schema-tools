@@ -66,7 +66,8 @@
     "fixtures:interfaces": "ts-node -r tsconfig-paths/register ./utils/create-schema-interfaces.ts",
     "fixtures:html": "ts-node -r tsconfig-paths/register ./utils/create-html-certificate.ts",
     "fixtures:pdf": "ts-node -r tsconfig-paths/register ./utils/create-pdf-certificate.ts",
-    "fixtures:generate": "ts-node -r tsconfig-paths/register ./utils/generate-fixtures-from-json.ts"
+    "fixtures:generate": "ts-node -r tsconfig-paths/register ./utils/generate-fixtures-from-json.ts",
+    "schema:dereference": "ts-node -r tsconfig-paths/register ./utils/dereference-json-schema.ts"
   },
   "dependencies": {
     "ajv": "8.12.0",
@@ -93,6 +94,7 @@
     "semver-lite": "0.0.6"
   },
   "devDependencies": {
+    "@apidevtools/json-schema-ref-parser": "^10.1.0",
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
     "@jscutlery/semver": "^3.0.0",
