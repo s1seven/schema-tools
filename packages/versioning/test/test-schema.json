@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "commercial-transaction.json",
+  "definitions": {
+    "Company": {
+      "allOf": [
+        {
+          "$ref": "./company.json#/definitions/Company"
+        }
+      ]
+    },
+    "CommercialTransactionBase": {
+      "type": "object",
+      "properties": {
+        "A01": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Company"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

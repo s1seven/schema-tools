@@ -107,7 +107,7 @@ export class SchemaRepositoryVersion {
     schemaFilePath: string;
     writeFilePath?: string;
     dereference?: boolean;
-  }) {
+  }): Promise<void> {
     const schema = dereference
       ? await $RefParser.dereference(resolve(schemaFilePath))
       : await $RefParser.bundle(resolve(schemaFilePath));

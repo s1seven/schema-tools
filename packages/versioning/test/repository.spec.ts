@@ -1,8 +1,20 @@
 /* eslint-disable sonarjs/no-duplicate-string */
+import { resolve } from 'path';
+
 import type { TDocumentDefinitions } from '@s1seven/schema-tools-generate-pdf';
-import { loadExternalFile, removeFile, writeFile } from '@s1seven/schema-tools-utils';
+import * as utils from '@s1seven/schema-tools-utils';
 
 import { PartialsMapProperties, SchemaFileProperties, SchemaRepositoryVersion } from '../src/index';
+
+const { loadExternalFile, removeFile, writeFile } = utils;
+
+jest.mock('@s1seven/schema-tools-utils', () => {
+  // necessary to spy on the writeFile function once
+  return {
+    __esModule: true,
+    ...jest.requireActual('@s1seven/schema-tools-utils'),
+  };
+});
 
 describe('Versioning', function () {
   const serverUrl = 'https://schemas.s1seven.com';
@@ -152,5 +164,111 @@ describe('Versioning', function () {
     );
     expect(subSchemaFixture).toHaveProperty('$id');
     expect(subSchemaFixture['$id']).toBe(instance.buildRefSchemaUrl('sub-schema.schema.json'));
+  });
+
+  it('generateReadableSchema should should resolve external references', async () => {
+    const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
+    await SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath: resolve(__dirname, 'test-schema.json') });
+    expect(writeFileSpy).toBeCalledTimes(1);
+    expect(writeFileSpy).toBeCalledWith(
+      resolve('readable-schema.json'),
+      JSON.stringify(
+        {
+          $schema: 'http://json-schema.org/draft-07/schema#',
+          $id: 'commercial-transaction.json',
+          definitions: {
+            Company: {
+              allOf: [
+                {
+                  title: 'Company',
+                  type: 'object',
+                  properties: {
+                    Email: {
+                      type: 'string',
+                      format: 'email',
+                    },
+                  },
+                },
+              ],
+            },
+            CommercialTransactionBase: {
+              type: 'object',
+              properties: {
+                A01: {
+                  allOf: [
+                    {
+                      $ref: '#/definitions/Company',
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+        null,
+        2,
+      ),
+    );
+    writeFileSpy.mockReset();
+  });
+
+  it('generateReadableSchema should should resolve all references when dereference: true', async () => {
+    const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
+    await SchemaRepositoryVersion.generateReadableSchema({
+      schemaFilePath: resolve(__dirname, 'test-schema.json'),
+      dereference: true,
+    });
+    expect(writeFileSpy).toBeCalledTimes(1);
+    expect(writeFileSpy).toBeCalledWith(
+      resolve('readable-schema.json'),
+      JSON.stringify(
+        {
+          $schema: 'http://json-schema.org/draft-07/schema#',
+          $id: 'commercial-transaction.json',
+          definitions: {
+            Company: {
+              allOf: [
+                {
+                  title: 'Company',
+                  type: 'object',
+                  properties: {
+                    Email: {
+                      type: 'string',
+                      format: 'email',
+                    },
+                  },
+                },
+              ],
+            },
+            CommercialTransactionBase: {
+              type: 'object',
+              properties: {
+                A01: {
+                  allOf: [
+                    {
+                      allOf: [
+                        {
+                          title: 'Company',
+                          type: 'object',
+                          properties: {
+                            Email: {
+                              type: 'string',
+                              format: 'email',
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+        null,
+        2,
+      ),
+    );
+    writeFileSpy.mockReset();
   });
 });
