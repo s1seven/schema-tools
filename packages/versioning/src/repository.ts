@@ -1,3 +1,4 @@
+import $RefParser from '@apidevtools/json-schema-ref-parser';
 import Debug from 'debug';
 import { createWriteStream } from 'fs';
 import glob from 'glob';
@@ -96,6 +97,21 @@ export class SchemaRepositoryVersion {
     await new Promise<void>((resolve, reject) => {
       writeStream.on('finish', () => resolve()).on('error', (err) => reject(err));
     });
+  }
+
+  static async generateReadableSchema({
+    schemaFilePath,
+    writeFilePath = './readable-schema.json',
+    dereference = false,
+  }: {
+    schemaFilePath: string;
+    writeFilePath?: string;
+    dereference?: boolean;
+  }) {
+    const schema = dereference
+      ? await $RefParser.dereference(resolve(schemaFilePath))
+      : await $RefParser.bundle(resolve(schemaFilePath));
+    await writeFile(resolve(writeFilePath), JSON.stringify(schema, null, 2));
   }
 
   constructor(
