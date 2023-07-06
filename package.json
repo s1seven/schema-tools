@@ -70,6 +70,7 @@
     "schema:dereference": "ts-node -r tsconfig-paths/register ./utils/dereference-json-schema.ts"
   },
   "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^10.1.0",
     "ajv": "8.12.0",
     "ajv-formats": "2.1.1",
     "axios": "^1.2.1",
@@ -94,7 +95,6 @@
     "semver-lite": "0.0.6"
   },
   "devDependencies": {
-    "@apidevtools/json-schema-ref-parser": "^10.1.0",
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
     "@jscutlery/semver": "^3.0.0",
