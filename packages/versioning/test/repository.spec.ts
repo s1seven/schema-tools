@@ -30,6 +30,47 @@ describe('Versioning', function () {
     'partials-map.json': { company: '', group: '' },
     'schema.json': { $id: '', prop: { subschema: '' } },
     'sub-schema.json': { $id: '' },
+    'company.json': {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      $id: 'company.json',
+      definitions: {
+        Company: {
+          title: 'Company',
+          type: 'object',
+          properties: {
+            Email: {
+              type: 'string',
+              format: 'email',
+            },
+          },
+        },
+      },
+    },
+    'test-schema.json': {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      $id: 'commercial-transaction.json',
+      definitions: {
+        Company: {
+          allOf: [
+            {
+              $ref: './company.json#/definitions/Company',
+            },
+          ],
+        },
+        CommercialTransactionBase: {
+          type: 'object',
+          properties: {
+            A01: {
+              allOf: [
+                {
+                  $ref: '#/definitions/Company',
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
   };
 
   SchemaRepositoryVersion.generateHtmlCertificate = jest.fn();
