@@ -5,7 +5,7 @@ import glob from 'glob';
 import type { RuntimeOptions } from 'handlebars';
 import get from 'lodash.get';
 import set from 'lodash.set';
-import { resolve } from 'path';
+import { parse, resolve } from 'path';
 import prettier from 'prettier';
 import { URL } from 'url';
 
@@ -101,17 +101,24 @@ export class SchemaRepositoryVersion {
 
   static async generateReadableSchema({
     schemaFilePath,
-    writeFilePath = './readable-schema.json',
+    writeFilePath,
     dereference = false,
   }: {
     schemaFilePath: string;
     writeFilePath?: string;
     dereference?: boolean;
   }): Promise<void> {
+    const fullSchemaPath = resolve(schemaFilePath);
+    const defaultOutputFilename = 'readable-schema.json';
+    const { dir } = parse(fullSchemaPath);
+    if (writeFilePath && !writeFilePath.endsWith('.json')) {
+      throw new Error('writeFilePath must end in .json');
+    }
+    const fullWritePath = writeFilePath ? resolve(writeFilePath) : resolve(dir, defaultOutputFilename);
     const schema = dereference
       ? await $RefParser.dereference(resolve(schemaFilePath))
       : await $RefParser.bundle(resolve(schemaFilePath));
-    await writeFile(resolve(writeFilePath), JSON.stringify(schema, null, 2));
+    await writeFile(resolve(fullWritePath), JSON.stringify(schema, null, 2));
   }
 
   constructor(
