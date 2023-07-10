@@ -72,6 +72,42 @@ describe('Versioning', function () {
       },
     },
   };
+  const readableSchema = JSON.stringify(
+    {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      $id: 'commercial-transaction.json',
+      definitions: {
+        Company: {
+          allOf: [
+            {
+              title: 'Company',
+              type: 'object',
+              properties: {
+                Email: {
+                  type: 'string',
+                  format: 'email',
+                },
+              },
+            },
+          ],
+        },
+        CommercialTransactionBase: {
+          type: 'object',
+          properties: {
+            A01: {
+              allOf: [
+                {
+                  $ref: '#/definitions/Company',
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+    null,
+    2,
+  );
 
   SchemaRepositoryVersion.generateHtmlCertificate = jest.fn();
   SchemaRepositoryVersion.generatePdfCertificate = jest.fn();
@@ -213,45 +249,7 @@ describe('Versioning', function () {
     const writeFilePath = resolve(__dirname, 'readable-schema.json');
     await SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath });
     expect(writeFileSpy).toBeCalledTimes(1);
-    expect(writeFileSpy).toBeCalledWith(
-      writeFilePath,
-      JSON.stringify(
-        {
-          $schema: 'http://json-schema.org/draft-07/schema#',
-          $id: 'commercial-transaction.json',
-          definitions: {
-            Company: {
-              allOf: [
-                {
-                  title: 'Company',
-                  type: 'object',
-                  properties: {
-                    Email: {
-                      type: 'string',
-                      format: 'email',
-                    },
-                  },
-                },
-              ],
-            },
-            CommercialTransactionBase: {
-              type: 'object',
-              properties: {
-                A01: {
-                  allOf: [
-                    {
-                      $ref: '#/definitions/Company',
-                    },
-                  ],
-                },
-              },
-            },
-          },
-        },
-        null,
-        2,
-      ),
-    );
+    expect(writeFileSpy).toBeCalledWith(writeFilePath, readableSchema);
     writeFileSpy.mockReset();
   });
 
@@ -314,6 +312,28 @@ describe('Versioning', function () {
         2,
       ),
     );
+    writeFileSpy.mockReset();
+  });
+
+  it('generateReadableSchema should allow overwriting of writeFilePath', async () => {
+    const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
+    const schemaFilePath = resolve(__dirname, 'test-schema.json');
+    const writeFilePath = resolve('/random/test/dir/', 'readable-schema.json');
+    await SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath, writeFilePath });
+    expect(writeFileSpy).toBeCalledTimes(1);
+    expect(writeFileSpy).toBeCalledWith(writeFilePath, readableSchema);
+    writeFileSpy.mockReset();
+  });
+
+  it('generateReadableSchema should throw an error for invalid writeFilePath', async () => {
+    const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
+    const schemaFilePath = resolve(__dirname, 'test-schema.json');
+    const writeFilePath = '/random/test/dir/';
+    const expectedError = new Error('writeFilePath must end in .json');
+    await expect(
+      SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath, writeFilePath }),
+    ).rejects.toThrowError(expectedError);
+    expect(writeFileSpy).not.toBeCalled();
     writeFileSpy.mockReset();
   });
 });
