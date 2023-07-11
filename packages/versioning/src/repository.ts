@@ -1,4 +1,5 @@
 import $RefParser from '@apidevtools/json-schema-ref-parser';
+import { JSONSchema } from '@apidevtools/json-schema-ref-parser/dist/lib/types';
 import Debug from 'debug';
 import { createWriteStream } from 'fs';
 import glob from 'glob';
@@ -103,20 +104,27 @@ export class SchemaRepositoryVersion {
     schemaFilePath,
     writeFilePath,
     dereference = false,
+    writeToDisk = false,
   }: {
     schemaFilePath: string;
     writeFilePath?: string;
     dereference?: boolean;
-  }): Promise<void> {
-    const fullSchemaPath = resolve(schemaFilePath);
-    const defaultOutputFilename = 'readable-schema.json';
-    const { dir } = parse(fullSchemaPath);
-    if (writeFilePath && !writeFilePath.endsWith('.json')) {
+    writeToDisk?: boolean;
+  }): Promise<JSONSchema> {
+    if (writeToDisk && writeFilePath && !writeFilePath.endsWith('.json')) {
       throw new Error('writeFilePath must end in .json');
     }
-    const fullWritePath = writeFilePath ? resolve(writeFilePath) : resolve(dir, defaultOutputFilename);
+
+    const fullSchemaPath = resolve(schemaFilePath);
+    const { dir } = parse(fullSchemaPath);
     const schema = dereference ? await $RefParser.dereference(fullSchemaPath) : await $RefParser.bundle(fullSchemaPath);
-    await writeFile(fullWritePath, JSON.stringify(schema, null, 2));
+
+    if (writeToDisk) {
+      const defaultOutputFilename = 'readable-schema.json';
+      const fullWritePath = writeFilePath ? resolve(writeFilePath) : resolve(dir, defaultOutputFilename);
+      await writeFile(fullWritePath, JSON.stringify(schema, null, 2));
+    }
+    return schema;
   }
 
   constructor(
