@@ -243,27 +243,35 @@ describe('Versioning', function () {
     expect(subSchemaFixture['$id']).toBe(instance.buildRefSchemaUrl('sub-schema.schema.json'));
   });
 
-  it('generateReadableSchema should should resolve external references', async () => {
+  it('generateReadableSchema should resolve external references', async () => {
     const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
     const schemaFilePath = resolve(__dirname, 'test-schema.json');
-    const writeFilePath = resolve(__dirname, 'readable-schema.json');
-    await SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath });
-    expect(writeFileSpy).toBeCalledTimes(1);
-    expect(writeFileSpy).toBeCalledWith(writeFilePath, readableSchema);
+    const bundledSchema = await SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath });
+    expect(writeFileSpy).not.toBeCalled();
+    expect(JSON.stringify(bundledSchema, null, 2)).toEqual(readableSchema);
     writeFileSpy.mockReset();
   });
 
-  it('generateReadableSchema should should resolve all references when dereference: true', async () => {
+  it('generateReadableSchema should resolve external references and write to disk', async () => {
     const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
     const schemaFilePath = resolve(__dirname, 'test-schema.json');
-    const writeFilePath = resolve(__dirname, 'readable-schema.json');
-    await SchemaRepositoryVersion.generateReadableSchema({
+    const expectedWriteFilePath = resolve(__dirname, 'readable-schema.json');
+    const bundledSchema = await SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath, writeToDisk: true });
+    expect(writeFileSpy).toBeCalledTimes(1);
+    expect(writeFileSpy).toBeCalledWith(expectedWriteFilePath, readableSchema);
+    expect(JSON.stringify(bundledSchema, null, 2)).toEqual(readableSchema);
+    writeFileSpy.mockReset();
+  });
+
+  it('generateReadableSchema should resolve all references when dereference: true', async () => {
+    const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
+    const schemaFilePath = resolve(__dirname, 'test-schema.json');
+    const dereferencedSchema = await SchemaRepositoryVersion.generateReadableSchema({
       schemaFilePath,
       dereference: true,
     });
-    expect(writeFileSpy).toBeCalledTimes(1);
-    expect(writeFileSpy).toBeCalledWith(
-      writeFilePath,
+    expect(writeFileSpy).not.toBeCalled();
+    expect(JSON.stringify(dereferencedSchema, null, 2)).toEqual(
       JSON.stringify(
         {
           $schema: 'http://json-schema.org/draft-07/schema#',
@@ -319,7 +327,7 @@ describe('Versioning', function () {
     const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
     const schemaFilePath = resolve(__dirname, 'test-schema.json');
     const writeFilePath = resolve('/random/test/dir/', 'readable-schema.json');
-    await SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath, writeFilePath });
+    await SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath, writeFilePath, writeToDisk: true });
     expect(writeFileSpy).toBeCalledTimes(1);
     expect(writeFileSpy).toBeCalledWith(writeFilePath, readableSchema);
     writeFileSpy.mockReset();
@@ -331,7 +339,7 @@ describe('Versioning', function () {
     const writeFilePath = '/random/test/dir/';
     const expectedError = new Error('writeFilePath must end in .json');
     await expect(
-      SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath, writeFilePath }),
+      SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath, writeFilePath, writeToDisk: true }),
     ).rejects.toThrowError(expectedError);
     expect(writeFileSpy).not.toBeCalled();
     writeFileSpy.mockReset();
