@@ -42,9 +42,7 @@ const { schemaFilePath, writeFilePath, dereference } = argv;
   const { dir } = parse(fullSchemaPath);
   const fullWritePath = writeFilePath ? resolve(writeFilePath) : resolve(dir, defaultOutputFilename);
   try {
-    const schema = dereference
-      ? await $RefParser.dereference(resolve(schemaFilePath))
-      : await $RefParser.bundle(resolve(schemaFilePath));
+    const schema = dereference ? await $RefParser.dereference(fullSchemaPath) : await $RefParser.bundle(fullSchemaPath);
     writeFileSync(fullWritePath, JSON.stringify(schema, null, 2));
   } catch (err) {
     console.error(err);

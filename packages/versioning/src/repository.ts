@@ -115,9 +115,7 @@ export class SchemaRepositoryVersion {
       throw new Error('writeFilePath must end in .json');
     }
     const fullWritePath = writeFilePath ? resolve(writeFilePath) : resolve(dir, defaultOutputFilename);
-    const schema = dereference
-      ? await $RefParser.dereference(resolve(schemaFilePath))
-      : await $RefParser.bundle(resolve(schemaFilePath));
+    const schema = dereference ? await $RefParser.dereference(fullSchemaPath) : await $RefParser.bundle(fullSchemaPath);
     await writeFile(resolve(fullWritePath), JSON.stringify(schema, null, 2));
   }
 
