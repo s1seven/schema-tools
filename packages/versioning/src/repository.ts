@@ -116,7 +116,7 @@ export class SchemaRepositoryVersion {
     }
     const fullWritePath = writeFilePath ? resolve(writeFilePath) : resolve(dir, defaultOutputFilename);
     const schema = dereference ? await $RefParser.dereference(fullSchemaPath) : await $RefParser.bundle(fullSchemaPath);
-    await writeFile(resolve(fullWritePath), JSON.stringify(schema, null, 2));
+    await writeFile(fullWritePath, JSON.stringify(schema, null, 2));
   }
 
   constructor(
