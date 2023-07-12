@@ -119,7 +119,7 @@
     "@types/pdfmake": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
-    "audit-ci": "^5.1.2",
+    "audit-ci": "^6.0.0",
     "danger": "^11.2.0",
     "esbuild": "^0.17.17",
     "eslint": "^8.30.0",
