@@ -1,8 +1,20 @@
 /* eslint-disable sonarjs/no-duplicate-string */
+import { resolve } from 'path';
+
 import type { TDocumentDefinitions } from '@s1seven/schema-tools-generate-pdf';
-import { loadExternalFile, removeFile, writeFile } from '@s1seven/schema-tools-utils';
+import * as utils from '@s1seven/schema-tools-utils';
 
 import { PartialsMapProperties, SchemaFileProperties, SchemaRepositoryVersion } from '../src/index';
+
+const { loadExternalFile, removeFile, writeFile } = utils;
+
+jest.mock('@s1seven/schema-tools-utils', () => {
+  // necessary to spy on the writeFile function once
+  return {
+    __esModule: true,
+    ...jest.requireActual('@s1seven/schema-tools-utils'),
+  };
+});
 
 describe('Versioning', function () {
   const serverUrl = 'https://schemas.s1seven.com';
@@ -18,7 +30,84 @@ describe('Versioning', function () {
     'partials-map.json': { company: '', group: '' },
     'schema.json': { $id: '', prop: { subschema: '' } },
     'sub-schema.json': { $id: '' },
+    'company.json': {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      $id: 'company.json',
+      definitions: {
+        Company: {
+          title: 'Company',
+          type: 'object',
+          properties: {
+            Email: {
+              type: 'string',
+              format: 'email',
+            },
+          },
+        },
+      },
+    },
+    'test-schema.json': {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      $id: 'commercial-transaction.json',
+      definitions: {
+        Company: {
+          allOf: [
+            {
+              $ref: './company.json#/definitions/Company',
+            },
+          ],
+        },
+        CommercialTransactionBase: {
+          type: 'object',
+          properties: {
+            A01: {
+              allOf: [
+                {
+                  $ref: '#/definitions/Company',
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
   };
+  const readableSchema = JSON.stringify(
+    {
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      $id: 'commercial-transaction.json',
+      definitions: {
+        Company: {
+          allOf: [
+            {
+              title: 'Company',
+              type: 'object',
+              properties: {
+                Email: {
+                  type: 'string',
+                  format: 'email',
+                },
+              },
+            },
+          ],
+        },
+        CommercialTransactionBase: {
+          type: 'object',
+          properties: {
+            A01: {
+              allOf: [
+                {
+                  $ref: '#/definitions/Company',
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+    null,
+    2,
+  );
 
   SchemaRepositoryVersion.generateHtmlCertificate = jest.fn();
   SchemaRepositoryVersion.generatePdfCertificate = jest.fn();
@@ -152,5 +241,107 @@ describe('Versioning', function () {
     );
     expect(subSchemaFixture).toHaveProperty('$id');
     expect(subSchemaFixture['$id']).toBe(instance.buildRefSchemaUrl('sub-schema.schema.json'));
+  });
+
+  it('generateReadableSchema should resolve external references', async () => {
+    const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
+    const schemaFilePath = resolve(__dirname, 'test-schema.json');
+    const bundledSchema = await SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath });
+    expect(writeFileSpy).not.toBeCalled();
+    expect(JSON.stringify(bundledSchema, null, 2)).toEqual(readableSchema);
+    writeFileSpy.mockReset();
+  });
+
+  it('generateReadableSchema should resolve external references and write to disk', async () => {
+    const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
+    const schemaFilePath = resolve(__dirname, 'test-schema.json');
+    const expectedWriteFilePath = resolve(__dirname, 'readable-schema.json');
+    const bundledSchema = await SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath, writeToDisk: true });
+    expect(writeFileSpy).toBeCalledTimes(1);
+    expect(writeFileSpy).toBeCalledWith(expectedWriteFilePath, readableSchema);
+    expect(JSON.stringify(bundledSchema, null, 2)).toEqual(readableSchema);
+    writeFileSpy.mockReset();
+  });
+
+  it('generateReadableSchema should resolve all references when dereference: true', async () => {
+    const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
+    const schemaFilePath = resolve(__dirname, 'test-schema.json');
+    const dereferencedSchema = await SchemaRepositoryVersion.generateReadableSchema({
+      schemaFilePath,
+      dereference: true,
+    });
+    expect(writeFileSpy).not.toBeCalled();
+    expect(JSON.stringify(dereferencedSchema, null, 2)).toEqual(
+      JSON.stringify(
+        {
+          $schema: 'http://json-schema.org/draft-07/schema#',
+          $id: 'commercial-transaction.json',
+          definitions: {
+            Company: {
+              allOf: [
+                {
+                  title: 'Company',
+                  type: 'object',
+                  properties: {
+                    Email: {
+                      type: 'string',
+                      format: 'email',
+                    },
+                  },
+                },
+              ],
+            },
+            CommercialTransactionBase: {
+              type: 'object',
+              properties: {
+                A01: {
+                  allOf: [
+                    {
+                      allOf: [
+                        {
+                          title: 'Company',
+                          type: 'object',
+                          properties: {
+                            Email: {
+                              type: 'string',
+                              format: 'email',
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+        null,
+        2,
+      ),
+    );
+    writeFileSpy.mockReset();
+  });
+
+  it('generateReadableSchema should allow overwriting of writeFilePath', async () => {
+    const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
+    const schemaFilePath = resolve(__dirname, 'test-schema.json');
+    const writeFilePath = resolve('/random/test/dir/', 'readable-schema.json');
+    await SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath, writeFilePath, writeToDisk: true });
+    expect(writeFileSpy).toBeCalledTimes(1);
+    expect(writeFileSpy).toBeCalledWith(writeFilePath, readableSchema);
+    writeFileSpy.mockReset();
+  });
+
+  it('generateReadableSchema should throw an error for invalid writeFilePath', async () => {
+    const writeFileSpy = jest.spyOn(utils, 'writeFile').mockImplementationOnce(() => Promise.resolve(undefined));
+    const schemaFilePath = resolve(__dirname, 'test-schema.json');
+    const writeFilePath = '/random/test/dir/';
+    const expectedError = new Error('writeFilePath must end in .json');
+    await expect(
+      SchemaRepositoryVersion.generateReadableSchema({ schemaFilePath, writeFilePath, writeToDisk: true }),
+    ).rejects.toThrowError(expectedError);
+    expect(writeFileSpy).not.toBeCalled();
+    writeFileSpy.mockReset();
   });
 });

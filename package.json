@@ -66,9 +66,11 @@
     "fixtures:interfaces": "ts-node -r tsconfig-paths/register ./utils/create-schema-interfaces.ts",
     "fixtures:html": "ts-node -r tsconfig-paths/register ./utils/create-html-certificate.ts",
     "fixtures:pdf": "ts-node -r tsconfig-paths/register ./utils/create-pdf-certificate.ts",
-    "fixtures:generate": "ts-node -r tsconfig-paths/register ./utils/generate-fixtures-from-json.ts"
+    "fixtures:generate": "ts-node -r tsconfig-paths/register ./utils/generate-fixtures-from-json.ts",
+    "schema:dereference": "ts-node -r tsconfig-paths/register ./utils/dereference-json-schema.ts"
   },
   "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^10.1.0",
     "ajv": "8.12.0",
     "ajv-formats": "2.1.1",
     "axios": "^1.2.1",
