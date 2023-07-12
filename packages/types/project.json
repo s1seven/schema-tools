@@ -42,6 +42,7 @@
         "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]",
         "tagPrefix": "@s1seven/schema-tools-${projectName}@",
         "trackDeps": true,
+        "push": true,
         "postTargets": ["types:release", "types:publish"]
       }
     },
