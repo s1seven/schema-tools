@@ -79,7 +79,7 @@
     "debug": "^4.3.4",
     "glob": "^7.2.0",
     "handlebars": "^4.7.7",
-    "ip-regex": "^4.3.0",
+    "ip-regex": "^5.0.0",
     "json-schema-to-typescript": "^10.1.5",
     "lato-font": "^3.0.0",
     "lodash.clone": "^4.5.0",
