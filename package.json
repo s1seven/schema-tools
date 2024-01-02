@@ -98,7 +98,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
-    "@jscutlery/semver": "^3.0.0",
+    "@jscutlery/semver": "^4.2.0",
     "@markedjs/html-differ": "^3.0.4",
     "@nx/esbuild": "17.2.8",
     "@nx/jest": "17.2.8",
@@ -139,7 +139,7 @@
     "jest-environment-node": "^29.7.0",
     "lato-font": "^3.0.0",
     "lint-staged": "^15.2.0",
-    "ngx-deploy-npm": "^6.0.0",
+    "ngx-deploy-npm": "^7.1.0",
     "nx": "17.2.8",
     "pdf2pic": "^3.1.0",
     "prettier": "^2.8.8",
