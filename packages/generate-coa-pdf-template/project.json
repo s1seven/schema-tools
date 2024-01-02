@@ -71,13 +71,8 @@
             "functions": 80,
             "lines": 65
           }
-        }
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        },
+        "passWithNoTests": false
       }
     },
     "version": {

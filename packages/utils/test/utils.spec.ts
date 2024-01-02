@@ -16,6 +16,7 @@ import {
   loadExternalFile,
   localizeNumber,
 } from '../src/index';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { axiosInstance, cache } from '../src/loaders';
 
 const baseUrl = 'https://schemas.s1seven.dev';

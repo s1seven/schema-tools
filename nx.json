@@ -1,44 +1,4 @@
 {
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/nx-cloud",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "build:affected",
-          "clean",
-          "cleanup",
-          "compile:node",
-          "compile:browser",
-          "compile",
-          "lint",
-          "lint:affected",
-          "scan:deps",
-          "test",
-          "test:affected",
-          "test:cov",
-          "test:cov:affected",
-          "test:coverage",
-          "test:staged",
-          "test:certificate-model",
-          "test:certificate-summary",
-          "test:extract-emails",
-          "test:extract-emails:browser",
-          "test:generate-html",
-          "test:generate-interfaces",
-          "test:generate-coa-pdf",
-          "test:generate-en10168-pdf",
-          "test:generate-pdf-helpers",
-          "test:generate-pdf",
-          "test:utils",
-          "test:validate",
-          "test:validate:browser",
-          "test:versioning"
-        ],
-        "accessToken": "YmViZWE0NjUtYjAzYi00NjUzLTk0YzctNDNkMzllMTk1NTgyfHJlYWQtd3JpdGU="
-      }
-    }
-  },
   "targetDependencies": {
     "version": [
       {
@@ -49,14 +9,38 @@
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "cache": true
     },
-    "test": {
-      "inputs": ["default", "{workspaceRoot}/fixtures/**", "{workspaceRoot}/jest.preset.js"]
+    "clean": {
+      "cache": true
+    },
+    "cleanup": {
+      "cache": true
+    },
+    "lint": {
+      "cache": true
+    },
+    "scan:deps": {
+      "cache": true
+    },
+    "@nx/jest:jest": {
+      "inputs": ["default", "{workspaceRoot}/fixtures/**", "{workspaceRoot}/jest.preset.js"],
+      "cache": true,
+      "options": {
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
     }
   },
   "affected": {
     "defaultBase": "main"
   },
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "nxCloudAccessToken": "YmViZWE0NjUtYjAzYi00NjUzLTk0YzctNDNkMzllMTk1NTgyfHJlYWQtd3JpdGU="
 }
