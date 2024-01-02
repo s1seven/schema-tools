@@ -2,7 +2,7 @@ import $RefParser from '@apidevtools/json-schema-ref-parser';
 import { JSONSchema } from '@apidevtools/json-schema-ref-parser/dist/lib/types';
 import Debug from 'debug';
 import { createWriteStream } from 'fs';
-import glob from 'glob';
+import { sync } from 'glob';
 import type { RuntimeOptions } from 'handlebars';
 import get from 'lodash.get';
 import set from 'lodash.set';
@@ -137,7 +137,7 @@ export class SchemaRepositoryVersion {
   ) {}
 
   async updateJsonFixturesVersion(pattern: CertificatePattern): Promise<void> {
-    const filePaths = glob.sync(pattern);
+    const filePaths = sync(pattern);
     await Promise.all(
       filePaths.map(async (filePath) => {
         const certificate = await loadExternalFile(filePath, 'json', false);
@@ -159,7 +159,7 @@ export class SchemaRepositoryVersion {
     handlebars: RuntimeOptions = {},
     partialsMap?: Record<string, string>,
   ): Promise<void> {
-    const filePaths = glob.sync(pattern);
+    const filePaths = sync(pattern);
     await Promise.all(
       filePaths.map((filePath) =>
         SchemaRepositoryVersion.generateHtmlCertificate(
@@ -180,7 +180,7 @@ export class SchemaRepositoryVersion {
     docDefinition: Partial<TDocumentDefinitions>,
     fonts: TFontDictionary,
   ): Promise<void> {
-    const filePaths = glob.sync(pattern);
+    const filePaths = sync(pattern);
     await Promise.all(
       filePaths.map((filePath) =>
         SchemaRepositoryVersion.generatePdfCertificate(
