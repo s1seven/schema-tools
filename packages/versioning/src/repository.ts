@@ -68,7 +68,7 @@ export class SchemaRepositoryVersion {
       partialsMap,
     });
 
-    const html = prettier.format(rawHtml, { parser: 'html' });
+    const html = await prettier.format(rawHtml, { parser: 'html' });
     await writeFile(outputPath, html);
   }
 
@@ -144,7 +144,7 @@ export class SchemaRepositoryVersion {
         const RefSchemaUrl = this.buildRefSchemaUrl();
         certificate[this.urlPropertyPath] = RefSchemaUrl;
         const prettierOptions = await prettier.resolveConfig(filePath);
-        const json = prettier.format(JSON.stringify(certificate, null, 2), {
+        const json = await prettier.format(JSON.stringify(certificate, null, 2), {
           ...(prettierOptions || {}),
           parser: 'json',
         });
@@ -230,7 +230,7 @@ export class SchemaRepositoryVersion {
     }
     if (partialsMapHasChanged) {
       const prettierOptions = await prettier.resolveConfig(filePath);
-      const newPartialsMap = prettier.format(JSON.stringify(partialsMap, null, 2), {
+      const newPartialsMap = await prettier.format(JSON.stringify(partialsMap, null, 2), {
         ...(prettierOptions || {}),
         parser: 'json',
       });
@@ -252,7 +252,7 @@ export class SchemaRepositoryVersion {
         }
         if (schemaHasChanged) {
           const prettierOptions = await prettier.resolveConfig(filePath);
-          const jsonSchema = prettier.format(JSON.stringify(schema, null, 2), {
+          const jsonSchema = await prettier.format(JSON.stringify(schema, null, 2), {
             ...(prettierOptions || {}),
             parser: 'json',
           });
