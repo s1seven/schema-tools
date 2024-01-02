@@ -111,6 +111,8 @@ typings/
 junit.xml
 
 dist
+!packages/generate-coa-pdf-template/dist/*.cjs
+!packages/generate-en10168-pdf-template/dist/*.cjs
 dist.browser
 build
 tmp
