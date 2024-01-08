@@ -2,7 +2,7 @@ import $RefParser from '@apidevtools/json-schema-ref-parser';
 import { JSONSchema } from '@apidevtools/json-schema-ref-parser/dist/lib/types';
 import Debug from 'debug';
 import { createWriteStream } from 'fs';
-import glob from 'glob';
+import { sync } from 'glob';
 import type { RuntimeOptions } from 'handlebars';
 import get from 'lodash.get';
 import set from 'lodash.set';
@@ -68,7 +68,7 @@ export class SchemaRepositoryVersion {
       partialsMap,
     });
 
-    const html = prettier.format(rawHtml, { parser: 'html' });
+    const html = await prettier.format(rawHtml, { parser: 'html' });
     await writeFile(outputPath, html);
   }
 
@@ -137,14 +137,14 @@ export class SchemaRepositoryVersion {
   ) {}
 
   async updateJsonFixturesVersion(pattern: CertificatePattern): Promise<void> {
-    const filePaths = glob.sync(pattern);
+    const filePaths = sync(pattern);
     await Promise.all(
       filePaths.map(async (filePath) => {
         const certificate = await loadExternalFile(filePath, 'json', false);
         const RefSchemaUrl = this.buildRefSchemaUrl();
         certificate[this.urlPropertyPath] = RefSchemaUrl;
         const prettierOptions = await prettier.resolveConfig(filePath);
-        const json = prettier.format(JSON.stringify(certificate, null, 2), {
+        const json = await prettier.format(JSON.stringify(certificate, null, 2), {
           ...(prettierOptions || {}),
           parser: 'json',
         });
@@ -159,7 +159,7 @@ export class SchemaRepositoryVersion {
     handlebars: RuntimeOptions = {},
     partialsMap?: Record<string, string>,
   ): Promise<void> {
-    const filePaths = glob.sync(pattern);
+    const filePaths = sync(pattern);
     await Promise.all(
       filePaths.map((filePath) =>
         SchemaRepositoryVersion.generateHtmlCertificate(
@@ -180,7 +180,7 @@ export class SchemaRepositoryVersion {
     docDefinition: Partial<TDocumentDefinitions>,
     fonts: TFontDictionary,
   ): Promise<void> {
-    const filePaths = glob.sync(pattern);
+    const filePaths = sync(pattern);
     await Promise.all(
       filePaths.map((filePath) =>
         SchemaRepositoryVersion.generatePdfCertificate(
@@ -230,7 +230,7 @@ export class SchemaRepositoryVersion {
     }
     if (partialsMapHasChanged) {
       const prettierOptions = await prettier.resolveConfig(filePath);
-      const newPartialsMap = prettier.format(JSON.stringify(partialsMap, null, 2), {
+      const newPartialsMap = await prettier.format(JSON.stringify(partialsMap, null, 2), {
         ...(prettierOptions || {}),
         parser: 'json',
       });
@@ -252,7 +252,7 @@ export class SchemaRepositoryVersion {
         }
         if (schemaHasChanged) {
           const prettierOptions = await prettier.resolveConfig(filePath);
-          const jsonSchema = prettier.format(JSON.stringify(schema, null, 2), {
+          const jsonSchema = await prettier.format(JSON.stringify(schema, null, 2), {
             ...(prettierOptions || {}),
             parser: 'json',
           });

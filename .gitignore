@@ -1,5 +1,7 @@
 .cache
 **/.DS_Store
+.nx/cache
+
 
 # Logs
 logs

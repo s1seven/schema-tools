@@ -101,7 +101,7 @@ describe('GenerateInterfaces', function () {
     describe(`For ${type} - version ${version}`, () => {
       it('should generate TS interfaces and types certificate using external schema path (url)', async () => {
         const interfaces = await generate(schemaPath, null, generateOptions);
-        const prettyInterfaces = prettier.format(interfaces, {
+        const prettyInterfaces = await prettier.format(interfaces, {
           parser: 'babel-ts',
         });
         expect(prettyInterfaces).toEqual(certificateInterfaces);
@@ -112,7 +112,7 @@ describe('GenerateInterfaces', function () {
           responseType: 'json',
         });
         const interfaces = await generate(schema, null, generateOptions);
-        const prettyInterfaces = prettier.format(interfaces, {
+        const prettyInterfaces = await prettier.format(interfaces, {
           parser: 'babel-ts',
         });
         expect(prettyInterfaces).toEqual(certificateInterfaces);

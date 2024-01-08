@@ -63,13 +63,8 @@
             "functions": 55,
             "lines": 75
           }
-        }
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        },
+        "passWithNoTests": false
       }
     },
     "version": {

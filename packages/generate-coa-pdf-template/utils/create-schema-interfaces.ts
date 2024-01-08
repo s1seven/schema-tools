@@ -9,7 +9,7 @@ import { generate } from '@s1seven/schema-tools-generate-interfaces';
   const outputPath = argv[3] || `${__dirname}/../src/types/schemaTypes.ts`;
   const interfacesPath = path.resolve(outputPath);
   const interfaces = await generate(schemaPath);
-  const prettyInterfaces = prettier.format(interfaces, {
+  const prettyInterfaces = await prettier.format(interfaces, {
     parser: 'typescript',
     singleQuote: true,
     printWidth: 120,

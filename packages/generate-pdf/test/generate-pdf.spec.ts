@@ -4,7 +4,6 @@ import { createWriteStream, existsSync, readdirSync, readFileSync, unlinkSync } 
 import { join, parse, resolve } from 'node:path';
 import { Writable } from 'node:stream';
 import { fromBuffer } from 'pdf2pic';
-import type { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
 import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
 
 import { SchemaDirUnion, SupportedSchemas, SupportedSchemasDirMap } from '@s1seven/schema-tools-types';
@@ -237,10 +236,14 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
         languageFontMap,
       });
 
-      const expectedPDF: ToBase64Response = await fromBuffer(expectedPDFBuffer, options)(1, true);
-      const result: ToBase64Response = await fromBuffer(pdfDoc, options)(1, true);
-      const expectedHash = createHash('sha256').update(expectedPDF.base64).digest('hex');
-      const resultHash = createHash('sha256').update(result.base64).digest('hex');
+      const expectedPDF = await fromBuffer(expectedPDFBuffer, options)(1, { responseType: 'base64' });
+      const result = await fromBuffer(pdfDoc, options)(1, { responseType: 'base64' });
+      const expectedHash = createHash('sha256')
+        .update(expectedPDF.base64 as string)
+        .digest('hex');
+      const resultHash = createHash('sha256')
+        .update(result.base64 as string)
+        .digest('hex');
       expect(pdfDoc instanceof Buffer).toEqual(true);
       expect(resultHash).toEqual(expectedHash);
     }, 10000);

@@ -56,13 +56,8 @@
             "functions": 55,
             "lines": 60
           }
-        }
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        },
+        "passWithNoTests": false
       }
     },
     "version": {
