@@ -86,7 +86,7 @@
         "preset": "conventional",
         "skipCommitTypes": ["docs", "ci"],
         "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]",
-        "tagPrefix": "@s1seven/schema-tools-${projectName}@",
+        "tagPrefix": "@s1seven/schema-tools-{projectName}@",
         "trackDeps": true,
         "push": true,
         "postTargets": ["generate-pdf:release", "generate-pdf:publish"]
