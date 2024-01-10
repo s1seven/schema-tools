@@ -2,6 +2,8 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.9](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.2.8...@s1seven/schema-tools-generate-pdf@0.2.9) (2024-01-10)
+
 ## [0.2.8](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-generate-pdf@0.2.7...@s1seven/schema-tools-generate-pdf@0.2.8) (2024-01-10)
 
 
