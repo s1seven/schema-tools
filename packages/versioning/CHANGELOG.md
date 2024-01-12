@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.6.1](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-versioning@0.6.0...@s1seven/schema-tools-versioning@0.6.1) (2024-01-12)
+
+
+### Bug Fixes
+
+* update tagPrefix to latest semver syntax in project.json files ([f901da3](https://github.com/s1seven/schema-tools/commit/f901da31e9112f7c8619bf0336b3b7d2a26ef06d))
+
 ## [0.6.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-versioning@0.5.6...@s1seven/schema-tools-versioning@0.6.0) (2023-07-12)
 
 ### Dependency Updates
