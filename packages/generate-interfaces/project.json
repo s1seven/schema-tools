@@ -19,7 +19,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/generate-interfaces/**/*.ts"]
+        "lintFilePatterns": ["packages/generate-interfaces/**/*.ts", "packages/generate-interfaces/package.json"]
       }
     },
     "clean": {

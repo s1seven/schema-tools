@@ -19,7 +19,10 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/generate-pdf-template-helpers/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/generate-pdf-template-helpers/**/*.ts",
+          "packages/generate-pdf-template-helpers/package.json"
+        ]
       }
     },
     "clean": {

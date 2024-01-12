@@ -13,6 +13,21 @@
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "rules": {
+        "@nx/dependency-checks": [
+          "error",
+          {
+            "ignoredFiles": [
+              "packages/generate-coa-pdf-template/utils/**/*",
+              "packages/generate-coa-pdf-template/test/**/*"
+            ],
+            "includeTransitiveDependencies": false
+          }
+        ]
+      }
     }
   ]
 }

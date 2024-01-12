@@ -19,7 +19,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/generate-html/**/*.ts"]
+        "lintFilePatterns": ["packages/generate-html/**/*.ts", "packages/generate-html/package.json"]
       }
     },
     "clean": {

@@ -19,7 +19,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/extract-emails/**/*.ts"]
+        "lintFilePatterns": ["packages/extract-emails/**/*.ts", "packages/extract-emails/package.json"]
       }
     },
     "clean": {

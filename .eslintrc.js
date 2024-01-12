@@ -21,7 +21,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:sonarjs/recommended',
   ],
-  plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports', 'import', 'simple-import-sort'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports', 'import', 'simple-import-sort', '@nx'],
   rules: {
     quotes: ['warn', 'single', { avoidEscape: true }],
     'member-access': 'off',
@@ -53,4 +53,24 @@ module.exports = {
     'logical-assignment-operators': ['error', 'always', { enforceForIfStatements: true }],
     'no-console': 'error',
   },
+  overrides: [
+    {
+      files: ['*.json'],
+      parser: 'jsonc-eslint-parser',
+      rules: {
+        '@nx/dependency-checks': [
+          'error',
+          {
+            buildTargets: ['build'],
+            ignoredDependencies: [],
+            includeTransitiveDependencies: true,
+            ignoredFiles: [],
+            checkMissingDependencies: true,
+            checkObsoleteDependencies: true,
+            checkVersionMismatches: true,
+          },
+        ],
+      },
+    },
+  ],
 };

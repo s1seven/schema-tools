@@ -26,7 +26,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/validate/**/*.ts"]
+        "lintFilePatterns": ["packages/validate/**/*.ts", "packages/validate/package.json"]
       }
     },
     "clean": {

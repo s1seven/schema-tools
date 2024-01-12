@@ -1,6 +1,6 @@
 {
   "extends": ["../../.eslintrc.js"],
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": ["!**/*", "node_modules"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -13,6 +13,19 @@
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "rules": {
+        "@nx/dependency-checks": [
+          "error",
+          {
+            "ignoredDependencies": ["pdf2pic", "@markedjs/html-differ"],
+            "ignoredFiles": ["packages/versioning/test/**/*"],
+            "includeTransitiveDependencies": true
+          }
+        ]
+      }
     }
   ]
 }

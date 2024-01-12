@@ -201,6 +201,10 @@ When creating a new release, the following tests need to be updated with the lat
 - extract-emails
 - generate-interfaces
 
+## Creating new releases
+
+To release new versions of the schema-tools packages, run a packages nx executor `version`, which will automatically create tags, a github release and an npm release. Preferably use the npm script such as `bump:patch:affected`.
+
 ## License
 
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B18065%2Fgithub.com%2Fs1seven%2Fschema-tools.svg?type=large)](https://app.fossa.com/projects/custom%2B18065%2Fgithub.com%2Fs1seven%2Fschema-tools?ref=badge_large)

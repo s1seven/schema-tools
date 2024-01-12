@@ -24,5 +24,30 @@
   "engines": {
     "node": ">=12",
     "npm": ">=6"
+  },
+  "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^11.1.0",
+    "ajv": "8.12.0",
+    "axios": "^1.2.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "debug": "^4.3.4",
+    "handlebars": "^4.7.7",
+    "lodash.clone": "^4.5.0",
+    "lodash.get": "^4.4.2",
+    "lodash.merge": "^4.6.2",
+    "lodash.set": "^4.3.2",
+    "node-cache": "^5.1.2",
+    "pdfmake": "0.2.9",
+    "reflect-metadata": "^0.2.1",
+    "semver-lite": "0.0.6",
+    "glob": "^10.3.10"
+  },
+  "peerDependencies": {
+    "@s1seven/schema-tools-generate-html": "0.4.4",
+    "@s1seven/schema-tools-generate-pdf": "0.2.9",
+    "@s1seven/schema-tools-types": "0.5.3",
+    "@s1seven/schema-tools-utils": "0.2.6",
+    "prettier": "^2.8.8"
   }
 }
