@@ -21,7 +21,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:sonarjs/recommended',
   ],
-  plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports', 'import', 'simple-import-sort'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports', 'import', 'simple-import-sort', '@nx'],
   rules: {
     quotes: ['warn', 'single', { avoidEscape: true }],
     'member-access': 'off',

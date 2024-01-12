@@ -42,5 +42,10 @@
     "defaultBase": "main"
   },
   "defaultBase": "main",
-  "nxCloudAccessToken": "YmViZWE0NjUtYjAzYi00NjUzLTk0YzctNDNkMzllMTk1NTgyfHJlYWQtd3JpdGU="
+  "nxCloudAccessToken": "YmViZWE0NjUtYjAzYi00NjUzLTk0YzctNDNkMzllMTk1NTgyfHJlYWQtd3JpdGU=",
+  "pluginsConfig": {
+    "@nx/js": {
+      "analyzeSourceFiles": true
+    }
+  }
 }

@@ -24,5 +24,23 @@
   "engines": {
     "node": ">=14",
     "npm": ">=6"
+  },
+  "dependencies": {
+    "lodash.clone": "^4.5.0",
+    "lodash.get": "^4.4.2",
+    "lodash.merge": "^4.6.2",
+    "pdfmake": "0.2.9",
+    "reflect-metadata": "^0.2.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "ajv": "8.12.0",
+    "semver-lite": "0.0.6",
+    "axios": "^1.6.3",
+    "debug": "^4.3.4",
+    "node-cache": "^5.1.2"
+  },
+  "peerDependencies": {
+    "@s1seven/schema-tools-types": "0.5.3",
+    "@s1seven/schema-tools-utils": "0.2.6"
   }
 }
