@@ -20,7 +20,7 @@
         "@nx/dependency-checks": [
           "error",
           {
-            "ignoredDependencies": ["pdf2pic"],
+            "ignoredFiles": ["packages/generate-pdf/test/**/*"],
             "includeTransitiveDependencies": true
           }
         ]

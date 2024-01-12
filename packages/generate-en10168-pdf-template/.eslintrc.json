@@ -13,6 +13,18 @@
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "rules": {
+        "@nx/dependency-checks": [
+          "error",
+          {
+            "ignoredFiles": ["packages/generate-en10168-pdf-template/utils/**/*", "packages/generate-en10168-pdf-template/test/**/*"],
+            "includeTransitiveDependencies": false
+          }
+        ]
+      }
     }
   ]
 }

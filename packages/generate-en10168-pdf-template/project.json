@@ -32,7 +32,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/generate-en10168-pdf-template/**/*.ts"]
+        "lintFilePatterns": ["packages/generate-en10168-pdf-template/**/*.ts", "packages/generate-en10168-pdf-template/package.json"]
       }
     },
     "scan:deps": {

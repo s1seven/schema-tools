@@ -21,6 +21,7 @@
           "error",
           {
             "ignoredDependencies": ["pdf2pic", "@markedjs/html-differ"],
+            "ignoredFiles": ["packages/versioning/test/**/*"],
             "includeTransitiveDependencies": true
           }
         ]

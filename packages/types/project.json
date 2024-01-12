@@ -31,7 +31,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/types/**/*.ts"]
+        "lintFilePatterns": ["packages/types/**/*.ts", "packages/types/package.json"]
       }
     },
     "version": {
