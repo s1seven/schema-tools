@@ -19,7 +19,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/versioning/**/*.ts"]
+        "lintFilePatterns": ["packages/versioning/**/*.ts", "packages/versioning/package.json"]
       }
     },
     "clean": {

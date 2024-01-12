@@ -13,6 +13,18 @@
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "rules": {
+        "@nx/dependency-checks": [
+          "error",
+          {
+            "ignoredDependencies": ["pdf2pic", "@markedjs/html-differ"],
+            "includeTransitiveDependencies": true
+          }
+        ]
+      }
     }
   ]
 }

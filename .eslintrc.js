@@ -53,4 +53,24 @@ module.exports = {
     'logical-assignment-operators': ['error', 'always', { enforceForIfStatements: true }],
     'no-console': 'error',
   },
+  overrides: [
+    {
+      files: ['*.json'],
+      parser: 'jsonc-eslint-parser',
+      rules: {
+        '@nx/dependency-checks': [
+          'error',
+          {
+            buildTargets: ['build'],
+            ignoredDependencies: [],
+            includeTransitiveDependencies: true,
+            ignoredFiles: [],
+            checkMissingDependencies: true,
+            checkObsoleteDependencies: true,
+            checkVersionMismatches: true,
+          },
+        ],
+      },
+    },
+  ],
 };
