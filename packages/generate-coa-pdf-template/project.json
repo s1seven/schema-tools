@@ -31,7 +31,10 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/generate-coa-pdf-template/**/*.ts", "packages/generate-coa-pdf-template/package.json"]
+        "lintFilePatterns": [
+          "packages/generate-coa-pdf-template/**/*.ts",
+          "packages/generate-coa-pdf-template/package.json"
+        ]
       }
     },
     "scan:deps": {

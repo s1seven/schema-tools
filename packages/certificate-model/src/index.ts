@@ -149,13 +149,10 @@ function getProperties(schema: JSONSchema7, validator?: Ajv) {
   // JSONSchema7Definition[]
   const defs = schema['anyOf'] || schema['allOf'] || (root && schema['oneOf']);
   return defs
-    ? (defs as JSONSchema7Definition[]).reduce(
-        (acc, def) => {
-          acc = merge(acc, getProperties(def as JSONSchema7, validator));
-          return acc;
-        },
-        {} as Record<string, unknown>,
-      )
+    ? (defs as JSONSchema7Definition[]).reduce((acc, def) => {
+        acc = merge(acc, getProperties(def as JSONSchema7, validator));
+        return acc;
+      }, {} as Record<string, unknown>)
     : {};
 }
 

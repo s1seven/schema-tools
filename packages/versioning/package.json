@@ -41,13 +41,13 @@
     "pdfmake": "0.2.9",
     "reflect-metadata": "^0.2.1",
     "semver-lite": "0.0.6",
-    "glob": "^10.3.10",
-    "prettier": "^3.1.1"
+    "glob": "^10.3.10"
   },
   "peerDependencies": {
     "@s1seven/schema-tools-generate-html": "0.4.4",
     "@s1seven/schema-tools-generate-pdf": "0.2.9",
     "@s1seven/schema-tools-types": "0.5.3",
-    "@s1seven/schema-tools-utils": "0.2.6"
+    "@s1seven/schema-tools-utils": "0.2.6",
+    "prettier": "^2.8.8"
   }
 }
