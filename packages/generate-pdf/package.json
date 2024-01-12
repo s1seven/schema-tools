@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-generate-pdf",
   "description": "Tool to generate pdf from certificates",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/generate-pdf#readme",
