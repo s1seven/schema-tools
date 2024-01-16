@@ -4,6 +4,14 @@
   "sourceRoot": "packages/versioning/src",
   "projectType": "library",
   "targets": {
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
+      "options": {
+        "packageRoot": "dist/packages/{projectName}",
+        "registry": "https://registry.npmjs.org/"
+      },
+      "dependsOn": ["build"]
+    },
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],

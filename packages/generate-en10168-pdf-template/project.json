@@ -4,6 +4,14 @@
   "sourceRoot": "packages/generate-en10168-pdf-template/src",
   "projectType": "library",
   "targets": {
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
+      "options": {
+        "packageRoot": "packages/{projectName}/dist",
+        "registry": "https://registry.npmjs.org/"
+      },
+      "dependsOn": ["build"]
+    },
     "build": {
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],

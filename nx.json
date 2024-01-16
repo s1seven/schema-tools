@@ -7,6 +7,22 @@
       }
     ]
   },
+  "release": {
+    "projects": ["*"],
+    "projectsRelationship": "independent",
+    "releaseTagPattern": "@s1seven/schema-tools-{projectName}@{version}",
+    "changelog": {
+      "projectChangelogs": {
+        "createRelease": "github"
+      }
+    },
+    "git": {
+      "commit": true,
+      "push": true,
+      "pushRemote": "origin",
+      "tag": true
+    }
+  },
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
