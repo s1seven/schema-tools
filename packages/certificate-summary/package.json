@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools-certificate-summary",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "build certificate summary from common general properties",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools/tree/main/packages/certificate-summary#readme",

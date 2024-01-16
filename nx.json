@@ -20,7 +20,7 @@
       "commit": true,
       "push": true,
       "pushRemote": "origin",
-      "tag": true
+      "tag": false
     }
   },
   "targetDefaults": {

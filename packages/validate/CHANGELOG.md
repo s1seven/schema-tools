@@ -1,3 +1,7 @@
+## 0.3.8 (2024-01-16)
+
+This was a version bump only for validate to align it with other projects, there were no code changes.
+
 # Changelog
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).

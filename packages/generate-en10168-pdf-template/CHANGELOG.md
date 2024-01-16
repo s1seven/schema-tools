@@ -1,3 +1,7 @@
+## 0.7.5 (2024-01-16)
+
+This was a version bump only for generate-en10168-pdf-template to align it with other projects, there were no code changes.
+
 # Changelog
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).

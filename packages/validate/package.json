@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-validate",
   "description": "Tool to validate certificates",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools//tree/master/packages/validate#readme",

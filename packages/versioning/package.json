@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools-versioning",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Tool to help versioning schema repositories",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
