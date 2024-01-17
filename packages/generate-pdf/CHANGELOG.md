@@ -1,3 +1,7 @@
+## 0.2.13 (2024-01-17)
+
+This was a version bump only for generate-pdf to align it with other projects, there were no code changes.
+
 ## 0.2.12 (2024-01-16)
 
 This was a version bump only for generate-pdf to align it with other projects, there were no code changes.

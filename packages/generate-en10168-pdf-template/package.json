@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools-generate-en10168-pdf-template",
-  "version": "0.7.5",
+  "version": "0.7.6",
   "license": "Apache-2.0",
   "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/generate-en10168-pdf-template#readme",
   "repository": {
@@ -18,8 +18,8 @@
   },
   "main": "dist/generateContent.cjs",
   "dependencies": {
-    "@s1seven/schema-tools-generate-pdf-template-helpers": "0.4.11",
-    "@s1seven/schema-tools-types": "0.5.5",
+    "@s1seven/schema-tools-generate-pdf-template-helpers": "0.4.12",
+    "@s1seven/schema-tools-types": "0.5.6",
     "pdfmake": "0.2.9"
   }
 }
