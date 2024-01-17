@@ -26,6 +26,7 @@
     "npm": ">=6"
   },
   "dependencies": {
+    "@s1seven/schema-tools-types": "0.5.5",
     "ajv": "8.12.0",
     "axios": "^1.6.5",
     "class-transformer": "^0.5.1",
@@ -34,8 +35,5 @@
     "node-cache": "^5.1.2",
     "reflect-metadata": "^0.2.1",
     "semver-lite": "0.0.6"
-  },
-  "peerDependencies": {
-    "@s1seven/schema-tools-types": "0.5.4"
   }
 }

@@ -1,6 +1,6 @@
 {
-  "extends": ["../../.eslintrc.js"],
-  "ignorePatterns": ["!**/*"],
+  "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*", "node_modules"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -16,12 +16,17 @@
     },
     {
       "files": ["*.json"],
+      "parser": "jsonc-eslint-parser",
       "rules": {
         "@nx/dependency-checks": [
           "error",
           {
-            "ignoredFiles": ["packages/generate-interfaces/test/**/*"],
-            "includeTransitiveDependencies": true
+            "buildTargets": ["build"],
+            "checkMissingDependencies": true,
+            "checkObsoleteDependencies": true,
+            "checkVersionMismatches": true,
+            "includeTransitiveDependencies": true,
+            "ignoredFiles": ["packages/generate-interfaces/test/**/*"]
           }
         ]
       }
