@@ -26,8 +26,8 @@
     "npm": ">=6"
   },
   "dependencies": {
-    "@s1seven/schema-tools-types": "0.5.4",
-    "@s1seven/schema-tools-utils": "0.2.7",
+    "@s1seven/schema-tools-types": "0.5.5",
+    "@s1seven/schema-tools-utils": "0.2.8",
     "lodash.clone": "^4.5.0",
     "lodash.get": "^4.4.2",
     "lodash.merge": "^4.6.2",
