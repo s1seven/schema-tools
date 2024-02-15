@@ -24,6 +24,8 @@ import {
   loadExternalFile,
 } from '@s1seven/schema-tools-utils';
 
+import { attachFileToPdf } from './attach-file-to-pdf';
+
 export { Content, StyleDictionary, TDocumentDefinitions, TFontDictionary } from 'pdfmake/interfaces';
 
 export interface GeneratePdfOptions {
@@ -35,6 +37,7 @@ export interface GeneratePdfOptions {
   translations?: Translations;
   extraTranslations?: ExtraTranslations;
   languageFontMap?: LanguageFontMap;
+  attachCertificate?: boolean;
 }
 
 export interface GeneratePdfOptionsExtended<T extends 'stream' | 'buffer'> extends GeneratePdfOptions {
@@ -146,13 +149,11 @@ async function getPdfMakeContentFromObject(
   const schemaConfig = getSchemaConfig(refSchemaUrl);
   const certificateLanguages = getCertificateLanguages(certificate);
   translations ||= certificateLanguages?.length ? await getTranslations(certificateLanguages, schemaConfig) : {};
-
   const type = getCertificateType(schemaConfig);
-  const externalStandards: ExternalStandards[] = schemaToExternalStandardsMap[type]
-    ? schemaToExternalStandardsMap[type]
-        .map((schemaType) => get(certificate, schemaType, undefined))
-        .filter((externalStandards) => externalStandards) || []
-    : [];
+  const externalStandards: ExternalStandards[] =
+    schemaToExternalStandardsMap[type]
+      ?.map((schemaType: keyof Schemas) => get(certificate, schemaType, undefined))
+      .filter(Boolean) ?? [];
 
   extraTranslations ||=
     certificateLanguages?.length && externalStandards?.length
@@ -203,6 +204,20 @@ async function buildPdfContent(
   return pdfMakeContent;
 }
 
+async function attachCertificateToPdf(
+  pdfBuffer: Buffer,
+  certificate: Record<string, unknown> | string,
+): Promise<Buffer> {
+  const today = new Date();
+  const fileContent = typeof certificate === 'string' ? certificate : JSON.stringify(certificate, null, 2);
+  return await attachFileToPdf(pdfBuffer, fileContent, 'certificate.json', {
+    mimeType: 'application/json',
+    description: 'The certificate in JSON format',
+    creationDate: today,
+    modificationDate: today,
+  });
+}
+
 export async function generatePdf(
   certificateInput: Record<string, unknown> | string,
   options: {
@@ -214,6 +229,7 @@ export async function generatePdf(
     translations?: Translations;
     extraTranslations?: ExtraTranslations;
     languageFontMap?: LanguageFontMap;
+    attachCertificate?: boolean;
   },
 ): Promise<Buffer>;
 
@@ -228,6 +244,7 @@ export async function generatePdf(
     translations?: Translations;
     extraTranslations?: ExtraTranslations;
     languageFontMap?: LanguageFontMap;
+    attachCertificate?: false;
   },
 ): Promise<PDFKit.PDFDocument>;
 
@@ -254,7 +271,8 @@ export async function generatePdf(
   if (opts.outputType === 'stream') {
     return pdfDoc;
   }
-  return new Promise((resolve, reject) => {
+
+  const pdfBuffer = await new Promise<Buffer>((resolve, reject) => {
     let buffer: Buffer = Buffer.alloc(0);
     pdfDoc.on('data', (data) => {
       buffer = Buffer.concat([buffer, data], buffer.length + data.length);
@@ -263,4 +281,6 @@ export async function generatePdf(
     pdfDoc.on('error', reject);
     pdfDoc.end();
   });
+
+  return opts.attachCertificate ? await attachCertificateToPdf(pdfBuffer, certificateInput) : pdfBuffer;
 }
