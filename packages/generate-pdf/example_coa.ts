@@ -1,8 +1,9 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-var-requires */
-import { createWriteStream, readFileSync } from 'fs';
+import { readFileSync } from 'fs';
+import { writeFile } from 'fs/promises';
 
 import { generatePdf, TDocumentDefinitions } from './src/index';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.js`);
 
 const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/valid_cert_1.json`, 'utf-8'));
@@ -51,29 +52,19 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
 
     const pdfDoc = await generatePdf(CoACertificate, {
       docDefinition,
-      outputType: 'stream',
+      outputType: 'buffer',
       generatorPath,
       fonts,
       extraTranslations,
       translations,
       languageFontMap,
+      attachCertificate: true,
     });
 
     const outputFilePath = './coa-test.pdf';
-    const writeStream = createWriteStream(outputFilePath);
-    pdfDoc.pipe(writeStream);
-    pdfDoc.end();
-
-    await new Promise((resolve, reject) => {
-      writeStream
-        .on('finish', () => {
-          resolve(true);
-        })
-        .on('error', (err) => {
-          reject(err);
-        });
-    });
+    await writeFile(outputFilePath, pdfDoc);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error.message);
   }
 })();
