@@ -10,6 +10,10 @@ import { SchemaDirUnion, SupportedSchemas, SupportedSchemasDirMap } from '@s1sev
 import { EN10168Schema, Schemas } from '@s1seven/schema-tools-types';
 
 import { type GeneratePdfOptionsExtended, buildModule, generateInSandbox, generatePdf } from '../src';
+import { attachFileToPdf } from '../src/attach-file-to-pdf';
+
+jest.mock('../src/attach-file-to-pdf');
+(attachFileToPdf as jest.Mock).mockImplementation((buf) => Promise.resolve(buf));
 
 type PDFGenerationTestProperties = {
   name: string;
@@ -133,11 +137,11 @@ const generatePaths = (
   const expectedPdfPath = `${dirPath}/${name}.pdf`;
   const translationsPath = `${dirPath}/translations.json`;
   const coaCertsWithoutExtraTranslations = ['v0.0.4', 'v0.1.0'];
-  let generatorPath: string;
+  let generatorPath: string | undefined;
   if (isLatestVersion) {
     generatorPath = resolve(`${__dirname}/../../generate-${type.toLowerCase()}-pdf-template/dist/generateContent.cjs`);
   }
-  let extraTranslationsPath: string;
+  let extraTranslationsPath: string | undefined;
 
   if (type.toLowerCase() === SupportedSchemas.COA && !coaCertsWithoutExtraTranslations.includes(version)) {
     extraTranslationsPath = `${dirPath}/extra_translations.json`;
@@ -205,7 +209,7 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
             generatorPath,
             languageFontMap,
           };
-      //
+
       const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
       const writeStream = createWriteStream(outputFilePath);
       pdfDoc.pipe(writeStream);
@@ -246,6 +250,42 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
         .digest('hex');
       expect(pdfDoc instanceof Buffer).toEqual(true);
       expect(resultHash).toEqual(expectedHash);
+    }, 10000);
+
+    it('should attach the certificate as JSON document if `attachCertificate` is true', async () => {
+      const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
+      (attachFileToPdf as jest.Mock).mockClear();
+      await generatePdf(validCertificate, {
+        docDefinition: { ...docDefinition, styles },
+        outputType: 'buffer',
+        translations,
+        attachCertificate: true,
+      });
+      expect(attachFileToPdf).toHaveBeenCalled();
+    }, 10000);
+
+    it('should not attach the certificate as JSON document if `attachCertificate` is false', async () => {
+      const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
+      (attachFileToPdf as jest.Mock).mockClear();
+      await generatePdf(validCertificate, {
+        docDefinition: { ...docDefinition, styles },
+        outputType: 'buffer',
+        translations,
+        attachCertificate: false,
+      });
+      expect(attachFileToPdf).not.toHaveBeenCalled();
+    }, 10000);
+
+    it('should throw an error if `attachCertificate` is true and `outputType` is `stream`', async () => {
+      const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
+      await expect(
+        generatePdf(validCertificate, {
+          docDefinition: { ...docDefinition, styles },
+          outputType: 'stream',
+          translations,
+          attachCertificate: true,
+        } as any),
+      ).rejects.toThrow('Cannot attach certificate to a stream output type. Please use buffer output type.');
     }, 10000);
 
     it('should render PDF certificate using certificate object and remote PDF generator script', async () => {

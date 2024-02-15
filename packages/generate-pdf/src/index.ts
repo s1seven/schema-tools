@@ -244,7 +244,6 @@ export async function generatePdf(
     translations?: Translations;
     extraTranslations?: ExtraTranslations;
     languageFontMap?: LanguageFontMap;
-    attachCertificate?: false;
   },
 ): Promise<PDFKit.PDFDocument>;
 
@@ -258,9 +257,15 @@ export async function generatePdf(
   options: GeneratePdfOptions = {},
 ): Promise<Buffer | PDFKit.PDFDocument> {
   const opts: GeneratePdfOptions = options ? { ...generatePdfOptions, ...options } : generatePdfOptions;
+
+  if (opts.attachCertificate && opts.outputType === 'stream') {
+    throw new Error('Cannot attach certificate to a stream output type. Please use buffer output type.');
+  }
+
   if (opts.outputType !== 'stream' && opts.outputType !== 'buffer') {
     throw new Error('Invalid outputType, should be one of buffer | stream');
   }
+
   const pdfMakeContent = await buildPdfContent(certificateInput, opts);
   const docDefinition: TDocumentDefinitions = opts.docDefinition
     ? merge(baseDocDefinition(pdfMakeContent), clone(opts.docDefinition))
