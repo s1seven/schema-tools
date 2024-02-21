@@ -1,9 +1,14 @@
-import fs from 'fs';
-import Module from 'module';
-import path from 'path';
+/* eslint-disable no-console */
+import fs from 'node:fs';
+import Module from 'node:module';
+import path from 'node:path';
+import { performance, PerformanceObserver } from 'node:perf_hooks';
+import { finished } from 'node:stream/promises';
+import vm from 'node:vm';
 import PdfPrinter from 'pdfmake';
-import { Content, StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
-import vm from 'vm';
+import type { Content, StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
+
+import type { ExtraTranslations, Translations } from '@s1seven/schema-tools-types';
 
 import extraTranslations from '../../../fixtures/CoA/v0.2.0/extra_translations.json';
 import translations from '../../../fixtures/CoA/v0.2.0/translations.json';
@@ -27,7 +32,11 @@ function buildModule(filePath: string) {
   return _module.exports;
 }
 
-async function generateInSandbox(certificate, translations, extraTranslations) {
+async function generateContentInSandbox(
+  certificate: object,
+  translations: Translations,
+  extraTranslations: ExtraTranslations,
+) {
   const { generateContent } = buildModule(path.resolve('./dist/generateContent.cjs'));
 
   const code = `(async function () {
@@ -48,11 +57,7 @@ async function generateInSandbox(certificate, translations, extraTranslations) {
   return content;
 }
 
-async function generateExample(certificate, translations, extraTranslations) {
-  const printer = new PdfPrinter(fonts);
-
-  const content = (await generateInSandbox(certificate, translations, extraTranslations)) as Content;
-
+async function print(content: Content) {
   const docDefinition: TDocumentDefinitions = {
     pageSize: 'A4',
     pageMargins: [20, 20, 20, 40],
@@ -74,11 +79,46 @@ async function generateExample(certificate, translations, extraTranslations) {
     //   return mainSections.includes(currentNode.id);
     // },
   };
-  const pdfDoc = printer.createPdfKitDocument(docDefinition);
-  pdfDoc.pipe(fs.createWriteStream('utils/generating.pdf'));
+  const printer = new PdfPrinter(fonts);
+  return printer.createPdfKitDocument(docDefinition);
+}
+
+async function store(pdfDoc: PDFKit.PDFDocument) {
+  const writable = fs.createWriteStream('utils/generating.pdf');
+  pdfDoc.pipe(writable);
   pdfDoc.end();
+  await finished(writable);
+}
+
+async function generateExample(certificate: object, translations: Translations, extraTranslations: ExtraTranslations) {
+  performance.mark('generateExampleStart');
+
+  const content = (await performance.timerify(generateContentInSandbox)(
+    certificate,
+    translations,
+    extraTranslations,
+  )) as Content;
+  console.log('generateContentInSandbox', process.memoryUsage());
+
+  const pdfDoc = await performance.timerify(print)(content);
+  console.log('print', process.memoryUsage());
+
+  await performance.timerify(store)(pdfDoc);
+  console.log('store', process.memoryUsage());
+
+  performance.mark('generateExampleEnd');
+  performance.measure('total', 'generateExampleStart', 'generateExampleEnd');
 }
 
 (async function () {
+  const obs = new PerformanceObserver((items) => {
+    for (const item of items.getEntries()) {
+      console.log(item.name, { duration: item.duration, startTime: item.startTime });
+    }
+  });
+  obs.observe({ entryTypes: ['measure', 'function'] });
+
+  console.log('before', process.memoryUsage());
   await generateExample(certificate, translations, extraTranslations);
+  console.log('after', process.memoryUsage());
 })();
