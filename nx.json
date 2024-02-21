@@ -26,7 +26,8 @@
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
-      "cache": true
+      "cache": true,
+      "inputs": ["production", "^production"]
     },
     "clean": {
       "cache": true
@@ -63,5 +64,10 @@
     "@nx/js": {
       "analyzeSourceFiles": true
     }
+  },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "sharedGlobals": [],
+    "production": ["default"]
   }
 }
