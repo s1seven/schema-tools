@@ -37,8 +37,9 @@ async function generateContentInSandbox(
   translations: Translations,
   extraTranslations: ExtraTranslations,
 ) {
-  const { generateContent } = buildModule(path.resolve('./dist/generateContent.cjs'));
-
+  const { generateContent } = buildModule(
+    path.resolve(`${__dirname}/../../../dist/packages/generate-coa-pdf-template/generateContent.cjs`),
+  );
   const code = `(async function () {
     content = await generateContent(certificate, translations, extraTranslations);
   }())`;

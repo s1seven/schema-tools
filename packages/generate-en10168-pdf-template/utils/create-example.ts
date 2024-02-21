@@ -32,7 +32,9 @@ function buildModule(filePath: string) {
 }
 
 async function generateContentInSandbox(certificate: object, translations: Translations) {
-  const { generateContent } = buildModule(path.resolve('./dist/generateContent.cjs'));
+  const { generateContent } = buildModule(
+    path.resolve(`${__dirname}/../../../dist/packages/generate-en10168-pdf-template/generateContent.cjs`),
+  );
 
   const code = `(async function () {
     content = await generateContent(certificate, translations);
@@ -76,6 +78,7 @@ async function print(content: Content) {
 
 async function store(pdfDoc: PDFKit.PDFDocument) {
   const writable = fs.createWriteStream('utils/generating.pdf');
+
   pdfDoc.pipe(writable);
   pdfDoc.end();
   await finished(writable);

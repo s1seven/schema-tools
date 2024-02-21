@@ -16,7 +16,7 @@
   "publicConfig": {
     "access": "public"
   },
-  "main": "dist/generateContent.cjs",
+  "main": "./generateContent.cjs",
   "dependencies": {
     "@s1seven/schema-tools-generate-pdf-template-helpers": "0.4.12",
     "@s1seven/schema-tools-types": "0.5.6",

@@ -28,7 +28,7 @@ type PDFGenerationTestProperties = {
 /*
   When adding a new fixture version, add a new test suite to the testMap below.
   For unreleased versions, add the isUnreleasedVersion flag. This will ensure that only local files are used for the tests.
-  Be sure to update isLatestVersion to the new version, isLatestVersion is used to run the 
+  Be sure to update isLatestVersion to the new version, isLatestVersion is used to run the
   latest version with the current local generatePdf script. isLatestVersion is unrelated to the isUnreleasedVersion flag.
   To add more than one fixture per version, use the following naming format:
   valid_cert_<number>.json
@@ -135,7 +135,9 @@ const generatePaths = (
   const coaCertsWithoutExtraTranslations = ['v0.0.4', 'v0.1.0'];
   let generatorPath: string;
   if (isLatestVersion) {
-    generatorPath = resolve(`${__dirname}/../../generate-${type.toLowerCase()}-pdf-template/dist/generateContent.cjs`);
+    generatorPath = resolve(
+      `${__dirname}/../../../dist/packages/generate-${type.toLowerCase()}-pdf-template/generateContent.cjs`,
+    );
   }
   let extraTranslationsPath: string;
 
@@ -280,13 +282,17 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
 
 describe('GeneratePDF', function () {
   it('should build module using local PDF generator script', async () => {
-    const generatorPath = resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.cjs`);
+    const generatorPath = resolve(
+      `${__dirname}/../../../dist/packages/generate-en10168-pdf-template/generateContent.cjs`,
+    );
     const module = await buildModule(generatorPath);
     expect(module).toHaveProperty('generateContent');
   }, 3000);
 
   it('should execute in a sandbox the PDF generator script and return pdfmake content', async () => {
-    const generatorPath = resolve(`${__dirname}/../../generate-en10168-pdf-template/dist/generateContent.cjs`);
+    const generatorPath = resolve(
+      `${__dirname}/../../../dist/packages/generate-en10168-pdf-template/generateContent.cjs`,
+    );
     const certificatePath = resolve(`${__dirname}/../../../fixtures/EN10168/v0.1.0/valid_cert.json`);
     const certificate = JSON.parse(readFileSync(certificatePath, 'utf-8'));
     //
