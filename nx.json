@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDependencies": {
     "version": [
       {
@@ -53,6 +54,14 @@
           "codeCoverage": true
         }
       }
+    },
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
+      "options": {
+        "packageRoot": "dist/packages/{projectName}",
+        "registry": "https://registry.npmjs.org/"
+      },
+      "dependsOn": ["build"]
     }
   },
   "affected": {

@@ -4,14 +4,6 @@
   "sourceRoot": "packages/types/src",
   "projectType": "library",
   "targets": {
-    "nx-release-publish": {
-      "executor": "@nx/js:release-publish",
-      "options": {
-        "packageRoot": "dist/packages/{projectName}",
-        "registry": "https://registry.npmjs.org/"
-      },
-      "dependsOn": ["build"]
-    },
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
@@ -40,31 +32,6 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["packages/types/**/*.ts", "packages/types/package.json"]
-      }
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "preset": "conventional",
-        "skipCommitTypes": ["docs", "ci"],
-        "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]",
-        "tagPrefix": "@s1seven/schema-tools-{projectName}@",
-        "trackDeps": true,
-        "push": true,
-        "postTargets": ["types:release", "types:publish"]
-      }
-    },
-    "release": {
-      "executor": "@jscutlery/semver:github",
-      "options": {
-        "tag": "${tag}",
-        "notes": "${notes}"
-      }
-    },
-    "publish": {
-      "executor": "ngx-deploy-npm:deploy",
-      "options": {
-        "access": "public"
       }
     }
   },
