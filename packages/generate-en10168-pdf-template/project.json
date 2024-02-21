@@ -10,7 +10,7 @@
       "dependsOn": ["create-interfaces"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "packages/generate-en10168-pdf-template/dist",
+        "outputPath": "dist/packages/generate-en10168-pdf-template",
         "main": "packages/generate-en10168-pdf-template/src/generateContent.ts",
         "outputFileName": "generateContent",
         "tsConfig": "packages/generate-en10168-pdf-template/tsconfig.lib.json",

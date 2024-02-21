@@ -10,7 +10,7 @@
       "dependsOn": ["create-interfaces"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "packages/generate-coa-pdf-template/dist",
+        "outputPath": "dist/packages/generate-coa-pdf-template",
         "outputFileName": "generateContent",
         "main": "packages/generate-coa-pdf-template/src/generateContent.ts",
         "tsConfig": "packages/generate-coa-pdf-template/tsconfig.lib.json",
