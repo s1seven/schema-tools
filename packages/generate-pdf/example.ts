@@ -1,44 +1,63 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { createWriteStream, readFileSync } from 'fs';
+import { createWriteStream, readFileSync } from 'node:fs';
+import { performance, PerformanceObserver } from 'node:perf_hooks';
+import { finished } from 'node:stream/promises';
 
 import { generatePdf, TDocumentDefinitions } from './src/index';
+
 const styles = require(`${__dirname}/../generate-en10168-pdf-template/utils/styles.js`);
 
 const en10168Certificate = JSON.parse(
   readFileSync(`${__dirname}/../../fixtures/EN10168/v0.4.1/valid_cert.json`, 'utf-8'),
 );
 const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/EN10168/v0.4.1/translations.json`, 'utf-8'));
-const generatorPath = '../generate-en10168-pdf-template/dist/generateContent.cjs';
+
+const generatorPath = `${__dirname}/../../dist/packages/generate-en10168-pdf-template/generateContent.cjs`;
+
+async function store(pdfDoc: PDFKit.PDFDocument) {
+  const outputFilePath = './en10168-test.pdf';
+  const writeStream = createWriteStream(outputFilePath);
+  pdfDoc.pipe(writeStream);
+  pdfDoc.end();
+  await finished(writeStream);
+}
 
 (async function () {
+  const obs = new PerformanceObserver((items) => {
+    for (const item of items.getEntries()) {
+      console.log(item.name, { duration: item.duration, startTime: item.startTime });
+    }
+  });
+  obs.observe({ entryTypes: ['function'] });
+
+  const fonts = {
+    Lato: {
+      normal: `${__dirname}/../../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
+      bold: `${__dirname}/../../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
+      italics: `${__dirname}/../../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
+      light: `${__dirname}/../../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+    },
+  };
+
+  // en10168Certificate.RefSchemaUrl = 'https://schemas.s1seven.com/en10168-schemas/v0.0.3-2/schema.json';
+  const docDefinition: Partial<TDocumentDefinitions> = {
+    pageSize: 'A4',
+    pageMargins: [20, 20, 20, 40],
+    footer: (currentPage, pageCount) => ({
+      text: currentPage.toString() + ' / ' + pageCount,
+      style: 'footer',
+      alignment: 'center',
+    }),
+    defaultStyle: {
+      font: 'Lato',
+      fontSize: 10,
+    },
+    styles,
+  };
+
   try {
-    const fonts = {
-      Lato: {
-        normal: `${__dirname}/../../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
-        bold: `${__dirname}/../../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
-        italics: `${__dirname}/../../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
-        light: `${__dirname}/../../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
-      },
-    };
-
-    // en10168Certificate.RefSchemaUrl = 'https://schemas.s1seven.com/en10168-schemas/v0.0.3-2/schema.json';
-    const docDefinition: Partial<TDocumentDefinitions> = {
-      pageSize: 'A4',
-      pageMargins: [20, 20, 20, 40],
-      footer: (currentPage, pageCount) => ({
-        text: currentPage.toString() + ' / ' + pageCount,
-        style: 'footer',
-        alignment: 'center',
-      }),
-      defaultStyle: {
-        font: 'Lato',
-        fontSize: 10,
-      },
-      styles,
-    };
-
-    const pdfDoc = await generatePdf(en10168Certificate, {
+    const pdfDoc = await performance.timerify(generatePdf)(en10168Certificate, {
       docDefinition,
       outputType: 'stream',
       fonts,
@@ -46,20 +65,7 @@ const generatorPath = '../generate-en10168-pdf-template/dist/generateContent.cjs
       translations,
     });
 
-    const outputFilePath = './en10168-test.pdf';
-    const writeStream = createWriteStream(outputFilePath);
-    pdfDoc.pipe(writeStream);
-    pdfDoc.end();
-
-    await new Promise((resolve, reject) => {
-      writeStream
-        .on('finish', () => {
-          resolve(true);
-        })
-        .on('error', (err) => {
-          reject(err);
-        });
-    });
+    await performance.timerify(store)(pdfDoc);
   } catch (error) {
     console.error(error.message);
   }
