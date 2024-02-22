@@ -49,7 +49,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-en10168-pdf-template",
-        "command": "npx ts-node -r tsconfig-paths/register ./utils/create-example.ts"
+        "command": "node -r ts-node/register -r tsconfig-paths/register ./utils/create-example.ts"
       }
     },
     "create-interfaces": {
