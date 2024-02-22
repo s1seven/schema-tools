@@ -91,6 +91,11 @@ async function store(pdfDoc: PDFKit.PDFDocument) {
   await finished(writable);
 }
 
+function getHeapUsage() {
+  const usage = process.memoryUsage();
+  return Math.round((usage.heapUsed / 1024 / 1024) * 100) / 100;
+}
+
 async function generateExample(certificate: object, translations: Translations, extraTranslations: ExtraTranslations) {
   performance.mark('generateExampleStart');
 
@@ -99,13 +104,13 @@ async function generateExample(certificate: object, translations: Translations, 
     translations,
     extraTranslations,
   )) as Content;
-  console.log('generateContentInSandbox', process.memoryUsage());
+  console.log('generateContentInSandbox', { heapUsed: getHeapUsage() });
 
   const pdfDoc = await performance.timerify(print)(content);
-  console.log('print', process.memoryUsage());
+  console.log('print', { heapUsed: getHeapUsage() });
 
   await performance.timerify(store)(pdfDoc);
-  console.log('store', process.memoryUsage());
+  console.log('store', { heapUsed: getHeapUsage() });
 
   performance.mark('generateExampleEnd');
   performance.measure('total', 'generateExampleStart', 'generateExampleEnd');
@@ -119,7 +124,9 @@ async function generateExample(certificate: object, translations: Translations, 
   });
   obs.observe({ entryTypes: ['measure', 'function'] });
 
-  console.log('before', process.memoryUsage());
+  console.log('before', { heapUsed: getHeapUsage() });
+  console.profile('generate-en10168-example-pdf');
   await generateExample(certificate, translations, extraTranslations);
-  console.log('after', process.memoryUsage());
+  console.log('after', { heapUsed: getHeapUsage() });
+  console.profile('generate-en10168-example-pdf');
 })();
