@@ -1,25 +1,26 @@
 /* eslint-disable no-console */
 import fs from 'fs';
-import { createWriteStream } from 'fs';
+import { writeFile } from 'fs/promises';
 import path from 'path';
+import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs/yargs';
 
-import { generatePdf, TDocumentDefinitions } from '../packages/generate-pdf/src';
+import { generatePdf } from '../packages/generate-pdf/src';
 import { fileExists, normalizePath } from './helpers';
 
 const fonts = {
-  Lato: {
-    normal: './node_modules/lato-font/fonts/lato-normal/lato-normal.woff',
-    bold: './node_modules/lato-font/fonts/lato-bold/lato-bold.woff',
-    italics: './node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff',
-    light: './node_modules/lato-font/fonts/lato-light/lato-light.woff',
+  NotoSans: {
+    normal: `${__dirname}/../../fixtures/fonts/NotoSans-Regular.ttf`,
+    bold: `${__dirname}/../../fixtures/fonts/NotoSans-Bold.ttf`,
+    light: `${__dirname}/../../fixtures/fonts/NotoSans-Light.ttf`,
+    italics: `${__dirname}/../../fixtures/fonts/NotoSans-Italic.ttf`,
   },
   NotoSansSC: {
-    normal: `${__dirname}/../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
-    bold: `${__dirname}/../fixtures/fonts/noto-sans-sc-chinese-simplified-700-normal.woff2`,
-    italics: `${__dirname}/../fixtures/fonts/noto-sans-sc-chinese-simplified-100-normal.woff2`,
-    light: `${__dirname}/../fixtures/fonts/noto-sans-sc-chinese-simplified-100-normal.woff2`,
+    normal: `${__dirname}/../../fixtures/fonts/NotoSansSC-Regular.ttf`,
+    bold: `${__dirname}/../../fixtures/fonts/NotoSansSC-Bold.ttf`,
+    light: `${__dirname}/../../fixtures/fonts/NotoSansSC-Light.ttf`,
+    italics: `${__dirname}/../../fixtures/fonts/NotoSansSC-Regular.ttf`, // SC doesn't have italic
   },
 };
 
@@ -45,7 +46,7 @@ async function createPdf(options: {
       alignment: 'center',
     }),
     defaultStyle: {
-      font: 'Lato',
+      font: 'NotoSans',
       fontSize: 10,
     },
     styles: JSON.parse(fs.readFileSync(stylesPath, 'utf8')),
@@ -56,7 +57,6 @@ async function createPdf(options: {
 
   const pdfDoc = await generatePdf(path.resolve(certificatePath), {
     docDefinition,
-    outputType: 'stream',
     fonts,
     translations: JSON.parse(translations),
     extraTranslations,
@@ -64,19 +64,7 @@ async function createPdf(options: {
     languageFontMap,
   });
 
-  const writeStream = createWriteStream(outputPath);
-  pdfDoc.pipe(writeStream);
-  pdfDoc.end();
-
-  await new Promise((resolve, reject) => {
-    writeStream
-      .on('finish', () => {
-        resolve(true);
-      })
-      .on('error', (err) => {
-        reject(err);
-      });
-  });
+  await writeFile(outputPath, pdfDoc);
 }
 
 const getCliArgs = () =>
