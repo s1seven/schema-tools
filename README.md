@@ -144,13 +144,13 @@ npm run fixtures:interfaces -- -s ../CoA-schemas/schema.json -o packages/generat
 To generate `template_hbs.html` (HTML certificate generated from Handlebars template), from the root directory, run the following command, updating the version number and schema name :
 
 ```sh
-npm run fixtures:html -- -c fixtures/CoA/v1.0.0/valid_cert.json -o fixtures/CoA/v1.0.0/template_hbs.html -t fixtures/CoA/v1.0.0/translations.json -T ../CoA-schemas/template.hbs -e fixtures/CoA/v1.0.0/extra_translations.json -p ../CoA-schemas/partials-map.json
+npm run fixtures:html -- -c fixtures/CoA/v1.0.0/valid_cert.json -o fixtures/CoA/v1.0.0/valid_cert.html -t fixtures/CoA/v1.0.0/translations.json -T ../CoA-schemas/template.hbs -e fixtures/CoA/v1.0.0/extra_translations.json -p ../CoA-schemas/partials-map.json
 ```
 
 For EN10168
 
 ```sh
-npm run fixtures:html -- -c fixtures/EN10168/v0.4.1/valid_cert.json -o fixtures/EN10168/v0.4.1/template_hbs.html -t fixtures/EN10168/v0.4.1/translations.json -T ../EN10168-schemas/template.hbs -p ../EN10168-schemas/partials-map.json
+npm run fixtures:html -- -c fixtures/EN10168/v0.4.1/valid_cert.json -o fixtures/EN10168/v0.4.1/valid_cert.html -t fixtures/EN10168/v0.4.1/translations.json -T ../EN10168-schemas/template.hbs -p ../EN10168-schemas/partials-map.json
 ```
 
 If external translations are not needed, remove the `-e` command from the above command.
