@@ -24,15 +24,14 @@ Note that you must always pass in the filepath to the font files as seen below.
 
 ```ts
 const fonts = {
-  Lato: {
-    normal: './node_modules/lato-font/fonts/lato-normal/lato-normal.woff',
-    bold: './node_modules/lato-font/fonts/lato-bold/lato-bold.woff',
-    italics: './node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff',
-    light: './node_modules/lato-font/fonts/lato-light/lato-light.woff',
+  NotoSans: {
+    normal: `${__dirname}/../../fixtures/fonts/NotoSans-Regular.ttf`,
+    bold: `${__dirname}/../../fixtures/fonts/NotoSans-Bold.ttf`,
+    light: `${__dirname}/../../fixtures/fonts/NotoSans-Light.ttf`,
+    italics: `${__dirname}/../../fixtures/fonts/NotoSans-Italic.ttf`,
   },
 };
 const generatePdfOptions = {
-  outputType: 'stream',
   fonts,
 };
 const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
@@ -41,7 +40,7 @@ const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
 ### Use local options
 
 ```ts
-const { createWriteStream, readFileSync } = require('fs');
+const { readFileSync } = require('fs');
 const { generatePdf } = require('@s1seven/schema-tools-generate-pdf');
 const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.js`);
 
@@ -53,11 +52,11 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
 (async function () {
   try {
     const fonts = {
-      Lato: {
-        normal: `${__dirname}/node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
-        bold: `${__dirname}/node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
-        italics: `${__dirname}/node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
-        light: `${__dirname}/node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+      NotoSans: {
+        normal: `${__dirname}/../../fixtures/fonts/NotoSans-Regular.ttf`,
+        bold: `${__dirname}/../../fixtures/fonts/NotoSans-Bold.ttf`,
+        light: `${__dirname}/../../fixtures/fonts/NotoSans-Light.ttf`,
+        italics: `${__dirname}/../../fixtures/fonts/NotoSans-Italic.ttf`,
       },
     };
 
@@ -71,7 +70,7 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
       }),
       // The value of `defaultStyle.font` must be the same as one of the keys from `fonts`,
       defaultStyle: {
-        font: 'Lato',
+        font: 'NotoSans',
         fontSize: 10,
       },
       styles,
@@ -79,7 +78,6 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
 
     const pdfDoc = await generatePdf(CoACertificate, {
       docDefinition,
-      outputType: 'stream',
       generatorPath,
       fonts,
       extraTranslations,
@@ -87,19 +85,7 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
     });
 
     const outputFilePath = './test.pdf';
-    const writeStream = createWriteStream(outputFilePath);
-    pdfDoc.pipe(writeStream);
-    pdfDoc.end();
-
-    await new Promise((resolve, reject) => {
-      writeStream
-        .on('finish', () => {
-          resolve(true);
-        })
-        .on('error', (err) => {
-          reject(err);
-        });
-    });
+    await writeFile(outputFilePath, pdfDoc);
   } catch (error) {
     console.error(error.message);
   }
@@ -108,10 +94,10 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
 
 ### Overriding fonts
 
-The font defaults to Lato, but this can be overridden by passing in a `languageFontMap` object to the options.
+The font defaults to NotoSans, but this can be overridden by passing in a `languageFontMap` object to the options.
 
 ```ts
-const { createWriteStream, readFileSync } = require('fs');
+const { readFileSync } = require('fs');
 const { generatePdf } = require('./dist/index');
 const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.js`);
 
@@ -123,17 +109,17 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
 (async function () {
   try {
     const fonts = {
-      Lato: {
-        normal: `${__dirname}/node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
-        bold: `${__dirname}/node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
-        italics: `${__dirname}/node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
-        light: `${__dirname}/node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+      NotoSans: {
+        normal: `${__dirname}/../../fixtures/fonts/NotoSans-Regular.ttf`,
+        bold: `${__dirname}/../../fixtures/fonts/NotoSans-Bold.ttf`,
+        light: `${__dirname}/../../fixtures/fonts/NotoSans-Light.ttf`,
+        italics: `${__dirname}/../../fixtures/fonts/NotoSans-Italic.ttf`,
       },
       NotoSansSC: {
-        normal: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
-        bold: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-700-normal.woff2`,
-        italics: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
-        light: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-100-normal.woff2`,
+        normal: `${__dirname}/../../fixtures/fonts/NotoSansSC-Regular.ttf`,
+        bold: `${__dirname}/../../fixtures/fonts/NotoSansSC-Bold.ttf`,
+        light: `${__dirname}/../../fixtures/fonts/NotoSansSC-Light.ttf`,
+        italics: `${__dirname}/../../fixtures/fonts/NotoSansSC-Regular.ttf`, // SC doesn't have italic
       },
     };
 
@@ -153,7 +139,7 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
       }),
       // The value of `defaultStyle.font` must be the same as one of the keys from `fonts`,
       defaultStyle: {
-        font: 'Lato',
+        font: 'NotoSans',
         fontSize: 10,
       },
       styles,
@@ -161,7 +147,6 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
 
     const pdfDoc = await generatePdf(CoACertificate, {
       docDefinition,
-      outputType: 'stream',
       generatorPath,
       fonts,
       extraTranslations,
@@ -170,19 +155,7 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
     });
 
     const outputFilePath = './test.pdf';
-    const writeStream = createWriteStream(outputFilePath);
-    pdfDoc.pipe(writeStream);
-    pdfDoc.end();
-
-    await new Promise((resolve, reject) => {
-      writeStream
-        .on('finish', () => {
-          resolve(true);
-        })
-        .on('error', (err) => {
-          reject(err);
-        });
-    });
+    await writeFile(outputFilePath, pdfDoc);
   } catch (error) {
     console.error(error.message);
   }
