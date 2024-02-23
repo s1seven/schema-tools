@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+import { writeFile } from 'fs/promises';
 import { createHash } from 'node:crypto';
-import { createWriteStream, existsSync, readdirSync, readFileSync, unlinkSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { join, parse, resolve } from 'node:path';
-import { Writable } from 'node:stream';
 import { fromBuffer } from 'pdf2pic';
 import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
 
 import { SchemaDirUnion, SupportedSchemas, SupportedSchemasDirMap } from '@s1seven/schema-tools-types';
 import { EN10168Schema, Schemas } from '@s1seven/schema-tools-types';
 
-import { type GeneratePdfOptionsExtended, buildModule, generateInSandbox, generatePdf } from '../src';
-import { attachFileToPdf } from '../src/attach-file-to-pdf';
+import { generateInSandbox, generatePdf, GeneratePdfOptions } from '../src';
+import { buildModule } from '../src/build-module';
+import { attachFileToPdf } from '../src/pdf-a-3a/attach-file-to-pdf';
 
-jest.mock('../src/attach-file-to-pdf');
+jest.mock('../src/pdf-a-3a/attach-file-to-pdf');
 (attachFileToPdf as jest.Mock).mockImplementation((buf) => Promise.resolve(buf));
 
 type PDFGenerationTestProperties = {
@@ -93,17 +94,17 @@ const certificateTestMap: CertificateTestMap[] = [
 ];
 
 const fonts = {
-  Lato: {
-    normal: `${__dirname}/../../../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
-    bold: `${__dirname}/../../../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
-    italics: `${__dirname}/../../../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
-    light: `${__dirname}/../../../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+  NotoSans: {
+    normal: `${__dirname}/../../../fixtures/fonts/NotoSans-Regular.ttf`,
+    bold: `${__dirname}/../../../fixtures/fonts/NotoSans-Bold.ttf`,
+    light: `${__dirname}/../../../fixtures/fonts/NotoSans-Light.ttf`,
+    italics: `${__dirname}/../../../fixtures/fonts/NotoSans-Italic.ttf`,
   },
   NotoSansSC: {
-    normal: `${__dirname}/../../../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
-    bold: `${__dirname}/../../../fixtures/fonts/noto-sans-sc-chinese-simplified-700-normal.woff2`,
-    italics: `${__dirname}/../../../fixtures/fonts/noto-sans-sc-chinese-simplified-100-normal.woff2`,
-    light: `${__dirname}/../../../fixtures/fonts/noto-sans-sc-chinese-simplified-100-normal.woff2`,
+    normal: `${__dirname}/../../../fixtures/fonts/NotoSansSC-Regular.ttf`,
+    bold: `${__dirname}/../../../fixtures/fonts/NotoSansSC-Bold.ttf`,
+    light: `${__dirname}/../../../fixtures/fonts/NotoSansSC-Light.ttf`,
+    italics: `${__dirname}/../../../fixtures/fonts/NotoSansSC-Regular.ttf`, // SC doesn't have italic
   },
 };
 
@@ -120,7 +121,7 @@ const docDefinition: Omit<TDocumentDefinitions, 'content'> = {
     alignment: 'center',
   }),
   defaultStyle: {
-    font: 'Lato',
+    font: 'NotoSans',
     fontSize: 10,
   },
 };
@@ -156,18 +157,6 @@ const generatePaths = (
   };
 };
 
-const waitWritableStreamEnd = (writeStream: Writable, outputFilePath: string) => {
-  return new Promise((resolve, reject) => {
-    writeStream
-      .on('finish', () => {
-        expect(existsSync(outputFilePath)).toEqual(true);
-        unlinkSync(outputFilePath);
-        resolve(true);
-      })
-      .on('error', reject);
-  });
-};
-
 const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
   const {
     name,
@@ -192,29 +181,26 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
       const outputFilePath = `./${type}-${version}-test2.pdf`;
       const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
       const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
-      const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = isUnreleasedVersion
+      const generatePdfOptions: GeneratePdfOptions = isUnreleasedVersion
         ? {
             docDefinition: { ...docDefinition, styles },
-            outputType: 'stream',
             fonts,
             generatorPath,
             translations,
             extraTranslations,
             languageFontMap,
+            a3Compliant: true,
           }
         : {
             docDefinition,
-            outputType: 'stream',
             fonts,
             generatorPath,
             languageFontMap,
+            a3Compliant: true,
           };
 
       const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
-      const writeStream = createWriteStream(outputFilePath);
-      pdfDoc.pipe(writeStream);
-      pdfDoc.end();
-      await waitWritableStreamEnd(writeStream, outputFilePath);
+      await writeFile(outputFilePath, pdfDoc);
     }, 10000);
 
     it('should render PDF certificate using certificate object, local PDF generator script, styles and translations', async () => {
@@ -232,7 +218,6 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
       //
       const pdfDoc = await generatePdf(validCertificate, {
         docDefinition: { ...docDefinition, styles },
-        outputType: 'buffer',
         fonts,
         generatorPath,
         translations,
@@ -257,7 +242,6 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
       (attachFileToPdf as jest.Mock).mockClear();
       await generatePdf(validCertificate, {
         docDefinition: { ...docDefinition, styles },
-        outputType: 'buffer',
         translations,
         attachCertificate: true,
       });
@@ -269,23 +253,10 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
       (attachFileToPdf as jest.Mock).mockClear();
       await generatePdf(validCertificate, {
         docDefinition: { ...docDefinition, styles },
-        outputType: 'buffer',
         translations,
         attachCertificate: false,
       });
       expect(attachFileToPdf).not.toHaveBeenCalled();
-    }, 10000);
-
-    it('should throw an error if `attachCertificate` is true and `outputType` is `stream`', async () => {
-      const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
-      await expect(
-        generatePdf(validCertificate, {
-          docDefinition: { ...docDefinition, styles },
-          outputType: 'stream',
-          translations,
-          attachCertificate: true,
-        } as any),
-      ).rejects.toThrow('Cannot attach certificate to a stream output type. Please use buffer output type.');
     }, 10000);
 
     it('should render PDF certificate using certificate object and remote PDF generator script', async () => {
@@ -293,10 +264,9 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
       const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
       const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
 
-      const generatePdfOptions: GeneratePdfOptionsExtended<'stream'> = isUnreleasedVersion
+      const generatePdfOptions: GeneratePdfOptions = isUnreleasedVersion
         ? {
             docDefinition: { ...docDefinition, styles },
-            outputType: 'stream',
             fonts,
             generatorPath,
             translations,
@@ -304,16 +274,11 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
             languageFontMap,
           }
         : {
-            outputType: 'stream',
             fonts,
             languageFontMap,
           };
-      //
       const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
-      const writeStream = createWriteStream(outputFilePath);
-      pdfDoc.pipe(writeStream);
-      pdfDoc.end();
-      await waitWritableStreamEnd(writeStream, outputFilePath);
+      await writeFile(outputFilePath, pdfDoc);
     }, 15000);
   });
 };
