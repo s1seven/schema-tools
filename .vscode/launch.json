@@ -9,13 +9,7 @@
       "request": "launch",
       "type": "node",
       "runtimeExecutable": "node",
-      "runtimeArgs": [
-        "-r",
-        "ts-node/register",
-        "-r",
-        "tsconfig-paths/register",
-        "./utils/create-example.ts"
-      ],
+      "runtimeArgs": ["-r", "ts-node/register", "-r", "tsconfig-paths/register", "./utils/create-example.ts"],
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}/packages/generate-coa-pdf-template"
     },
@@ -24,13 +18,7 @@
       "request": "launch",
       "type": "node",
       "runtimeExecutable": "node",
-      "runtimeArgs": [
-        "-r",
-        "ts-node/register",
-        "-r",
-        "tsconfig-paths/register",
-        "./utils/create-example.ts"
-      ],
+      "runtimeArgs": ["-r", "ts-node/register", "-r", "tsconfig-paths/register", "./utils/create-example.ts"],
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}/packages/generate-en10168-pdf-template"
     }
