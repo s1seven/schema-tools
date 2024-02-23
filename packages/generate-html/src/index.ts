@@ -254,11 +254,10 @@ export async function generateHtml(
   const type = getCertificateType(options.schemaConfig);
   const certificateLanguages = getCertificateLanguages(certificate) || [CertificateLanguages.EN];
 
-  const externalStandards: ExternalStandards[] = schemaToExternalStandardsMap[type]
-    ? schemaToExternalStandardsMap[type]
-        .map((schemaType) => get(certificate, schemaType, undefined))
-        .filter((externalStandards) => externalStandards) || []
-    : [];
+  const externalStandards: ExternalStandards[] =
+    schemaToExternalStandardsMap[type]
+      ?.map((schemaType: keyof Schemas) => get(certificate, schemaType, undefined))
+      .filter(Boolean) ?? [];
 
   const translations = certificateLanguages?.length
     ? options.translations || (await getTranslations(certificateLanguages, options.schemaConfig))
