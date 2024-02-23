@@ -17,10 +17,10 @@ import styles from './styles';
 
 const fonts = {
   Lato: {
-    normal: `${__dirname}/../../../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
-    bold: `${__dirname}/../../../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
-    italics: `${__dirname}/../../../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
-    light: `${__dirname}/../../../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+    normal: `${__dirname}/../../../node_modules/@fontsource/lato/files/lato-latin-400-normal.woff`,
+    bold: `${__dirname}/../../../node_modules/@fontsource/lato/files/lato-latin-900-normal.woff`,
+    italics: `${__dirname}/../../../node_modules/@fontsource/lato/files/lato-latin-400-italic.woff`,
+    light: `${__dirname}/../../../node_modules/@fontsource/lato/files/lato-latin-100-normal.woff`,
   },
 };
 
@@ -80,6 +80,7 @@ async function print(content: Content) {
     //   return mainSections.includes(currentNode.id);
     // },
   };
+
   const printer = new PdfPrinter(fonts);
   return printer.createPdfKitDocument(docDefinition);
 }
