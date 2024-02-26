@@ -20,7 +20,7 @@
         "tsConfig": "packages/generate-pdf/tsconfig.lib.json",
         "packageJson": "packages/generate-pdf/package.json",
         "main": "packages/generate-pdf/src/index.ts",
-        "assets": ["packages/generate-pdf/*.md"]
+        "assets": ["packages/generate-pdf/**/*.md", "fixtures/fonts/*.ttf", "fixtures/color-profiles/sRGB2014.icc"]
       }
     },
     "lint": {
