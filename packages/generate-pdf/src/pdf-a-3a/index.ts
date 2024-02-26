@@ -6,7 +6,7 @@ import { addXMPMetadata } from './xmp-metadata';
 
 export const AUTHOR = 'S1SEVEN';
 export const PRODUCER = 'S1SEVEN Schema Tools';
-export const COLOR_PROFILE_FILE = `${__dirname}/../../../../fixtures/color-profiles/sRGB2014.icc`;
+export const COLOR_PROFILE_FILE = `${__dirname}/../../assets/color-profiles/sRGB2014.icc`;
 export const DEFAULT_TITLE = 'Certificate';
 
 export const makeA3Compliant = async (pdfDoc: PDFDocument, title = DEFAULT_TITLE): Promise<void> => {

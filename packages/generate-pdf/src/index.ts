@@ -50,9 +50,9 @@ const baseDocDefinition = (content: TDocumentDefinitions['content']): TDocumentD
 
 const defaultFonts: TFontDictionary = {
   NotoSans: {
-    normal: `${__dirname}/../../../fixtures/fonts/NotoSans-Regular.ttf`,
-    bold: `${__dirname}/../../../fixtures/fonts/NotoSans-Bold.ttf`,
-    italics: `${__dirname}/../../../fixtures/fonts/NotoSans-Italic.ttf`,
+    normal: `${__dirname}/../assets/fonts/NotoSans-Regular.ttf`,
+    bold: `${__dirname}/../assets/fonts/NotoSans-Bold.ttf`,
+    italics: `${__dirname}/../assets/fonts/NotoSans-Italic.ttf`,
   },
 };
 
