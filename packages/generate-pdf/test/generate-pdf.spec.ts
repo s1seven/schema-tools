@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { writeFile } from 'fs/promises';
 import { createHash } from 'node:crypto';
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, unlinkSync } from 'node:fs';
 import { join, parse, resolve } from 'node:path';
 import { fromBuffer } from 'pdf2pic';
 import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
@@ -28,6 +28,12 @@ type PDFGenerationTestProperties = {
   docDefinition: Partial<TDocumentDefinitions>;
   generatorPath?: string;
   isUnreleasedVersion?: boolean;
+};
+
+const writeFileAndTest = async (path: string, buffer: Buffer) => {
+  await writeFile(path, buffer);
+  expect(existsSync(path)).toEqual(true);
+  unlinkSync(path);
 };
 
 /*
@@ -200,7 +206,7 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
           };
 
       const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
-      await writeFile(outputFilePath, pdfDoc);
+      await writeFileAndTest(outputFilePath, pdfDoc);
     }, 10000);
 
     it('should render PDF certificate using certificate object, local PDF generator script, styles and translations', async () => {
@@ -278,7 +284,7 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
             languageFontMap,
           };
       const pdfDoc = await generatePdf(validCertificate, generatePdfOptions);
-      await writeFile(outputFilePath, pdfDoc);
+      await writeFileAndTest(outputFilePath, pdfDoc);
     }, 15000);
   });
 };
