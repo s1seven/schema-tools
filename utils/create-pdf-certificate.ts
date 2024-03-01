@@ -11,16 +11,16 @@ import { fileExists, normalizePath } from './helpers';
 
 const fonts = {
   NotoSans: {
-    normal: `${__dirname}/../../fixtures/fonts/NotoSans-Regular.ttf`,
-    bold: `${__dirname}/../../fixtures/fonts/NotoSans-Bold.ttf`,
-    light: `${__dirname}/../../fixtures/fonts/NotoSans-Light.ttf`,
-    italics: `${__dirname}/../../fixtures/fonts/NotoSans-Italic.ttf`,
+    normal: `${__dirname}/../fixtures/fonts/NotoSans-Regular.ttf`,
+    bold: `${__dirname}/../fixtures/fonts/NotoSans-Bold.ttf`,
+    light: `${__dirname}/../fixtures/fonts/NotoSans-Light.ttf`,
+    italics: `${__dirname}/../fixtures/fonts/NotoSans-Italic.ttf`,
   },
   NotoSansSC: {
-    normal: `${__dirname}/../../fixtures/fonts/NotoSansSC-Regular.ttf`,
-    bold: `${__dirname}/../../fixtures/fonts/NotoSansSC-Bold.ttf`,
-    light: `${__dirname}/../../fixtures/fonts/NotoSansSC-Light.ttf`,
-    italics: `${__dirname}/../../fixtures/fonts/NotoSansSC-Regular.ttf`, // SC doesn't have italic
+    normal: `${__dirname}/../fixtures/fonts/NotoSansSC-Regular.ttf`,
+    bold: `${__dirname}/../fixtures/fonts/NotoSansSC-Bold.ttf`,
+    light: `${__dirname}/../fixtures/fonts/NotoSansSC-Light.ttf`,
+    italics: `${__dirname}/../fixtures/fonts/NotoSansSC-Regular.ttf`, // SC doesn't have italic
   },
 };
 
