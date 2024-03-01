@@ -1,3 +1,7 @@
+## 0.5.7 (2024-03-01)
+
+This was a version bump only for types to align it with other projects, there were no code changes.
+
 ## 0.5.6 (2024-01-17)
 
 This was a version bump only for types to align it with other projects, there were no code changes.
