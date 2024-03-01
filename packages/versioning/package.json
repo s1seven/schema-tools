@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools-versioning",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "Tool to help versioning schema repositories",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
@@ -27,9 +27,9 @@
   },
   "dependencies": {
     "@s1seven/schema-tools-generate-html": "0.4.5",
-    "@s1seven/schema-tools-generate-pdf": "0.2.13",
-    "@s1seven/schema-tools-types": "0.5.6",
-    "@s1seven/schema-tools-utils": "0.2.9",
+    "@s1seven/schema-tools-generate-pdf": "0.2.14",
+    "@s1seven/schema-tools-types": "0.5.7",
+    "@s1seven/schema-tools-utils": "0.2.10",
     "@apidevtools/json-schema-ref-parser": "^11.1.0",
     "pdf-lib": "1.17.1",
     "ajv": "8.12.0",
