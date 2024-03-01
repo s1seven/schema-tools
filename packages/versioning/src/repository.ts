@@ -1,17 +1,17 @@
 import $RefParser from '@apidevtools/json-schema-ref-parser';
 import { JSONSchema } from '@apidevtools/json-schema-ref-parser/dist/lib/types';
 import Debug from 'debug';
-import { createWriteStream } from 'fs';
 import { sync } from 'glob';
 import type { RuntimeOptions } from 'handlebars';
 import get from 'lodash.get';
 import set from 'lodash.set';
 import { parse, resolve } from 'path';
+import { TDocumentDefinitions, TFontDictionary } from 'pdfmake/interfaces';
 import prettier from 'prettier';
 import { URL } from 'url';
 
 import { generateHtml } from '@s1seven/schema-tools-generate-html';
-import { generatePdf, TDocumentDefinitions, TFontDictionary } from '@s1seven/schema-tools-generate-pdf';
+import { generatePdf } from '@s1seven/schema-tools-generate-pdf';
 import { ExtraTranslations, PartialsMapFileName, Translations } from '@s1seven/schema-tools-types';
 import { loadExternalFile, writeFile } from '@s1seven/schema-tools-utils';
 
@@ -68,7 +68,9 @@ export class SchemaRepositoryVersion {
       partialsMap,
     });
 
-    const html = await prettier.format(rawHtml, { parser: 'html' });
+    const html = prettier.format(rawHtml, { parser: 'html' });
+
+    // Import from @s1seven/schema-tools-utils for testing
     await writeFile(outputPath, html);
   }
 
@@ -81,23 +83,15 @@ export class SchemaRepositoryVersion {
     extraTranslations: ExtraTranslations = null,
   ): Promise<void> {
     const outputPath = certificatePath.replace('.json', '.pdf');
-    const pdfDoc = await generatePdf(certificatePath, {
+    const buffer = await generatePdf(certificatePath, {
       docDefinition,
       generatorPath,
-      inputType: 'json',
-      outputType: 'stream',
       fonts,
       translations,
       extraTranslations,
     });
 
-    const writeStream = createWriteStream(outputPath);
-    pdfDoc.pipe(writeStream);
-    pdfDoc.end();
-
-    await new Promise<void>((resolve, reject) => {
-      writeStream.on('finish', () => resolve()).on('error', (err) => reject(err));
-    });
+    await writeFile(outputPath, buffer.toString());
   }
 
   static async generateReadableSchema({

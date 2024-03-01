@@ -1,8 +1,10 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-var-requires */
-import { createWriteStream, readFileSync } from 'fs';
+import { readFileSync } from 'fs';
+import { writeFile } from 'fs/promises';
+import { TDocumentDefinitions } from 'pdfmake/interfaces';
 
-import { generatePdf, TDocumentDefinitions } from './src/index';
+import { generatePdf } from './src/index';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.js`);
 
 const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/valid_cert_1.json`, 'utf-8'));
@@ -15,17 +17,17 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
 (async function () {
   try {
     const fonts = {
-      Lato: {
-        normal: `${__dirname}/../../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
-        bold: `${__dirname}/../../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
-        italics: `${__dirname}/../../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
-        light: `${__dirname}/../../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+      NotoSans: {
+        normal: `${__dirname}/../../fixtures/fonts/NotoSans-Regular.ttf`,
+        bold: `${__dirname}/../../fixtures/fonts/NotoSans-Bold.ttf`,
+        light: `${__dirname}/../../fixtures/fonts/NotoSans-Light.ttf`,
+        italics: `${__dirname}/../../fixtures/fonts/NotoSans-Italic.ttf`,
       },
       NotoSansSC: {
-        normal: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
-        bold: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-700-normal.woff2`,
-        italics: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
-        light: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-100-normal.woff2`,
+        normal: `${__dirname}/../../fixtures/fonts/NotoSansSC-Regular.ttf`,
+        bold: `${__dirname}/../../fixtures/fonts/NotoSansSC-Bold.ttf`,
+        light: `${__dirname}/../../fixtures/fonts/NotoSansSC-Light.ttf`,
+        italics: `${__dirname}/../../fixtures/fonts/NotoSansSC-Regular.ttf`, // SC doesn't have italic
       },
     };
 
@@ -43,7 +45,7 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
         alignment: 'center',
       }),
       defaultStyle: {
-        font: 'Lato',
+        font: 'NotoSansSC',
         fontSize: 10,
       },
       styles,
@@ -51,29 +53,20 @@ const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
 
     const pdfDoc = await generatePdf(CoACertificate, {
       docDefinition,
-      outputType: 'stream',
       generatorPath,
       fonts,
       extraTranslations,
       translations,
       languageFontMap,
+      attachCertificate: true,
+      a3Compliant: true,
+      title: 'coa-test.pdf',
     });
 
     const outputFilePath = './coa-test.pdf';
-    const writeStream = createWriteStream(outputFilePath);
-    pdfDoc.pipe(writeStream);
-    pdfDoc.end();
-
-    await new Promise((resolve, reject) => {
-      writeStream
-        .on('finish', () => {
-          resolve(true);
-        })
-        .on('error', (err) => {
-          reject(err);
-        });
-    });
+    await writeFile(outputFilePath, pdfDoc);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error.message);
   }
 })();
