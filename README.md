@@ -92,6 +92,17 @@ npm install
 npm run build
 ```
 
+Make sure you have installed ImageMagick and GhostScript on your system. This is required for testing the PDF generation.
+
+```sh
+# MacOS
+brew install graphicsmagick
+brew install ghostscript
+# Linux
+sudo apt-get install graphicsmagick
+sudo apt-get install ghostscript
+```
+
 ## Development
 
 When working on changes that affects multiple packages, you should rebuild them when they are declared as dependencies in order for those changes to be effective.
@@ -163,7 +174,7 @@ If you get an error that a partial could not be loaded, make sure that the full 
 To generate `valid_cert.pdf` (PDF certificate generated from JS generator), from the root directory, run the following command, updating the version number and schema name :
 
 ```sh
-npm run fixtures:pdf -- -c fixtures/CoA/v1.0.0/valid_cert.json -o fixtures/CoA/v1.0.0/valid_cert.pdf -t fixtures/CoA/v1.0.0/translations.json -g ../CoA-schemas/generate-pdf.min.js -s ../CoA-schemas/generate-pdf.styles.json -e fixtures/CoA/v1.0.0/extra_translations.json
+npm run fixtures:pdf -- -c fixtures/CoA/v1.1.0/valid_cert.json -o fixtures/CoA/v1.1.0/valid_cert.pdf -t fixtures/CoA/v1.1.0/translations.json -g ../CoA-schemas/generate-pdf.min.js -s ../CoA-schemas/generate-pdf.styles.json -e fixtures/CoA/v1.1.0/extra_translations.json
 
 # or using remote resources
 npm run fixtures:pdf -- -c fixtures/EN10168/v0.3.0/valid_cert.json -o fixtures/EN10168/v0.3.0/valid_cert.pdf -t 'fixtures/EN10168/v0.3.0/translations.json' -g 'https://schemas.s1seven.com/en10168-schemas/v0.3.0/generate-pdf.min.js' -s 'https://schemas.s1seven.com/en10168-schemas/v0.3.0/generate-pdf.styles.json'

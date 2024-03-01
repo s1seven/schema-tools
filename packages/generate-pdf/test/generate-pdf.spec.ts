@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { writeFile } from 'fs/promises';
-import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync, unlinkSync } from 'node:fs';
 import { join, parse, resolve } from 'node:path';
-import { fromBuffer } from 'pdf2pic';
 import type { StyleDictionary, TDocumentDefinitions } from 'pdfmake/interfaces';
 
 import { SchemaDirUnion, SupportedSchemas, SupportedSchemasDirMap } from '@s1seven/schema-tools-types';
@@ -12,6 +10,7 @@ import { EN10168Schema, Schemas } from '@s1seven/schema-tools-types';
 import { generateInSandbox, generatePdf, GeneratePdfOptions } from '../src';
 import { buildModule } from '../src/build-module';
 import { attachFileToPdf } from '../src/pdf-a-3a/attach-file-to-pdf';
+import { pdfBufferToHash } from './pdf-buffer-to-hash';
 
 jest.mock('../src/pdf-a-3a/attach-file-to-pdf');
 (attachFileToPdf as jest.Mock).mockImplementation((buf) => Promise.resolve(buf));
@@ -215,11 +214,6 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
       }
       const translations = JSON.parse(readFileSync(translationsPath, 'utf8'));
       const extraTranslations = extraTranslationsPath ? JSON.parse(readFileSync(extraTranslationsPath, 'utf8')) : {};
-      const options = {
-        density: 100,
-        width: 600,
-        height: 600,
-      };
       const expectedPDFBuffer = readFileSync(expectedPdfPath);
       //
       const pdfDoc = await generatePdf(validCertificate, {
@@ -231,16 +225,9 @@ const runPDFGenerationTests = (testSuite: PDFGenerationTestProperties) => {
         languageFontMap,
       });
 
-      const expectedPDF = await fromBuffer(expectedPDFBuffer, options)(1, { responseType: 'base64' });
-      const result = await fromBuffer(pdfDoc, options)(1, { responseType: 'base64' });
-      const expectedHash = createHash('sha256')
-        .update(expectedPDF.base64 as string)
-        .digest('hex');
-      const resultHash = createHash('sha256')
-        .update(result.base64 as string)
-        .digest('hex');
-      expect(pdfDoc instanceof Buffer).toEqual(true);
-      expect(resultHash).toEqual(expectedHash);
+      const hash1 = pdfBufferToHash(expectedPDFBuffer);
+      const hash2 = pdfBufferToHash(pdfDoc);
+      expect(hash1).toEqual(hash2);
     }, 10000);
 
     it('should attach the certificate as JSON document if `attachCertificate` is true', async () => {
