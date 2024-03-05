@@ -16,6 +16,9 @@
         "createRelease": "github"
       }
     },
+    "version": {
+      "conventionalCommits": true
+    },
     "git": {
       "commit": true,
       "push": true,
