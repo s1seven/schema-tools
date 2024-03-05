@@ -160,8 +160,9 @@ jobs:
       - name: Retrieve coverage
         uses: actions/download-artifact@v4
         with:
-          name: coverage-*
+          pattern: coverage-*
           path: ./coverage
+          merge-multiple: true
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
