@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools-versioning",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "Tool to help versioning schema repositories",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
@@ -26,7 +26,7 @@
     "npm": ">=6"
   },
   "dependencies": {
-    "@s1seven/schema-tools-generate-html": "0.4.5",
+    "@s1seven/schema-tools-generate-html": "0.4.8",
     "@s1seven/schema-tools-generate-pdf": "0.2.14",
     "@s1seven/schema-tools-types": "0.5.7",
     "@s1seven/schema-tools-utils": "0.2.10",
