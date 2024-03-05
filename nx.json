@@ -17,7 +17,7 @@
       }
     },
     "version": {
-      "conventionalCommits": true
+      "conventionalCommits": false
     },
     "git": {
       "commit": true,
