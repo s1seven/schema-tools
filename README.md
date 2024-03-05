@@ -214,7 +214,11 @@ When creating a new release, the following tests need to be updated with the lat
 
 ## Creating new releases
 
-To release new versions of the schema-tools packages, run `nx release`. This will automatically bump package version numbers, generate changelogs and release on npm.
+To first see what will be released, run `nx release --dry-run`. 
+
+Note: releases should only be created on `main`.
+
+To release new versions of the schema-tools packages, run `nx release`. This will automatically bump package version numbers, generate changelogs, create github releases and release on npm.
 
 ## License
 
