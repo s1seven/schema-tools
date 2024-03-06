@@ -46,6 +46,9 @@ const baseDocDefinition = (content: TDocumentDefinitions['content']): TDocumentD
   defaultStyle: {
     font: 'NotoSans',
   },
+  permissions: {
+    modifying: false,
+  },
 });
 
 const defaultFonts: TFontDictionary = {
