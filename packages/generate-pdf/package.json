@@ -1,7 +1,7 @@
 {
   "name": "@s1seven/schema-tools-generate-pdf",
   "description": "Tool to generate pdf from certificates",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
   "homepage": "https://github.com/s1seven/schema-tools/tree/master/packages/generate-pdf#readme",
@@ -26,19 +26,20 @@
     "npm": ">=6"
   },
   "dependencies": {
-    "@s1seven/schema-tools-types": "0.5.6",
-    "@s1seven/schema-tools-utils": "0.2.9",
-    "lodash.clone": "^4.5.0",
-    "lodash.get": "^4.4.2",
-    "lodash.merge": "^4.6.2",
-    "pdfmake": "0.2.9",
-    "reflect-metadata": "^0.2.1",
+    "@s1seven/schema-tools-types": "0.5.7",
+    "@s1seven/schema-tools-utils": "0.2.10",
+    "ajv": "8.12.0",
+    "axios": "^1.6.5",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "ajv": "8.12.0",
-    "semver-lite": "0.0.6",
-    "axios": "^1.6.5",
     "debug": "^4.3.4",
-    "node-cache": "^5.1.2"
+    "lodash.clone": "4.5.0",
+    "lodash.get": "4.4.2",
+    "lodash.merge": "4.6.2",
+    "node-cache": "^5.1.2",
+    "pdf-lib": "1.17.1",
+    "pdfmake": "0.2.9",
+    "reflect-metadata": "^0.2.1",
+    "semver-lite": "0.0.6"
   }
 }

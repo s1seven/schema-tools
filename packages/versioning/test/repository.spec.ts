@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { resolve } from 'path';
+import { TDocumentDefinitions } from 'pdfmake/interfaces';
 
-import type { TDocumentDefinitions } from '@s1seven/schema-tools-generate-pdf';
 import * as utils from '@s1seven/schema-tools-utils';
 
 import { PartialsMapProperties, SchemaFileProperties, SchemaRepositoryVersion } from '../src/index';
@@ -164,11 +164,11 @@ describe('Versioning', function () {
   it('should update PDF certificate fixtures', async () => {
     const generatorPath = 'test.min.js';
     const fonts = {
-      Lato: { normal: '' },
+      NotoSans: { normal: '' },
     };
     const docDefinition: Partial<TDocumentDefinitions> = {
       pageSize: 'A4',
-      defaultStyle: { font: 'Lato' },
+      defaultStyle: { font: 'NotoSans' },
     };
     const instance = new SchemaRepositoryVersion(serverUrl, defaultSchemaFilePaths, version, translations, {});
     await instance.updatePdfFixturesVersion(`${pattern}.json`, generatorPath, docDefinition, fonts);

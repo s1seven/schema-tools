@@ -1,11 +1,12 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { createWriteStream, readFileSync } from 'node:fs';
+import { writeFile } from 'fs/promises';
+import { readFileSync } from 'node:fs';
 import { performance } from 'node:perf_hooks';
-import { finished } from 'node:stream/promises';
+import { TDocumentDefinitions } from 'pdfmake/interfaces';
 
-import { generatePdf, TDocumentDefinitions } from './src/index';
+import { generatePdf } from './src/index';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.js`);
 
 const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/valid_cert_1.json`, 'utf-8'));
@@ -15,34 +16,32 @@ const extraTranslations = JSON.parse(
 );
 const generatorPath = `${__dirname}/../../dist/packages/generate-coa-pdf-template/generateContent.cjs`;
 
-async function store(pdfDoc: PDFKit.PDFDocument) {
+async function store(pdfDoc: Buffer) {
   const outputFilePath = './coa-test.pdf';
-  const writeStream = createWriteStream(outputFilePath);
-  const stream = pdfDoc.pipe(writeStream);
-  pdfDoc.end();
-  await finished(stream);
+  await writeFile(outputFilePath, pdfDoc);
 }
 
 (async function () {
   const obs = new PerformanceObserver((items) => {
     for (const item of items.getEntries()) {
+      // eslint-disable-next-line no-console
       console.log(item.name, { duration: item.duration, startTime: item.startTime });
     }
   });
   obs.observe({ entryTypes: ['function'] });
 
   const fonts = {
-    Lato: {
-      normal: `${__dirname}/../../node_modules/lato-font/fonts/lato-normal/lato-normal.woff`,
-      bold: `${__dirname}/../../node_modules/lato-font/fonts/lato-bold/lato-bold.woff`,
-      italics: `${__dirname}/../../node_modules/lato-font/fonts/lato-light-italic/lato-light-italic.woff`,
-      light: `${__dirname}/../../node_modules/lato-font/fonts/lato-light/lato-light.woff`,
+    NotoSans: {
+      normal: `${__dirname}/../../fixtures/fonts/NotoSans-Regular.ttf`,
+      bold: `${__dirname}/../../fixtures/fonts/NotoSans-Bold.ttf`,
+      light: `${__dirname}/../../fixtures/fonts/NotoSans-Light.ttf`,
+      italics: `${__dirname}/../../fixtures/fonts/NotoSans-Italic.ttf`,
     },
     NotoSansSC: {
-      normal: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
-      bold: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-700-normal.woff2`,
-      italics: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-300-normal.woff2`,
-      light: `${__dirname}/../../fixtures/fonts/noto-sans-sc-chinese-simplified-100-normal.woff2`,
+      normal: `${__dirname}/../../fixtures/fonts/NotoSansSC-Regular.ttf`,
+      bold: `${__dirname}/../../fixtures/fonts/NotoSansSC-Bold.ttf`,
+      light: `${__dirname}/../../fixtures/fonts/NotoSansSC-Light.ttf`,
+      italics: `${__dirname}/../../fixtures/fonts/NotoSansSC-Regular.ttf`, // SC doesn't have italic
     },
   };
 
@@ -60,7 +59,7 @@ async function store(pdfDoc: PDFKit.PDFDocument) {
       alignment: 'center',
     }),
     defaultStyle: {
-      font: 'Lato',
+      font: 'NotoSansSC',
       fontSize: 10,
     },
     styles,
@@ -69,16 +68,18 @@ async function store(pdfDoc: PDFKit.PDFDocument) {
   try {
     const pdfDoc = await performance.timerify(generatePdf)(CoACertificate, {
       docDefinition,
-      outputType: 'stream',
       generatorPath,
       fonts,
       extraTranslations,
       translations,
       languageFontMap,
+      attachCertificate: true,
+      a3Compliant: true,
+      title: 'coa-test.pdf',
     });
-
     await performance.timerify(store)(pdfDoc);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error.message);
   }
 })();

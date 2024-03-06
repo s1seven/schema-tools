@@ -16,11 +16,17 @@ import certificate from '../../../fixtures/CoA/v0.2.0/valid_cert.json';
 import styles from './styles';
 
 const fonts = {
-  Lato: {
-    normal: `${__dirname}/../../../node_modules/@fontsource/lato/files/lato-latin-400-normal.woff`,
-    bold: `${__dirname}/../../../node_modules/@fontsource/lato/files/lato-latin-900-normal.woff`,
-    italics: `${__dirname}/../../../node_modules/@fontsource/lato/files/lato-latin-400-italic.woff`,
-    light: `${__dirname}/../../../node_modules/@fontsource/lato/files/lato-latin-100-normal.woff`,
+  NotoSans: {
+    normal: `${__dirname}/../../fixtures/fonts/NotoSans-Regular.ttf`,
+    bold: `${__dirname}/../../fixtures/fonts/NotoSans-Bold.ttf`,
+    light: `${__dirname}/../../fixtures/fonts/NotoSans-Light.ttf`,
+    italics: `${__dirname}/../../fixtures/fonts/NotoSans-Italic.ttf`,
+  },
+  NotoSansSC: {
+    normal: `${__dirname}/../../fixtures/fonts/NotoSansSC-Regular.ttf`,
+    bold: `${__dirname}/../../fixtures/fonts/NotoSansSC-Bold.ttf`,
+    light: `${__dirname}/../../fixtures/fonts/NotoSansSC-Light.ttf`,
+    italics: `${__dirname}/../../fixtures/fonts/NotoSansSC-Regular.ttf`, // SC doesn't have italic
   },
 };
 
@@ -72,7 +78,7 @@ async function print(content: Content) {
     content,
     styles: styles as unknown as StyleDictionary,
     defaultStyle: {
-      font: 'Lato',
+      font: 'NotoSans',
       fontSize: 10,
     },
     // pageBreakBefore: function (currentNode) {

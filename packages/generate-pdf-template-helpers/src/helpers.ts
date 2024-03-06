@@ -117,24 +117,29 @@ export function createFooter(RefSchemaUrl: string): TableElement {
           {
             text: [
               {
-                text: 'Powered by ',
-                style: 'small',
+                text: 'Data schema maintained by ',
+                style: 'normal',
                 margin: [0, 0, 0, 0],
               },
               {
-                text: 's1seven.com',
-                style: 'small',
+                text: 'Material Identity',
+                style: 'normal',
                 color: 'blue',
                 margin: [0, 0, 0, 0],
                 decoration: 'underline',
-                link: 'https://s1seven.com',
+                link: 'https://materialidentity.org',
+              },
+              {
+                text: '.',
+                style: 'normal',
+                margin: [0, 0, 0, 0],
               },
             ],
           },
           {
             text: RefSchemaUrl,
             style: 'small',
-            color: '#D3D3D3',
+            color: '#000',
             margin: [0, 0, 0, 0],
             alignment: 'right',
           },
