@@ -1,3 +1,11 @@
+## 0.3.13 (2024-03-06)
+
+This was a version bump only for certificate-model to align it with other projects, there were no code changes.
+
+## 0.3.12 (2024-03-05)
+
+This was a version bump only for certificate-model to align it with other projects, there were no code changes.
+
 ## 0.3.11 (2024-03-01)
 
 This was a version bump only for certificate-model to align it with other projects, there were no code changes.
