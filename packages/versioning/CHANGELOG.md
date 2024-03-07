@@ -28,23 +28,22 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 
 ## [0.6.1](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-versioning@0.6.0...@s1seven/schema-tools-versioning@0.6.1) (2024-01-12)
 
-
 ### Bug Fixes
 
-* update tagPrefix to latest semver syntax in project.json files ([f901da3](https://github.com/s1seven/schema-tools/commit/f901da31e9112f7c8619bf0336b3b7d2a26ef06d))
+- update tagPrefix to latest semver syntax in project.json files ([f901da3](https://github.com/s1seven/schema-tools/commit/f901da31e9112f7c8619bf0336b3b7d2a26ef06d))
 
 ## [0.6.0](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-versioning@0.5.6...@s1seven/schema-tools-versioning@0.6.0) (2023-07-12)
 
 ### Dependency Updates
 
-* `generate-html` updated to version `0.4.4`
-* `generate-pdf` updated to version `0.2.7`
-* `types` updated to version `0.5.3`
-* `utils` updated to version `0.2.6`
+- `generate-html` updated to version `0.4.4`
+- `generate-pdf` updated to version `0.2.7`
+- `types` updated to version `0.5.3`
+- `utils` updated to version `0.2.6`
 
 ### Features
 
-* add generateReadableSchema static method to versioning ([54fe404](https://github.com/s1seven/schema-tools/commit/54fe40408d49ea125081b2183e91290ec94fd0b8))
+- add generateReadableSchema static method to versioning ([54fe404](https://github.com/s1seven/schema-tools/commit/54fe40408d49ea125081b2183e91290ec94fd0b8))
 
 ### [0.5.6](https://github.com/s1seven/schema-tools/compare/@s1seven/schema-tools-versioning@0.5.5...@s1seven/schema-tools-versioning@0.5.6) (2023-06-15)
 
