@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { writeFile } from 'fs/promises';
 import { readFileSync } from 'node:fs';
-import { performance } from 'node:perf_hooks';
+import { performance, PerformanceObserver } from 'node:perf_hooks';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 
 import { generatePdf } from './src/index';
