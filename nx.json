@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDependencies": {
     "version": [
       {
@@ -32,7 +33,8 @@
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
-      "cache": true
+      "cache": true,
+      "inputs": ["production", "^production"]
     },
     "clean": {
       "cache": true
@@ -58,6 +60,14 @@
           "codeCoverage": true
         }
       }
+    },
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
+      "options": {
+        "packageRoot": "dist/packages/{projectName}",
+        "registry": "https://registry.npmjs.org/"
+      },
+      "dependsOn": ["build"]
     }
   },
   "affected": {
@@ -69,5 +79,10 @@
     "@nx/js": {
       "analyzeSourceFiles": true
     }
+  },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "sharedGlobals": [],
+    "production": ["default"]
   }
 }

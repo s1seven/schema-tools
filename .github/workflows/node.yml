@@ -31,6 +31,7 @@ concurrency:
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: false
   NX_DISTRIBUTED_TASK_EXECUTION: false
+  DEFAULT_NODE_VERSION: ${{ vars.NODE_VERSION || '20.x' }}
 
 jobs:
   setup-and-test:
@@ -103,10 +104,10 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ env.DEFAULT_NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.DEFAULT_NODE_VERSION }}
 
       - name: Cache Node.js modules
         uses: actions/cache@v4
@@ -114,8 +115,8 @@ jobs:
           path: |
             ~/.npm
             node_modules
-          key: ${{ runner.OS }}-node--${{ matrix.node-version }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.OS }}-node-${{ matrix.node-version }}-npm
+          key: ${{ runner.OS }}-node--${{ env.DEFAULT_NODE_VERSION }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.OS }}-node-${{ env.DEFAULT_NODE_VERSION }}-npm
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         id: set-sha
@@ -138,12 +139,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Add, commit and push changes to dist/generateContents.cjs
+      - name: Add, commit and push changes to dist/**/generateContents.cjs
         if: steps.extract-branch.outputs.branch != 'main'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'chore: update minified generateContents.cjs [skip ci]'
-          file_pattern: packages/generate-coa-pdf-template/dist/generateContent.cjs packages/generate-en10168-pdf-template/dist/generateContent.cjs
+          file_pattern: dist/packages/**/generateContent.cjs
           add_options: '-f'
 
   scan:

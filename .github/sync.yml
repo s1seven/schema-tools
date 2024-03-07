@@ -1,7 +1,7 @@
 material-identity/CoA-schemas@main:
-  - source: packages/generate-coa-pdf-template/dist/generateContent.cjs
+  - source: dist/packages/generate-coa-pdf-template/generateContent.cjs
     dest: generate-pdf.min.js
 
 material-identity/EN10168-schemas@main:
-  - source: packages/generate-en10168-pdf-template/dist/generateContent.cjs
+  - source: dist/packages/generate-en10168-pdf-template/generateContent.cjs
     dest: generate-pdf.min.js

@@ -47,7 +47,7 @@ const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.j
 const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/valid_cert.json`));
 const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/translations.json`));
 const extraTranslations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/extra_translations.json`));
-const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
+const generatorPath = '../../dist/packages/generate-coa-pdf-template/generateContent.cjs';
 
 (async function () {
   try {
@@ -104,7 +104,7 @@ const styles = require(`${__dirname}/../generate-coa-pdf-template/utils/styles.j
 const CoACertificate = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/valid_cert.json`));
 const translations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/translations.json`));
 const extraTranslations = JSON.parse(readFileSync(`${__dirname}/../../fixtures/CoA/v1.1.0/extra_translations.json`));
-const generatorPath = '../generate-coa-pdf-template/dist/generateContent.cjs';
+const generatorPath = '../../dist/packages/generate-coa-pdf-template/generateContent.cjs';
 
 (async function () {
   try {

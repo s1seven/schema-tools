@@ -4,21 +4,13 @@
   "sourceRoot": "packages/generate-coa-pdf-template/src",
   "projectType": "library",
   "targets": {
-    "nx-release-publish": {
-      "executor": "@nx/js:release-publish",
-      "options": {
-        "packageRoot": "packages/{projectName}/dist",
-        "registry": "https://registry.npmjs.org/"
-      },
-      "dependsOn": ["build"]
-    },
     "build": {
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "dependsOn": ["create-interfaces"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "packages/generate-coa-pdf-template/dist",
+        "outputPath": "dist/packages/generate-coa-pdf-template",
         "outputFileName": "generateContent",
         "main": "packages/generate-coa-pdf-template/src/generateContent.ts",
         "tsConfig": "packages/generate-coa-pdf-template/tsconfig.lib.json",
@@ -56,7 +48,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-coa-pdf-template",
-        "command": "npx ts-node -r tsconfig-paths/register ./utils/create-example.ts"
+        "command": "node -r ts-node/register -r tsconfig-paths/register ./utils/create-example.ts"
       }
     },
     "create-interfaces": {
@@ -84,24 +76,6 @@
           }
         },
         "passWithNoTests": false
-      }
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "preset": "conventional",
-        "skipCommitTypes": ["docs", "ci"],
-        "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]",
-        "tagPrefix": "@s1seven/schema-tools-{projectName}@",
-        "push": true,
-        "postTargets": ["generate-coa-pdf-template:release"]
-      }
-    },
-    "release": {
-      "executor": "@jscutlery/semver:github",
-      "options": {
-        "tag": "${tag}",
-        "notes": "${notes}"
       }
     }
   },

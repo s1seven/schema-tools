@@ -4,21 +4,13 @@
   "sourceRoot": "packages/generate-en10168-pdf-template/src",
   "projectType": "library",
   "targets": {
-    "nx-release-publish": {
-      "executor": "@nx/js:release-publish",
-      "options": {
-        "packageRoot": "packages/{projectName}/dist",
-        "registry": "https://registry.npmjs.org/"
-      },
-      "dependsOn": ["build"]
-    },
     "build": {
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "dependsOn": ["create-interfaces"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "packages/generate-en10168-pdf-template/dist",
+        "outputPath": "dist/packages/generate-en10168-pdf-template",
         "main": "packages/generate-en10168-pdf-template/src/generateContent.ts",
         "outputFileName": "generateContent",
         "tsConfig": "packages/generate-en10168-pdf-template/tsconfig.lib.json",
@@ -57,7 +49,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/generate-en10168-pdf-template",
-        "command": "npx ts-node -r tsconfig-paths/register ./utils/create-example.ts"
+        "command": "node -r ts-node/register -r tsconfig-paths/register ./utils/create-example.ts"
       }
     },
     "create-interfaces": {
@@ -85,24 +77,6 @@
           }
         },
         "passWithNoTests": false
-      }
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "preset": "conventional",
-        "skipCommitTypes": ["docs", "ci"],
-        "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]",
-        "tagPrefix": "@s1seven/schema-tools-{projectName}@",
-        "push": true,
-        "postTargets": ["generate-en10168-pdf-template:release"]
-      }
-    },
-    "release": {
-      "executor": "@jscutlery/semver:github",
-      "options": {
-        "tag": "${tag}",
-        "notes": "${notes}"
       }
     }
   },
