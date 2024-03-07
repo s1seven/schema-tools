@@ -1,3 +1,7 @@
+## 0.4.11 (2024-03-07)
+
+This was a version bump only for generate-html to align it with other projects, there were no code changes.
+
 ## 0.4.10 (2024-03-06)
 
 This was a version bump only for generate-html to align it with other projects, there were no code changes.

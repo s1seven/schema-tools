@@ -1,3 +1,15 @@
+## 0.7.10 (2024-03-07)
+
+
+### 🔥 Performance
+
+- measure coa and en10168 PDF generators performance ([97687d5](https://github.com/s1seven/schema-tools/commit/97687d5))
+
+
+### ❤️  Thank You
+
+- getlarge @getlarge
+
 ## 0.7.9 (2024-03-06)
 
 This was a version bump only for generate-en10168-pdf-template to align it with other projects, there were no code changes.

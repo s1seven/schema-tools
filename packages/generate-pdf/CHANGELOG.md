@@ -1,3 +1,15 @@
+## 0.2.17 (2024-03-07)
+
+
+### 🔥 Performance
+
+- measure `generate-pdf` examples performance ([4db7f26](https://github.com/s1seven/schema-tools/commit/4db7f26))
+
+
+### ❤️  Thank You
+
+- getlarge @getlarge
+
 ## 0.2.16 (2024-03-06)
 
 This was a version bump only for generate-pdf to align it with other projects, there were no code changes.
