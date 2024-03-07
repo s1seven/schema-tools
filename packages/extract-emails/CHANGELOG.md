@@ -1,3 +1,11 @@
+## 0.4.8 (2024-03-06)
+
+This was a version bump only for extract-emails to align it with other projects, there were no code changes.
+
+## 0.4.7 (2024-03-05)
+
+This was a version bump only for extract-emails to align it with other projects, there were no code changes.
+
 ## 0.4.6 (2024-03-01)
 
 This was a version bump only for extract-emails to align it with other projects, there were no code changes.

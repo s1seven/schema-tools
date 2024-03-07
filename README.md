@@ -214,11 +214,11 @@ When creating a new release, the following tests need to be updated with the lat
 
 ## Creating new releases
 
-To first see what will be released, run `nx release --dry-run`. 
+To first see what will be released, run `nx release --dry-run`.
 
-Note: releases should only be created on `main`.
+Note: releases should only be created on `main`. Be sure to export a `GITHUB_TOKEN` env variable so the github releases can be done automatically. You should also be logged in to the `npm` cli if creating an `npm` release. To login, use `npm login` from the cli.
 
-To release new versions of the schema-tools packages, run `nx release`. This will automatically bump package version numbers, generate changelogs, create github releases and release on npm.
+To release new versions of the schema-tools packages, run `GITHUB_TOKEN=<token> nx release`. This will automatically bump package version numbers, generate changelogs, create github releases and release on npm.
 
 ## License
 
