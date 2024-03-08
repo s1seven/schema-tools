@@ -97,8 +97,8 @@
     "semver-lite": "0.0.6"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.4.4",
-    "@commitlint/config-conventional": "^18.4.4",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
     "@markedjs/html-differ": "^3.0.4",
     "@nx/esbuild": "18.0.7",
     "@nx/eslint-plugin": "18.0.7",
