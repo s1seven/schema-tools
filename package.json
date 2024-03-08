@@ -99,7 +99,7 @@
   "devDependencies": {
     "@commitlint/cli": "^18.4.4",
     "@commitlint/config-conventional": "^18.4.4",
-    "@markedjs/html-differ": "^3.0.4",
+    "@markedjs/html-differ": "^4.0.0",
     "@nx/esbuild": "18.0.7",
     "@nx/eslint-plugin": "18.0.7",
     "@nx/jest": "18.0.7",
