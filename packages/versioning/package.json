@@ -47,7 +47,7 @@
     "reflect-metadata": "^0.2.1",
     "semver-lite": "0.0.6",
     "glob": "^10.3.10",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.0",
     "@s1seven/schema-tools-certificate-summary": "0.3.10",
     "@s1seven/schema-tools-extract-emails": "0.4.11"
   }
