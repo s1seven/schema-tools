@@ -31,7 +31,7 @@
     "@s1seven/schema-tools-utils": "0.2.15",
     "@s1seven/schema-tools-extract-emails": "0.4.11",
     "ajv": "8.12.0",
-    "axios": "^1.6.5",
+    "axios": "^1.6.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "debug": "^4.3.4",
