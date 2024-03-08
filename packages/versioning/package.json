@@ -43,7 +43,7 @@
     "lodash.merge": "^4.6.2",
     "lodash.set": "^4.3.2",
     "node-cache": "^5.1.2",
-    "pdfmake": "0.2.9",
+    "pdfmake": "0.2.10",
     "reflect-metadata": "^0.2.1",
     "semver-lite": "0.0.6",
     "glob": "^10.3.10",
