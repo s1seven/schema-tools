@@ -28,7 +28,7 @@ export const getAttachedCertificateFileName = async (
   const spacePattern = /\s/g;
   const seller = sellerName.replace(spacePattern, spaceReplacer);
   const mergedName = `${seller}${sectionSeparator}CN${sectionSeparator}${certificateIdentifier}`;
-  return removeInvalidFileNameCharacters(mergedName);
+  return removeInvalidFileNameCharacters(mergedName) + '.json';
 };
 
 export const removeInvalidFileNameCharacters = (filename: string, invalidCharactersRegex = /[^a-zA-Z0-9-_]/g) =>
