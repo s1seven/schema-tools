@@ -1,3 +1,7 @@
+## 0.2.15 (2024-03-08)
+
+This was a version bump only for utils to align it with other projects, there were no code changes.
+
 ## 0.2.14 (2024-03-08)
 
 This was a version bump only for utils to align it with other projects, there were no code changes.
