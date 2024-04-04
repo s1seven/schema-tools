@@ -1,3 +1,11 @@
+## 0.3.15 (2024-03-08)
+
+This was a version bump only for validate to align it with other projects, there were no code changes.
+
+## 0.3.14 (2024-03-08)
+
+This was a version bump only for validate to align it with other projects, there were no code changes.
+
 ## 0.3.13 (2024-03-07)
 
 This was a version bump only for validate to align it with other projects, there were no code changes.
