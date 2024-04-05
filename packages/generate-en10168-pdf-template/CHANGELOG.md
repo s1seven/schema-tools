@@ -1,3 +1,11 @@
+## 0.7.12 (2024-03-08)
+
+This was a version bump only for generate-en10168-pdf-template to align it with other projects, there were no code changes.
+
+## 0.7.11 (2024-03-08)
+
+This was a version bump only for generate-en10168-pdf-template to align it with other projects, there were no code changes.
+
 ## 0.7.10 (2024-03-07)
 
 

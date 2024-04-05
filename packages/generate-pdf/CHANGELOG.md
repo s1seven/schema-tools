@@ -1,3 +1,11 @@
+## 0.2.19 (2024-03-08)
+
+This was a version bump only for generate-pdf to align it with other projects, there were no code changes.
+
+## 0.2.18 (2024-03-08)
+
+This was a version bump only for generate-pdf to align it with other projects, there were no code changes.
+
 ## 0.2.17 (2024-03-07)
 
 

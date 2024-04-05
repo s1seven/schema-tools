@@ -1,3 +1,11 @@
+## 0.5.11 (2024-03-08)
+
+This was a version bump only for generate-coa-pdf-template to align it with other projects, there were no code changes.
+
+## 0.5.10 (2024-03-08)
+
+This was a version bump only for generate-coa-pdf-template to align it with other projects, there were no code changes.
+
 ## 0.5.9 (2024-03-07)
 
 
