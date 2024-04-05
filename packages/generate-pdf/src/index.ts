@@ -1,5 +1,5 @@
-import { cloneDeep } from 'lodash';
 import clone from 'lodash.clone';
+import cloneDeep from 'lodash.clonedeep';
 import get from 'lodash.get';
 import merge from 'lodash.merge';
 import { PDFDocument } from 'pdf-lib';
