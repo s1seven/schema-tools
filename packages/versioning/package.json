@@ -1,6 +1,6 @@
 {
   "name": "@s1seven/schema-tools-versioning",
-  "version": "0.6.12",
+  "version": "0.6.13",
   "description": "Tool to help versioning schema repositories",
   "license": "Apache-2.0",
   "author": "getlarge <ed@getlarge.eu>",
@@ -26,10 +26,10 @@
     "npm": ">=6"
   },
   "dependencies": {
-    "@s1seven/schema-tools-generate-html": "0.4.14",
-    "@s1seven/schema-tools-generate-pdf": "0.2.20",
-    "@s1seven/schema-tools-types": "0.5.13",
-    "@s1seven/schema-tools-utils": "0.2.16",
+    "@s1seven/schema-tools-generate-html": "0.4.15",
+    "@s1seven/schema-tools-generate-pdf": "0.2.21",
+    "@s1seven/schema-tools-types": "0.5.14",
+    "@s1seven/schema-tools-utils": "0.2.17",
     "@apidevtools/json-schema-ref-parser": "^11.1.0",
     "pdf-lib": "1.17.1",
     "ajv": "8.12.0",
@@ -48,8 +48,8 @@
     "semver-lite": "0.0.6",
     "glob": "^10.3.10",
     "prettier": "^2.8.8",
-    "@s1seven/schema-tools-certificate-summary": "0.3.11",
-    "@s1seven/schema-tools-extract-emails": "0.4.12",
+    "@s1seven/schema-tools-certificate-summary": "0.3.12",
+    "@s1seven/schema-tools-extract-emails": "0.4.13",
     "lodash.clonedeep": "^4.5.0"
   }
 }

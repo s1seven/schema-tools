@@ -1,3 +1,7 @@
+## 0.0.46 (2024-04-09)
+
+This was a version bump only for generate-interfaces to align it with other projects, there were no code changes.
+
 ## 0.0.45 (2024-04-09)
 
 This was a version bump only for generate-interfaces to align it with other projects, there were no code changes.

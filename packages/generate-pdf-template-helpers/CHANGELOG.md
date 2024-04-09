@@ -1,3 +1,7 @@
+## 0.4.20 (2024-04-09)
+
+This was a version bump only for generate-pdf-template-helpers to align it with other projects, there were no code changes.
+
 ## 0.4.19 (2024-04-09)
 
 This was a version bump only for generate-pdf-template-helpers to align it with other projects, there were no code changes.
