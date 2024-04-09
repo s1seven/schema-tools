@@ -1,3 +1,7 @@
+## 0.6.12 (2024-04-09)
+
+This was a version bump only for versioning to align it with other projects, there were no code changes.
+
 ## 0.6.11 (2024-03-08)
 
 This was a version bump only for versioning to align it with other projects, there were no code changes.

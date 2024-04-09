@@ -1,3 +1,7 @@
+## 0.3.11 (2024-04-09)
+
+This was a version bump only for certificate-summary to align it with other projects, there were no code changes.
+
 ## 0.3.10 (2024-03-08)
 
 This was a version bump only for certificate-summary to align it with other projects, there were no code changes.
