@@ -1,4 +1,5 @@
 import clone from 'lodash.clone';
+import cloneDeep from 'lodash.clonedeep';
 import get from 'lodash.get';
 import merge from 'lodash.merge';
 import { PDFDocument } from 'pdf-lib';
@@ -71,11 +72,13 @@ export async function generatePdf(certificate: Schemas | string, options: Genera
 
   options.fonts ??= defaultFonts;
 
-  const pdfMakeContent = await buildPdfContent(jsonCertificate, options);
+  const certificateCloneForPdfMake = cloneDeep(jsonCertificate);
+  const pdfMakeContent = await buildPdfContent(certificateCloneForPdfMake, options);
   const docDefinition: TDocumentDefinitions = merge(
     baseDocDefinition(pdfMakeContent),
     clone(options.docDefinition ?? {}),
   );
+
   const printer = new PdfPrinter(options.fonts);
   const pdfDoc = printer.createPdfKitDocument(docDefinition);
   const pdfBuffer = await pdfDocToBuffer(pdfDoc);
