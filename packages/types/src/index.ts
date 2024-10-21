@@ -57,6 +57,7 @@ export enum SupportedSchemas {
   'ECOC' = 'e-coc',
   COA = 'coa',
   CDN = 'cdn',
+  FORESTRY_SOURCE = 'forestry-source',
 }
 
 export type SchemaDirUnion = (typeof SupportedSchemasDirMap)[keyof typeof SupportedSchemasDirMap];
@@ -66,6 +67,7 @@ export const SupportedSchemasDirMap = {
   [SupportedSchemas.ECOC]: 'E-CoC',
   [SupportedSchemas.COA]: 'CoA',
   [SupportedSchemas.CDN]: 'CDN',
+  [SupportedSchemas.FORESTRY_SOURCE]: 'ForestrySource',
 };
 
 export const schemaToExternalStandardsMap = {
@@ -73,6 +75,7 @@ export const schemaToExternalStandardsMap = {
   [SupportedSchemas.EN10168]: [],
   [SupportedSchemas.ECOC]: [],
   [SupportedSchemas.CDN]: [],
+  [SupportedSchemas.FORESTRY_SOURCE]: [],
 };
 
 export interface SchemaConfig {
