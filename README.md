@@ -17,6 +17,7 @@ The specification of these libraries can be found in [SEP](https://s1seven.githu
 | [E-CoC]   |     1.0.0     |
 | [CoA]     | 0.0.3 - 1.x.x |
 | [CDN]     |      xx       |
+| [FORESTRY-SOURCE]     |      xx       |
 
 ### Deprecations
 
@@ -200,6 +201,7 @@ To change the appearance of a PDF, make the needed changes to `generateContent.t
 [e-coc]: https://github.com/material-identity/E-CoC-schemas
 [coa]: https://github.com/material-identity/CoA-schemas
 [cdn]: https://github.com/material-identity/CDN-schemas
+[forestry-source]: https://github.com/material-identity/forestry-source-schemas
 
 ## Tests to update for new releases
 
